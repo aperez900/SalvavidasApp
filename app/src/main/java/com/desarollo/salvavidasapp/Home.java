@@ -41,7 +41,7 @@ public class Home extends AppCompatActivity {
     private TextView id_nombre;
     private TextView id_correo;
     private GoogleApiClient googleApiClient;
-    // pruebat
+    // prueba
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
