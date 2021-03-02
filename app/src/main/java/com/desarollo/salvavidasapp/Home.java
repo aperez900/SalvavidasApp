@@ -36,13 +36,12 @@ import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient.OnConnectionFailedListener;
 
 public class Home extends AppCompatActivity {
-
     private AppBarConfiguration mAppBarConfiguration;
     private ImageView imageView;
     private TextView id_nombre;
     private TextView id_correo;
     private GoogleApiClient googleApiClient;
-
+    // prueba
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
