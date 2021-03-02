@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "423730616970",
+    "project_id": "salvavidasapp-450aa",
+    "storage_bucket": "salvavidasapp-450aa.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:423730616970:android:d17dae5ef14eede7fe2b73",
+        "android_client_info": {
+          "package_name": "com.desarollo.salvavidasapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "423730616970-6mn3q3u61lu5futioc1m610focr3ffjm.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBX4W9QrXKBk2zNoQlrBTMLnWl0U5d5XLs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "423730616970-6mn3q3u61lu5futioc1m610focr3ffjm.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
