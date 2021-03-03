@@ -9,6 +9,7 @@ import android.nfc.Tag;
 import android.os.Bundle;
 import android.telecom.Call;
 import android.util.Log;
+import android.util.Patterns;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -47,7 +48,6 @@ import java.util.Arrays;
 
 public class MainActivity extends AppCompatActivity {
 
-    // prueba de git hub
     EditText et_email, et_password;
     private FirebaseAuth mAuth;
     private LoginButton loginButton;
@@ -57,7 +57,6 @@ public class MainActivity extends AppCompatActivity {
     private SignInButton signInButton;
     public static final int RC_SIGN_IN = 0;
 
-    //comentario Edison
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -69,8 +68,6 @@ public class MainActivity extends AppCompatActivity {
         mAuth = FirebaseAuth.getInstance();
 
         //Acesso por facebook
-        //FacebookSdk.sdkInitialize(getApplicationContext());
-        //AppEventsLogger.activateApp(this);
 
         callbackManager = CallbackManager.Factory.create();
         loginButton = (LoginButton) findViewById(R.id.login_button);
@@ -80,13 +77,10 @@ public class MainActivity extends AppCompatActivity {
         loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //LoginManager.getInstance().logInWithReadPermissions(MainActivity.this, Arrays.asList("email","public_profile"));
                 loginButton.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
                     @Override
                     public void onSuccess(LoginResult loginResult) {
                         handleFacebookAccessToken(loginResult.getAccessToken());
-                        //ingreso();
-                        //Toast.makeText(getApplicationContext(), "Ingreso correcto con facebook",Toast.LENGTH_SHORT).show();
                     }
 
                     @Override
@@ -209,7 +203,10 @@ public class MainActivity extends AppCompatActivity {
         super.onStart();
         FirebaseUser currentUser = mAuth.getCurrentUser();
         //updateUI(currentUser);
-        if(currentUser != null && currentUser.isEmailVerified()){
+        //if(currentUser != null && currentUser.isEmailVerified()){
+        if(currentUser != null ){
+            Toast.makeText(MainActivity.this, "Ya estas logeuado.",
+                    Toast.LENGTH_SHORT).show();
             ingreso();
         }
     }
@@ -229,7 +226,10 @@ public class MainActivity extends AppCompatActivity {
         FirebaseUser currentUser = mAuth.getCurrentUser();
         String correo = et_email.getText().toString();
         String clave = et_password.getText().toString();
-        signInWithEmailAndPassword(correo, clave);
+
+        if(validarCamposVacios()) {
+            signInWithEmailAndPassword(correo, clave);
+        }
     }
 
     public void signInWithEmailAndPassword(String email, String password) {
@@ -264,9 +264,32 @@ public class MainActivity extends AppCompatActivity {
     private void ingreso() {
         Intent h = new Intent(getApplicationContext(), Home.class);
         startActivity(h);
-        //finis
-        //Otro come
+        finish();
+    }
 
+    public boolean validarCamposVacios(){
+        boolean campoLleno = true;
+
+        String correo= et_email.getText().toString();
+        String clave = et_password.getText().toString();
+
+        if(correo.isEmpty()){
+            et_email.setError("Debe diligenciar un correo");
+            campoLleno=false;
+        }else{
+            if(!Patterns.EMAIL_ADDRESS.matcher(correo).matches()){
+                et_email.setError("Debe diligenciar un correo válido");
+                campoLleno=false;
+            }
+        }
+        if(clave.isEmpty()){
+            et_password.setError("Debe diligenciar una clave");
+            campoLleno=false;
+        }else if(clave.length() < 6){
+            et_password.setError("La clave debe ser de al menos 6 digitos");
+            campoLleno=false;
+        }
+        return campoLleno;
     }
 
 }

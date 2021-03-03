@@ -9,14 +9,13 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.facebook.login.LoginManager;
 import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
-import com.google.android.gms.auth.api.signin.GoogleSignInResult;
 import com.google.android.gms.common.api.GoogleApiClient;
-import com.google.android.gms.common.api.OptionalPendingResult;
 import com.google.android.gms.common.api.ResultCallback;
 import com.google.android.gms.common.api.Status;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -33,14 +32,15 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import com.google.android.gms.common.ConnectionResult;
-import com.google.android.gms.common.api.GoogleApiClient.OnConnectionFailedListener;
+import com.google.firebase.auth.FirebaseUser;
 
 public class Home extends AppCompatActivity {
+
     private AppBarConfiguration mAppBarConfiguration;
-    private ImageView imageView;
-    private TextView id_nombre;
-    private TextView id_correo;
+
     private GoogleApiClient googleApiClient;
+    FirebaseAuth mAuth;
+    FirebaseUser currentUser;
     
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,6 +48,10 @@ public class Home extends AppCompatActivity {
         setContentView(R.layout.activity_home);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+        mAuth = FirebaseAuth.getInstance();
+        currentUser = mAuth.getCurrentUser();
+
         FloatingActionButton fab = findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -68,12 +72,6 @@ public class Home extends AppCompatActivity {
         NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
         NavigationUI.setupWithNavController(navigationView, navController);
 
-
-        imageView = (ImageView) findViewById(R.id.imageView);
-        id_nombre = (TextView) findViewById(R.id.id_nombre);
-        id_correo = (TextView) findViewById(R.id.id_correo);
-
-
        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestEmail()
                 .build();
@@ -83,6 +81,7 @@ public class Home extends AppCompatActivity {
                 .addApi(Auth.GOOGLE_SIGN_IN_API, gso)
                 .build();
 
+        actualizarDatosPerfil();
     }
 
     private void onConnectionFailed(ConnectionResult connectionResult) {
@@ -116,7 +115,7 @@ public class Home extends AppCompatActivity {
 
     public void CerrarSesion() {
 
-        if (FirebaseAuth.getInstance().getCurrentUser().getEmail() != null) {
+        if (FirebaseAuth.getInstance().getCurrentUser() != null) {
             FirebaseAuth.getInstance().signOut();
             Toast.makeText(Home.this, "Cerrando sesión.",
                     Toast.LENGTH_SHORT).show();
@@ -125,8 +124,7 @@ public class Home extends AppCompatActivity {
         }
         if (LoginManager.getInstance() != null) {
             LoginManager.getInstance().logOut();
-            Toast.makeText(Home.this, "Cerrando sesión facebook.",
-                    Toast.LENGTH_SHORT).show();
+            //Toast.makeText(Home.this, "Cerrando sesión facebook.",Toast.LENGTH_SHORT).show();
             Intent a = new Intent(this, MainActivity.class);
             startActivity(a);
         }
@@ -193,4 +191,18 @@ public class Home extends AppCompatActivity {
         startActivity(intent);
     }
 */
+
+    //Actualiza los datos del usuario logeado en el nav_header del menú
+    public void actualizarDatosPerfil(){
+        NavigationView navigationView = findViewById(R.id.nav_view);
+        View headerView = navigationView.getHeaderView(0);
+        TextView navUserName = headerView.findViewById(R.id.id_nombre_perfil);
+        TextView navUserMail = headerView.findViewById(R.id.id_correo_perfil);
+        ImageView navUserPhoto = headerView.findViewById(R.id.id_foto_perfil);
+
+        navUserMail.setText(currentUser.getEmail());
+        navUserName.setText(currentUser.getDisplayName());
+        Glide.with(this).load(currentUser.getPhotoUrl()).into(navUserPhoto);
+
+    }
 }

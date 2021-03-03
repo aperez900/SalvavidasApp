@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.util.Patterns;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -43,9 +44,9 @@ public class Registro extends AppCompatActivity {
     public void registro (View view){
         String email = et_emailR.getText().toString();
         String password = et_passwordR.getText().toString();
-
-        createUserWithEmailAndPassword(email, password);
-
+        if(validarCamposVacios()) {
+            createUserWithEmailAndPassword(email, password);
+        }
     }
 
     public void createUserWithEmailAndPassword (String email, String password) {
@@ -86,5 +87,30 @@ public class Registro extends AppCompatActivity {
                 // ...
             }
         });
+    }
+
+    public boolean validarCamposVacios(){
+        boolean campoLleno = true;
+
+        String correo= et_emailR.getText().toString();
+        String clave = et_passwordR.getText().toString();
+
+        if(correo.isEmpty()){
+            et_emailR.setError("Debe diligenciar un correo");
+            campoLleno=false;
+        }else{
+            if(!Patterns.EMAIL_ADDRESS.matcher(correo).matches()){
+                et_emailR.setError("Debe diligenciar un correo válido");
+                campoLleno=false;
+            }
+        }
+        if(clave.isEmpty()){
+            et_passwordR.setError("Debe diligenciar una clave");
+            campoLleno=false;
+        }else if(clave.length() < 6){
+            et_passwordR.setError("La clave debe ser de al menos 6 digitos");
+            campoLleno=false;
+        }
+        return campoLleno;
     }
 }
