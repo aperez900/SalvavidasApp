@@ -50,12 +50,12 @@
 
             <TextView
                 android:id="@+id/tv_iniciar"
-                android:layout_width="71dp"
+                android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:onClick="Iniciar"
                 android:text="Iniciar sesión /"
-                android:textAlignment="textEnd"
+                android:textAlignment="center"
                 android:textColor="#FFFFFF"
                 android:textSize="18sp" />
 
@@ -65,7 +65,8 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:onClick="Registro"
-                android:text=" Registro"
+                android:text=" Registro /"
+                android:textAlignment="center"
                 android:textColor="#FFFFFF"
                 android:textSize="18sp" />
 
@@ -76,6 +77,7 @@
                 android:layout_weight="1"
                 android:onClick="forget"
                 android:text="Olivide mi clave"
+                android:textAlignment="center"
                 android:textColor="#FFFFFF"
                 android:textSize="18sp" />
         </LinearLayout>
