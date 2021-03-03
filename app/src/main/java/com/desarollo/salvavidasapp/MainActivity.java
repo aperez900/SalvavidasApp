@@ -264,7 +264,7 @@ public class MainActivity extends AppCompatActivity {
     private void ingreso() {
         Intent h = new Intent(getApplicationContext(), Home.class);
         startActivity(h);
-        finish();
+        //finish();
     }
 
 }
