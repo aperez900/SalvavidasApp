@@ -1,164 +1,125 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android = "http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingStart="35dp"
-    android:paddingTop="20dp"
-    android:paddingEnd="35dp"
     android:background="#FF0000"
-    android:orientation="vertical"
     tools:context=".MainActivity">
 
-    <ImageView
-        android:id="@+id/imageView2"
-        android:layout_width="280dp"
-        android:layout_height="150dp"
-        android:layout_gravity="center"
-        android:layout_marginTop="20dp"
-        android:transitionName="logoprincipal"
-        app:srcCompat="@drawable/logoprincipal"
-        tools:srcCompat="@drawable/logoprincipal" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:layout_marginTop="5dp"
-        android:fontFamily="@font/abel"
-
-        android:text="Bienvenido"
-        android:textColor="#FFFFFF"
-        android:textSize="40sp" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:fontFamily="@font/abel"
-        android:layout_gravity="center"
-
-        android:text="Inicia sesion para continuar"
-        android:textColor="#FFFFFF"
-        android:textSize="24sp" />
-
     <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
-        android:layout_marginBottom="4dp"
-        android:orientation="vertical">
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:text="correo"
-            android:textColor="#FFFFFF"
-            android:fontFamily="@font/abel"
-            android:textSize="20sp"/>
+        android:id="@+id/linearLayout"
+        android:layout_width="351dp"
+        android:layout_height="189dp"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.49"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.701">
 
         <EditText
             android:id="@+id/et_mail"
-            android:layout_width="340dp"
-            android:layout_height="40dp"
-            android:backgroundTint="#FFFFFF"
-            android:layout_marginBottom="18dp"
-            android:fontFamily="@font/abel"
-            android:inputType="textEmailAddress"
-            android:textSize="20sp" />
-
-        <TextView
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:text="Contraseña"
-            android:textColor="#FFFFFF"
-            android:fontFamily="@font/abel"
-            android:textSize="20sp"/>
+            android:layout_height="wrap_content"
+            android:background="#FFFFFF"
+            android:ems="10"
+            android:hint="correo"
+            android:inputType="textEmailAddress"
+            android:textSize="24sp" />
+
+        <Space
+            android:layout_width="match_parent"
+            android:layout_height="44dp" />
 
         <EditText
             android:id="@+id/et_password"
-            android:layout_width="340dp"
-            android:layout_height="40dp"
-            android:layout_marginBottom="14dp"
-            android:fontFamily="@font/abel"
-            android:backgroundTint="#FFFFFF"
-            android:textColor="#FFFFFF"
-            android:inputType="textPassword"
-            android:textSize="20sp" />
-
-        <Button
-            android:id="@+id/tv_iniciar"
             android:layout_width="match_parent"
-            android:layout_height="60dp"
-            android:layout_gravity="center"
-            android:backgroundTint="#FFFFFF"
-            android:fontFamily="@font/abel"
-            android:onClick="Iniciar"
-            android:text="Iniciar sesion"
-            android:textAlignment="center"
-            android:layout_marginTop="5dp"
-            android:layout_marginBottom="20dp"
-            android:textColor="#FFFF0000"
-            android:textSize="22dp" />
+            android:layout_height="wrap_content"
+            android:background="#FFFFFF"
+            android:ems="10"
+            android:hint="clave"
+            android:inputType="textPassword"
+            android:textSize="24sp" />
 
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="59dp"
+            android:orientation="horizontal">
 
+            <TextView
+                android:id="@+id/tv_iniciar"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:onClick="Iniciar"
+                android:text="Iniciar sesión /"
+                android:textAlignment="center"
+                android:textColor="#FFFFFF"
+                android:textSize="18sp" />
+
+            <TextView
+                android:id="@+id/tv_registro"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:onClick="Registro"
+                android:text=" Registro /"
+                android:textAlignment="center"
+                android:textColor="#FFFFFF"
+                android:textSize="18sp" />
+
+            <TextView
+                android:id="@+id/tv_forget"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:onClick="forget"
+                android:text="Olivide mi clave"
+                android:textAlignment="center"
+                android:textColor="#FFFFFF"
+                android:textSize="18sp" />
+        </LinearLayout>
     </LinearLayout>
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:orientation="horizontal"
-        android:layout_gravity="center">
+    <FrameLayout
+        android:layout_width="348dp"
+        android:layout_height="234dp"
+        app:layout_constraintBottom_toTopOf="@+id/linearLayout"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
-        <com.facebook.login.widget.LoginButton
-            android:id="@+id/login_button"
-            android:layout_width="170dp"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:paddingTop="13dp"
-            android:paddingBottom="13dp" />
+        <ImageView
+            android:id="@+id/imageView2"
+            android:layout_width="match_parent"
+            android:layout_height="207dp"
+            app:srcCompat="@drawable/logosalvavidas" />
+    </FrameLayout>
 
-        <com.google.android.gms.common.SignInButton
-            android:id="@+id/signInButton"
-            android:layout_width="170dp"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal" />
-    </LinearLayout>
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="40dp"
-        android:orientation="horizontal"
-        android:layout_marginTop="20dp">
+    <com.facebook.login.widget.LoginButton
+        android:id="@+id/login_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.497"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout"
+        app:layout_constraintVertical_bias="0.311" />
 
-        <TextView
-            android:id="@+id/tv_registro"
-            android:layout_width="170dp"
-            android:layout_height="wrap_content"
-            android:textAlignment="center"
-            android:fontFamily="@font/abel"
-            android:onClick="Registro"
-            android:text="Registrate Aqui"
-            android:focusable="true"
-            android:clickable="true"
-            android:textColor="#FFFFFF"
-            android:textSize="18sp"
-            android:textStyle="bold"/>
+    <com.google.android.gms.common.SignInButton
+        android:id="@+id/signInButton"
+        android:layout_width="185dp"
+        android:layout_height="39dp"
+        android:layout_gravity="center_horizontal"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout"
+        app:layout_constraintVertical_bias="0.731" />
 
-        <TextView
-            android:id="@+id/tv_forget"
-            android:layout_width="160dp"
-            android:layout_height="wrap_content"
-            android:onClick="forget"
-            android:fontFamily="@font/abel"
-            android:text="Olvidaste tu clave"
-            android:textColor="#FFFFFF"
-            android:layout_gravity="end"
-            android:textAlignment="center"
-            android:focusable="true"
-            android:clickable="true"
-            android:textSize="18sp"
-            android:textStyle="bold"/>
-    </LinearLayout>
-
-</LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>
