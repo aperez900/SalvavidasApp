@@ -47,6 +47,7 @@ import java.util.Arrays;
 
 public class MainActivity extends AppCompatActivity {
 
+    // prueba de git hub
     EditText et_email, et_password;
     private FirebaseAuth mAuth;
     private LoginButton loginButton;
