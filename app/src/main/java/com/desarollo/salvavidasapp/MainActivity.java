@@ -106,7 +106,8 @@ public class MainActivity extends AppCompatActivity {
         signInButton.setSize(SignInButton.SIZE_WIDE);
 
         //Dejar solo el icono de google
-        //signInButton.setSize(SignInButton.SIZE_ICON_ONLY);
+        signInButton.setSize(SignInButton.SIZE_ICON_ONLY);
+
 
         signInButton.setColorScheme(SignInButton.COLOR_DARK);
 
