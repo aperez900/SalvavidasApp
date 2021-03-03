@@ -265,6 +265,7 @@ public class MainActivity extends AppCompatActivity {
         Intent h = new Intent(getApplicationContext(), Home.class);
         startActivity(h);
         //finish()
+        //Otro comentario
 
     }
 
