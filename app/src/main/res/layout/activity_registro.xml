@@ -20,7 +20,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:ems="10"
-            android:hint="Correo"
+            android:hint="@string/correo"
             android:inputType="textEmailAddress" />
 
         <Space
@@ -32,7 +32,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:ems="10"
-            android:hint="Clave"
+            android:hint="@string/contraseña"
             android:inputType="textPassword" />
 
         <Button
@@ -40,6 +40,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:onClick="registro"
-            android:text="Registrar" />
+            android:text="@string/registrar" />
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

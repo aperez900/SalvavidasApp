@@ -25,7 +25,7 @@
             android:layout_height="wrap_content"
             android:background="#FFFFFF"
             android:ems="10"
-            android:hint="correo"
+            android:hint="@string/correo"
             android:inputType="textEmailAddress"
             android:textSize="24sp" />
 
@@ -39,7 +39,7 @@
             android:layout_height="wrap_content"
             android:background="#FFFFFF"
             android:ems="10"
-            android:hint="clave"
+            android:hint="@string/contraseña"
             android:inputType="textPassword"
             android:textSize="24sp" />
 
@@ -54,7 +54,7 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:onClick="Iniciar"
-                android:text="Iniciar sesión /"
+                android:text="@string/iniciarSesion"
                 android:textAlignment="center"
                 android:textColor="#FFFFFF"
                 android:textSize="18sp" />
@@ -65,7 +65,7 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:onClick="Registro"
-                android:text=" Registro /"
+                android:text="@string/registro"
                 android:textAlignment="center"
                 android:textColor="#FFFFFF"
                 android:textSize="18sp" />
@@ -76,7 +76,7 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:onClick="forget"
-                android:text="Olivide mi clave"
+                android:text="@string/olvideClave"
                 android:textAlignment="center"
                 android:textColor="#FFFFFF"
                 android:textSize="18sp" />

@@ -13,6 +13,12 @@
     <string name="menu_slideshow">Slideshow</string>
 
     <string name="cerrar_sesion">Cerrar sesión</string>
+    <string name="correo">Correo</string>
+    <string name="contraseña">Contraseña</string>
+    <string name="iniciarSesion">Inicar sesión /</string>
+    <string name="registro"> Registro /</string>
+    <string name="olvideClave">Olvidé mi clave/</string>
+    <string name="registrar">Registrar/</string>
 
     <string name="facebook_app_id">1541603559379639</string>
     <string name="fb_login_protocol_scheme">fb1541603559379639</string>
