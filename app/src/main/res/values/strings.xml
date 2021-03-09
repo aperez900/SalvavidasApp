@@ -19,10 +19,15 @@
     <string name="registro"> Registro /</string>
     <string name="olvideClave">Olvidé mi clave/</string>
     <string name="registrar">Registrar/</string>
+    <string name="myProfile">Mi Perfil</string>
+    <string name="nombrePerfil">Nombre perfil</string>
+    <string name="correoPerfil">Correo perfil</string>
 
     <string name="facebook_app_id">1541603559379639</string>
     <string name="fb_login_protocol_scheme">fb1541603559379639</string>
 
     <string name="web_client_id">423730616970-6mn3q3u61lu5futioc1m610focr3ffjm.apps.googleusercontent.com</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 
 </resources>
