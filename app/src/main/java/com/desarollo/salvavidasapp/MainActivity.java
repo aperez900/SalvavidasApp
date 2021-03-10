@@ -68,7 +68,6 @@ public class MainActivity extends AppCompatActivity {
         mAuth = FirebaseAuth.getInstance();
 
         //Acesso por facebook
-
         callbackManager = CallbackManager.Factory.create();
         loginButton = (LoginButton) findViewById(R.id.login_button);
         //loginButton.setReadPermissions("email");
@@ -98,7 +97,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        // ---------------Ingresar por Google ------------------------------------------------
+        // Ingresar por Google
 
         signInButton =  findViewById(R.id.signInButton);
 

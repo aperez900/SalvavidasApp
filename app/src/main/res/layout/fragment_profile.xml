@@ -25,26 +25,124 @@
                 android:layout_height="match_parent"
                 tools:src="@tools:sample/avatars" />
         </FrameLayout>
-
-        <TextView
-            android:id="@+id/nombre_perfil"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/nombrePerfil"
-            android:textAlignment="center"
-            android:textSize="24sp" />
-
         <Space
             android:layout_width="match_parent"
             android:layout_height="28dp" />
 
         <TextView
-            android:id="@+id/correo_perfil"
+            android:id="@+id/nombre_perfil"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/correoPerfil"
+            android:fontFamily="@font/abel"
+            android:text="@string/nombrePerfil"
             android:textAlignment="center"
             android:textSize="24sp" />
 
+
+        <TextView
+            android:id="@+id/correo_perfil"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/abel"
+            android:text="@string/correoPerfil"
+            android:textAlignment="center"
+            android:textSize="18sp" />
+
     </LinearLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="260dp">
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            tools:layout_editor_absoluteX="0dp"
+            tools:layout_editor_absoluteY="-71dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+
+            <EditText
+                android:id="@+id/tv_nombre"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_marginStart="50dp"
+                android:layout_marginTop="1dp"
+                android:layout_marginEnd="50dp"
+                android:hint="Nombres"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <EditText
+                android:id="@+id/tv_apellido"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_marginStart="50dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginEnd="50dp"
+                android:hint="Apellidos"
+                app:layout_constraintTop_toBottomOf="@id/tv_nombre" />
+
+
+            <EditText
+                android:id="@+id/tv_direccion"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_marginStart="50dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginEnd="50dp"
+                android:hint="Direccion"
+                app:layout_constraintTop_toBottomOf="@id/tv_apellido" />
+
+            <EditText
+                android:id="@+id/tv_municipio"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_marginStart="50dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginEnd="50dp"
+                android:hint="Municipio"
+                app:layout_constraintTop_toBottomOf="@id/tv_direccion" />
+
+            <EditText
+                android:id="@+id/tv_identidad"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_marginStart="50dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginEnd="50dp"
+                android:hint="documento identidad"
+                app:layout_constraintTop_toBottomOf="@id/tv_municipio" />
+
+            <EditText
+                android:id="@+id/tv_celular"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_marginStart="50dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginEnd="50dp"
+                android:hint="celular"
+                app:layout_constraintTop_toBottomOf="@id/tv_identidad" />
+
+            <Button
+                android:id="@+id/btn_registrar_perfil"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_marginStart="30dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginEnd="30dp"
+                android:text="Registrar"
+                app:layout_constraintTop_toBottomOf="@id/tv_celular" />
+
+            </LinearLayout>
+        </ScrollView>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
 </FrameLayout>

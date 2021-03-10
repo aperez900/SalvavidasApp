@@ -151,46 +151,6 @@ public class Home extends AppCompatActivity {
         });
     }
 
-   /* @Override
-    protected void onStart() {
-        super.onStart();
-
-        OptionalPendingResult<GoogleSignInResult> opr = Auth.GoogleSignInApi.silentSignIn(googleApiClient);
-        if (opr.isDone()) {
-            GoogleSignInResult result = opr.get();
-            handleSignInResult(result);
-        } else {
-            opr.setResultCallback(new ResultCallback<GoogleSignInResult>() {
-                @Override
-                public void onResult(@NonNull GoogleSignInResult googleSignInResult) {
-                    handleSignInResult(googleSignInResult);
-                }
-            });
-        }
-    }
-    private void handleSignInResult(GoogleSignInResult result) {
-        if (result.isSuccess()) {
-
-            GoogleSignInAccount account = result.getSignInAccount();
-
-            id_nombre.setText(account.getDisplayName());
-            id_correo.setText(account.getEmail());
-           // imageView.setText(account.getId());
-
-            //Glide.with(this).load(account.getPhotoUrl()).into(photoImageView);
-
-        } else {
-            goLogInScreen();
-        }
-    }
-*/
-/*
-    private void goLogInScreen() {
-        Intent intent = new Intent(this, MainActivity.class);
-        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
-        startActivity(intent);
-    }
-*/
 
     //Actualiza los datos del usuario logeado en el nav_header del menú
     public void actualizarDatosPerfil(){
