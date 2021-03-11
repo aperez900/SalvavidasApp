@@ -17,7 +17,7 @@
         android:id="@+id/id_foto_perfil"
         android:layout_width="118dp"
         android:layout_height="66dp"
-        app:srcCompat="@drawable/logosalvavidas" />
+        app:srcCompat="@drawable/logoprincipal" />
 
     <TextView
         android:id="@+id/id_nombre_perfil"
@@ -25,14 +25,14 @@
         android:layout_height="wrap_content"
         android:fontFamily="@font/abel"
         android:paddingTop="@dimen/nav_header_vertical_spacing"
-        android:text="@string/nav_header_title"
+        android:text="@string/nombrePerfil"
         android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
 
     <TextView
         android:id="@+id/id_correo_perfil"
         android:layout_width="wrap_content"
-        android:fontFamily="@font/abel"
         android:layout_height="wrap_content"
-        android:text="@string/nav_header_subtitle" />
+        android:fontFamily="@font/abel"
+        android:text="@string/correoPerfil" />
 
 </LinearLayout>

@@ -8,7 +8,7 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="239dp"
+        android:layout_height="200dp"
         android:orientation="vertical">
 
         <Space
@@ -53,7 +53,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="260dp">
+        android:layout_marginTop="200dp">
 
         <ScrollView
             android:layout_width="match_parent"
@@ -75,9 +75,10 @@
                     android:layout_marginTop="1dp"
                     android:layout_marginEnd="50dp"
                     android:hint="@string/nombre"
+                    android:inputType="textPersonName"
+                    android:textColor="#000000"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
+                    app:layout_constraintStart_toStartOf="parent" />
 
                 <EditText
                     android:id="@+id/tv_apellido"
@@ -87,6 +88,7 @@
                     android:layout_marginTop="10dp"
                     android:layout_marginEnd="50dp"
                     android:hint="@string/apellidos"
+                    android:inputType="textPersonName"
                     app:layout_constraintTop_toBottomOf="@id/tv_nombre" />
 
 
@@ -98,6 +100,7 @@
                     android:layout_marginTop="10dp"
                     android:layout_marginEnd="50dp"
                     android:hint="@string/direccion"
+                    android:inputType="text"
                     app:layout_constraintTop_toBottomOf="@id/tv_apellido" />
 
                 <Spinner
@@ -108,7 +111,7 @@
                     android:layout_marginTop="10dp"
                     android:layout_marginEnd="50dp"
                     android:hint="Municipio"
-                    app:layout_constraintTop_toBottomOf="@id/tv_direccion"/>
+                    app:layout_constraintTop_toBottomOf="@id/tv_direccion" />
 
                 <EditText
                     android:id="@+id/tv_identidad"
@@ -118,6 +121,7 @@
                     android:layout_marginTop="10dp"
                     android:layout_marginEnd="50dp"
                     android:hint="@string/documento_identidad"
+                    android:inputType="number"
                     app:layout_constraintTop_toBottomOf="@id/sp_municipio" />
 
                 <EditText
@@ -128,6 +132,7 @@
                     android:layout_marginTop="10dp"
                     android:layout_marginEnd="50dp"
                     android:hint="@string/celular"
+                    android:inputType="number"
                     app:layout_constraintTop_toBottomOf="@id/tv_identidad" />
 
                 <Button

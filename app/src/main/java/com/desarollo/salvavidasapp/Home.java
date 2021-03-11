@@ -52,6 +52,8 @@ public class Home extends AppCompatActivity {
         mAuth = FirebaseAuth.getInstance();
         currentUser = mAuth.getCurrentUser();
 
+        //Botón flotante
+        /*
         FloatingActionButton fab = findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -60,6 +62,8 @@ public class Home extends AppCompatActivity {
                         .setAction("Action", null).show();
             }
         });
+        */
+
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         NavigationView navigationView = findViewById(R.id.nav_view);
         // Passing each menu ID as a set of Ids because each
@@ -110,9 +114,14 @@ public class Home extends AppCompatActivity {
                 break;
         }
         return super.onOptionsItemSelected(item);
-
     }
 
+    /*
+     * @autor: Edison Cardona
+     * @since: 04/03/2021
+     * @Version: 01
+     * Método para cerrar la sesión del usuario logeuado
+     * */
     public void CerrarSesion() {
 
         if (FirebaseAuth.getInstance().getCurrentUser() != null) {
@@ -128,7 +137,6 @@ public class Home extends AppCompatActivity {
             Intent a = new Intent(this, MainActivity.class);
             startActivity(a);
         }
-
         GoogleSignInAccount account = GoogleSignIn.getLastSignedInAccount(Home.this);
         if (account != null) {
             logOut();
@@ -151,8 +159,13 @@ public class Home extends AppCompatActivity {
         });
     }
 
-
-    //Actualiza los datos del usuario logeado en el nav_header del menú
+    /*
+     * @autor: Edison Cardona
+     * @since: 04/03/2021
+     * @Version: 01
+     * Método para actualizar los datos del usuario logeado en el
+     * navheader del menú
+     * */
     public void actualizarDatosPerfil(){
         NavigationView navigationView = findViewById(R.id.nav_view);
         View headerView = navigationView.getHeaderView(0);

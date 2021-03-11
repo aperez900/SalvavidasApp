@@ -54,9 +54,9 @@ public class Profile extends Fragment {
 
         database = FirebaseDatabase.getInstance();
         myRef = database.getReference("usuarios");
-
     }
 
+    //Infla el fragment de perfil
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -70,7 +70,8 @@ public class Profile extends Fragment {
         EditText apellidos = view.findViewById(R.id.tv_apellido);
         EditText direccion = view.findViewById(R.id.tv_direccion);
         municipio = view.findViewById(R.id.sp_municipio);
-        String [] municipios = {"Municipio/Departamento","MEDELLIN/Antioquia", "ABEJORRAL/Antioquia", "ABRIAQUI/Antioquia", "ALEJANDRIA/Antioquia",
+        //Datos para el spinner de municipio
+        String [] listaMunicipios = {"Municipio/Departamento","MEDELLIN/Antioquia", "ABEJORRAL/Antioquia", "ABRIAQUI/Antioquia", "ALEJANDRIA/Antioquia",
                 "AMAGA/Antioquia", "AMALFI/Antioquia", "ANDES/Antioquia", "ANGELOPOLIS/Antioquia", "ANGOSTURA/Antioquia", "ANORI/Antioquia",
                 "SANTAFE DE ANTIOQUIA/Antioquia", "ANZA/Antioquia", "APARTADO/Antioquia", "ARBOLETES/Antioquia", "ARGELIA/Antioquia", "ARMENIA/Antioquia",
                 "BARBOSA/Antioquia", "BELMIRA/Antioquia", "BELLO/Antioquia", "BETANIA/Antioquia", "BETULIA/Antioquia", "CIUDAD BOLIVAR/Antioquia",
@@ -241,7 +242,7 @@ public class Profile extends Fragment {
                 "MITU/Vaupés", "CARURU/Vaupés", "PACOA/Vaupés", "TARAIRA/Vaupés", "PAPUNAUA/Vaupés", "YAVARATE/Vaupés", "PUERTO CARREÑO/Vichada",
                 "LA PRIMAVERA/Vichada", "SANTA ROSALIA/Vichada", "CUMARIBO/Vichada"};
 
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(getApplicationContext(), android.R.layout.simple_spinner_item, municipios);
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(getApplicationContext(), R.layout.spinner_item_modified, listaMunicipios);
         municipio.setAdapter(adapter);
         EditText identificacion = view.findViewById(R.id.tv_identidad);
         EditText celular = view.findViewById(R.id.tv_celular);
@@ -253,9 +254,9 @@ public class Profile extends Fragment {
         Glide.with(this).load(currentUser.getPhotoUrl()).into(UserPhoto);
 
         //Llena los campos del formulario con los datos de la bd
-        consultarDatosPerfil(nombres);
+        consultarDatosPerfil(nombres, apellidos, direccion, municipio, identificacion, celular);
 
-
+        //Registro los datos en la bd al dar clic en el botón registrar
         btn_reg.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -265,16 +266,19 @@ public class Profile extends Fragment {
             }
         });
         return view;
-
     }
 
-
-    private void registrar(TextView UserMail,EditText nombres, EditText apellidos, EditText direccion, Spinner municipio, EditText identificacion, EditText celular) {
-
+    /*
+     * @autor: Andrés Pérez
+     * @since: 10/03/2021
+     * @Version: 01
+     * Método para registrar o actualizar los datos del perfil en la BD
+     * */
+    private void registrar(TextView UserMail,EditText nombres, EditText apellidos, EditText direccion, Spinner sp_municipio, EditText identificacion, EditText celular) {
         Map<String,Object> map= new HashMap<>();
         map.put("nombre",nombres.getText().toString());
         map.put("apellido",apellidos.getText().toString());
-        map.put("municipio",municipio.getSelectedItem().toString());
+        map.put("municipio",sp_municipio.getSelectedItem().toString());
         map.put("direccion",direccion.getText().toString());
         map.put("identificacion",identificacion.getText().toString());
         map.put("celular",celular.getText().toString());
@@ -285,7 +289,9 @@ public class Profile extends Fragment {
                     public void onSuccess(Void aVoid) {
                         nombres.setText("");
                         apellidos.setText("");
-                        //municipio.setAdapter(null);
+                        String [] listaMunicipios2 = {"Municipio/Departamento"};
+                        ArrayAdapter<String> adapter1 = new ArrayAdapter<String>(getApplicationContext(), android.R.layout.simple_spinner_item, listaMunicipios2);
+                        sp_municipio.setAdapter(adapter1);
                         direccion.setText("");
                         identificacion.setText("");
                         celular.setText("");
@@ -301,11 +307,50 @@ public class Profile extends Fragment {
                 });
     }
 
-    //Consulta los datos del perfil del usuario logeado
-    public void consultarDatosPerfil(EditText nombres){
+    /*
+    * @autor: Edison Cardona
+    * @since: 11/03/2021
+    * @Version: 01
+    * Método para consultar los datos del perfil en la BD y pintar
+    * el formulario con ellos
+    * */
+    public void consultarDatosPerfil(EditText et_nombres, EditText et_apellidos, EditText et_direccion, Spinner sp_municipio, EditText et_identificacion, EditText et_celular){
+        myRef.child(currentUser.getUid())
+                .addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if(snapshot.exists()){
+                    String nombre = snapshot.child("nombre").getValue().toString();
+                    et_nombres.setText(nombre);
+                    String apellido = snapshot.child("apellido").getValue().toString();
+                    et_apellidos.setText(apellido);
+                    String direccion = snapshot.child("direccion").getValue().toString();
+                    et_direccion.setText(direccion);
+                    //String [] municipio = {snapshot.child("municipio").getValue().toString()};
+                    //ArrayAdapter<String> adapter1 = new ArrayAdapter<String>(getApplicationContext(), android.R.layout.simple_spinner_item, municipio);
+                    //sp_municipio.setAdapter(adapter1);
+                    String identificacion = snapshot.child("identificacion").getValue().toString();
+                    et_identificacion.setText(identificacion);
+                    String celular = snapshot.child("celular").getValue().toString();
+                    et_celular.setText(celular);
+                }
+            }
 
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
     }
 
+    /*
+     * @autor: Edison Cardona
+     * @since: 11/03/2021
+     * @Version: 01
+     * Método para validar que todos los campos del formuarlio se
+     * encuentren diligenciados y que cumplen con ciertos criterios de acuerdo
+     * al campo
+     * */
     public boolean validarCamposVacios(TextView UserMail,EditText nombres, EditText apellidos, EditText direccion, Spinner municipio, EditText identificacion, EditText celular){
         boolean campoLleno = true;
 
@@ -335,13 +380,17 @@ public class Profile extends Fragment {
         if(identificacionV.isEmpty()){
             identificacion.setError("Debe diligenciar un nro. de identificación");
             campoLleno=false;
+        }else if (identificacionV.length() < 5 || identificacionV.length() > 15){
+            identificacion.setError("Digite un número de cédula válido");
+            campoLleno=false;
         }
         if(celularV.isEmpty()){
             celular.setError("Debe diligenciar un celular");
             campoLleno=false;
+        }else if (celularV.length() != 10){
+            celular.setError("El celular debe tener 10 digitos");
+            campoLleno=false;
         }
         return campoLleno;
-
     }
-
 }
