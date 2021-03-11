@@ -158,11 +158,11 @@ public class Home extends AppCompatActivity {
         View headerView = navigationView.getHeaderView(0);
         TextView navUserName = headerView.findViewById(R.id.id_nombre_perfil);
         TextView navUserMail = headerView.findViewById(R.id.id_correo_perfil);
-        ImageView navUserPhoto = headerView.findViewById(R.id.id_foto_perfil);
+        //ImageView navUserPhoto = headerView.findViewById(R.id.id_foto_perfil);
 
         navUserMail.setText(currentUser.getEmail());
         navUserName.setText(currentUser.getDisplayName());
-        Glide.with(this).load(currentUser.getPhotoUrl()).into(navUserPhoto);
+        //Glide.with(this).load(currentUser.getPhotoUrl()).into(navUserPhoto);
 
     }
 }
