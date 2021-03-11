@@ -16,7 +16,7 @@
     <ImageView
         android:id="@+id/id_foto_perfil"
         android:layout_width="118dp"
-        android:layout_height="66dp"
+        android:layout_height="70dp"
         app:srcCompat="@drawable/logoprincipal" />
 
     <TextView

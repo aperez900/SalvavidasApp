@@ -18,6 +18,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 import com.desarollo.salvavidasapp.R;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -251,7 +252,7 @@ public class Profile extends Fragment {
         //Actualiza los datos del perfil logeado en el fragmenProfile
         UserName.setText(currentUser.getDisplayName());
         UserMail.setText(currentUser.getEmail());
-        Glide.with(this).load(currentUser.getPhotoUrl()).into(UserPhoto);
+        Glide.with(this).load(currentUser.getPhotoUrl()).apply(RequestOptions.circleCropTransform()).into(UserPhoto);
 
         //Llena los campos del formulario con los datos de la bd
         consultarDatosPerfil(nombres, apellidos, direccion, municipio, identificacion, celular);

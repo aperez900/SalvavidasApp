@@ -25,6 +25,6 @@
     <fragment
         android:id="@+id/nav_profile"
         android:name="com.desarollo.salvavidasapp.ui.profile.Profile"
-        android:label="fragment_profile"
+        android:label="@string/miPerfil"
         tools:layout="@layout/fragment_profile" />
 </navigation>
