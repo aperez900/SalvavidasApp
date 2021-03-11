@@ -22,6 +22,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:ems="10"
+            android:fontFamily="@font/abel"
             android:hint="Correo"
             android:inputType="textEmailAddress" />
 
@@ -34,6 +35,7 @@
             android:id="@+id/btn_recuperar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:fontFamily="@font/abel"
             android:onClick="registro"
             android:text="Recuperar" />
     </LinearLayout>

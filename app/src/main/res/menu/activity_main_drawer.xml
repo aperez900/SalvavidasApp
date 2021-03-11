@@ -7,17 +7,21 @@
         <item
             android:id="@+id/nav_home"
             android:icon="@drawable/ic_menu_camera"
+            android:fontFamily="@font/abel"
             android:title="@string/menu_home" />
         <item
             android:id="@+id/nav_gallery"
+            android:fontFamily="@font/abel"
             android:icon="@drawable/ic_menu_gallery"
             android:title="@string/menu_gallery" />
         <item
             android:id="@+id/nav_slideshow"
+            android:fontFamily="@font/abel"
             android:icon="@drawable/ic_menu_slideshow"
             android:title="@string/menu_slideshow" />
         <item
             android:id="@+id/nav_profile"
+            android:fontFamily="@font/abel"
             android:icon="@drawable/icono_perfil"
             android:title="@string/myProfile" />
     </group>
