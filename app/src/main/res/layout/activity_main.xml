@@ -61,10 +61,14 @@
             android:layout_width="match_parent"
             android:layout_height="45dp"
             android:background="#FFFFFF"
+            android:drawableStart="@android:drawable/sym_action_email"
+            android:drawablePadding="10dp"
             android:ems="10"
             android:fontFamily="@font/abel"
             android:hint="@string/correo"
             android:inputType="textEmailAddress"
+            android:textColorHighlight="#FF0000"
+            android:textColorLink="#FF0000"
             android:textSize="20sp" />
 
         <Space
@@ -76,10 +80,15 @@
             android:layout_width="match_parent"
             android:layout_height="45dp"
             android:background="#FFFFFF"
+            android:drawableStart="@android:drawable/ic_lock_idle_lock"
+            android:drawablePadding="10dp"
             android:ems="5"
             android:fontFamily="@font/abel"
+            android:foregroundTint="#FFFFFF"
             android:hint="@string/contraseña"
             android:inputType="textPassword"
+            android:textColorHighlight="#FF0000"
+            android:textColorLink="#FF0000"
             android:textSize="20sp" />
 
         <Space
