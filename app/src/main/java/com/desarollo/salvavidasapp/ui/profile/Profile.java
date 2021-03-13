@@ -20,6 +20,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 import com.desarollo.salvavidasapp.MainActivity;
 import com.desarollo.salvavidasapp.R;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -50,6 +51,7 @@ public class Profile extends Fragment {
     FirebaseUser currentUser;
     FirebaseDatabase database;
     DatabaseReference myRef;
+    DatabaseReference myRefAlimentos;
 
     private Spinner municipio;
 
@@ -260,10 +262,10 @@ public class Profile extends Fragment {
         //Actualiza los datos del perfil logeado en el fragmenProfile
         UserName.setText(currentUser.getDisplayName());
         UserMail.setText(currentUser.getEmail());
-        Glide.with(this).load(currentUser.getPhotoUrl()).into(UserPhoto);
+        Glide.with(this).load(currentUser.getPhotoUrl()).apply(RequestOptions.circleCropTransform()).into(UserPhoto);
 
         //Llena los campos del formulario con los datos de la bd
-        consultarDatosPerfil(nombres, apellidos, direccion, municipio, identificacion, celular);
+        consultarDatosPerfil(nombres, apellidos, direccion, municipio, identificacion, celular,btn_reg);
 
 
 
@@ -314,7 +316,6 @@ public class Profile extends Fragment {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
 
-
                     }
 
                 });
@@ -351,19 +352,11 @@ public class Profile extends Fragment {
         map.put("correo",UserMail.getText().toString());
         map.put("Habilitado",true);
 
-        Map selectedItems = new HashMap<>();
-        map.put("fruta",true);
-        map.put("verdura",true);
-        map.put("perecedero",true);
-        map.put("no perecederos",true);
-
-        myRef.child(currentUser.getUid()).child("Comidas").setValue(selectedItems)
-                .addOnSuccessListener(new OnSuccessListener<Void>(){
-                    @Override
-                    public void onSuccess(Void aVoid) {
-                       // Toast.makeText(getApplicationContext(), "SHola", Toast.LENGTH_SHORT).show();
-                    }
-                });
+        Map <String,Object> selectedItems = new HashMap<>();
+        selectedItems.put("fruta",true);
+        selectedItems.put("verdura",false);
+        selectedItems.put("pecedero",true);
+        selectedItems.put("no perecederos",true);
 
         myRef.child(currentUser.getUid()).setValue(map)
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
@@ -387,6 +380,15 @@ public class Profile extends Fragment {
                         Toast.makeText(getApplicationContext(), "No se actualizaron los datos, debido a un error", Toast.LENGTH_SHORT).show();
                     }
                 });
+
+
+        myRef.child(currentUser.getUid()).child("comidas_preferidas").setValue(selectedItems)
+                .addOnSuccessListener(new OnSuccessListener<Void>(){
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        //Toast.makeText(getApplicationContext(), "SHola", Toast.LENGTH_SHORT).show();
+                    }
+                });
     }
 
     /*
@@ -396,12 +398,13 @@ public class Profile extends Fragment {
     * Método para consultar los datos del perfil en la BD y pintar
     * el formulario con ellos
     * */
-    public void consultarDatosPerfil(EditText et_nombres, EditText et_apellidos, EditText et_direccion, Spinner sp_municipio, EditText et_identificacion, EditText et_celular){
+    public void consultarDatosPerfil(EditText et_nombres, EditText et_apellidos, EditText et_direccion, Spinner sp_municipio, EditText et_identificacion, EditText et_celular,Button btn_reg){
         myRef.child(currentUser.getUid())
                 .addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 if(snapshot.exists()){
+                    btn_reg.setText("Actualizar");
                     String nombre = snapshot.child("nombre").getValue().toString();
                     et_nombres.setText(nombre);
                     String apellido = snapshot.child("apellido").getValue().toString();
