@@ -1,5 +1,7 @@
 package com.desarollo.salvavidasapp.ui.profile;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -19,6 +21,7 @@ import androidx.fragment.app.Fragment;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
+import com.desarollo.salvavidasapp.MainActivity;
 import com.desarollo.salvavidasapp.R;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -32,7 +35,11 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.lang.reflect.Array;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import static com.facebook.FacebookSdk.getApplicationContext;
@@ -44,6 +51,7 @@ public class Profile extends Fragment {
     FirebaseUser currentUser;
     FirebaseDatabase database;
     DatabaseReference myRef;
+    DatabaseReference myRefAlimentos;
 
     private Spinner municipio;
 
@@ -70,6 +78,8 @@ public class Profile extends Fragment {
         EditText nombres = view.findViewById(R.id.tv_nombre);
         EditText apellidos = view.findViewById(R.id.tv_apellido);
         EditText direccion = view.findViewById(R.id.tv_direccion);
+        TextView lista_comida = view.findViewById(R.id.lista_comidas);
+
         municipio = view.findViewById(R.id.sp_municipio);
         //Datos para el spinner de municipio
         String [] listaMunicipios = {"Municipio/Departamento","MEDELLIN/Antioquia", "ABEJORRAL/Antioquia", "ABRIAQUI/Antioquia", "ALEJANDRIA/Antioquia",
@@ -255,7 +265,10 @@ public class Profile extends Fragment {
         Glide.with(this).load(currentUser.getPhotoUrl()).apply(RequestOptions.circleCropTransform()).into(UserPhoto);
 
         //Llena los campos del formulario con los datos de la bd
-        consultarDatosPerfil(nombres, apellidos, direccion, municipio, identificacion, celular);
+        consultarDatosPerfil(nombres, apellidos, direccion, municipio, identificacion, celular,btn_reg);
+
+
+
 
         //Registro los datos en la bd al dar clic en el botón registrar
         btn_reg.setOnClickListener(new View.OnClickListener() {
@@ -266,6 +279,59 @@ public class Profile extends Fragment {
                 }
             }
         });
+
+
+        //Registro los datos en la bd al dar clic en el botón registrar
+        lista_comida.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+
+                AlertDialog.Builder builder = new AlertDialog.Builder(getContext() );
+                builder.setTitle("Elige tus comidas preferidas");
+                builder.setCancelable(false);
+
+                String[] comidas = new String[]{ "Verduras", "Frutas","perecederos", "Otros" };
+                final List<String> foodList = Arrays.asList(comidas);
+
+
+
+                builder.setMultiChoiceItems(comidas, null, new DialogInterface.OnMultiChoiceClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i, boolean b) {
+
+                        if (b) {
+                            // If the user checked the item, add it to the selected items
+                            //selectedItems.put(foodList.indexOf(i) ,b);
+
+                        } else  {
+                            // Else, if the item is already in the array, remove it
+                            //selectedItems.remove(Integer.valueOf(i));
+                        }
+                    }
+                });
+
+                builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+
+                    }
+
+                });
+
+                builder.setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        dialogInterface.cancel();
+                    }
+                });
+                AlertDialog dialog = builder.create();
+                dialog.show();
+            }
+        });
+
+
         return view;
     }
 
@@ -283,6 +349,14 @@ public class Profile extends Fragment {
         map.put("direccion",direccion.getText().toString());
         map.put("identificacion",identificacion.getText().toString());
         map.put("celular",celular.getText().toString());
+        map.put("correo",UserMail.getText().toString());
+        map.put("Habilitado",true);
+
+        Map <String,Object> selectedItems = new HashMap<>();
+        selectedItems.put("fruta",true);
+        selectedItems.put("verdura",false);
+        selectedItems.put("pecedero",true);
+        selectedItems.put("no perecederos",true);
 
         myRef.child(currentUser.getUid()).setValue(map)
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
@@ -306,6 +380,15 @@ public class Profile extends Fragment {
                         Toast.makeText(getApplicationContext(), "No se actualizaron los datos, debido a un error", Toast.LENGTH_SHORT).show();
                     }
                 });
+
+
+        myRef.child(currentUser.getUid()).child("comidas_preferidas").setValue(selectedItems)
+                .addOnSuccessListener(new OnSuccessListener<Void>(){
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        //Toast.makeText(getApplicationContext(), "SHola", Toast.LENGTH_SHORT).show();
+                    }
+                });
     }
 
     /*
@@ -315,12 +398,13 @@ public class Profile extends Fragment {
     * Método para consultar los datos del perfil en la BD y pintar
     * el formulario con ellos
     * */
-    public void consultarDatosPerfil(EditText et_nombres, EditText et_apellidos, EditText et_direccion, Spinner sp_municipio, EditText et_identificacion, EditText et_celular){
+    public void consultarDatosPerfil(EditText et_nombres, EditText et_apellidos, EditText et_direccion, Spinner sp_municipio, EditText et_identificacion, EditText et_celular,Button btn_reg){
         myRef.child(currentUser.getUid())
                 .addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 if(snapshot.exists()){
+                    btn_reg.setText("Actualizar");
                     String nombre = snapshot.child("nombre").getValue().toString();
                     et_nombres.setText(nombre);
                     String apellido = snapshot.child("apellido").getValue().toString();
