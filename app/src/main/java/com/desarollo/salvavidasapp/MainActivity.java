@@ -205,7 +205,7 @@ public class MainActivity extends AppCompatActivity {
         //updateUI(currentUser);
         //if(currentUser != null && currentUser.isEmailVerified()){
         if(currentUser != null ){
-            Toast.makeText(MainActivity.this, "Ya estas logeuado.",
+            Toast.makeText(MainActivity.this, "Ya estas logueado.",
                     Toast.LENGTH_SHORT).show();
             ingreso();
         }

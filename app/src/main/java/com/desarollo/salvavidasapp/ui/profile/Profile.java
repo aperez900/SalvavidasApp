@@ -44,7 +44,6 @@ import java.util.Map;
 
 import static com.facebook.FacebookSdk.getApplicationContext;
 
-
 public class Profile extends Fragment {
 
     FirebaseAuth mAuth;
@@ -60,7 +59,6 @@ public class Profile extends Fragment {
         super.onCreate(savedInstanceState);
         mAuth = FirebaseAuth.getInstance();
         currentUser = mAuth.getCurrentUser();
-
         database = FirebaseDatabase.getInstance();
         myRef = database.getReference("usuarios");
     }
@@ -79,7 +77,6 @@ public class Profile extends Fragment {
         EditText apellidos = view.findViewById(R.id.tv_apellido);
         EditText direccion = view.findViewById(R.id.tv_direccion);
         TextView lista_comida = view.findViewById(R.id.lista_comidas);
-
         municipio = view.findViewById(R.id.sp_municipio);
         //Datos para el spinner de municipio
         String [] listaMunicipios = {"Municipio/Departamento","MEDELLIN/Antioquia", "ABEJORRAL/Antioquia", "ABRIAQUI/Antioquia", "ALEJANDRIA/Antioquia",
@@ -258,6 +255,7 @@ public class Profile extends Fragment {
         EditText identificacion = view.findViewById(R.id.tv_identidad);
         EditText celular = view.findViewById(R.id.tv_celular);
         Button btn_reg = view.findViewById(R.id.btn_registrar_perfil);
+        Button btn_desactivar_usuario = view.findViewById(R.id.btn_desactivar_usuario);
 
         //Actualiza los datos del perfil logeado en el fragmenProfile
         UserName.setText(currentUser.getDisplayName());
@@ -265,12 +263,9 @@ public class Profile extends Fragment {
         Glide.with(this).load(currentUser.getPhotoUrl()).apply(RequestOptions.circleCropTransform()).into(UserPhoto);
 
         //Llena los campos del formulario con los datos de la bd
-        consultarDatosPerfil(nombres, apellidos, direccion, municipio, identificacion, celular,btn_reg);
+        consultarDatosPerfil(nombres, apellidos, direccion, municipio, identificacion, celular,btn_reg, btn_desactivar_usuario);
 
-
-
-
-        //Registro los datos en la bd al dar clic en el botón registrar
+        //Acciones del botón registrar
         btn_reg.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -280,12 +275,25 @@ public class Profile extends Fragment {
             }
         });
 
+        //Acciones del botón desactivar usuario
+        btn_desactivar_usuario.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(btn_desactivar_usuario.getText().toString().equals("Desactivar Usuario")){
+                    desactivarUsuario(UserMail, nombres, apellidos, direccion, municipio, identificacion, celular);
+                }
+                if (btn_desactivar_usuario.getText().toString().equals("Activar Usuario")){
+                    if(validarCamposVacios(UserMail, nombres, apellidos, direccion, municipio, identificacion, celular)) {
+                        registrar(UserMail, nombres, apellidos, direccion, municipio, identificacion, celular);
+                    }
+                }
+            }
+        });
 
-        //Registro los datos en la bd al dar clic en el botón registrar
+        //Lista de comidas preferidas
         lista_comida.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
 
                 AlertDialog.Builder builder = new AlertDialog.Builder(getContext() );
                 builder.setTitle("Elige tus comidas preferidas");
@@ -294,32 +302,23 @@ public class Profile extends Fragment {
                 String[] comidas = new String[]{ "Verduras", "Frutas","perecederos", "Otros" };
                 final List<String> foodList = Arrays.asList(comidas);
 
-
-
                 builder.setMultiChoiceItems(comidas, null, new DialogInterface.OnMultiChoiceClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i, boolean b) {
-
                         if (b) {
                             // If the user checked the item, add it to the selected items
                             //selectedItems.put(foodList.indexOf(i) ,b);
-
                         } else  {
                             // Else, if the item is already in the array, remove it
                             //selectedItems.remove(Integer.valueOf(i));
                         }
                     }
                 });
-
                 builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
-
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
-
                     }
-
                 });
-
                 builder.setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
@@ -330,8 +329,6 @@ public class Profile extends Fragment {
                 dialog.show();
             }
         });
-
-
         return view;
     }
 
@@ -350,7 +347,7 @@ public class Profile extends Fragment {
         map.put("identificacion",identificacion.getText().toString());
         map.put("celular",celular.getText().toString());
         map.put("correo",UserMail.getText().toString());
-        map.put("Habilitado",true);
+        map.put("habilitado",true);
 
         Map <String,Object> selectedItems = new HashMap<>();
         selectedItems.put("fruta",true);
@@ -362,6 +359,7 @@ public class Profile extends Fragment {
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void aVoid) {
+                        /*
                         nombres.setText("");
                         apellidos.setText("");
                         String [] listaMunicipios2 = {"Municipio/Departamento"};
@@ -370,14 +368,14 @@ public class Profile extends Fragment {
                         direccion.setText("");
                         identificacion.setText("");
                         celular.setText("");
-
-                        Toast.makeText(getApplicationContext(), "Se actualizo de forma exitosa", Toast.LENGTH_SHORT).show();
+                        */
+                        Toast.makeText(getApplicationContext(), "Usuario actualizado correctamente", Toast.LENGTH_SHORT).show();
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {
                     @Override
                     public void onFailure(@NonNull Exception e) {
-                        Toast.makeText(getApplicationContext(), "No se actualizaron los datos, debido a un error", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getApplicationContext(), "Error actualizando el usuario", Toast.LENGTH_SHORT).show();
                     }
                 });
 
@@ -392,19 +390,95 @@ public class Profile extends Fragment {
     }
 
     /*
+     * @autor: Edison Cardona
+     * @since: 15/03/2021
+     * @Version: 01
+     * Método para desactivar al usuario logueado.
+     * */
+    private void desactivarUsuario(TextView UserMail,EditText nombres, EditText apellidos, EditText direccion, Spinner sp_municipio, EditText identificacion, EditText celular) {
+        Map<String,Object> map= new HashMap<>();
+        map.put("nombre",nombres.getText().toString());
+        map.put("apellido",apellidos.getText().toString());
+        map.put("municipio",sp_municipio.getSelectedItem().toString());
+        map.put("direccion",direccion.getText().toString());
+        map.put("identificacion",identificacion.getText().toString());
+        map.put("celular",celular.getText().toString());
+        map.put("correo",UserMail.getText().toString());
+        map.put("habilitado",false); //Usuario desactivado
+
+        Map <String,Object> selectedItems = new HashMap<>();
+        selectedItems.put("fruta",true);
+        selectedItems.put("verdura",false);
+        selectedItems.put("pecedero",true);
+        selectedItems.put("no perecederos",true);
+
+        myRef.child(currentUser.getUid()).setValue(map)
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        Toast.makeText(getApplicationContext(), "Usuario desactivado", Toast.LENGTH_SHORT).show();
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Toast.makeText(getApplicationContext(), "Error desactivando el usuario", Toast.LENGTH_SHORT).show();
+                    }
+                });
+
+
+        myRef.child(currentUser.getUid()).child("comidas_preferidas").setValue(selectedItems)
+                .addOnSuccessListener(new OnSuccessListener<Void>(){
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        //Toast.makeText(getApplicationContext(), "SHola", Toast.LENGTH_SHORT).show();
+                    }
+                });
+    }
+
+    /*
+     * @autor: Edison Cardona
+     * @since: 15/03/2021
+     * @Version: 01
+     * Método para consultar el estado del usuario y modificar
+     * el nombre del botón activar/desactivar usuario
+     * */
+    public void consultarEstadoUsuario(Button btn_desactivar_usuario){
+        myRef.child(currentUser.getUid())
+                .addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        if(snapshot.exists()){
+                            String Estado = snapshot.child("habilitado").getValue().toString();
+                            if (Estado.equals("false")){
+                                btn_desactivar_usuario.setText("Activar Usuario");
+                            }else if (Estado.equals("true")){
+                                btn_desactivar_usuario.setText("Desactivar Usuario");
+                            }
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+
+                    }
+                });
+    }
+
+    /*
     * @autor: Edison Cardona
     * @since: 11/03/2021
     * @Version: 01
     * Método para consultar los datos del perfil en la BD y pintar
     * el formulario con ellos
     * */
-    public void consultarDatosPerfil(EditText et_nombres, EditText et_apellidos, EditText et_direccion, Spinner sp_municipio, EditText et_identificacion, EditText et_celular,Button btn_reg){
+    public void consultarDatosPerfil(EditText et_nombres, EditText et_apellidos, EditText et_direccion, Spinner sp_municipio, EditText et_identificacion,
+                                     EditText et_celular,Button btn_reg, Button btn_desactivar_usuario){
         myRef.child(currentUser.getUid())
                 .addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 if(snapshot.exists()){
-                    btn_reg.setText("Actualizar");
                     String nombre = snapshot.child("nombre").getValue().toString();
                     et_nombres.setText(nombre);
                     String apellido = snapshot.child("apellido").getValue().toString();
@@ -418,6 +492,8 @@ public class Profile extends Fragment {
                     et_identificacion.setText(identificacion);
                     String celular = snapshot.child("celular").getValue().toString();
                     et_celular.setText(celular);
+                    btn_reg.setText("Actualizar");
+                    consultarEstadoUsuario(btn_desactivar_usuario);
                 }
             }
 

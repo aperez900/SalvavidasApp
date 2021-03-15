@@ -23,6 +23,7 @@
     <string name="miPerfil">Mi Perfil</string>
     <string name="nombrePerfil">Nombre perfil</string>
     <string name="correoPerfil">Correo perfil</string>
+    <string name="desactivar_usuario">Desactivar Usuario</string>
 
     <string name="mis_datos">Mis datos</string>
     <string name="nombre">Nombres</string>
