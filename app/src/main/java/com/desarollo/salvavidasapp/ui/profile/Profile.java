@@ -50,6 +50,9 @@ public class Profile extends Fragment {
     private Spinner municipio;
     Usuarios u;
 
+    //items seleccionados de comidas preferidas
+    Map <String,Object> selectedItems = new HashMap<>();
+
 
 
     @Override
@@ -58,6 +61,7 @@ public class Profile extends Fragment {
         mAuth = FirebaseAuth.getInstance();
         currentUser = mAuth.getCurrentUser();
         database = FirebaseDatabase.getInstance();
+
         myRef = database.getReference("usuarios");
 
     }
@@ -132,27 +136,45 @@ public class Profile extends Fragment {
                 builder.setTitle("Elige tus comidas preferidas");
                 builder.setCancelable(false);
 
-                String[] comida = new String[]{"comida","otra"};
-                boolean[] estado = new boolean[]{true,true};
+                String[] comidas = new String[]{
+                        "Todas","Verduras", "Frutas","perecederos", "Otros"
+                };
 
-                builder.setMultiChoiceItems(comida, estado, new DialogInterface.OnMultiChoiceClickListener() {
+                //array booleano para marcar casillas por defecto
+                final boolean[] checkItems = new boolean[]{
+                        true,false,false,false,false
+                };
+
+                final List<String> foodList = Arrays.asList(comidas);
+
+                builder.setMultiChoiceItems(comidas, checkItems, new DialogInterface.OnMultiChoiceClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i, boolean b) {
-                        if (b) {
-                            // If the user checked the item, add it to the selected items
-                            //selectedItems.put(foodList.indexOf(i) ,b);
-                            //u.setComidas_preferidas.set("ff",true);
+                        checkItems[i] = b; //verificar si existe un item seleccionado
+                        String currentItems = foodList.get(i); //Obtener el valor seleccionado
 
-                        } else  {
-                            // Else, if the item is already in the array, remove it
-                            //selectedItems.remove(Integer.valueOf(i));
-                        }
+                           /*
+                           if (b) {
+                               // If the user checked the item, add it to the selected items
+                               //selectedItems.put(foodList.indexOf(i) ,b);
+                           } else  {
+                               // Else, if the item is already in the array, remove it
+                               //selectedItems.remove(Integer.valueOf(i));
+                           }
+                           */
                     }
                 });
                 builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
-
+                        selectedItems.clear();
+                        //recorre los items y valida cuales fueron checkeados
+                        for(int x=0;x<checkItems.length;x++){
+                            boolean checked = checkItems[x];
+                            if(checked){
+                                selectedItems.put(foodList.get(x),true);
+                            }
+                        }
                     }
                 });
                 builder.setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
@@ -178,11 +200,7 @@ public class Profile extends Fragment {
      * */
     private void registrar(TextView UserMail,EditText nombres, EditText apellidos, EditText direccion, Spinner sp_municipio, EditText identificacion, EditText celular) {
 
-        Map <String,Object> selectedItems = new HashMap<>();
-        selectedItems.put("fruta",true);
-        selectedItems.put("verdura",false);
-        selectedItems.put("pecedero",true);
-        selectedItems.put("no perecederos",true);
+
 
         u = new Usuarios();
         u.nombre=nombres.getText().toString();
@@ -220,36 +238,13 @@ public class Profile extends Fragment {
                 });
 
 
-        myRef.child(currentUser.getUid()).child("comidas_preferidas").setValue(u.comidas_preferidas)
+        myRef.child(currentUser.getUid()).child("comidas_preferidas").setValue(selectedItems)
                 .addOnSuccessListener(new OnSuccessListener<Void>(){
                     @Override
                     public void onSuccess(Void aVoid) {
                         //Toast.makeText(getApplicationContext(), "SHola", Toast.LENGTH_SHORT).show();
                     }
                 });
-    }
-
-
-    public String[] test(){
-        String[] comida = {""};
-        myRef.child("tipo_alimentos")
-                .addValueEventListener(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(@NonNull DataSnapshot snapshot) {
-                        if(snapshot.exists()){
-                            String[] comida = new String[]{snapshot.getValue().toString()};
-                        }
-                    }
-
-                    @Override
-                    public void onCancelled(@NonNull DatabaseError error) {
-
-                    }
-
-                });
-
-        return comida;
-
     }
 
 
@@ -271,11 +266,6 @@ public class Profile extends Fragment {
         u.correo = UserMail.getText().toString();
         u.habilitado = false;
 
-        Map <String,Object> selectedItems = new HashMap<>();
-        selectedItems.put("fruta",true);
-        selectedItems.put("verdura",false);
-        selectedItems.put("pecedero",true);
-        selectedItems.put("no perecederos",true);
 
         myRef.child(currentUser.getUid()).setValue(u)
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
@@ -288,6 +278,15 @@ public class Profile extends Fragment {
                     @Override
                     public void onFailure(@NonNull Exception e) {
                         Toast.makeText(getApplicationContext(), "Error desactivando el usuario", Toast.LENGTH_SHORT).show();
+                    }
+                });
+
+
+        myRef.child(currentUser.getUid()).child("comidas_preferidas").setValue(selectedItems)
+                .addOnSuccessListener(new OnSuccessListener<Void>(){
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        //Toast.makeText(getApplicationContext(), "SHola", Toast.LENGTH_SHORT).show();
                     }
                 });
 
@@ -350,8 +349,8 @@ public class Profile extends Fragment {
                     Municipios arrayMunicipios = new Municipios();
                     ArrayList<String> listOne = new ArrayList(Arrays.asList(municipio));
                     ArrayList<String> listTwo = new ArrayList(Arrays.asList(arrayMunicipios.getMunicipio()));
-
                     listOne.addAll(listTwo);
+
                     ArrayAdapter<String> adapter1 = new ArrayAdapter<String>(getApplicationContext(), android.R.layout.simple_spinner_item, listOne);
                     sp_municipio.setAdapter(adapter1);
                     String identificacion = snapshot.child("identificacion").getValue().toString();
