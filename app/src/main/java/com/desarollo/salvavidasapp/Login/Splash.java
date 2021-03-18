@@ -1,9 +1,11 @@
-package com.desarollo.salvavidasapp;
+package com.desarollo.salvavidasapp.Login;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+
+import com.desarollo.salvavidasapp.R;
 
 import java.util.Timer;
 import java.util.TimerTask;
@@ -19,13 +21,13 @@ public class Splash extends AppCompatActivity {
             @Override
             public void run() {
 
-                Intent intent = new Intent(Splash.this,MainActivity.class);
+                Intent intent = new Intent(Splash.this, MainActivity.class);
                 startActivity(intent);
                 finish();
             }
 
         };
         Timer tiempo = new Timer();
-        tiempo.schedule(inicio,5000);
+        tiempo.schedule(inicio,4000);
     }
 }

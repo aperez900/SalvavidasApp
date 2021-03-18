@@ -11,20 +11,20 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.SalvavidasApp">
-        <activity android:name=".Splash">
+        <activity android:name=".Login.Splash"
+            android:theme="@style/Theme.SalvavidasApp.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".Forget" />
+        <activity android:name=".Login.Forget" />
         <activity
-            android:name=".Home"
+            android:name=".ui.home.Home"
             android:label="@string/title_activity_home"
             android:theme="@style/Theme.SalvavidasApp.NoActionBar" />
-        <activity android:name=".Registro" />
-        <activity android:name=".MainActivity"> </activity>
+        <activity android:name=".Login.Registro" />
+        <activity android:name=".Login.MainActivity"> </activity>
 
         <meta-data
             android:name="com.facebook.sdk.ApplicationId"
