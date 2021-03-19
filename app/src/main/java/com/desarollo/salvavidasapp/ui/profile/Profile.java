@@ -49,11 +49,10 @@ public class Profile extends Fragment {
     DatabaseReference myRef;
     private Spinner municipio;
     Usuarios u;
+    boolean bandera_ingreso;
 
     //items seleccionados de comidas preferidas
     Map <String,Object> selectedItems = new HashMap<>();
-
-
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -63,7 +62,6 @@ public class Profile extends Fragment {
         database = FirebaseDatabase.getInstance();
 
         myRef = database.getReference("usuarios");
-
     }
 
     //Infla el fragment de perfil
@@ -72,7 +70,7 @@ public class Profile extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         //return super.onCreateView(inflater, container, savedInstanceState);
         View view = inflater.inflate(R.layout.fragment_profile,container,false);
-
+        bandera_ingreso=true;
         TextView UserName = view.findViewById(R.id.nombre_perfil);
         TextView UserMail = view.findViewById(R.id.correo_perfil);
         ImageView UserPhoto = view.findViewById(R.id.foto_perfil);
@@ -127,70 +125,104 @@ public class Profile extends Fragment {
             }
         });
 
-        //Lista de comidas preferidas
+        //Clic al boton de Lista de comidas preferidas
         lista_comida.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
-                AlertDialog.Builder builder = new AlertDialog.Builder(getContext() );
-                builder.setTitle("Elige tus comidas preferidas");
-                builder.setCancelable(false);
-
-                String[] comidas = new String[]{
-                        "Todas","Verduras", "Frutas","perecederos", "Otros"
-                };
-
-                //array booleano para marcar casillas por defecto
-                final boolean[] checkItems = new boolean[]{
-                        true,false,false,false,false
-                };
-
-                final List<String> foodList = Arrays.asList(comidas);
-
-                builder.setMultiChoiceItems(comidas, checkItems, new DialogInterface.OnMultiChoiceClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i, boolean b) {
-                        checkItems[i] = b; //verificar si existe un item seleccionado
-                        String currentItems = foodList.get(i); //Obtener el valor seleccionado
-
-                           /*
-                           if (b) {
-                               // If the user checked the item, add it to the selected items
-                               //selectedItems.put(foodList.indexOf(i) ,b);
-                           } else  {
-                               // Else, if the item is already in the array, remove it
-                               //selectedItems.remove(Integer.valueOf(i));
-                           }
-                           */
-                    }
-                });
-                builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        selectedItems.clear();
-                        //recorre los items y valida cuales fueron checkeados
-                        for(int x=0;x<checkItems.length;x++){
-                            boolean checked = checkItems[x];
-                            if(checked){
-                                selectedItems.put(foodList.get(x),true);
-                            }
-                        }
-                    }
-                });
-                builder.setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        dialogInterface.cancel();
-                    }
-                });
-                AlertDialog dialog = builder.create();
-                dialog.show();
+                crearModalComidasPreferidas();
             }
         });
 
-
         return view;
     }
+
+    /*
+     * @autor: Andrés Pérez
+     * @since: 15/03/2021
+     * @Version: 01
+     * Método para crear el modal de las comidas preferidas
+     * */
+    private void crearModalComidasPreferidas() {
+        bandera_ingreso=false;
+        AlertDialog.Builder builder = new AlertDialog.Builder(getContext() );
+        builder.setTitle("Elige tus comidas preferidas");
+        builder.setCancelable(false);
+
+        String[] comidas = new String[]{
+                "Todas","Verduras", "Frutas","Hamburguesas", "Otros"
+        };
+
+        //array booleano para marcar casillas por defecto
+        boolean[] checkItems = new boolean[]{
+                true,false,false,false,false
+        };
+
+        //consulta comidas preferidas del usuario
+        myRef.child(currentUser.getUid()).child("comidas_preferidas")
+                .addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        //si el usuario tiene datos de comidas preferidas en la bd
+                        //le muestra sus datos, de lo contrario muestra los valores por defecto
+                        if(snapshot.exists()){
+                            String Todas = snapshot.child("Todas").getValue().toString();
+                            boolean bTodas = Boolean.parseBoolean(Todas);
+                            String Verduras = snapshot.child("Verduras").getValue().toString();
+                            boolean bVerduras = Boolean.parseBoolean(Verduras);
+                            String Frutas = snapshot.child("Frutas").getValue().toString();
+                            boolean bFrutas = Boolean.parseBoolean(Frutas);
+                            String Hamburguesa = snapshot.child("Hamburguesas").getValue().toString();
+                            boolean bHamburguesa = Boolean.parseBoolean(Hamburguesa);
+                            String Otros = snapshot.child("Otros").getValue().toString();
+                            boolean bOtros = Boolean.parseBoolean(Otros);
+
+                            //array booleano para marcar casillas del usuario
+                            checkItems[0]=bTodas;
+                            checkItems[1]=bVerduras;
+                            checkItems[2]=bFrutas;
+                            checkItems[3]=bHamburguesa;
+                            checkItems[4]=bOtros;
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+
+                    }
+                });
+
+        final List<String> foodList = Arrays.asList(comidas);
+
+        builder.setMultiChoiceItems(comidas, checkItems, new DialogInterface.OnMultiChoiceClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i, boolean b) {
+                checkItems[i] = b; //verificar si existe un item seleccionado
+                String currentItems = foodList.get(i); //Obtener el valor seleccionado
+            }
+        });
+        builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                selectedItems.clear();
+                //recorre los items y valida cuales fueron checkeados
+                for(int x=0;x<checkItems.length;x++){
+                    boolean checked = checkItems[x];
+                    //if(checked){
+                        selectedItems.put(foodList.get(x),checked);
+                    //}
+                }
+            }
+        });
+        builder.setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                dialogInterface.cancel();
+            }
+        });
+        AlertDialog dialog = builder.create();
+        dialog.show();
+    }
+
 
     /*
      * @autor: Andrés Pérez
@@ -199,8 +231,6 @@ public class Profile extends Fragment {
      * Método para registrar o actualizar los datos del perfil en la BD
      * */
     private void registrar(TextView UserMail,EditText nombres, EditText apellidos, EditText direccion, Spinner sp_municipio, EditText identificacion, EditText celular) {
-
-
 
         u = new Usuarios();
         u.nombre=nombres.getText().toString();
@@ -211,22 +241,11 @@ public class Profile extends Fragment {
         u.celular = celular.getText().toString();
         u.correo = UserMail.getText().toString();
         u.habilitado = true;
-        //u.comidas_preferidas = selectedItems;
-
+        //guarda los datos del usuario
         myRef.child(currentUser.getUid()).setValue(u)
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void aVoid) {
-                        /*
-                        nombres.setText("");
-                        apellidos.setText("");
-                        String [] listaMunicipios2 = {"Municipio/Departamento"};
-                        ArrayAdapter<String> adapter1 = new ArrayAdapter<String>(getApplicationContext(), android.R.layout.simple_spinner_item, listaMunicipios2);
-                        sp_municipio.setAdapter(adapter1);
-                        direccion.setText("");
-                        identificacion.setText("");
-                        celular.setText("");
-                        */
                         Toast.makeText(getApplicationContext(), "Usuario actualizado correctamente", Toast.LENGTH_SHORT).show();
                     }
                 })
@@ -236,8 +255,7 @@ public class Profile extends Fragment {
                         Toast.makeText(getApplicationContext(), "Error actualizando el usuario", Toast.LENGTH_SHORT).show();
                     }
                 });
-
-
+        //guarda los datos de las comidas elegidas
         myRef.child(currentUser.getUid()).child("comidas_preferidas").setValue(selectedItems)
                 .addOnSuccessListener(new OnSuccessListener<Void>(){
                     @Override
@@ -248,7 +266,6 @@ public class Profile extends Fragment {
     }
 
 
-
     /*
      * @autor: Edison Cardona
      * @since: 15/03/2021
@@ -256,7 +273,7 @@ public class Profile extends Fragment {
      * Método para desactivar al usuario logueado.
      * */
     private void desactivarUsuario(TextView UserMail,EditText nombres, EditText apellidos, EditText direccion, Spinner sp_municipio, EditText identificacion, EditText celular) {
-
+        u = new Usuarios();
         u.nombre=nombres.getText().toString();
         u.apellido = apellidos.getText().toString();
         u.municipio = sp_municipio.getSelectedItem().toString();
@@ -264,23 +281,21 @@ public class Profile extends Fragment {
         u.identificacion = identificacion.getText().toString();
         u.celular = celular.getText().toString();
         u.correo = UserMail.getText().toString();
-        u.habilitado = false;
-
+        u.habilitado = false; //usuario deshabilitado
 
         myRef.child(currentUser.getUid()).setValue(u)
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void aVoid) {
-                        Toast.makeText(getApplicationContext(), "Usuario desactivado", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getApplicationContext(), "Usuario actualizado correctamente", Toast.LENGTH_SHORT).show();
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {
                     @Override
                     public void onFailure(@NonNull Exception e) {
-                        Toast.makeText(getApplicationContext(), "Error desactivando el usuario", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getApplicationContext(), "Error actualizando el usuario", Toast.LENGTH_SHORT).show();
                     }
                 });
-
 
         myRef.child(currentUser.getUid()).child("comidas_preferidas").setValue(selectedItems)
                 .addOnSuccessListener(new OnSuccessListener<Void>(){
@@ -289,9 +304,6 @@ public class Profile extends Fragment {
                         //Toast.makeText(getApplicationContext(), "SHola", Toast.LENGTH_SHORT).show();
                     }
                 });
-
-
-
     }
 
     /*
@@ -315,7 +327,6 @@ public class Profile extends Fragment {
                             }
                         }
                     }
-
                     @Override
                     public void onCancelled(@NonNull DatabaseError error) {
 
@@ -338,6 +349,14 @@ public class Profile extends Fragment {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 if(snapshot.exists()){
+
+                    if(bandera_ingreso) {
+                        //si es la primera vez que ingresa al perfil, le pide que actualice sus
+                        //comidas preferidas (esto se necesita para que selectedItems no sea null
+                        // y funcionen los otros botones: activar/desactivar usuario, ...)
+                        crearModalComidasPreferidas();
+                    }
+
                     String nombre = snapshot.child("nombre").getValue().toString();
                     et_nombres.setText(nombre);
                     String apellido = snapshot.child("apellido").getValue().toString();
@@ -359,8 +378,6 @@ public class Profile extends Fragment {
                     et_celular.setText(celular);
                     btn_reg.setText("Actualizar");
                     consultarEstadoUsuario(btn_desactivar_usuario);
-      
-
                 }
 
             }
@@ -419,6 +436,11 @@ public class Profile extends Fragment {
         }else if (celularV.length() != 10){
             celular.setError("El celular debe tener 10 digitos");
             campoLleno=false;
+        }
+        if(selectedItems.isEmpty()){
+            crearModalComidasPreferidas();
+            campoLleno=false;
+            Toast.makeText(getApplicationContext(), "Seleccione sus comidas preferidas", Toast.LENGTH_SHORT).show();
         }
         return campoLleno;
     }
