@@ -31,7 +31,7 @@
     <string name="direccion">Dirección</string>
     <string name="documento_identidad">Documento de identidad</string>
     <string name="celular">Celular</string>
-    <string name="lista_comida">Lista de comidas preferidad</string>
+    <string name="lista_comida">Lista de comidas preferidas</string>
 
     <string name="facebook_app_id">1541603559379639</string>
     <string name="fb_login_protocol_scheme">fb1541603559379639</string>
