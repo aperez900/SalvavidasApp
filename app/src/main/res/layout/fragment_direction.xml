@@ -10,51 +10,47 @@
         android:id="@+id/textView"
         android:layout_width="335dp"
         android:layout_height="42dp"
-        android:layout_marginStart="26dp"
-        android:layout_marginTop="40dp"
-        android:layout_marginEnd="42dp"
+        android:layout_marginTop="24dp"
         android:fontFamily="@font/abel"
         android:gravity="center"
         android:hint="40"
-        android:text="Agregar o seleccionar una direccion"
+        android:text="Agregar o seleccionar una dirección"
         android:textSize="24sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
-
 
     <Spinner
         android:id="@+id/sp_texto_1_direccion"
         android:layout_width="111dp"
         android:layout_height="45dp"
-        android:layout_marginStart="32dp"
-        android:layout_marginTop="88dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="20dp"
         android:background="#FFFFFF"
+
         android:fontFamily="@font/abel"
         android:hint="calle"
-
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView" />
+        app:layout_constraintTop_toBottomOf="@+id/et_alias" />
 
     <Spinner
         android:id="@+id/sp_texto_3_direccion"
         android:layout_width="40dp"
         android:layout_height="45dp"
-        android:layout_marginStart="4dp"
-        android:layout_marginTop="88dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="20dp"
         android:background="#FFFFFF"
         android:fontFamily="@font/abel"
         android:hint="Municipio"
         app:layout_constraintStart_toEndOf="@+id/et_texto_2_direccion"
-        app:layout_constraintTop_toBottomOf="@+id/textView" />
+        app:layout_constraintTop_toBottomOf="@+id/et_alias" />
 
     <EditText
         android:id="@+id/et_texto_4_direccion"
         android:layout_width="41dp"
         android:layout_height="45dp"
-        android:layout_marginStart="5dp"
-        android:layout_marginTop="88dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="20dp"
         android:background="#FFFEFE"
         android:ems="10"
         android:fontFamily="@font/abel"
@@ -62,40 +58,40 @@
         android:hint="55"
         android:inputType="number"
         app:layout_constraintStart_toEndOf="@+id/sp_texto_3_direccion"
-        app:layout_constraintTop_toBottomOf="@+id/textView" />
+        app:layout_constraintTop_toBottomOf="@+id/et_alias" />
 
     <Spinner
         android:id="@+id/sp_texto_5_direccion"
         android:layout_width="40dp"
         android:layout_height="45dp"
-        android:layout_marginStart="5dp"
-        android:layout_marginTop="88dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="20dp"
         android:background="#FFFFFF"
         android:fontFamily="@font/abel"
         android:hint="Municipio"
         app:layout_constraintStart_toEndOf="@+id/et_texto_4_direccion"
-        app:layout_constraintTop_toBottomOf="@+id/textView" />
+        app:layout_constraintTop_toBottomOf="@+id/et_alias" />
 
     <EditText
         android:id="@+id/et_texto_6_direccion"
         android:layout_width="41dp"
         android:layout_height="45dp"
-        android:layout_marginStart="4dp"
-        android:layout_marginTop="88dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="20dp"
         android:background="#FFFFFF"
         android:fontFamily="@font/abel"
         android:gravity="center"
         android:hint="40"
         android:inputType="number"
         app:layout_constraintStart_toEndOf="@+id/sp_texto_5_direccion"
-        app:layout_constraintTop_toBottomOf="@+id/textView" />
+        app:layout_constraintTop_toBottomOf="@+id/et_alias" />
 
     <EditText
         android:id="@+id/et_texto_2_direccion"
         android:layout_width="41dp"
         android:layout_height="45dp"
-        android:layout_marginStart="5dp"
-        android:layout_marginTop="88dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="20dp"
         android:background="#FFFFFF"
         android:ems="10"
         android:fontFamily="@font/abel"
@@ -103,19 +99,20 @@
         android:hint="77"
         android:inputType="number"
         app:layout_constraintStart_toEndOf="@+id/sp_texto_1_direccion"
-        app:layout_constraintTop_toBottomOf="@+id/textView" />
+        app:layout_constraintTop_toBottomOf="@+id/et_alias" />
 
     <Spinner
         android:id="@+id/sp_municipio"
         android:layout_width="328dp"
         android:layout_height="45dp"
-        android:layout_marginStart="36dp"
-        android:layout_marginTop="152dp"
+        android:layout_marginTop="16dp"
         android:background="#FFFFFF"
         android:fontFamily="@font/abel"
         android:hint="calle"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView" />
+        app:layout_constraintTop_toBottomOf="@+id/sp_texto_3_direccion" />
+
 
     <EditText
         android:id="@+id/et_barrio"
@@ -128,67 +125,75 @@
         android:ems="10"
         android:fontFamily="@font/abel"
         android:hint="Barrio"
-        android:inputType="textEmailAddress"
+        android:inputType="text"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/sp_municipio" />
-
 
     <EditText
         android:id="@+id/et_alias"
         android:layout_width="331dp"
         android:layout_height="45dp"
-        android:layout_marginStart="35dp"
-        android:layout_marginTop="25dp"
+        android:layout_marginTop="16dp"
         android:background="#FFFFFF"
         android:ems="10"
         android:fontFamily="@font/abel"
-        android:hint="Alias"
+        android:hint="Mi casa"
         android:inputType="textEmailAddress"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView" />
+
 
     <EditText
         android:id="@+id/et_adicional"
         android:layout_width="331dp"
         android:layout_height="45dp"
-        android:layout_marginStart="35dp"
         android:layout_marginTop="16dp"
-        android:layout_marginEnd="36dp"
         android:background="#FFFFFF"
         android:ems="10"
         android:fontFamily="@font/abel"
-        android:hint="Instrucciones adicionales"
-        android:inputType="textEmailAddress"
+        android:hint="Mi casa"
+        android:inputType="text"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/et_barrio" />
 
-
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recycle_direction"
-        android:layout_width="329dp"
-        android:layout_height="209dp"
-        android:layout_marginStart="35dp"
-        android:layout_marginTop="416dp"
-        android:background="#FFFFFF"
+    <ScrollView
+        android:id="@+id/scrollView2"
+        android:layout_width="415dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/et_adicional">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recycle_direction"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="#FFFFFF"
+                tools:layout_editor_absoluteX="35dp"
+                tools:layout_editor_absoluteY="416dp" />
+        </LinearLayout>
+    </ScrollView>
 
     <Button
         android:id="@+id/btn_reg"
         android:layout_width="341dp"
         android:layout_height="48dp"
-        android:layout_marginStart="30dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="40dp"
+        android:layout_marginTop="16dp"
         android:fontFamily="@font/abel"
         android:text="Agregar"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/recycle_direction" />
+        app:layout_constraintTop_toBottomOf="@+id/scrollView2" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
