@@ -24,5 +24,10 @@
             android:fontFamily="@font/abel"
             android:icon="@drawable/icono_perfil"
             android:title="@string/miPerfil" />
+        <item
+            android:id="@+id/nav_direction"
+            android:fontFamily="@font/abel"
+            android:icon="@drawable/icono_perfil"
+            android:title="Mis Direcciones" />
     </group>
 </menu>

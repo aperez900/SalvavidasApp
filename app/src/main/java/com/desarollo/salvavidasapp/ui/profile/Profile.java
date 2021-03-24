@@ -60,7 +60,6 @@ public class Profile extends Fragment {
         mAuth = FirebaseAuth.getInstance();
         currentUser = mAuth.getCurrentUser();
         database = FirebaseDatabase.getInstance();
-
         myRef = database.getReference("usuarios");
     }
 
@@ -370,7 +369,7 @@ public class Profile extends Fragment {
                     ArrayList<String> listTwo = new ArrayList(Arrays.asList(arrayMunicipios.getMunicipio()));
                     listOne.addAll(listTwo);
 
-                    ArrayAdapter<String> adapter1 = new ArrayAdapter<String>(getApplicationContext(), android.R.layout.simple_spinner_item, listOne);
+                    ArrayAdapter<String> adapter1 = new ArrayAdapter<String>(getApplicationContext(), R.layout.spinner_item_modified, listOne);
                     sp_municipio.setAdapter(adapter1);
                     String identificacion = snapshot.child("identificacion").getValue().toString();
                     et_identificacion.setText(identificacion);

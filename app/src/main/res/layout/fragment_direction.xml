@@ -1,0 +1,194 @@
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#FDF7F7">
+
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="335dp"
+        android:layout_height="42dp"
+        android:layout_marginStart="26dp"
+        android:layout_marginTop="40dp"
+        android:layout_marginEnd="42dp"
+        android:fontFamily="@font/abel"
+        android:gravity="center"
+        android:hint="40"
+        android:text="Agregar o seleccionar una direccion"
+        android:textSize="24sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+
+    <Spinner
+        android:id="@+id/sp_texto_1_direccion"
+        android:layout_width="111dp"
+        android:layout_height="45dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="88dp"
+        android:background="#FFFFFF"
+        android:fontFamily="@font/abel"
+        android:hint="calle"
+
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView" />
+
+    <Spinner
+        android:id="@+id/sp_texto_3_direccion"
+        android:layout_width="40dp"
+        android:layout_height="45dp"
+        android:layout_marginStart="4dp"
+        android:layout_marginTop="88dp"
+        android:background="#FFFFFF"
+        android:fontFamily="@font/abel"
+        android:hint="Municipio"
+        app:layout_constraintStart_toEndOf="@+id/et_texto_2_direccion"
+        app:layout_constraintTop_toBottomOf="@+id/textView" />
+
+    <EditText
+        android:id="@+id/et_texto_4_direccion"
+        android:layout_width="41dp"
+        android:layout_height="45dp"
+        android:layout_marginStart="5dp"
+        android:layout_marginTop="88dp"
+        android:background="#FFFEFE"
+        android:ems="10"
+        android:fontFamily="@font/abel"
+        android:gravity="center"
+        android:hint="55"
+        android:inputType="number"
+        app:layout_constraintStart_toEndOf="@+id/sp_texto_3_direccion"
+        app:layout_constraintTop_toBottomOf="@+id/textView" />
+
+    <Spinner
+        android:id="@+id/sp_texto_5_direccion"
+        android:layout_width="40dp"
+        android:layout_height="45dp"
+        android:layout_marginStart="5dp"
+        android:layout_marginTop="88dp"
+        android:background="#FFFFFF"
+        android:fontFamily="@font/abel"
+        android:hint="Municipio"
+        app:layout_constraintStart_toEndOf="@+id/et_texto_4_direccion"
+        app:layout_constraintTop_toBottomOf="@+id/textView" />
+
+    <EditText
+        android:id="@+id/et_texto_6_direccion"
+        android:layout_width="41dp"
+        android:layout_height="45dp"
+        android:layout_marginStart="4dp"
+        android:layout_marginTop="88dp"
+        android:background="#FFFFFF"
+        android:fontFamily="@font/abel"
+        android:gravity="center"
+        android:hint="40"
+        android:inputType="number"
+        app:layout_constraintStart_toEndOf="@+id/sp_texto_5_direccion"
+        app:layout_constraintTop_toBottomOf="@+id/textView" />
+
+    <EditText
+        android:id="@+id/et_texto_2_direccion"
+        android:layout_width="41dp"
+        android:layout_height="45dp"
+        android:layout_marginStart="5dp"
+        android:layout_marginTop="88dp"
+        android:background="#FFFFFF"
+        android:ems="10"
+        android:fontFamily="@font/abel"
+        android:gravity="center"
+        android:hint="77"
+        android:inputType="number"
+        app:layout_constraintStart_toEndOf="@+id/sp_texto_1_direccion"
+        app:layout_constraintTop_toBottomOf="@+id/textView" />
+
+    <Spinner
+        android:id="@+id/sp_municipio"
+        android:layout_width="328dp"
+        android:layout_height="45dp"
+        android:layout_marginStart="36dp"
+        android:layout_marginTop="152dp"
+        android:background="#FFFFFF"
+        android:fontFamily="@font/abel"
+        android:hint="calle"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView" />
+
+    <EditText
+        android:id="@+id/et_barrio"
+        android:layout_width="331dp"
+        android:layout_height="42dp"
+        android:layout_marginStart="35dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="35dp"
+        android:background="#FFFFFF"
+        android:ems="10"
+        android:fontFamily="@font/abel"
+        android:hint="Barrio"
+        android:inputType="textEmailAddress"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/sp_municipio" />
+
+
+    <EditText
+        android:id="@+id/et_alias"
+        android:layout_width="331dp"
+        android:layout_height="45dp"
+        android:layout_marginStart="35dp"
+        android:layout_marginTop="25dp"
+        android:background="#FFFFFF"
+        android:ems="10"
+        android:fontFamily="@font/abel"
+        android:hint="Alias"
+        android:inputType="textEmailAddress"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView" />
+
+    <EditText
+        android:id="@+id/et_adicional"
+        android:layout_width="331dp"
+        android:layout_height="45dp"
+        android:layout_marginStart="35dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="36dp"
+        android:background="#FFFFFF"
+        android:ems="10"
+        android:fontFamily="@font/abel"
+        android:hint="Instrucciones adicionales"
+        android:inputType="textEmailAddress"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/et_barrio" />
+
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recycle_direction"
+        android:layout_width="329dp"
+        android:layout_height="209dp"
+        android:layout_marginStart="35dp"
+        android:layout_marginTop="416dp"
+        android:background="#FFFFFF"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/btn_reg"
+        android:layout_width="341dp"
+        android:layout_height="48dp"
+        android:layout_marginStart="30dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="40dp"
+        android:fontFamily="@font/abel"
+        android:text="Agregar"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/recycle_direction" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

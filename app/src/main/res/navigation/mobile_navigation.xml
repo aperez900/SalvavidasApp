@@ -22,9 +22,16 @@
         android:name="com.desarollo.salvavidasapp.ui.slideshow.SlideshowFragment"
         android:label="@string/menu_slideshow"
         tools:layout="@layout/fragment_slideshow" />
+
     <fragment
         android:id="@+id/nav_profile"
         android:name="com.desarollo.salvavidasapp.ui.profile.Profile"
         android:label="@string/miPerfil"
         tools:layout="@layout/fragment_profile" />
+
+    <fragment
+        android:id="@+id/nav_direction"
+        android:name="com.desarollo.salvavidasapp.ui.direction.direction"
+        android:label="Mis direcciones"
+        tools:layout="@layout/fragment_direction" />
 </navigation>
