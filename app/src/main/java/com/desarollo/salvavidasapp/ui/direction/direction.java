@@ -148,13 +148,13 @@ public class direction extends Fragment {
                     @Override
                     public void onSuccess(Void aVoid) {
 
-                        Toast.makeText(getApplicationContext(), "Usuario actualizado correctamente", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getApplicationContext(), "Direccion registrada correctamente", Toast.LENGTH_SHORT).show();
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {
                     @Override
                     public void onFailure(@NonNull Exception e) {
-                        Toast.makeText(getApplicationContext(), "Error actualizando el usuario", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getApplicationContext(), "Error registrando la direccion", Toast.LENGTH_SHORT).show();
                     }
                 });
 
@@ -196,7 +196,7 @@ public class direction extends Fragment {
             campoLleno=false;
         }
         if(d.municipio.isEmpty()){
-            Toast.makeText(getApplicationContext(), "Digite el primer cuadro de texto de la direccion", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getApplicationContext(), "Digite el municipio donde se encuentra ubicado", Toast.LENGTH_SHORT).show();
             campoLleno=false;
         }
 
