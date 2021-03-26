@@ -11,10 +11,13 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.SalvavidasApp">
-        <activity android:name=".Login.Splash"
+        <activity android:name=".ui.direction.FrmAddress"></activity>
+        <activity
+            android:name=".Login.Splash"
             android:theme="@style/Theme.SalvavidasApp.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
@@ -24,7 +27,7 @@
             android:label="@string/title_activity_home"
             android:theme="@style/Theme.SalvavidasApp.NoActionBar" />
         <activity android:name=".Login.Registro" />
-        <activity android:name=".Login.MainActivity"> </activity>
+        <activity android:name=".Login.MainActivity"></activity>
 
         <meta-data
             android:name="com.facebook.sdk.ApplicationId"

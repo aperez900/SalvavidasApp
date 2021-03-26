@@ -31,7 +31,12 @@
 
     <fragment
         android:id="@+id/nav_direction"
-        android:name="com.desarollo.salvavidasapp.ui.direction.direction"
+        android:name="com.desarollo.salvavidasapp.ui.direction.FrmAddress"
         android:label="Mis direcciones"
-        tools:layout="@layout/fragment_direction" />
+        tools:layout="@layout/fragment_frm_address" />
+    <fragment
+        android:id="@+id/nav_address"
+        android:name="com.desarollo.salvavidasapp.ui.direction.ListAddress"
+        android:label="Mis direcciones"
+        tools:layout="@layout/fragment_address" />
 </navigation>
