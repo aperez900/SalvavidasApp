@@ -124,6 +124,7 @@ public class FrmAddress extends AppCompatActivity {
                         Toast.makeText(getApplicationContext(), "Dirección registrada correctamente", Toast.LENGTH_SHORT).show();
                         Intent h = new Intent(getApplicationContext(), Home.class);
                         startActivity(h);
+                        finish();
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {

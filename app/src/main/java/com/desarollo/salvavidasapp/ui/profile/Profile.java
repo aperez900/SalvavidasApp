@@ -20,6 +20,7 @@ import androidx.fragment.app.Fragment;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
+import com.desarollo.salvavidasapp.Models.ListDirecciones;
 import com.desarollo.salvavidasapp.Models.Municipios;
 import com.desarollo.salvavidasapp.Models.Usuarios;
 import com.desarollo.salvavidasapp.R;
@@ -48,7 +49,10 @@ public class Profile extends Fragment {
     FirebaseDatabase database;
     DatabaseReference myRef;
     Usuarios u;
-    boolean bandera_ingreso;
+    ListDirecciones d;
+    ArrayList<ListDirecciones> listaDirecciones;
+
+
 
     //items seleccionados de comidas preferidas
     Map <String,Object> selectedItems = new HashMap<>();
@@ -78,6 +82,8 @@ public class Profile extends Fragment {
         EditText celular = view.findViewById(R.id.tv_celular);
         Button btn_reg = view.findViewById(R.id.btn_registrar_perfil);
         Button btn_desactivar_usuario = view.findViewById(R.id.btn_desactivar_usuario);
+
+        listaDirecciones = new ArrayList<>();
 
         //Actualiza los datos del perfil logeado en el fragmenProfile
         UserName.setText(currentUser.getDisplayName());
@@ -248,6 +254,18 @@ public class Profile extends Fragment {
                         //Toast.makeText(getApplicationContext(), "SHola", Toast.LENGTH_SHORT).show();
                     }
                 });
+        //Guardando datos de las direcciones
+        for (int i=0; i<listaDirecciones.size();i++){
+            String nombreDir = listaDirecciones.get(i).getNombreDireccion();
+            d = (listaDirecciones.get(i));
+            myRef.child(currentUser.getUid()).child("mis direcciones").child(nombreDir).setValue(d)
+                    .addOnSuccessListener(new OnSuccessListener<Void>() {
+                        @Override
+                        public void onSuccess(Void aVoid) {
+
+                        }
+                    });
+        }
     }
 
 
@@ -310,6 +328,7 @@ public class Profile extends Fragment {
     * */
     public void consultarDatosPerfil(EditText et_nombres, EditText et_apellidos, EditText et_identificacion,
                                      EditText et_celular,Button btn_reg, Button btn_desactivar_usuario){
+        //consultando datos del usuario
         myRef.child(currentUser.getUid())
                 .addValueEventListener(new ValueEventListener() {
             @Override
@@ -327,6 +346,26 @@ public class Profile extends Fragment {
                     consultarEstadoUsuario(btn_desactivar_usuario);
                 }
             }
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+        //Consultando datos de las direcciones
+        myRef.child(currentUser.getUid()).child("mis direcciones").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if(snapshot.exists()){
+                    listaDirecciones.clear();
+                    for(DataSnapshot objsnapshot : snapshot.getChildren()){
+                        d = new ListDirecciones();
+                        d = objsnapshot.getValue(ListDirecciones.class);
+                        listaDirecciones.add(new ListDirecciones(d.getNombreDireccion(),d.getDireccionUsuario(), d.getMunicipioDireccion(),R.drawable.ic_icono_address));
+                    }
+
+                }
+            }
+
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
 
