@@ -43,6 +43,17 @@
             android:layout_marginLeft="10dp"
             android:layout_marginStart="10dp">
         </TextView>
+        <TextView
+            android:id="@+id/municipioDireccion"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Medellín/Antioquia"
+            android:textSize="18sp"
+            android:layout_below="@id/Direccion"
+            android:layout_toEndOf="@id/Imagen_direccion"
+            android:layout_marginLeft="10dp"
+            android:layout_marginStart="10dp">
+        </TextView>
     </RelativeLayout>
 
 </androidx.cardview.widget.CardView>

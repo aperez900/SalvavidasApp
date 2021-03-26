@@ -10,10 +10,13 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.desarollo.salvavidasapp.Models.ListDirecciones;
 import com.desarollo.salvavidasapp.R;
 
 import java.util.ArrayList;
-
+/*
+    Adaptador del RecyclerView de la lista de direcciones (controlador)
+ */
 public class ListAddressAdapter extends RecyclerView.Adapter<ListAddressAdapter.ViewHolder> implements View.OnClickListener{
 
     ArrayList<ListDirecciones> model;
@@ -44,11 +47,12 @@ public class ListAddressAdapter extends RecyclerView.Adapter<ListAddressAdapter.
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         String nombre = model.get(position).getNombreDireccion();
         String direccion = model.get(position).getDireccionUsuario();
+        String municipio = model.get(position).getMunicipioDireccion();
         int imagen = model.get(position).getImagenID();
         holder.nombre.setText(nombre);
         holder.direccion.setText(direccion);
+        holder.municipio.setText(municipio);
         holder.imagenDireccion.setImageResource(imagen);
-
     }
 
     @Override
@@ -70,6 +74,7 @@ public class ListAddressAdapter extends RecyclerView.Adapter<ListAddressAdapter.
             super(itemView);
             nombre = itemView.findViewById(R.id.NombreDireccion);
             direccion = itemView.findViewById(R.id.Direccion);
+            municipio = itemView.findViewById(R.id.municipioDireccion);
             imagenDireccion = itemView.findViewById(R.id.Imagen_direccion);
         }
     }

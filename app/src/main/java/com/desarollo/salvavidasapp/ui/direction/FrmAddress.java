@@ -12,6 +12,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.desarollo.salvavidasapp.Models.ListDirecciones;
 import com.desarollo.salvavidasapp.Models.Municipios;
 import com.desarollo.salvavidasapp.R;
 import com.desarollo.salvavidasapp.ui.home.Home;
@@ -24,7 +25,9 @@ import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-
+/*
+    Formulario para registrar y actualizar las direcciones
+ */
 public class FrmAddress extends AppCompatActivity {
 
     FirebaseAuth mAuth;
@@ -103,15 +106,14 @@ public class FrmAddress extends AppCompatActivity {
 
         d = new ListDirecciones();
         d.nombreDireccion = alias.getText().toString();
-        d.direccionUsuario = primerTextoDireccion.getSelectedItem().toString() + " " + segundoTextoDireccion.getText().toString();
-        /*
-        d.tercerTextoDireccion = tercerTextoDireccion.getSelectedItem().toString();
-        d.cuartoTextoDireccion = cuartoTextoDireccion.getText().toString();
-        d.quintoTextoDireccion = quintoTextoDireccion.getSelectedItem().toString();
-        d.sextoTextoDireccion = sextoTextoDireccion.getText().toString();
-        d.barrio = barrio.getText().toString();
-        d.adicional = adicional.getText().toString();
-         */
+        d.direccionUsuario = primerTextoDireccion.getSelectedItem().toString() + " " +
+                segundoTextoDireccion.getText().toString() + " " +
+                tercerTextoDireccion.getSelectedItem().toString() + " " +
+                cuartoTextoDireccion.getText().toString() + " " +
+                quintoTextoDireccion.getSelectedItem().toString() + " " +
+                sextoTextoDireccion.getText().toString() + " " +
+                barrio.getText().toString() + " "+
+                adicional.getText().toString();
         d.municipioDireccion = municipio.getSelectedItem().toString();
 
         //guarda los datos del usuario

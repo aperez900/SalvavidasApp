@@ -223,6 +223,9 @@ public class Profile extends Fragment {
         u.celular = celular.getText().toString();
         u.correo = UserMail.getText().toString();
         u.habilitado = true;
+
+        //AL GUARDAR EL PERFIL ESTÁ BORRANDO LAS DIRECCIONES, PENDIENTE ORGANIZAR ESA PARTE
+
         //guarda los datos del usuario
         myRef.child(currentUser.getUid()).setValue(u)
                 .addOnSuccessListener(new OnSuccessListener<Void>() {

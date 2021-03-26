@@ -1,4 +1,5 @@
-package com.desarollo.salvavidasapp.ui.direction;
+package com.desarollo.salvavidasapp.Models;
+
 
 public class ListDirecciones {
     public String nombreDireccion;

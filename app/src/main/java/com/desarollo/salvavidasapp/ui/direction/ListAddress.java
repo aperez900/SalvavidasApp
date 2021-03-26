@@ -3,6 +3,7 @@ package com.desarollo.salvavidasapp.ui.direction;
 import android.content.Intent;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -14,10 +15,21 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.desarollo.salvavidasapp.Models.ListDirecciones;
 import com.desarollo.salvavidasapp.R;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 
+/*
+    Controlador del activity que muestra la lista de direcciones
+ */
 public class ListAddress extends Fragment {
 
     ListAddressAdapter listAddressAdapter;
@@ -25,10 +37,18 @@ public class ListAddress extends Fragment {
     ArrayList<ListDirecciones> listaDirecciones;
     TextView btnAgregarDirecciones;
 
+    FirebaseAuth mAuth;
+    FirebaseUser currentUser;
+    FirebaseDatabase database;
+    DatabaseReference myRef;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        mAuth = FirebaseAuth.getInstance();
+        currentUser = mAuth.getCurrentUser();
+        database = FirebaseDatabase.getInstance();
+        myRef = database.getReference("usuarios");
 
     }
 
@@ -44,8 +64,7 @@ public class ListAddress extends Fragment {
         listaDirecciones = new ArrayList<>();
         //cargar la lista
         cargarLista();
-        //mostrar los datos
-        mostrarData();
+
 
         btnAgregarDir.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -58,23 +77,39 @@ public class ListAddress extends Fragment {
     }
 
     public void cargarLista(){
-        listaDirecciones.add(new ListDirecciones("Mi Casa", "Avenida Siempre viva","Bello Antioq",R.drawable.ic_icono_address));
-        listaDirecciones.add(new ListDirecciones("Mi Trabajo", "Calle 55 55 55","Bello Antioq",R.drawable.ic_icono_address));
-        listaDirecciones.add(new ListDirecciones("Mi Casa", "Avenida Siempre viva","Bello Antioq",R.drawable.ic_icono_address));
-        listaDirecciones.add(new ListDirecciones("Mi Trabajo", "Calle 55 55 55","Bello Antioq",R.drawable.ic_icono_address));
-        listaDirecciones.add(new ListDirecciones("Mi Casa", "Avenida Siempre viva","Bello Antioq",R.drawable.ic_icono_address));
-        listaDirecciones.add(new ListDirecciones("Mi Trabajo", "Calle 55 55 55","Bello Antioq",R.drawable.ic_icono_address));
-        listaDirecciones.add(new ListDirecciones("Mi Casa", "Avenida Siempre viva","Bello Antioq",R.drawable.ic_icono_address));
-        listaDirecciones.add(new ListDirecciones("Mi Trabajo", "Calle 55 55 55","Bello Antioq",R.drawable.ic_icono_address));
-        listaDirecciones.add(new ListDirecciones("Mi Casa", "Avenida Siempre viva","Bello Antioq",R.drawable.ic_icono_address));
-        listaDirecciones.add(new ListDirecciones("Mi Trabajo", "Calle 55 55 55","Bello Antioq",R.drawable.ic_icono_address));
-        listaDirecciones.add(new ListDirecciones("Mi Casa", "Avenida Siempre viva","Bello Antioq",R.drawable.ic_icono_address));
-        listaDirecciones.add(new ListDirecciones("Mi Trabajo", "Calle 55 55 55","Bello Antioq",R.drawable.ic_icono_address));
-        listaDirecciones.add(new ListDirecciones("Mi Casa", "Avenida Siempre viva","Bello Antioq",R.drawable.ic_icono_address));
-        listaDirecciones.add(new ListDirecciones("Mi Trabajo", "Calle 55 55 55","Bello Antioq",R.drawable.ic_icono_address));
+        myRef.child(currentUser.getUid()).child("mis direcciones").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if(snapshot.exists()){
+                    listaDirecciones.clear();
+                    for(DataSnapshot objsnapshot : snapshot.getChildren()){
+                        ListDirecciones d = objsnapshot.getValue(ListDirecciones.class);
+                        listaDirecciones.add(new ListDirecciones(d.getNombreDireccion(),d.getDireccionUsuario(), d.getMunicipioDireccion(),R.drawable.ic_icono_address));
+                    }
+                    recyclerViewDirecciones.setLayoutManager(new LinearLayoutManager(getContext()));
+                    listAddressAdapter = new ListAddressAdapter(getContext(),listaDirecciones);
+                    recyclerViewDirecciones.setAdapter(listAddressAdapter);
+                }else{
+                    //mostrar los datos por defecto
+                    mostrarData();
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
+
+
+
 
     }
     public void mostrarData(){
+        listaDirecciones.add(new ListDirecciones("Nombre dirección 1", "Dirección 1","Ciudad/Departamento",R.drawable.ic_icono_address));
+        listaDirecciones.add(new ListDirecciones("Nombre dirección 2", "Dirección 2","Ciudad/Departamento",R.drawable.ic_icono_address));
+
         recyclerViewDirecciones.setLayoutManager(new LinearLayoutManager(getContext()));
         listAddressAdapter = new ListAddressAdapter(getContext(),listaDirecciones);
         recyclerViewDirecciones.setAdapter(listAddressAdapter);
