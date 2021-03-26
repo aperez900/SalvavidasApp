@@ -47,7 +47,6 @@ public class Profile extends Fragment {
     FirebaseUser currentUser;
     FirebaseDatabase database;
     DatabaseReference myRef;
-    private Spinner municipio;
     Usuarios u;
     boolean bandera_ingreso;
 
@@ -69,23 +68,12 @@ public class Profile extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         //return super.onCreateView(inflater, container, savedInstanceState);
         View view = inflater.inflate(R.layout.fragment_profile,container,false);
-        bandera_ingreso=true;
         TextView UserName = view.findViewById(R.id.nombre_perfil);
         TextView UserMail = view.findViewById(R.id.correo_perfil);
         ImageView UserPhoto = view.findViewById(R.id.foto_perfil);
         EditText nombres = view.findViewById(R.id.tv_nombre);
         EditText apellidos = view.findViewById(R.id.tv_apellido);
-        EditText direccion = view.findViewById(R.id.tv_direccion);
         TextView lista_comida = view.findViewById(R.id.lista_comidas);
-        municipio = view.findViewById(R.id.sp_municipio);
-
-        Municipios arrayMunicipio = new Municipios();
-
-        //Datos para el spinner de municipio
-        String [] listaMunicipios = arrayMunicipio.getMunicipio();
-
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(getApplicationContext(), R.layout.spinner_item_modified, listaMunicipios);
-        municipio.setAdapter(adapter);
         EditText identificacion = view.findViewById(R.id.tv_identidad);
         EditText celular = view.findViewById(R.id.tv_celular);
         Button btn_reg = view.findViewById(R.id.btn_registrar_perfil);
@@ -97,14 +85,14 @@ public class Profile extends Fragment {
         Glide.with(this).load(currentUser.getPhotoUrl()).apply(RequestOptions.circleCropTransform()).into(UserPhoto);
 
         //Llena los campos del formulario con los datos de la bd
-        consultarDatosPerfil(nombres, apellidos, direccion, municipio, identificacion, celular,btn_reg, btn_desactivar_usuario);
+        consultarDatosPerfil(nombres, apellidos, identificacion, celular,btn_reg, btn_desactivar_usuario);
 
         //Acciones del botón registrar
         btn_reg.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(validarCamposVacios(UserMail, nombres, apellidos, direccion, municipio, identificacion, celular)) {
-                    registrar(UserMail, nombres, apellidos, direccion, municipio, identificacion, celular);
+                if(validarCamposVacios(UserMail, nombres, apellidos, identificacion, celular)) {
+                    registrar(UserMail, nombres, apellidos, identificacion, celular);
                 }
             }
         });
@@ -114,11 +102,11 @@ public class Profile extends Fragment {
             @Override
             public void onClick(View view) {
                 if(btn_desactivar_usuario.getText().toString().equals("Desactivar Usuario")){
-                    desactivarUsuario(UserMail, nombres, apellidos, direccion, municipio, identificacion, celular);
+                    desactivarUsuario(UserMail, nombres, apellidos, identificacion, celular);
                 }
                 if (btn_desactivar_usuario.getText().toString().equals("Activar Usuario")){
-                    if(validarCamposVacios(UserMail, nombres, apellidos, direccion, municipio, identificacion, celular)) {
-                        registrar(UserMail, nombres, apellidos, direccion, municipio, identificacion, celular);
+                    if(validarCamposVacios(UserMail, nombres, apellidos, identificacion, celular)) {
+                        registrar(UserMail, nombres, apellidos, identificacion, celular);
                     }
                 }
             }
@@ -142,7 +130,6 @@ public class Profile extends Fragment {
      * Método para crear el modal de las comidas preferidas
      * */
     private void crearModalComidasPreferidas() {
-        bandera_ingreso=false;
         AlertDialog.Builder builder = new AlertDialog.Builder(getContext() );
         builder.setTitle("Elige tus comidas preferidas");
         builder.setCancelable(false);
@@ -222,20 +209,16 @@ public class Profile extends Fragment {
         dialog.show();
     }
 
-
     /*
      * @autor: Andrés Pérez
      * @since: 10/03/2021
      * @Version: 01
      * Método para registrar o actualizar los datos del perfil en la BD
      * */
-    private void registrar(TextView UserMail,EditText nombres, EditText apellidos, EditText direccion, Spinner sp_municipio, EditText identificacion, EditText celular) {
-
+    private void registrar(TextView UserMail,EditText nombres, EditText apellidos, EditText identificacion, EditText celular) {
         u = new Usuarios();
         u.nombre=nombres.getText().toString();
         u.apellido = apellidos.getText().toString();
-        u.municipio = sp_municipio.getSelectedItem().toString();
-        u.direccion = direccion.getText().toString();
         u.identificacion = identificacion.getText().toString();
         u.celular = celular.getText().toString();
         u.correo = UserMail.getText().toString();
@@ -271,36 +254,18 @@ public class Profile extends Fragment {
      * @Version: 01
      * Método para desactivar al usuario logueado.
      * */
-    private void desactivarUsuario(TextView UserMail,EditText nombres, EditText apellidos, EditText direccion, Spinner sp_municipio, EditText identificacion, EditText celular) {
-        u = new Usuarios();
-        u.nombre=nombres.getText().toString();
-        u.apellido = apellidos.getText().toString();
-        u.municipio = sp_municipio.getSelectedItem().toString();
-        u.direccion = direccion.getText().toString();
-        u.identificacion = identificacion.getText().toString();
-        u.celular = celular.getText().toString();
-        u.correo = UserMail.getText().toString();
-        u.habilitado = false; //usuario deshabilitado
-
-        myRef.child(currentUser.getUid()).setValue(u)
+    private void desactivarUsuario(TextView UserMail,EditText nombres, EditText apellidos, EditText identificacion, EditText celular) {
+        myRef.child(currentUser.getUid()).child("habilitado").setValue(false)
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void aVoid) {
-                        Toast.makeText(getApplicationContext(), "Usuario actualizado correctamente", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getApplicationContext(), "Usuario desactivado correctamente", Toast.LENGTH_SHORT).show();
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {
                     @Override
                     public void onFailure(@NonNull Exception e) {
-                        Toast.makeText(getApplicationContext(), "Error actualizando el usuario", Toast.LENGTH_SHORT).show();
-                    }
-                });
-
-        myRef.child(currentUser.getUid()).child("comidas_preferidas").setValue(selectedItems)
-                .addOnSuccessListener(new OnSuccessListener<Void>(){
-                    @Override
-                    public void onSuccess(Void aVoid) {
-                        //Toast.makeText(getApplicationContext(), "SHola", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getApplicationContext(), "Error desactivando el usuario", Toast.LENGTH_SHORT).show();
                     }
                 });
     }
@@ -333,7 +298,6 @@ public class Profile extends Fragment {
                 });
     }
 
-
     /*
     * @autor: Edison Cardona
     * @since: 11/03/2021
@@ -341,36 +305,17 @@ public class Profile extends Fragment {
     * Método para consultar los datos del perfil en la BD y pintar
     * el formulario con ellos
     * */
-    public void consultarDatosPerfil(EditText et_nombres, EditText et_apellidos, EditText et_direccion, Spinner sp_municipio, EditText et_identificacion,
+    public void consultarDatosPerfil(EditText et_nombres, EditText et_apellidos, EditText et_identificacion,
                                      EditText et_celular,Button btn_reg, Button btn_desactivar_usuario){
         myRef.child(currentUser.getUid())
                 .addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 if(snapshot.exists()){
-
-                    if(bandera_ingreso) {
-                        //si es la primera vez que ingresa al perfil, le pide que actualice sus
-                        //comidas preferidas (esto se necesita para que selectedItems no sea null
-                        // y funcionen los otros botones: activar/desactivar usuario, ...)
-                        crearModalComidasPreferidas();
-                    }
-
                     String nombre = snapshot.child("nombre").getValue().toString();
                     et_nombres.setText(nombre);
                     String apellido = snapshot.child("apellido").getValue().toString();
                     et_apellidos.setText(apellido);
-                    String direccion = snapshot.child("direccion").getValue().toString();
-                    et_direccion.setText(direccion);
-
-                    String [] municipio = {snapshot.child("municipio").getValue().toString()};
-                    Municipios arrayMunicipios = new Municipios();
-                    ArrayList<String> listOne = new ArrayList(Arrays.asList(municipio));
-                    ArrayList<String> listTwo = new ArrayList(Arrays.asList(arrayMunicipios.getMunicipio()));
-                    listOne.addAll(listTwo);
-
-                    ArrayAdapter<String> adapter1 = new ArrayAdapter<String>(getApplicationContext(), R.layout.spinner_item_modified, listOne);
-                    sp_municipio.setAdapter(adapter1);
                     String identificacion = snapshot.child("identificacion").getValue().toString();
                     et_identificacion.setText(identificacion);
                     String celular = snapshot.child("celular").getValue().toString();
@@ -378,9 +323,7 @@ public class Profile extends Fragment {
                     btn_reg.setText("Actualizar");
                     consultarEstadoUsuario(btn_desactivar_usuario);
                 }
-
             }
-
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
 
@@ -396,13 +339,11 @@ public class Profile extends Fragment {
      * encuentren diligenciados y que cumplen con ciertos criterios de acuerdo
      * al campo
      * */
-    public boolean validarCamposVacios(TextView UserMail,EditText nombres, EditText apellidos, EditText direccion, Spinner municipio, EditText identificacion, EditText celular){
+    public boolean validarCamposVacios(TextView UserMail,EditText nombres, EditText apellidos, EditText identificacion, EditText celular){
         boolean campoLleno = true;
 
         String nombreV = nombres.getText().toString();
         String apellidoV = apellidos.getText().toString();
-        String direccionV = direccion.getText().toString();
-        String municipioV = municipio.getSelectedItem().toString();
         String identificacionV = identificacion.getText().toString();
         String celularV = celular.getText().toString();
 
@@ -412,14 +353,6 @@ public class Profile extends Fragment {
         }
         if(apellidoV.isEmpty()){
             apellidos.setError("Debe diligenciar un apellido");
-            campoLleno=false;
-        }
-        if(direccionV.isEmpty()){
-            direccion.setError("Debe diligenciar una dirección");
-            campoLleno=false;
-        }
-        if(municipioV.equals("Municipio/Departamento")){
-            Toast.makeText(getApplicationContext(), "Debe seleccionar un municipio", Toast.LENGTH_LONG).show();
             campoLleno=false;
         }
         if(identificacionV.isEmpty()){
@@ -439,7 +372,7 @@ public class Profile extends Fragment {
         if(selectedItems.isEmpty()){
             crearModalComidasPreferidas();
             campoLleno=false;
-            Toast.makeText(getApplicationContext(), "Seleccione sus comidas preferidas", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getApplicationContext(), "Seleccione sus comidas preferidas primero", Toast.LENGTH_LONG).show();
         }
         return campoLleno;
     }
