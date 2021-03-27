@@ -57,7 +57,14 @@ public class ListAddressAdapter extends RecyclerView.Adapter<ListAddressAdapter.
 
     @Override
     public int getItemCount() {
-        return model.size();
+        int a ;
+        if(model != null && !model.isEmpty()) {
+            a = model.size();
+        }
+        else {
+            a = 0;
+        }
+        return a;
     }
 
     @Override

@@ -59,8 +59,8 @@ public class MainActivity extends AppCompatActivity {
         //Acesso por facebook
         callbackManager = CallbackManager.Factory.create();
         loginButton = (LoginButton) findViewById(R.id.login_button);
-        //loginButton.setReadPermissions("email");
-        loginButton.setReadPermissions("email", "public_profile");
+        loginButton.setPermissions("email", "public_profile");
+        //loginButton.setReadPermissions("email", "public_profile");
 
         loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -96,9 +96,7 @@ public class MainActivity extends AppCompatActivity {
         //Dejar solo el icono de google
         //signInButton.setSize(SignInButton.SIZE_ICON_ONLY);
 
-
         signInButton.setColorScheme(SignInButton.COLOR_DARK);
-
 
         signInButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -113,14 +111,11 @@ public class MainActivity extends AppCompatActivity {
                 .build();
 
         mGoogleSignInClient = GoogleSignIn.getClient(this,gso);
-
-
     }
 
     private void signInWithGoogle() {
         Intent signInIntent = mGoogleSignInClient.getSignInIntent();
         startActivityForResult(signInIntent,RC_SIGN_IN);
-
     }
 
 

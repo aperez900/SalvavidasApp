@@ -12,6 +12,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -26,6 +27,8 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+
+import static com.facebook.FacebookSdk.getApplicationContext;
 
 /*
     Controlador del activity que muestra la lista de direcciones
@@ -58,18 +61,22 @@ public class ListAddress extends Fragment {
         // Inflate the layout for this fragment
         //return inflater.inflate(R.layout.fragment_address, container, false);
         View view = inflater.inflate(R.layout.fragment_address, container, false);
-        recyclerViewDirecciones = view.findViewById(R.id.recycle_address);
-        btnAgregarDirecciones = view.findViewById(R.id.btnAgregarDirecciones);
+        recyclerViewDirecciones = (RecyclerView) view.findViewById(R.id.recycle_address);
+        LinearLayoutManager manager = new LinearLayoutManager(getApplicationContext());
+        recyclerViewDirecciones.setLayoutManager(manager);
+        recyclerViewDirecciones.setHasFixedSize(true);
+        listAddressAdapter = new ListAddressAdapter(getApplicationContext(),listaDirecciones);
+        recyclerViewDirecciones.setAdapter(listAddressAdapter);
+
         Button btnAgregarDir = view.findViewById(R.id.btnAgregarDirecciones);
         listaDirecciones = new ArrayList<>();
         //cargar la lista
         cargarLista();
 
-
         btnAgregarDir.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent h = new Intent(getContext(), FrmAddress.class);
+                Intent h = new Intent(getApplicationContext(), FrmAddress.class);
                 startActivity(h);
             }
         });
@@ -86,9 +93,17 @@ public class ListAddress extends Fragment {
                         ListDirecciones d = objsnapshot.getValue(ListDirecciones.class);
                         listaDirecciones.add(new ListDirecciones(d.getNombreDireccion(),d.getDireccionUsuario(), d.getMunicipioDireccion(),R.drawable.ic_icono_address));
                     }
-                    recyclerViewDirecciones.setLayoutManager(new LinearLayoutManager(getContext()));
-                    listAddressAdapter = new ListAddressAdapter(getContext(),listaDirecciones);
+
+                    listAddressAdapter = new ListAddressAdapter(getApplicationContext(),listaDirecciones);
                     recyclerViewDirecciones.setAdapter(listAddressAdapter);
+                    //Acciones al dar clic en un item de la lista
+                    listAddressAdapter.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            String nombreDireccion = listaDirecciones.get(recyclerViewDirecciones.getChildAdapterPosition(view)).getNombreDireccion();
+                            Toast.makeText(getApplicationContext(),"Seleccionó: " + nombreDireccion,Toast.LENGTH_SHORT).show();
+                        }
+                    });
                 }else{
                     //mostrar los datos por defecto
                     mostrarData();
@@ -97,36 +112,21 @@ public class ListAddress extends Fragment {
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
-
+                Toast.makeText(getApplicationContext(), "Error cargando las direcciones", Toast.LENGTH_SHORT).show();
             }
         });
-
-
-
-
-
     }
     public void mostrarData(){
         listaDirecciones.add(new ListDirecciones("Nombre dirección 1", "Dirección 1","Ciudad/Departamento",R.drawable.ic_icono_address));
         listaDirecciones.add(new ListDirecciones("Nombre dirección 2", "Dirección 2","Ciudad/Departamento",R.drawable.ic_icono_address));
 
-        recyclerViewDirecciones.setLayoutManager(new LinearLayoutManager(getContext()));
-        listAddressAdapter = new ListAddressAdapter(getContext(),listaDirecciones);
+        recyclerViewDirecciones.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
+        listAddressAdapter = new ListAddressAdapter(getApplicationContext(),listaDirecciones);
         recyclerViewDirecciones.setAdapter(listAddressAdapter);
-
-        //Acciones al dar clic en un item de la lista
-        listAddressAdapter.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                String nombreDireccion = listaDirecciones.get(recyclerViewDirecciones.getChildAdapterPosition(view)).getNombreDireccion();
-                Toast.makeText(getContext(),"Seleccionó: " + nombreDireccion,Toast.LENGTH_SHORT).show();
-            }
-        });
     }
 
-    //Acceso por firebase con email and clave
     public void agregarDirecciones(View v) {
-        Intent h = new Intent(getContext(), FrmAddress.class);
+        Intent h = new Intent(getApplicationContext(), FrmAddress.class);
         startActivity(h);
     }
 }

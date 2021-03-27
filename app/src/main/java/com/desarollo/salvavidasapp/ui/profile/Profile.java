@@ -6,11 +6,9 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -21,7 +19,6 @@ import androidx.fragment.app.Fragment;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.desarollo.salvavidasapp.Models.ListDirecciones;
-import com.desarollo.salvavidasapp.Models.Municipios;
 import com.desarollo.salvavidasapp.Models.Usuarios;
 import com.desarollo.salvavidasapp.R;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -51,8 +48,6 @@ public class Profile extends Fragment {
     Usuarios u;
     ListDirecciones d;
     ArrayList<ListDirecciones> listaDirecciones;
-
-
 
     //items seleccionados de comidas preferidas
     Map <String,Object> selectedItems = new HashMap<>();
@@ -130,6 +125,92 @@ public class Profile extends Fragment {
     }
 
     /*
+     * @autor: Edison Cardona
+     * @since: 11/03/2021
+     * @Version: 01
+     * Método para consultar los datos del perfil en la BD y pintar
+     * el formulario con ellos
+     * */
+    public void consultarDatosPerfil(EditText et_nombres, EditText et_apellidos, EditText et_identificacion,
+                                     EditText et_celular,Button btn_reg, Button btn_desactivar_usuario){
+        //consultando datos del usuario
+        myRef.child(currentUser.getUid())
+                .addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        if(snapshot.exists()){
+                            String nombre = snapshot.child("nombre").getValue().toString();
+                            et_nombres.setText(nombre);
+                            String apellido = snapshot.child("apellido").getValue().toString();
+                            et_apellidos.setText(apellido);
+                            String identificacion = snapshot.child("identificacion").getValue().toString();
+                            et_identificacion.setText(identificacion);
+                            String celular = snapshot.child("celular").getValue().toString();
+                            et_celular.setText(celular);
+                            btn_reg.setText("Actualizar");
+                            consultarEstadoUsuario(btn_desactivar_usuario);
+                        }
+                    }
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+                        Toast.makeText(getApplicationContext(), "Error consultando los datos del usuario. Intente de nuevo mas tarde.", Toast.LENGTH_SHORT).show();
+                    }
+                });
+
+        //consulta comidas preferidas del usuario
+        myRef.child(currentUser.getUid()).child("comidas_preferidas")
+                .addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        if(snapshot.exists()){
+                            String Todas = snapshot.child("Todas").getValue().toString();
+                            boolean bTodas = Boolean.parseBoolean(Todas);
+                            String Verduras = snapshot.child("Verduras").getValue().toString();
+                            boolean bVerduras = Boolean.parseBoolean(Verduras);
+                            String Frutas = snapshot.child("Frutas").getValue().toString();
+                            boolean bFrutas = Boolean.parseBoolean(Frutas);
+                            String Hamburguesa = snapshot.child("Hamburguesas").getValue().toString();
+                            boolean bHamburguesa = Boolean.parseBoolean(Hamburguesa);
+                            String Otros = snapshot.child("Otros").getValue().toString();
+                            boolean bOtros = Boolean.parseBoolean(Otros);
+
+                            selectedItems.put("Todas",bTodas);
+                            selectedItems.put("Verduras",bVerduras);
+                            selectedItems.put("Frutas",bFrutas);
+                            selectedItems.put("Hamburguesas",bHamburguesa);
+                            selectedItems.put("Otros",bOtros);
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+                        Toast.makeText(getApplicationContext(), "Error consultando las comidas preferidas. Intente de nuevo mas tarde.", Toast.LENGTH_SHORT).show();
+                    }
+                });
+
+        //Consultando datos de las direcciones
+        myRef.child(currentUser.getUid()).child("mis direcciones").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if(snapshot.exists()){
+                    listaDirecciones.clear();
+                    for(DataSnapshot objsnapshot : snapshot.getChildren()){
+                        d = new ListDirecciones();
+                        d = objsnapshot.getValue(ListDirecciones.class);
+                        listaDirecciones.add(new ListDirecciones(d.getNombreDireccion(),d.getDireccionUsuario(), d.getMunicipioDireccion(),R.drawable.ic_icono_address));
+                    }
+
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                Toast.makeText(getApplicationContext(), "Error consultando las direcciones. Intente de nuevo mas tarde.", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    /*
      * @autor: Andrés Pérez
      * @since: 15/03/2021
      * @Version: 01
@@ -179,7 +260,7 @@ public class Profile extends Fragment {
 
                     @Override
                     public void onCancelled(@NonNull DatabaseError error) {
-
+                        Toast.makeText(getApplicationContext(), "Error consultando las comidas preferidas. Intente de nuevo mas tarde.", Toast.LENGTH_SHORT).show();
                     }
                 });
 
@@ -230,7 +311,6 @@ public class Profile extends Fragment {
         u.correo = UserMail.getText().toString();
         u.habilitado = true;
 
-        //AL GUARDAR EL PERFIL ESTÁ BORRANDO LAS DIRECCIONES, PENDIENTE ORGANIZAR ESA PARTE
 
         //guarda los datos del usuario
         myRef.child(currentUser.getUid()).setValue(u)
@@ -251,13 +331,14 @@ public class Profile extends Fragment {
                 .addOnSuccessListener(new OnSuccessListener<Void>(){
                     @Override
                     public void onSuccess(Void aVoid) {
-                        //Toast.makeText(getApplicationContext(), "SHola", Toast.LENGTH_SHORT).show();
+
                     }
                 });
+
         //Guardando datos de las direcciones
         for (int i=0; i<listaDirecciones.size();i++){
-            String nombreDir = listaDirecciones.get(i).getNombreDireccion();
-            d = (listaDirecciones.get(i));
+            d = listaDirecciones.get(i);
+            String nombreDir = d.getNombreDireccion();
             myRef.child(currentUser.getUid()).child("mis direcciones").child(nombreDir).setValue(d)
                     .addOnSuccessListener(new OnSuccessListener<Void>() {
                         @Override
@@ -314,63 +395,9 @@ public class Profile extends Fragment {
                     }
                     @Override
                     public void onCancelled(@NonNull DatabaseError error) {
-
+                        Toast.makeText(getApplicationContext(), "Error consultado el estado del usuario", Toast.LENGTH_SHORT).show();
                     }
                 });
-    }
-
-    /*
-    * @autor: Edison Cardona
-    * @since: 11/03/2021
-    * @Version: 01
-    * Método para consultar los datos del perfil en la BD y pintar
-    * el formulario con ellos
-    * */
-    public void consultarDatosPerfil(EditText et_nombres, EditText et_apellidos, EditText et_identificacion,
-                                     EditText et_celular,Button btn_reg, Button btn_desactivar_usuario){
-        //consultando datos del usuario
-        myRef.child(currentUser.getUid())
-                .addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                if(snapshot.exists()){
-                    String nombre = snapshot.child("nombre").getValue().toString();
-                    et_nombres.setText(nombre);
-                    String apellido = snapshot.child("apellido").getValue().toString();
-                    et_apellidos.setText(apellido);
-                    String identificacion = snapshot.child("identificacion").getValue().toString();
-                    et_identificacion.setText(identificacion);
-                    String celular = snapshot.child("celular").getValue().toString();
-                    et_celular.setText(celular);
-                    btn_reg.setText("Actualizar");
-                    consultarEstadoUsuario(btn_desactivar_usuario);
-                }
-            }
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
-        });
-        //Consultando datos de las direcciones
-        myRef.child(currentUser.getUid()).child("mis direcciones").addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                if(snapshot.exists()){
-                    listaDirecciones.clear();
-                    for(DataSnapshot objsnapshot : snapshot.getChildren()){
-                        d = new ListDirecciones();
-                        d = objsnapshot.getValue(ListDirecciones.class);
-                        listaDirecciones.add(new ListDirecciones(d.getNombreDireccion(),d.getDireccionUsuario(), d.getMunicipioDireccion(),R.drawable.ic_icono_address));
-                    }
-
-                }
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
-        });
     }
 
     /*
