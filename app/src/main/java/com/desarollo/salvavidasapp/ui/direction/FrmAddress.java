@@ -125,6 +125,8 @@ public class FrmAddress extends AppCompatActivity {
                         Intent h = new Intent(getApplicationContext(), Home.class);
                         startActivity(h);
                         finish();
+
+                        
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {

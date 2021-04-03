@@ -33,10 +33,17 @@
         android:id="@+id/nav_direction"
         android:name="com.desarollo.salvavidasapp.ui.direction.FrmAddress"
         android:label="Mis direcciones"
-        tools:layout="@layout/fragment_frm_address" />
+        tools:layout="@layout/activity_frm_address" />
+
     <fragment
         android:id="@+id/nav_address"
         android:name="com.desarollo.salvavidasapp.ui.direction.ListAddress"
         android:label="Mis direcciones"
         tools:layout="@layout/fragment_address" />
+
+    <fragment
+        android:id="@+id/nav_seller"
+        android:name="com.desarollo.salvavidasapp.ui.seller.seller"
+        android:label="Mis ventas"
+        tools:layout="@layout/fragment_seller" />
 </navigation>
