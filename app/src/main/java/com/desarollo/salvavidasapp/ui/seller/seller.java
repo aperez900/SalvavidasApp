@@ -5,6 +5,9 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
+import android.os.Message;
+import android.os.StrictMode;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -28,6 +31,15 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.util.Properties;
+
+import javax.mail.Authenticator;
+import javax.mail.PasswordAuthentication;
+import javax.mail.Session;
+import javax.mail.Transport;
+import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeMessage;
+
 import static com.facebook.FacebookSdk.getApplicationContext;
 
 
@@ -38,6 +50,7 @@ public class seller extends Fragment {
     FirebaseDatabase database;
     DatabaseReference myRef;
     Vendedores v;
+    Session session;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -62,8 +75,13 @@ public class seller extends Fragment {
         EditText celular = view.findViewById(R.id.tv_celular);
         Button btn_reg = view.findViewById(R.id.btn_registrar_vendedor);
         TextView estado = view.findViewById(R.id.estado);
+        EditText correo = view.findViewById(R.id.tv_correo);
+        EditText contraseña = view.findViewById(R.id.tv_contraseña);
+        EditText to = view.findViewById(R.id.tv_to);
+
 
         consultarDatosVendedor(nombres, apellidos, identificacion, celular,btn_reg,estado);
+
 
         //Acciones del botón registrar
         btn_reg.setOnClickListener(new View.OnClickListener() {
@@ -71,6 +89,7 @@ public class seller extends Fragment {
             public void onClick(View view) {
                 if(validarCamposVacios( nombres, apellidos, identificacion, celular)) {
                     registrar(nombres, apellidos, identificacion, celular);
+                    enviar_email(correo,contraseña,to);
                 }
             }
         });
@@ -134,6 +153,44 @@ public class seller extends Fragment {
                 });
         }
 
+    public void enviar_email( EditText correo, EditText contraseña,EditText to){
+
+        String correo_ = correo.getText().toString();
+        String contraseña_ = contraseña.getText().toString();
+        String to_ = to.getText().toString();
+        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+        StrictMode.setThreadPolicy(policy);
+        Properties properties = new Properties();
+        properties.put("mail.smtp.host","smtp.googlemail.com");
+        properties.put("mail.smtp.socketFactory.port","465");
+        properties.put("mail.smtp.socketFactory.class","javax.net.ssl.SSLSocketFactory");
+        properties.put("mail.smtp.auth","true");
+        properties.put("mail.smtp.port","587");
+
+        try {
+            session = Session.getDefaultInstance(properties, new Authenticator() {
+                @Override
+                protected PasswordAuthentication getPasswordAuthentication() {
+                    return new PasswordAuthentication(correo_,contraseña_);
+
+                }
+            });
+            if(session!=null){
+                MimeMessage message = new MimeMessage(session);
+                message.setFrom(new InternetAddress(correo_));
+                message.setSubject("test");
+                message.setRecipients(MimeMessage.RecipientType.TO,InternetAddress.parse(to_));
+                message.setContent("Hola mundo","txt/html; charset= utf-8");
+                Transport.send(message);
+
+
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+
+
+    }
 
     public boolean validarCamposVacios(EditText nombres, EditText apellidos, EditText identificacion, EditText celular){
         boolean campoLleno = true;

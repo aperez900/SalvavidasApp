@@ -102,6 +102,42 @@
                     android:inputType="number"
                     app:layout_constraintTop_toBottomOf="@id/tv_identidad" />
 
+                <EditText
+                    android:id="@+id/tv_correo"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:layout_marginStart="50dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginEnd="50dp"
+                    android:fontFamily="@font/abel"
+                    android:hint="correo desde donde se enviara"
+                    android:inputType="textEmailAddress"
+                    app:layout_constraintTop_toBottomOf="@id/tv_celular" />
+
+                <EditText
+                    android:id="@+id/tv_contraseña"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:layout_marginStart="50dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginEnd="50dp"
+                    android:fontFamily="@font/abel"
+                    android:hint="contraseña de correo desde donde se enviara"
+                    android:inputType="textPassword"
+                    app:layout_constraintTop_toBottomOf="@id/tv_correo" />
+
+                <EditText
+                    android:id="@+id/tv_to"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:layout_marginStart="50dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginEnd="50dp"
+                    android:fontFamily="@font/abel"
+                    android:hint="correo a donde se enviara"
+                    android:inputType="textEmailAddress"
+                    app:layout_constraintTop_toBottomOf="@id/tv_contraseña" />
+
                 <Button
                     android:id="@+id/btn_registrar_vendedor"
                     android:layout_width="match_parent"
