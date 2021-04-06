@@ -52,7 +52,6 @@ public class seller extends Fragment {
     Vendedores v;
     Session session;
 
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -68,7 +67,6 @@ public class seller extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
 
-
         View view = inflater.inflate(R.layout.fragment_seller,container,false);
         EditText nombres = view.findViewById(R.id.tv_nombre);
         EditText apellidos = view.findViewById(R.id.tv_apellido);
@@ -80,9 +78,7 @@ public class seller extends Fragment {
         EditText contraseña = view.findViewById(R.id.tv_contraseña);
         EditText to = view.findViewById(R.id.tv_to);
 
-
         consultarDatosVendedor(nombres, apellidos, identificacion, celular,btn_reg,estado);
-
 
         //Acciones del botón registrar
         btn_reg.setOnClickListener(new View.OnClickListener() {
@@ -90,15 +86,13 @@ public class seller extends Fragment {
             public void onClick(View view) {
                 if(validarCamposVacios( nombres, apellidos, identificacion, celular)) {
                     registrar(nombres, apellidos, identificacion, celular);
-                    enviar_email(correo,contraseña,to);
+                    enviar_email(correo,contraseña,to, nombres, celular);
                 }
             }
         });
 
         return view;
     }
-
-
 
     public void consultarDatosVendedor(EditText et_nombres, EditText et_apellidos, EditText et_identificacion,
                                      EditText et_celular, Button btn_reg, TextView tv_estado){
@@ -118,7 +112,7 @@ public class seller extends Fragment {
                             et_celular.setText(celular);
                             String estado = snapshot.child("estado").getValue().toString();
                             tv_estado.setText(estado);
-                            btn_reg.setText("Actualizar");
+                            btn_reg.setText("Reenviar solicitud");
                         }
                     }
                     @Override
@@ -143,21 +137,35 @@ public class seller extends Fragment {
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void aVoid) {
-                        Toast.makeText(getApplicationContext(), "Usuario actualizado correctamente", Toast.LENGTH_SHORT).show();
+                        //Toast.makeText(getApplicationContext(), "Solicitud registrada correctamente", Toast.LENGTH_SHORT).show();
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {
                     @Override
                     public void onFailure(@NonNull Exception e) {
-                        Toast.makeText(getApplicationContext(), "Error actualizando el usuario", Toast.LENGTH_SHORT).show();
+                        //Toast.makeText(getApplicationContext(), "Error registrando la solicitud. Intenta de nuevo mas tarde", Toast.LENGTH_SHORT).show();
                     }
                 });
         }
 
-    public void enviar_email( EditText correo, EditText contraseña,EditText to){
+    public void enviar_email( EditText correo, EditText contraseña,EditText to, EditText nombres, EditText celular){
 
-        String correo_ = correo.getText().toString();
-        String contraseña_ = contraseña.getText().toString();
+        String correoEnvia = correo.getText().toString();
+        //String correoEnvia = "";
+        String contraseñaCorreoEnvia = contraseña.getText().toString();
+        //String contraseñaCorreoEnvia = "";
+
+        String cuerpoCorreo = "<p style='text-align: justify'> El(la) Sr.(a) <b>" + nombres.getText().toString() + "</b> desea trabajar con nosotros"
+                + " lo puedes contactar en el número móvil: <u>" + celular.getText().toString() + "</u></p><br>Cordialmente,<br> <b>Equipo de Salvavidas App</b><br>" +
+                "<p style='text-align: justify'><font size=1><i>Este mensaje y sus archivos adjuntos van dirigidos exclusivamente a su destinatario pudiendo contener información confidencial " +
+                "sometida a secreto profesional. No está permitida su reproducción o distribución sin la autorización expresa de SALVAVIDAS APP, Si usted no es el destinatario " +
+                "final por favor elimínelo e infórmenos por esta vía. Según la Ley Estatutaria 1581 de 2.012 de Protección de Datos y sus normas reglamentarias, " +
+                "el Titular presta su consentimiento para que sus datos, facilitados voluntariamente, pasen a formar parte de una base de datos, cuyo responsable " +
+                "es SALVAVIDAS APP, cuyas finalidades son: Gestión administrativa, Gestión de clientes, Prospección comercial, Fidelización de clientes, Marketing y " +
+                "el envío de comunicaciones comerciales sobre nuestros productos y/o servicios. Puede usted ejercer los derechos de acceso, corrección, supresión, " +
+                "revocación o reclamo por infracción sobre sus datos, mediante escrito dirigido a SALVAVIDAS APP a la dirección de correo electrónico " +
+                "ceo@salvavidas.app indicando en el asunto el derecho que desea ejercer, o mediante correo ordinario remitido a la Carrera XX # XX – XX Medellín, Antioquia." +
+                "</font></i></p>";
         String to_ = to.getText().toString();
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);
@@ -172,25 +180,24 @@ public class seller extends Fragment {
             session = Session.getDefaultInstance(properties, new Authenticator() {
                 @Override
                 protected PasswordAuthentication getPasswordAuthentication() {
-                    return new PasswordAuthentication(correo_,contraseña_);
-
+                    return new PasswordAuthentication(correoEnvia,contraseñaCorreoEnvia);
                 }
             });
             if(session!=null){
                 MimeMessage message = new MimeMessage(session);
-                message.setFrom(new InternetAddress(correo_));
-                message.setSubject("test");
+                message.setFrom(new InternetAddress(correoEnvia));
+                message.setSubject("Solicitud de nuevo vendedor Salvavidas App");
+                message.setText(cuerpoCorreo, "ISO-8859-1","html");
                 message.setRecipients(MimeMessage.RecipientType.TO,InternetAddress.parse(to_));
-                message.setContent("Hola mundo","txt/html; charset= utf-8");
+                //message.setContent("Hola mundo","txt/html; charset= utf-8");
                 Transport.send(message);
 
-
+                Toast.makeText(getApplicationContext(), "Solicitud enviada correctamente", Toast.LENGTH_SHORT).show();
             }
         }catch (Exception e){
             e.printStackTrace();
+            Toast.makeText(getApplicationContext(), "Error enviando la solicitud. " + e, Toast.LENGTH_SHORT).show();
         }
-
-
     }
 
     public boolean validarCamposVacios(EditText nombres, EditText apellidos, EditText identificacion, EditText celular){

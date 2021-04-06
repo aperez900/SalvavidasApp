@@ -34,6 +34,11 @@
     <string name="celular">Celular</string>
     <string name="lista_comida">Lista de comidas preferidas</string>
 
+    <string name="perfilVendedor">PERFIL VENDEDOR</string>
+    <string name="estadoVendedor">SIN REGISTRO</string>
+    <string name="TeEstabamosBuscando">!Te estabamos buscando!</string>
+    <string name="descripcionSolicitud">Diligencia el siguiente formulario si deseas vender tus productos en Salvavidas App</string>
+
     <string name="facebook_application_id">1541603559379639</string>
     <string name="facebook_app_id">1541603559379639</string>
     <string name="fb_login_protocol_scheme">fb1541603559379639</string>

@@ -8,15 +8,15 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="80dp"
+        android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:layout_marginTop="50dp">
+        android:layout_marginTop="10dp">
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:fontFamily="@font/abel"
-            android:text="PERFIL VENDEDOR"
+            android:text="@string/perfilVendedor"
             android:textAlignment="center"
             android:textSize="24sp" />
 
@@ -25,7 +25,26 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:fontFamily="@font/abel"
-            android:text="SIN REGISTRO"
+            android:text="@string/estadoVendedor"
+            android:textAlignment="center"
+            android:textSize="18sp" />
+        <Space
+            android:layout_width="match_parent"
+            android:layout_height="10dp" />
+        <TextView
+            android:id="@+id/tv_descripcionVendedor1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/abel"
+            android:text="@string/TeEstabamosBuscando"
+            android:textAlignment="center"
+            android:textSize="18sp" />
+        <TextView
+            android:id="@+id/tv_descripcionVendedor2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/abel"
+            android:text="@string/descripcionSolicitud"
             android:textAlignment="center"
             android:textSize="18sp" />
 
@@ -35,7 +54,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="180dp">
+        android:layout_marginTop="150dp">
 
         <ScrollView
             android:layout_width="match_parent"

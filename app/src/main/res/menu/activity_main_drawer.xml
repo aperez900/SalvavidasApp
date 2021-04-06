@@ -29,10 +29,11 @@
             android:fontFamily="@font/abel"
             android:icon="@drawable/icono_address"
             android:title="Mis Direcciones" />
-
-        <item
-            android:id="@+id/nav_seller"
-            android:icon="@drawable/icono_address"
-            android:title="Deseas vender?" />
+        <group android:id="@+id/grp1">
+            <item
+                android:id="@+id/nav_seller"
+                android:icon="@drawable/ic_icono_seller"
+                android:title="Trabaja con nosotros" />
+        </group>
     </group>
 </menu>
