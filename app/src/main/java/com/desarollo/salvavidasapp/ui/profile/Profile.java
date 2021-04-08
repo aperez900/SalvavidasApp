@@ -2,6 +2,7 @@ package com.desarollo.salvavidasapp.ui.profile;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -25,6 +26,7 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.auth.UserInfo;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -81,9 +83,20 @@ public class Profile extends Fragment {
         listaDirecciones = new ArrayList<>();
 
         //Actualiza los datos del perfil logeado en el fragmenProfile
-        UserName.setText(currentUser.getDisplayName());
-        UserMail.setText(currentUser.getEmail());
-        Glide.with(this).load(currentUser.getPhotoUrl()).apply(RequestOptions.circleCropTransform()).into(UserPhoto);
+        if (currentUser != null) {
+            for (UserInfo profile : currentUser.getProviderData()) {
+                String name = profile.getDisplayName();
+                UserName.setText(name);
+                String email = profile.getEmail();
+                UserMail.setText(email);
+                Uri photoUrl = profile.getPhotoUrl();
+                Glide.with(this).load(photoUrl).apply(RequestOptions.circleCropTransform()).into(UserPhoto);
+            }
+        }
+
+        //UserName.setText(currentUser.getDisplayName());
+        //UserMail.setText(currentUser.getEmail());
+        //Glide.with(this).load(currentUser.getPhotoUrl()).apply(RequestOptions.circleCropTransform()).into(UserPhoto);
 
 
         //Llena los campos del formulario con los datos de la bd

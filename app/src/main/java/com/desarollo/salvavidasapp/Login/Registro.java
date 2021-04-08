@@ -32,7 +32,6 @@ public class Registro extends AppCompatActivity {
 
         et_emailR = findViewById(R.id.et_emailR);
         et_passwordR = findViewById(R.id.et_passwordR);
-        tv_verificarCorreo = findViewById(R.id.tv_verificarCorreo);
 
         mAuth = FirebaseAuth.getInstance();
     }
@@ -74,10 +73,6 @@ public class Registro extends AppCompatActivity {
                                         Log.d("TAG", "Email sent.");
                                         Toast.makeText(Registro.this, "email enviado para verificación",
                                                 Toast.LENGTH_SHORT).show();
-                                        //tv_verificarCorreo.setText("Verifica tú correo para continuar");
-                                        if (FirebaseAuth.getInstance().getCurrentUser() != null) {
-                                            FirebaseAuth.getInstance().signOut();
-                                        }
                                         Intent a = new Intent(getApplicationContext(), MainActivity.class);
                                         startActivity(a);
                                     }

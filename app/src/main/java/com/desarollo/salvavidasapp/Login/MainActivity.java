@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.util.Patterns;
@@ -34,6 +35,7 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.firebase.auth.GoogleAuthProvider;
+import com.google.firebase.auth.UserInfo;
 
 import java.security.Provider;
 
@@ -71,6 +73,7 @@ public class MainActivity extends AppCompatActivity {
                 loginButton.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
                     @Override
                     public void onSuccess(LoginResult loginResult) {
+                        Log.d("TAG", "facebook:onSuccess:" + loginResult);
                         handleFacebookAccessToken(loginResult.getAccessToken());
                     }
 
@@ -155,7 +158,6 @@ public class MainActivity extends AppCompatActivity {
                 });
     }
 
-
     private void handleFacebookAccessToken(AccessToken token) {
         Log.d("TAG", "handleFacebookAccessToken:" + token);
 
@@ -191,15 +193,26 @@ public class MainActivity extends AppCompatActivity {
 
         FirebaseUser currentUser = mAuth.getCurrentUser();
         //updateUI(currentUser);
-        //if(currentUser != null && currentUser.isEmailVerified()){
 
-        /*
         if(currentUser != null){
-            Toast.makeText(MainActivity.this, "Ya estas logueado. ",
-                    Toast.LENGTH_LONG).show();
-            ingreso();
+        for (UserInfo profile : currentUser.getProviderData()) {
+                // Id of the provider (ex: google.com)
+                String providerId = profile.getProviderId();
+                //Toast.makeText(MainActivity.this, "Proveedor " + providerId, Toast.LENGTH_LONG).show();
+                if (providerId.equals("facebook.com")){
+                    Toast.makeText(MainActivity.this, "Ya estas logueado. ", Toast.LENGTH_SHORT).show();
+                    ingreso();
+                }
+                if (providerId.equals("google.com")){
+                    Toast.makeText(MainActivity.this, "Ya estas logueado. ", Toast.LENGTH_SHORT).show();
+                    ingreso();
+                }
+                if(currentUser.isEmailVerified()){
+                    Toast.makeText(MainActivity.this, "Ya estas logueado. ", Toast.LENGTH_SHORT).show();
+                    ingreso();
+                }
+            }
         }
-        */
     }
 
     public void Registro(View view) {
@@ -244,7 +257,7 @@ public class MainActivity extends AppCompatActivity {
                 } else {
                     // If sign in fails, display a message to the user.
                     Log.w("TAG", "signInWithEmail:failure", task.getException());
-                    Toast.makeText(getApplicationContext(), "Error de autenticación",
+                    Toast.makeText(getApplicationContext(), "Error de autenticación " + task.getException().toString(),
                             Toast.LENGTH_SHORT).show();
                     //updateUI(null);
                     // ...

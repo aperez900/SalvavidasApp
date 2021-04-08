@@ -31,6 +31,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.auth.UserInfo;
 
 public class Home extends AppCompatActivity {
 
@@ -115,12 +116,35 @@ public class Home extends AppCompatActivity {
 
     /*
      * @autor: Edison Cardona
-     * @since: 04/03/2021
-     * @Version: 01
+     * @since: 08/04/2021
+     * @Version: 02
      * Método para cerrar la sesión del usuario logeuado
      * */
     public void CerrarSesion() {
+        if(currentUser != null){
+            for (UserInfo profile : currentUser.getProviderData()) {
+                // Id of the provider (ex: google.com)
+                String providerId = profile.getProviderId();
+                //Toast.makeText(MainActivity.this, "Proveedor " + providerId, Toast.LENGTH_LONG).show();
+                if (providerId.equals("facebook.com")){
+                    LoginManager.getInstance().logOut();
+                    Toast.makeText(Home.this, "Cerrando sesión con facebook.",
+                            Toast.LENGTH_SHORT).show();
+                    Intent a = new Intent(this, MainActivity.class);
+                    startActivity(a);
+                    finish();
+                }
+                if (providerId.equals("google.com")){
+                    logOut();
+                }
+                FirebaseAuth.getInstance().signOut();
+                Intent a = new Intent(this, MainActivity.class);
+                startActivity(a);
+                finish();
+            }
+        }
 
+        /*
         if (FirebaseAuth.getInstance().getCurrentUser() != null) {
             FirebaseAuth.getInstance().signOut();
             Toast.makeText(Home.this, "Cerrando sesión.",
@@ -138,6 +162,7 @@ public class Home extends AppCompatActivity {
         if (account != null) {
             logOut();
         }
+        */
     }
 
    public void logOut() {
@@ -149,6 +174,7 @@ public class Home extends AppCompatActivity {
                             Toast.LENGTH_SHORT).show();
                     Intent intent = new Intent(Home.this, MainActivity.class);
                     startActivity(intent);
+                    finish();
                 } else {
                     //Toast.makeText(getApplicationContext(), R.string.not_close_session, Toast.LENGTH_SHORT).show();
                     Toast.makeText(Home.this, "Error cerrando sesión con Google.",
@@ -172,9 +198,18 @@ public class Home extends AppCompatActivity {
         TextView navUserMail = headerView.findViewById(R.id.id_correo_perfil);
         //ImageView navUserPhoto = headerView.findViewById(R.id.id_foto_perfil);
 
-        navUserMail.setText(currentUser.getEmail());
-        navUserName.setText(currentUser.getDisplayName());
+        //navUserMail.setText(currentUser.getEmail());
+        //navUserName.setText(currentUser.getDisplayName());
         //Glide.with(this).load(currentUser.getPhotoUrl()).into(navUserPhoto);
+        if (currentUser != null) {
+            for (UserInfo profile : currentUser.getProviderData()) {
+                // Name, email address, and profile photo Url
+                String name = profile.getDisplayName();
+                navUserName.setText(name);
+                String email = profile.getEmail();
+                navUserMail.setText(email);
+            }
+        }
 
     }
 }

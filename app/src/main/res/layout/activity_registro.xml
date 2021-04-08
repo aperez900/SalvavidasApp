@@ -57,11 +57,6 @@
             android:layout_width="match_parent"
             android:layout_height="55dp" />
 
-        <TextView
-            android:id="@+id/tv_verificarCorreo"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
-
         <Button
             android:id="@+id/btn_registro"
             android:layout_width="match_parent"
