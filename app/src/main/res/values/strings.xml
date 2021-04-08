@@ -12,6 +12,10 @@
     <string name="menu_gallery">Gallery</string>
     <string name="menu_slideshow">Slideshow</string>
 
+    <string name="Bienvenido">Bienvenido</string>
+    <string name="mensajeLogin">Inicia sesión para continuar</string>
+    <string name="verificarCorreo">Revisa tú correo para continuar</string>
+    <string name="logoSalvavidas">Logo Salvavidas</string>
     <string name="cerrar_sesion">Cerrar sesión</string>
     <string name="correo">Correo</string>
     <string name="contraseña">Contraseña</string>

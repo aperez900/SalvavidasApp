@@ -107,10 +107,8 @@ public class Home extends AppCompatActivity {
     //botón de cerrar sesión en el menú
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.action_settings:
+        if (item.getItemId() == R.id.action_settings) {
                 CerrarSesion();
-                break;
         }
         return super.onOptionsItemSelected(item);
     }
@@ -130,9 +128,9 @@ public class Home extends AppCompatActivity {
             Intent a = new Intent(this, MainActivity.class);
             startActivity(a);
         }
+
         if (LoginManager.getInstance() != null) {
             LoginManager.getInstance().logOut();
-            //Toast.makeText(Home.this, "Cerrando sesión facebook.",Toast.LENGTH_SHORT).show();
             Intent a = new Intent(this, MainActivity.class);
             startActivity(a);
         }
@@ -147,12 +145,14 @@ public class Home extends AppCompatActivity {
             @Override
             public void onResult(@NonNull Status status) {
                 if (status.isSuccess()) {
-                    Toast.makeText(Home.this, "Cerrando sesión de gmail.",
+                    Toast.makeText(Home.this, "Cerrando sesión con Google.",
                             Toast.LENGTH_SHORT).show();
                     Intent intent = new Intent(Home.this, MainActivity.class);
                     startActivity(intent);
                 } else {
                     //Toast.makeText(getApplicationContext(), R.string.not_close_session, Toast.LENGTH_SHORT).show();
+                    Toast.makeText(Home.this, "Error cerrando sesión con Google.",
+                            Toast.LENGTH_SHORT).show();
                 }
             }
         });

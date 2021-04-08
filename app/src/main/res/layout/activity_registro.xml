@@ -6,19 +6,33 @@
     android:layout_height="match_parent"
     tools:context=".Login.Registro">
 
+    <ImageView
+        android:id="@+id/imageView4"
+        android:layout_width="200dp"
+        android:layout_height="200dp"
+        android:layout_marginTop="20dp"
+        android:contentDescription="@string/logoSalvavidas"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/logo1" />
+
     <LinearLayout
         android:layout_width="347dp"
-        android:layout_height="253dp"
+        android:layout_height="300dp"
         android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.607">
 
         <EditText
             android:id="@+id/et_emailR"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:drawableStart="@android:drawable/sym_action_email"
+            android:drawablePadding="10dp"
             android:ems="10"
             android:fontFamily="@font/abel"
             android:hint="@string/correo"
@@ -32,6 +46,8 @@
             android:id="@+id/et_passwordR"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:drawableStart="@android:drawable/ic_lock_idle_lock"
+            android:drawablePadding="10dp"
             android:ems="10"
             android:fontFamily="@font/abel"
             android:hint="@string/contraseña"
@@ -40,6 +56,11 @@
         <Space
             android:layout_width="match_parent"
             android:layout_height="55dp" />
+
+        <TextView
+            android:id="@+id/tv_verificarCorreo"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
 
         <Button
             android:id="@+id/btn_registro"

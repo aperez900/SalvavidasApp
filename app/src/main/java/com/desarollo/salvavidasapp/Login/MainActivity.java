@@ -19,6 +19,7 @@ import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
+import com.facebook.login.LoginManager;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.common.SignInButton;
@@ -33,6 +34,8 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.firebase.auth.GoogleAuthProvider;
+
+import java.security.Provider;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -51,14 +54,14 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        et_email = (EditText) findViewById(R.id.et_mail);
-        et_password = (EditText) findViewById(R.id.et_password);
+        et_email = findViewById(R.id.et_mail);
+        et_password = findViewById(R.id.et_password);
 
         mAuth = FirebaseAuth.getInstance();
 
         //Acesso por facebook
         callbackManager = CallbackManager.Factory.create();
-        loginButton = (LoginButton) findViewById(R.id.login_button);
+        loginButton = findViewById(R.id.login_button);
         loginButton.setPermissions("email", "public_profile");
         //loginButton.setReadPermissions("email", "public_profile");
 
@@ -87,7 +90,6 @@ public class MainActivity extends AppCompatActivity {
         });
 
         // Ingresar por Google
-
         signInButton =  findViewById(R.id.signInButton);
 
         // Formato para el boton de login por google
@@ -130,7 +132,7 @@ public class MainActivity extends AppCompatActivity {
                 GoogleSignInAccount account = Task.getResult(ApiException.class);
                 firebaseAuthWithGoogle(account.getIdToken());
             } catch(ApiException e){
-                Toast.makeText(MainActivity.this,"Fallo google",Toast.LENGTH_SHORT).show();
+                Toast.makeText(MainActivity.this,"Error de inicio de sesión con google",Toast.LENGTH_SHORT).show();
             }
         }
     }
@@ -145,8 +147,9 @@ public class MainActivity extends AppCompatActivity {
                             Intent intent = new Intent(MainActivity.this, Home.class);
                             startActivity(intent);
                             finish();
+                            Toast.makeText(MainActivity.this,"Ingreso correcto con Google",Toast.LENGTH_SHORT).show();
                         }else{
-                            Toast.makeText(MainActivity.this,"Fallo en inciar sesion",Toast.LENGTH_SHORT).show();
+                            Toast.makeText(MainActivity.this,"Error inciando sesión con Google",Toast.LENGTH_SHORT).show();
                         }
                     }
                 });
@@ -185,14 +188,18 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
+
         FirebaseUser currentUser = mAuth.getCurrentUser();
         //updateUI(currentUser);
         //if(currentUser != null && currentUser.isEmailVerified()){
-        if(currentUser != null ){
-            Toast.makeText(MainActivity.this, "Ya estas logueado.",
-                    Toast.LENGTH_SHORT).show();
+
+        /*
+        if(currentUser != null){
+            Toast.makeText(MainActivity.this, "Ya estas logueado. ",
+                    Toast.LENGTH_LONG).show();
             ingreso();
         }
+        */
     }
 
     public void Registro(View view) {
@@ -226,11 +233,13 @@ public class MainActivity extends AppCompatActivity {
                     Log.d("TAG", "signInWithEmail:success");
                     FirebaseUser user = mAuth.getCurrentUser();
                     //updateUI(user);
-                    if (user.isEmailVerified()) {
-                        ingreso();
-                    }else{
-                        Toast.makeText(getApplicationContext(), "Debe verificar el email",
-                                Toast.LENGTH_SHORT).show();
+                    if (user != null) {
+                        if (user.isEmailVerified()) {
+                            ingreso();
+                        }else{
+                            Toast.makeText(getApplicationContext(), "Debe verificar el email",
+                                    Toast.LENGTH_SHORT).show();
+                        }
                     }
                 } else {
                     // If sign in fails, display a message to the user.

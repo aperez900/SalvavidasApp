@@ -85,6 +85,7 @@ public class Profile extends Fragment {
         UserMail.setText(currentUser.getEmail());
         Glide.with(this).load(currentUser.getPhotoUrl()).apply(RequestOptions.circleCropTransform()).into(UserPhoto);
 
+
         //Llena los campos del formulario con los datos de la bd
         consultarDatosPerfil(nombres, apellidos, identificacion, celular,btn_reg, btn_desactivar_usuario);
 

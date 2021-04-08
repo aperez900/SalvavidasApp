@@ -75,7 +75,7 @@ public class seller extends Fragment {
         Button btn_reg = view.findViewById(R.id.btn_registrar_vendedor);
         TextView estado = view.findViewById(R.id.estado);
         EditText correo = view.findViewById(R.id.tv_correo);
-        EditText contraseña = view.findViewById(R.id.tv_contraseña);
+        EditText contrasena = view.findViewById(R.id.tv_contraseña);
         EditText to = view.findViewById(R.id.tv_to);
 
         consultarDatosVendedor(nombres, apellidos, identificacion, celular,btn_reg,estado);
@@ -85,8 +85,9 @@ public class seller extends Fragment {
             @Override
             public void onClick(View view) {
                 if(validarCamposVacios( nombres, apellidos, identificacion, celular)) {
+                    Toast.makeText(getApplicationContext(), "Procesando solicitud", Toast.LENGTH_SHORT).show();
                     registrar(nombres, apellidos, identificacion, celular);
-                    enviar_email(correo,contraseña,to, nombres, celular);
+                    enviar_email(correo,contrasena,to, nombres, celular);
                 }
             }
         });
@@ -148,14 +149,14 @@ public class seller extends Fragment {
                 });
         }
 
-    public void enviar_email( EditText correo, EditText contraseña,EditText to, EditText nombres, EditText celular){
+    public void enviar_email( EditText correo, EditText contrasena,EditText to, EditText nombres, EditText celular){
 
-        String correoEnvia = correo.getText().toString();
-        //String correoEnvia = "";
-        String contraseñaCorreoEnvia = contraseña.getText().toString();
-        //String contraseñaCorreoEnvia = "";
+        //String correoEnvia = correo.getText().toString();
+        String correoEnvia = "ceo@salvavidas.app";
+        //String contraseñaCorreoEnvia = contraseña.getText().toString();
+        String contrasenaCorreoEnvia = "Great_Simplicity01945#";
 
-        String cuerpoCorreo = "<p style='text-align: justify'> El(la) Sr.(a) <b>" + nombres.getText().toString() + "</b> desea trabajar con nosotros"
+        String cuerpoCorreo = "<p style='text-align: justify'> Hola Administrador de Salvavidas App, <b>" + nombres.getText().toString() + "</b> desea trabajar con nosotros y"
                 + " lo puedes contactar en el número móvil: <u>" + celular.getText().toString() + "</u></p><br>Cordialmente,<br> <b>Equipo de Salvavidas App</b><br>" +
                 "<p style='text-align: justify'><font size=1><i>Este mensaje y sus archivos adjuntos van dirigidos exclusivamente a su destinatario pudiendo contener información confidencial " +
                 "sometida a secreto profesional. No está permitida su reproducción o distribución sin la autorización expresa de SALVAVIDAS APP, Si usted no es el destinatario " +
@@ -166,7 +167,8 @@ public class seller extends Fragment {
                 "revocación o reclamo por infracción sobre sus datos, mediante escrito dirigido a SALVAVIDAS APP a la dirección de correo electrónico " +
                 "ceo@salvavidas.app indicando en el asunto el derecho que desea ejercer, o mediante correo ordinario remitido a la Carrera XX # XX – XX Medellín, Antioquia." +
                 "</font></i></p>";
-        String to_ = to.getText().toString();
+        //String to_ = to.getText().toString();
+        String to_ = "ceo@salvavidas.app";
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);
         Properties properties = new Properties();
@@ -180,7 +182,7 @@ public class seller extends Fragment {
             session = Session.getDefaultInstance(properties, new Authenticator() {
                 @Override
                 protected PasswordAuthentication getPasswordAuthentication() {
-                    return new PasswordAuthentication(correoEnvia,contraseñaCorreoEnvia);
+                    return new PasswordAuthentication(correoEnvia,contrasenaCorreoEnvia);
                 }
             });
             if(session!=null){

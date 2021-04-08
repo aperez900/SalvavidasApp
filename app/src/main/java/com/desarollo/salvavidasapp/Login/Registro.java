@@ -9,6 +9,7 @@ import android.util.Log;
 import android.util.Patterns;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.desarollo.salvavidasapp.R;
@@ -21,6 +22,7 @@ import com.google.firebase.auth.FirebaseUser;
 public class Registro extends AppCompatActivity {
 
     EditText et_emailR, et_passwordR;
+    TextView tv_verificarCorreo;
     private FirebaseAuth mAuth;
 
     @Override
@@ -28,8 +30,9 @@ public class Registro extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_registro);
 
-        et_emailR = (EditText)findViewById(R.id.et_emailR);
-        et_passwordR = (EditText)findViewById(R.id.et_passwordR);
+        et_emailR = findViewById(R.id.et_emailR);
+        et_passwordR = findViewById(R.id.et_passwordR);
+        tv_verificarCorreo = findViewById(R.id.tv_verificarCorreo);
 
         mAuth = FirebaseAuth.getInstance();
     }
@@ -62,22 +65,35 @@ public class Registro extends AppCompatActivity {
                     FirebaseUser user = mAuth.getCurrentUser();
 
                     //envío de emial para verificación
+                    if (user != null){
                     user.sendEmailVerification()
                             .addOnCompleteListener(new OnCompleteListener<Void>() {
                                 @Override
                                 public void onComplete(@NonNull Task<Void> task) {
                                     if (task.isSuccessful()) {
+                                        Log.d("TAG", "Email sent.");
                                         Toast.makeText(Registro.this, "email enviado para verificación",
                                                 Toast.LENGTH_SHORT).show();
-                                        Log.d("TAG", "Email sent.");
+                                        //tv_verificarCorreo.setText("Verifica tú correo para continuar");
+                                        if (FirebaseAuth.getInstance().getCurrentUser() != null) {
+                                            FirebaseAuth.getInstance().signOut();
+                                        }
+                                        Intent a = new Intent(getApplicationContext(), MainActivity.class);
+                                        startActivity(a);
                                     }
                                 }
                             });
+                    }
+                    /*
                     Toast.makeText(Registro.this, "Usuario creado",
                             Toast.LENGTH_SHORT).show();
+
+
                     //updateUI(user);
                     Intent a = new Intent(getApplicationContext(), MainActivity.class);
                     startActivity(a);
+                    */
+
                 } else {
                     // If sign in fails, display a message to the user.
                     Log.w("TAG", "createUserWithEmail:failure", task.getException());

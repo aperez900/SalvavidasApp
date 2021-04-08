@@ -41,7 +41,7 @@ public class Forget extends AppCompatActivity {
     private void validate() {
         String email = et_recuperarEmail.getText().toString().trim();
         if (email.isEmpty()||!Patterns.EMAIL_ADDRESS.matcher(email).matches()){
-            et_recuperarEmail.setError("Correo no valido");
+            et_recuperarEmail.setError("Correo no válido.");
             return;
         }
         sendEmail(email);
@@ -61,7 +61,7 @@ public class Forget extends AppCompatActivity {
                             startActivity(intent);
                             finish();
                         } else{
-                            Toast.makeText(Forget.this,"Correo fue invalido",Toast.LENGTH_SHORT).show();
+                            Toast.makeText(Forget.this,"Error procesando la solicitud.",Toast.LENGTH_SHORT).show();
                         }
                     }
                 });
@@ -74,7 +74,5 @@ public class Forget extends AppCompatActivity {
         Intent  intent = new Intent(Forget.this, MainActivity.class);
         startActivity(intent);
         finish();
-
-
     }
 }
