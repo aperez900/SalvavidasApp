@@ -457,7 +457,7 @@ public class Profile extends Fragment {
         if(selectedItems.isEmpty()){
             crearModalComidasPreferidas();
             campoLleno=false;
-            Toast.makeText(getApplicationContext(), "Seleccione sus comidas preferidas primero", Toast.LENGTH_LONG).show();
+            Toast.makeText(getContext(), "Seleccione sus comidas preferidas primero", Toast.LENGTH_LONG).show();
         }
         return campoLleno;
     }
