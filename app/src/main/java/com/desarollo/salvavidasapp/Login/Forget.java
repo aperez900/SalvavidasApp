@@ -67,7 +67,6 @@ public class Forget extends AppCompatActivity {
                 });
     }
 
-
     @Override
     public void onBackPressed() {
         super.onBackPressed();

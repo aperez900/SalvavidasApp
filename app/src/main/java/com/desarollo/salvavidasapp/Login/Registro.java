@@ -22,7 +22,6 @@ import com.google.firebase.auth.FirebaseUser;
 public class Registro extends AppCompatActivity {
 
     EditText et_emailR, et_passwordR;
-    TextView tv_verificarCorreo;
     private FirebaseAuth mAuth;
 
     @Override
@@ -75,6 +74,7 @@ public class Registro extends AppCompatActivity {
                                                 Toast.LENGTH_SHORT).show();
                                         Intent a = new Intent(getApplicationContext(), MainActivity.class);
                                         startActivity(a);
+                                        finish();
                                     }
                                 }
                             });
@@ -92,7 +92,7 @@ public class Registro extends AppCompatActivity {
                 } else {
                     // If sign in fails, display a message to the user.
                     Log.w("TAG", "createUserWithEmail:failure", task.getException());
-                    Toast.makeText(Registro.this, "Authentication failed.",
+                    Toast.makeText(Registro.this, "Error creando el usuario",
                             Toast.LENGTH_SHORT).show();
                     //updateUI(null);
                 }

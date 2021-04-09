@@ -218,11 +218,13 @@ public class MainActivity extends AppCompatActivity {
     public void Registro(View view) {
         Intent i = new Intent(getApplicationContext(), Registro.class);
         startActivity(i);
+        finish();
     }
 
     public void forget(View view) {
         Intent i = new Intent(getApplicationContext(), Forget.class);
         startActivity(i);
+        finish();
     }
 
     //Acceso por firebase con email and clave
@@ -297,5 +299,4 @@ public class MainActivity extends AppCompatActivity {
         }
         return campoLleno;
     }
-
 }
