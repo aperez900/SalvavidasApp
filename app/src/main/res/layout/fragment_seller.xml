@@ -8,11 +8,12 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:layout_marginTop="10dp">
-
-        <TextView
+        android:layout_height="180dp"
+        android:orientation="vertical">
+        <Space
+            android:layout_width="match_parent"
+            android:layout_height="10dp" />
+    <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:fontFamily="@font/abel"
@@ -31,30 +32,25 @@
         <Space
             android:layout_width="match_parent"
             android:layout_height="10dp" />
-        <TextView
-            android:id="@+id/tv_descripcionVendedor1"
+        <FrameLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:fontFamily="@font/abel"
-            android:text="@string/TeEstabamosBuscando"
-            android:textAlignment="center"
-            android:textSize="18sp" />
-        <TextView
-            android:id="@+id/tv_descripcionVendedor2"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:fontFamily="@font/abel"
-            android:text="@string/descripcionSolicitud"
-            android:textAlignment="center"
-            android:textSize="18sp" />
+            android:layout_height="90dp">
 
+            <ImageView
+                android:id="@+id/foto_perfil"
+                android:layout_width="match_parent"
+                android:layout_height="90dp"
+                android:layout_marginBottom="16dp"
+                app:srcCompat="@drawable/icono_compras"
+                tools:src="@tools:sample/avatars"
+                app:tint="@color/gray" />
+        </FrameLayout>
     </LinearLayout>
-
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="150dp">
+        android:layout_marginTop="180dp">
 
         <ScrollView
             android:layout_width="match_parent"
@@ -122,40 +118,41 @@
                     app:layout_constraintTop_toBottomOf="@id/tv_identidad" />
 
                 <EditText
-                    android:id="@+id/tv_correo"
+                    android:id="@+id/et_razon_social"
                     android:layout_width="match_parent"
                     android:layout_height="50dp"
                     android:layout_marginStart="50dp"
                     android:layout_marginTop="10dp"
                     android:layout_marginEnd="50dp"
                     android:fontFamily="@font/abel"
-                    android:hint="correo desde donde se enviara"
-                    android:inputType="textEmailAddress"
+                    android:hint="@string/razonSocial"
+                    android:inputType="textPersonName"
                     app:layout_constraintTop_toBottomOf="@id/tv_celular" />
 
                 <EditText
-                    android:id="@+id/tv_contraseña"
+                    android:id="@+id/et_nit"
                     android:layout_width="match_parent"
                     android:layout_height="50dp"
                     android:layout_marginStart="50dp"
                     android:layout_marginTop="10dp"
                     android:layout_marginEnd="50dp"
                     android:fontFamily="@font/abel"
-                    android:hint="contraseña de correo desde donde se enviara"
-                    android:inputType="textPassword"
-                    app:layout_constraintTop_toBottomOf="@id/tv_correo" />
+                    android:hint="@string/Nit"
+                    android:inputType="number"
+                    app:layout_constraintTop_toBottomOf="@id/et_razon_social" />
 
-                <EditText
-                    android:id="@+id/tv_to"
-                    android:layout_width="match_parent"
-                    android:layout_height="50dp"
-                    android:layout_marginStart="50dp"
-                    android:layout_marginTop="10dp"
-                    android:layout_marginEnd="50dp"
+                <Spinner
+                    android:id="@+id/sp_actividad_economica"
+                    android:layout_width="320sp"
+                    android:layout_height="50sp"
+                    android:layout_gravity="center"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="20dp"
+                    android:background="#FFFFFF"
                     android:fontFamily="@font/abel"
-                    android:hint="correo a donde se enviara"
-                    android:inputType="textEmailAddress"
-                    app:layout_constraintTop_toBottomOf="@id/tv_contraseña" />
+                    android:hint="@string/ActividadEconomica"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/et_nit" />
 
                 <Button
                     android:id="@+id/btn_registrar_vendedor"

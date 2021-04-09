@@ -25,7 +25,6 @@ public class ListAddressAdapter extends RecyclerView.Adapter<ListAddressAdapter.
     //listener
     private View.OnClickListener listener;
 
-
     public ListAddressAdapter(Context context, ArrayList<ListDirecciones> model){
             this.inflater = LayoutInflater.from(context);
             this.model = model;
@@ -85,5 +84,4 @@ public class ListAddressAdapter extends RecyclerView.Adapter<ListAddressAdapter.
             imagenDireccion = itemView.findViewById(R.id.Imagen_direccion);
         }
     }
-
 }

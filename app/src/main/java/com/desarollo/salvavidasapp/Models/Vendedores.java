@@ -1,24 +1,20 @@
 package com.desarollo.salvavidasapp.Models;
 
+import android.widget.Spinner;
+
 public class Vendedores {
 
-    public String nombre;
-    public String apellido;
-    public String identificacion;
-    public String celular;
-    public String estado;
-
+    private String nombre;
+    private String apellido;
+    private String identificacion;
+    private String celular;
+    private String estado;
+    private String nombre_establecimiento;
+    private String nit;
+    private String actividad_economica;
 
     public Vendedores(){
 
-    }
-
-    public String getEstado() {
-        return estado;
-    }
-
-    public void setEstado(String estado) {
-        this.estado = estado;
     }
 
     public String getNombre() {
@@ -53,7 +49,35 @@ public class Vendedores {
         this.celular = celular;
     }
 
+    public String getEstado() {
+        return estado;
+    }
 
+    public void setEstado(String estado) {
+        this.estado = estado;
+    }
 
+    public String getNombre_establecimiento() {
+        return nombre_establecimiento;
+    }
 
+    public void setNombre_establecimiento(String nombre_establecimiento) {
+        this.nombre_establecimiento = nombre_establecimiento;
+    }
+
+    public String getNit() {
+        return nit;
+    }
+
+    public void setNit(String nit) {
+        this.nit = nit;
+    }
+
+    public String getActividad_economica() {
+        return actividad_economica;
+    }
+
+    public void setActividad_economica(String actividad_economica) {
+        this.actividad_economica = actividad_economica;
+    }
 }

@@ -90,7 +90,10 @@ public class Profile extends Fragment {
                 String email = profile.getEmail();
                 UserMail.setText(email);
                 Uri photoUrl = profile.getPhotoUrl();
-                Glide.with(this).load(photoUrl).apply(RequestOptions.circleCropTransform()).into(UserPhoto);
+                Glide.with(UserPhoto.getContext())
+                        .load(photoUrl)
+                        .apply(RequestOptions.circleCropTransform())
+                        .into(UserPhoto);
             }
         }
 
@@ -324,7 +327,6 @@ public class Profile extends Fragment {
         u.celular = celular.getText().toString();
         u.correo = UserMail.getText().toString();
         u.habilitado = true;
-
 
         //guarda los datos del usuario
         myRef.child(currentUser.getUid()).setValue(u)

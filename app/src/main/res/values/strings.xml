@@ -42,6 +42,9 @@
     <string name="estadoVendedor">SIN REGISTRO</string>
     <string name="TeEstabamosBuscando">!Te estabamos buscando!</string>
     <string name="descripcionSolicitud">Diligencia el siguiente formulario si deseas vender tus productos en Salvavidas App</string>
+    <string name="razonSocial">Nombre del establecimiento</string>
+    <string name="Nit">Nit</string>
+    <string name="ActividadEconomica">Actividad económica</string>
 
     <string name="facebook_application_id">1541603559379639</string>
     <string name="facebook_app_id">1541603559379639</string>

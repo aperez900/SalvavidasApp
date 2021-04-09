@@ -5,5 +5,5 @@
     android:textSize="17sp"
     android:fontFamily="@font/abel"
     android:padding="7sp"
-    android:textColor="#959595"
+    android:textColor="@color/black"
     xmlns:android="http://schemas.android.com/apk/res/android" />
