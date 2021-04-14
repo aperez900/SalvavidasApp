@@ -200,18 +200,16 @@ public class MainActivity extends AppCompatActivity {
                 String providerId = profile.getProviderId();
                 //Toast.makeText(MainActivity.this, "Proveedor " + providerId, Toast.LENGTH_LONG).show();
                 if (providerId.equals("facebook.com")){
-                    Toast.makeText(MainActivity.this, "Ya estas logueado. ", Toast.LENGTH_SHORT).show();
                     ingreso();
                 }
                 if (providerId.equals("google.com")){
-                    Toast.makeText(MainActivity.this, "Ya estas logueado. ", Toast.LENGTH_SHORT).show();
                     ingreso();
                 }
                 if(currentUser.isEmailVerified()){
-                    Toast.makeText(MainActivity.this, "Ya estas logueado. ", Toast.LENGTH_SHORT).show();
                     ingreso();
                 }
             }
+            Toast.makeText(MainActivity.this, "Ya estas logueado. ", Toast.LENGTH_SHORT).show();
         }
     }
 

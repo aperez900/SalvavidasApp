@@ -38,6 +38,7 @@
     <string name="celular">Celular</string>
     <string name="lista_comida">Lista de comidas preferidas</string>
 
+    <string name="perfilComprador">PERFIL COMPRADOR</string>
     <string name="perfilVendedor">PERFIL VENDEDOR</string>
     <string name="estadoVendedor">SIN REGISTRO</string>
     <string name="TeEstabamosBuscando">!Te estabamos buscando!</string>
@@ -45,6 +46,9 @@
     <string name="razonSocial">Nombre del establecimiento</string>
     <string name="Nit">Nit</string>
     <string name="ActividadEconomica">Actividad económica</string>
+    <string name="serVendedor">Quiero ser vendedor</string>
+    <string name="solicitar">SOLICITAR</string>
+    <string name="logo_vendedor">Logo vendedor</string>
 
     <string name="facebook_application_id">1541603559379639</string>
     <string name="facebook_app_id">1541603559379639</string>

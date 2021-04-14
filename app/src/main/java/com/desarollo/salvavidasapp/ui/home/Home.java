@@ -69,7 +69,7 @@ public class Home extends AppCompatActivity {
         // menu should be considered as top level destinations.
         mAppBarConfiguration = new AppBarConfiguration.Builder(
                 R.id.nav_home, R.id.nav_gallery, R.id.nav_slideshow, R.id.nav_profile,
-                R.id.nav_address, R.id.nav_seller)
+                R.id.nav_address, R.id.nav_seller, R.id.subMenuProfile)
                 //.setDrawerLayout(drawer)
                 .setOpenableLayout(drawer)
                 .build();

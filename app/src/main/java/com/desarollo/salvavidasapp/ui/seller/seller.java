@@ -6,6 +6,7 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.navigation.Navigation;
 
 import android.os.Message;
 import android.os.StrictMode;
@@ -38,6 +39,8 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+
+import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -83,10 +86,10 @@ public class seller extends Fragment {
         // Inflate the layout for this fragment
 
         View view = inflater.inflate(R.layout.fragment_seller,container,false);
-        EditText nombres = view.findViewById(R.id.tv_nombre);
-        EditText apellidos = view.findViewById(R.id.tv_apellido);
-        EditText identificacion = view.findViewById(R.id.tv_identidad);
-        EditText celular = view.findViewById(R.id.tv_celular);
+        TextView nombres = view.findViewById(R.id.tv_nombre);
+        TextView apellidos = view.findViewById(R.id.tv_apellido);
+        TextView identificacion = view.findViewById(R.id.tv_identidad);
+        TextView celular = view.findViewById(R.id.tv_celular);
         EditText nombreEstablecimiento = view.findViewById(R.id.et_razon_social);
         EditText nit = view.findViewById(R.id.et_nit);
         Button btn_reg = view.findViewById(R.id.btn_registrar_vendedor);
@@ -137,8 +140,8 @@ public class seller extends Fragment {
         return view;
     }
 
-    public void consultarDatosVendedor(EditText et_nombres, EditText et_apellidos, EditText et_identificacion,
-                                     EditText et_celular, EditText et_nombreEstablecimiento, EditText et_nit, Spinner sp_actividad_econimica, Button btn_reg, TextView tv_estado){
+    public void consultarDatosVendedor(TextView tv_nombres, TextView tv_apellidos, TextView et_identificacion,
+                                       TextView tv_celular, EditText et_nombreEstablecimiento, EditText et_nit, Spinner sp_actividad_econimica, Button btn_reg, TextView tv_estado){
         //consultando datos del vendedor
         myRefVendedores.child(currentUser.getUid())
                 .addValueEventListener(new ValueEventListener() {
@@ -146,13 +149,13 @@ public class seller extends Fragment {
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
                         if(snapshot.exists()){
                             String nombre = snapshot.child("nombre").getValue().toString();
-                            et_nombres.setText(nombre);
+                            tv_nombres.setText(nombre);
                             String apellido = snapshot.child("apellido").getValue().toString();
-                            et_apellidos.setText(apellido);
+                            tv_apellidos.setText(apellido);
                             String identificacion = snapshot.child("identificacion").getValue().toString();
                             et_identificacion.setText(identificacion);
                             String celular = snapshot.child("celular").getValue().toString();
-                            et_celular.setText(celular);
+                            tv_celular.setText(celular);
                             String nombre_establecimiento = snapshot.child("nombre_establecimiento").getValue().toString();
                             et_nombreEstablecimiento.setText(nombre_establecimiento);
                             String nit = snapshot.child("nit").getValue().toString();
@@ -171,25 +174,23 @@ public class seller extends Fragment {
                 });
     }
 
-    public void consultarDatosPerfilUsuario(EditText et_nombres, EditText et_apellidos, EditText et_identificacion,
-                                       EditText et_celular){
+    public void consultarDatosPerfilUsuario(TextView tv_nombres, TextView tv_apellidos, TextView tv_identificacion,
+                                       TextView tv_celular){
         myRefPerfilUsuario.child(currentUser.getUid())
                 .addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
                         if(snapshot.exists()){
                             String nombre = snapshot.child("nombre").getValue().toString();
-                            et_nombres.setText(nombre);
+                            tv_nombres.setText(nombre);
                             String apellido = snapshot.child("apellido").getValue().toString();
-                            et_apellidos.setText(apellido);
+                            tv_apellidos.setText(apellido);
                             String identificacion = snapshot.child("identificacion").getValue().toString();
-                            et_identificacion.setText(identificacion);
+                            tv_identificacion.setText(identificacion);
                             String celular = snapshot.child("celular").getValue().toString();
-                            et_celular.setText(celular);
+                            tv_celular.setText(celular);
                         }else{
-                            Toast.makeText(getContext(), "Debes completar primero el perfil: Menú / Perfil", Toast.LENGTH_LONG).show();
-                            Intent h = new Intent(getContext(), Home.class);
-                            startActivity(h);
+                            Toast.makeText(getContext(), "Debes completar primero el perfil del comprador", Toast.LENGTH_LONG).show();
                         }
                     }
                     @Override
@@ -199,7 +200,7 @@ public class seller extends Fragment {
                 });
     }
 
-    private void registrar(EditText nombres, EditText apellidos, EditText identificacion, EditText celular, EditText nombre_establecimiento, EditText nit, Spinner sp_actividad_econimica) {
+    private void registrar(TextView nombres, TextView apellidos, TextView identificacion, TextView celular, EditText nombre_establecimiento, EditText nit, Spinner sp_actividad_econimica) {
         v = new Vendedores();
         v.setNombre(nombres.getText().toString());
         v.setApellido(apellidos.getText().toString());
@@ -226,14 +227,14 @@ public class seller extends Fragment {
                 });
         }
 
-    public void enviar_email( String correo, String contrasena, EditText nombres, EditText celular){
+    public void enviar_email( String correo, String contrasena, TextView nombres, TextView celular){
 
         //String correoEnvia = correo.getText().toString();
         String correoEnvia = "ceo@salvavidas.app";
         //String contraseñaCorreoEnvia = contraseña.getText().toString();
         String contrasenaCorreoEnvia = "Great_Simplicity01945#";
 
-        String cuerpoCorreo = "<p style='text-align: justify'> Hola Administrador de Salvavidas App, <b>" + nombres.getText().toString() + "</b> desea trabajar con nosotros y"
+        String cuerpoCorreo = "<p style='text-align: justify'> Hola Administrador de Salvavidas App, <b>" + nombres.getText().toString() + "</b> desea ser vendedor en nuestra APP y"
                 + " lo puedes contactar en el número móvil: <u>" + celular.getText().toString() + "</u></p><br>Cordialmente,<br> <b>Equipo de Salvavidas App</b><br>" +
                 "<p style='text-align: justify'><font size=1><i>Este mensaje y sus archivos adjuntos van dirigidos exclusivamente a su destinatario pudiendo contener información confidencial " +
                 "sometida a secreto profesional. No está permitida su reproducción o distribución sin la autorización expresa de SALVAVIDAS APP, Si usted no es el destinatario " +
@@ -279,7 +280,7 @@ public class seller extends Fragment {
         }
     }
 
-    public void enviar_email_usuario( String correo, String contrasena, EditText nombres, EditText celular){
+    public void enviar_email_usuario( String correo, String contrasena, TextView nombres, TextView celular){
 
         //String correoEnvia = correo.getText().toString();
         String correoEnvia = "ceo@salvavidas.app";
@@ -331,7 +332,7 @@ public class seller extends Fragment {
             //Toast.makeText(getApplicationContext(), "Error enviando la solicitud. " + e, Toast.LENGTH_SHORT).show();
         }
     }
-    public boolean validarCamposVacios(EditText nombres, EditText apellidos, EditText identificacion, EditText celular,
+    public boolean validarCamposVacios(TextView nombres, TextView apellidos, TextView identificacion, TextView celular,
                                        EditText nombre_establec, EditText et_nit, Spinner sp_actividades_economicas){
         boolean campoLleno = true;
 
@@ -343,22 +344,23 @@ public class seller extends Fragment {
         String nit = et_nit.getText().toString();
         String actividades_econo = sp_actividades_economicas.getSelectedItem().toString();
 
-        if(nombreV.isEmpty()){
+        if(nombreV.equals("Nombres")){
             nombres.setError("Debe diligenciar un nombre");
+            Toast.makeText(getApplicationContext(), "Debe completar primero el perfil de comprador", Toast.LENGTH_SHORT).show();
             campoLleno=false;
         }
-        if(apellidoV.isEmpty()){
+        if(apellidoV.equals("Apellidos")){
             apellidos.setError("Debe diligenciar un apellido");
             campoLleno=false;
         }
-        if(identificacionV.isEmpty()){
+        if(identificacionV.equals("Documento de identidad")){
             identificacion.setError("Debe diligenciar un nro. de identificación");
             campoLleno=false;
         }else if (identificacionV.length() < 5 || identificacionV.length() > 15){
             identificacion.setError("Digite un número de cédula válido");
             campoLleno=false;
         }
-        if(celularV.isEmpty()){
+        if(celularV.equals("Celular")){
             celular.setError("Debe diligenciar un celular");
             campoLleno=false;
         }else if (celularV.length() != 10){

@@ -166,6 +166,16 @@
                     android:text="@string/desactivar_usuario"
                     app:layout_constraintTop_toBottomOf="@+id/btn_registrar_perfil" />
 
+                <TextView
+                    android:id="@+id/tv_quiero_ser_vendedor"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/abel"
+                    android:text="@string/serVendedor"
+                    android:textAlignment="center"
+                    android:textSize="18sp"
+                    android:textStyle="bold" />
+
             </LinearLayout>
         </ScrollView>
 

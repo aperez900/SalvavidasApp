@@ -16,6 +16,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.navigation.Navigation;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
@@ -79,6 +80,7 @@ public class Profile extends Fragment {
         EditText celular = view.findViewById(R.id.tv_celular);
         Button btn_reg = view.findViewById(R.id.btn_registrar_perfil);
         Button btn_desactivar_usuario = view.findViewById(R.id.btn_desactivar_usuario);
+        TextView tv_vendedor = view.findViewById(R.id.tv_quiero_ser_vendedor);
 
         listaDirecciones = new ArrayList<>();
 
@@ -96,6 +98,9 @@ public class Profile extends Fragment {
                         .into(UserPhoto);
             }
         }
+
+        //pasar de un fragment a otro
+        tv_vendedor.setOnClickListener(Navigation.createNavigateOnClickListener(R.id.action_nav_profile_to_nav_seller));
 
         //UserName.setText(currentUser.getDisplayName());
         //UserMail.setText(currentUser.getEmail());
