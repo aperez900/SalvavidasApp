@@ -16,14 +16,26 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center_horizontal"
-        android:orientation="horizontal">
+        android:orientation="vertical">
+
+        <Button
+            android:id="@+id/btnUbicacionActual"
+            android:layout_width="364dp"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/poppins_semibold"
+            android:text="@string/ubicacionActual"
+            android:textSize="16sp"
+            app:icon="@drawable/ic_icono_address" />
 
         <Button
             android:id="@+id/btnAgregarDirecciones"
             android:layout_width="364dp"
             android:layout_height="wrap_content"
-            android:text="@string/agregarDirecciones" />
+            android:fontFamily="@font/poppins_semibold"
+            android:text="@string/agregarDirecciones"
+            android:textSize="16sp" />
     </LinearLayout>
 
 
 </LinearLayout>
+

@@ -7,36 +7,29 @@
         <item
             android:id="@+id/nav_home"
             android:icon="@drawable/ic_menu_camera"
-            android:fontFamily="@font/abel"
             android:title="@string/menu_home" />
         <item
             android:id="@+id/nav_gallery"
-            android:fontFamily="@font/abel"
             android:icon="@drawable/ic_menu_gallery"
             android:title="@string/menu_gallery" />
         <item
             android:id="@+id/nav_slideshow"
-            android:fontFamily="@font/abel"
             android:icon="@drawable/ic_menu_slideshow"
             android:title="@string/menu_slideshow" />
         <item
             android:id="@+id/subMenuProfile"
-            android:fontFamily="@font/abel"
             android:icon="@drawable/baseline_account_box_black_18"
             android:title="@string/miPerfil" />
         <item
             android:id="@+id/nav_misCompras"
-            android:fontFamily="@font/abel"
             android:icon="@drawable/icono_corazon"
             android:title="@string/misCompras" />
         <item
             android:id="@+id/nav_sales"
-            android:fontFamily="@font/abel"
             android:icon="@drawable/icono_mis_ventas"
             android:title="@string/misVentas" />
         <item
             android:id="@+id/nav_address"
-            android:fontFamily="@font/abel"
             android:icon="@drawable/icono_address"
             android:title="Mis Direcciones" />
     </group>

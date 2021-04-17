@@ -3,7 +3,14 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="com.desarollo.salvavidasapp">
 
+    <!--
+         The ACCESS_COARSE/FINE_LOCATION permissions are not required to use
+         Google Maps Android API v2, but you must specify either coarse or fine
+         location permissions for the "MyLocation" functionality.
+    -->
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
 
     <application
         android:allowBackup="true"
@@ -12,7 +19,23 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.SalvavidasApp">
-        <activity android:name=".ui.direction.FrmAddress"></activity>
+
+        <!--
+             The API key for Google Maps-based APIs is defined as a string resource.
+             (See the file "res/values/google_maps_api.xml").
+             Note that the API key is linked to the encryption key used to sign the APK.
+             You need a different API key for each encryption key, including the release key that is used to
+             sign the APK for publishing.
+             You can define the keys for the debug and release targets in src/debug/ and src/release/.
+        -->
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="@string/google_maps_key" />
+
+        <activity
+            android:name=".ui.direction.Maps"
+            android:label="@string/title_activity_maps"></activity>
+        <activity android:name=".ui.direction.FrmAddress" />
         <activity
             android:name=".Login.Splash"
             android:theme="@style/Theme.SalvavidasApp.NoActionBar">
@@ -28,13 +51,12 @@
             android:label="@string/title_activity_home"
             android:theme="@style/Theme.SalvavidasApp.NoActionBar" />
         <activity android:name=".Login.Registro" />
-        <activity android:name=".Login.MainActivity"></activity>
+        <activity android:name=".Login.MainActivity" />
 
         <meta-data
             android:name="com.facebook.sdk.ApplicationId"
-            tools:replace="android:value"
-            android:value="@string/facebook_app_id"/>
-
+            android:value="@string/facebook_app_id"
+            tools:replace="android:value" />
         <meta-data
             android:name="preloaded_fonts"
             android:resource="@array/preloaded_fonts" />

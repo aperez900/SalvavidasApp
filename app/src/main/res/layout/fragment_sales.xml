@@ -56,7 +56,6 @@
                     android:textAlignment="center"
                     android:textColor="@color/black"
                     android:textSize="16sp"
-                    android:fontFamily="@font/abel"
                     android:textStyle="bold"/>
             </LinearLayout>
         </androidx.cardview.widget.CardView>
@@ -95,8 +94,7 @@
                     android:textAlignment="center"
                     android:textColor="@color/black"
                     android:textSize="16sp"
-                    android:fontFamily="@font/abel"
-                    android:textStyle="bold"/>
+                     android:textStyle="bold"/>
             </LinearLayout>
         </androidx.cardview.widget.CardView>
 

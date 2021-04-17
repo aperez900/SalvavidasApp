@@ -69,6 +69,7 @@ public class ListAddress extends Fragment {
         recyclerViewDirecciones.setAdapter(listAddressAdapter);
 
         Button btnAgregarDir = view.findViewById(R.id.btnAgregarDirecciones);
+        Button btnUbicacionActual = view.findViewById(R.id.btnUbicacionActual);
         listaDirecciones = new ArrayList<>();
         //cargar la lista
         cargarLista();
@@ -77,6 +78,14 @@ public class ListAddress extends Fragment {
             @Override
             public void onClick(View v) {
                 Intent h = new Intent(getApplicationContext(), FrmAddress.class);
+                startActivity(h);
+            }
+        });
+
+        btnUbicacionActual.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent h = new Intent(getApplicationContext(), Maps.class);
                 startActivity(h);
             }
         });

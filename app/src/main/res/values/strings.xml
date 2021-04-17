@@ -30,7 +30,8 @@
     <string name="nombrePerfil">Nombre perfil</string>
     <string name="correoPerfil">Correo perfil</string>
     <string name="desactivar_usuario">Desactivar Usuario</string>
-    <string name="agregarDirecciones">Agregar direcciones</string>
+    <string name="agregarDirecciones">Agregar direccion manualmente</string>
+    <string name="ubicacionActual">Ubicacion actual</string>
 
     <string name="mis_datos">Mis datos</string>
     <string name="nombre">Nombres</string>
@@ -66,6 +67,7 @@
     <string name="web_client_id">423730616970-6mn3q3u61lu5futioc1m610focr3ffjm.apps.googleusercontent.com</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="title_activity_maps">Map</string>
 
 
 </resources>

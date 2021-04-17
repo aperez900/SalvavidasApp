@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#EDFAF8F8"
+    tools:context=".ui.direction.FrmAddress">
+
+    <fragment
+        android:id="@+id/map"
+        android:name="com.google.android.gms.maps.SupportMapFragment"
+        android:layout_width="392dp"
+        android:layout_height="394dp"
+        android:layout_marginTop="8dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.473"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:context=".ui.direction.Maps" />
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cardView"
+        android:layout_width="412dp"
+        android:layout_height="242dp"
+        android:layout_marginTop="404dp"
+        app:cardBackgroundColor="#F6F5F5"
+        app:cardCornerRadius="20dp"
+        app:cardElevation="4dp"
+        app:cardUseCompatPadding="true"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+
+            <EditText
+                android:id="@+id/et_direccion"
+                android:layout_width="331dp"
+                android:layout_height="45dp"
+                android:layout_marginTop="16dp"
+                android:background="#FFFFFF"
+                android:ems="10"
+                android:fontFamily="@font/poppins_light"
+                android:hint="Direccion"
+                android:inputType="textEmailAddress"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.508"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <EditText
+                android:id="@+id/et_municipio"
+                android:layout_width="331dp"
+                android:layout_height="45dp"
+                android:layout_marginTop="16dp"
+                android:background="#FFFFFF"
+                android:ems="10"
+                android:fontFamily="@font/poppins_light"
+                android:hint="Municipio"
+                android:inputType="textEmailAddress"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.508"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/et_direccion" />
+
+            <EditText
+                android:id="@+id/et_adicional"
+                android:layout_width="331dp"
+                android:layout_height="45dp"
+                android:layout_marginTop="16dp"
+                android:background="#FFFFFF"
+                android:ems="10"
+                android:fontFamily="@font/poppins_light"
+                android:hint="Datos adicionales"
+                android:inputType="textEmailAddress"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.508"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/et_municipio" />
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.cardview.widget.CardView>
+
+    <Button
+        android:id="@+id/btn_reg2"
+        android:layout_width="390dp"
+        android:layout_height="55dp"
+        android:backgroundTint="#FF0000"
+        android:fontFamily="@font/poppins_semibold"
+        android:text="Agregar"
+        android:textSize="16sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/cardView" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
