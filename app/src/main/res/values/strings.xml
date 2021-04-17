@@ -11,6 +11,8 @@
     <string name="menu_home">Home</string>
     <string name="menu_gallery">Gallery</string>
     <string name="menu_slideshow">Slideshow</string>
+    <string name="misCompras">Mis Compras</string>
+    <string name="misVentas">Mis Ventas</string>
 
     <string name="Bienvenido">Bienvenido</string>
     <string name="mensajeLogin">Inicia sesión para continuar</string>
@@ -49,6 +51,13 @@
     <string name="serVendedor">Quiero ser vendedor</string>
     <string name="solicitar">SOLICITAR</string>
     <string name="logo_vendedor">Logo vendedor</string>
+
+    <string name="ventasProgramadas">Ventas programadas</string>
+    <string name="agregarProducto">Agregar producto</string>
+    <string name="ventasOfertadas">Ventas ofertadas</string>
+    <string name="ventasEfectuadas">Ventas efectuadas</string>
+    <string name="ventasAnuladas">Ventas anuladas</string>
+    <string name="ventasCanceladas">Ventas canceladas</string>
 
     <string name="facebook_application_id">1541603559379639</string>
     <string name="facebook_app_id">1541603559379639</string>

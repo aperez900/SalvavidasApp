@@ -3,7 +3,9 @@ package com.desarollo.salvavidasapp.Login;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
@@ -58,6 +60,12 @@ public class MainActivity extends AppCompatActivity {
 
         et_email = findViewById(R.id.et_mail);
         et_password = findViewById(R.id.et_password);
+
+        //mostrando usuarios y clave para que no tenga que volver a digitarlos
+        SharedPreferences preferences = getSharedPreferences("datosLogin", Context.MODE_PRIVATE);
+        et_email.setText(preferences.getString("email",""));
+        et_password.setText(preferences.getString("password", ""));
+
 
         mAuth = FirebaseAuth.getInstance();
 
@@ -230,6 +238,13 @@ public class MainActivity extends AppCompatActivity {
         FirebaseUser currentUser = mAuth.getCurrentUser();
         String correo = et_email.getText().toString();
         String clave = et_password.getText().toString();
+
+        //Guardando usuario y clave para mostrarlos al iniciar la sesión
+        SharedPreferences preferencias = getSharedPreferences("datosLogin",Context.MODE_PRIVATE);
+        SharedPreferences.Editor objEditor = preferencias.edit();
+        objEditor.putString("email", correo);
+        objEditor.putString("password", clave);
+        objEditor.commit();
 
         if(validarCamposVacios()) {
             signInWithEmailAndPassword(correo, clave);

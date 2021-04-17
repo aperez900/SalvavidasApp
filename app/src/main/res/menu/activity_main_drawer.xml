@@ -25,6 +25,16 @@
             android:icon="@drawable/baseline_account_box_black_18"
             android:title="@string/miPerfil" />
         <item
+            android:id="@+id/nav_misCompras"
+            android:fontFamily="@font/abel"
+            android:icon="@drawable/icono_corazon"
+            android:title="@string/misCompras" />
+        <item
+            android:id="@+id/nav_sales"
+            android:fontFamily="@font/abel"
+            android:icon="@drawable/icono_mis_ventas"
+            android:title="@string/misVentas" />
+        <item
             android:id="@+id/nav_address"
             android:fontFamily="@font/abel"
             android:icon="@drawable/icono_address"
