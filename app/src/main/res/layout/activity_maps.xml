@@ -10,8 +10,8 @@
     <fragment
         android:id="@+id/map"
         android:name="com.google.android.gms.maps.SupportMapFragment"
-        android:layout_width="392dp"
-        android:layout_height="394dp"
+        android:layout_width="394dp"
+        android:layout_height="371dp"
         android:layout_marginTop="8dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.473"
@@ -21,9 +21,9 @@
 
     <androidx.cardview.widget.CardView
         android:id="@+id/cardView"
-        android:layout_width="412dp"
-        android:layout_height="242dp"
-        android:layout_marginTop="404dp"
+        android:layout_width="match_parent"
+        android:layout_height="276dp"
+        android:layout_marginTop="376dp"
         app:cardBackgroundColor="#F6F5F5"
         app:cardCornerRadius="20dp"
         app:cardElevation="4dp"
@@ -39,6 +39,21 @@
 
 
             <EditText
+                android:id="@+id/et_alias"
+                android:layout_width="331dp"
+                android:layout_height="45dp"
+                android:layout_marginTop="16dp"
+                android:background="#FFFFFF"
+                android:ems="10"
+                android:fontFamily="@font/poppins_light"
+                android:hint="Alias"
+                android:inputType="textEmailAddress"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.508"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <EditText
                 android:id="@+id/et_direccion"
                 android:layout_width="331dp"
                 android:layout_height="45dp"
@@ -51,7 +66,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.508"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toBottomOf="@id/et_alias" />
 
             <EditText
                 android:id="@+id/et_municipio"
@@ -88,12 +103,13 @@
     </androidx.cardview.widget.CardView>
 
     <Button
-        android:id="@+id/btn_reg2"
+        android:id="@+id/btn_reg"
         android:layout_width="390dp"
         android:layout_height="55dp"
         android:backgroundTint="#FF0000"
         android:fontFamily="@font/poppins_semibold"
         android:text="Agregar"
+        android:textColor="#FFFFFFFF"
         android:textSize="16sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
