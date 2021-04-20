@@ -51,6 +51,8 @@ public class Maps extends FragmentActivity implements OnMapReadyCallback {
 
     private static final int LOCATION_REQUEST_CODE =1;
     private static final int REQUEST_LOCATION = 1;
+    private static final int PERMISSION_REQUEST_CODE = 1;
+
     private GoogleMap mMap;
     EditText et_direccion;
     EditText et_municipio;
@@ -83,6 +85,15 @@ public class Maps extends FragmentActivity implements OnMapReadyCallback {
         et_alias = findViewById(R.id.et_alias);
         btn_reg = findViewById(R.id.btn_reg);
 
+        if (ContextCompat.checkSelfPermission(Maps.this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+
+            ActivityCompat.requestPermissions(Maps.this,
+                    new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
+                    REQUEST_LOCATION);
+
+
+        }
+
 
     }
 
@@ -105,21 +116,27 @@ public class Maps extends FragmentActivity implements OnMapReadyCallback {
     }
 
     @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions,
-                                           @NonNull int[] grantResults) {
+    public void onRequestPermissionsResult(int requestCode, String[] permissions,
+                                           int[] grantResults) {
+        switch (requestCode) {
+            case PERMISSION_REQUEST_CODE:
+                // If request is cancelled, the result arrays are empty.
+                if (grantResults.length > 0 &&
+                        grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    miUbicacion();
+                }  else {
 
-        if (requestCode == LOCATION_REQUEST_CODE) {
-
-            if (permissions.length > 0 &&
-                    permissions[0].equals(Manifest.permission.ACCESS_FINE_LOCATION) &&
-                    grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-
-            } else {
+                    Toast.makeText(getApplicationContext(),"Permiso denegado",Toast.LENGTH_SHORT).show();
+                    Intent h = new Intent(getApplicationContext(), Home.class);
+                    startActivity(h);
+                }
                 return;
-            }
-
         }
+        // Other 'case' lines to check for other
+        // permissions this app might request.
     }
+
+
 
 
     private void agregarMarcador(double lat, double lng) {
@@ -162,21 +179,19 @@ public class Maps extends FragmentActivity implements OnMapReadyCallback {
     };
 
     private void miUbicacion() {
-        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-
-            ActivityCompat.requestPermissions(this,
-                    new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
-                    REQUEST_LOCATION);
+        if (ActivityCompat.checkSelfPermission(Maps.this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
 
         }
-
-        mMap.setMyLocationEnabled(true);
-        LocationManager locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
-        Location location = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
-        actualizarUbicacion(location);
-        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER,15000,0,locationListener);
+        else{
+            mMap.setMyLocationEnabled(true);
+            LocationManager locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+            Location location = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+            actualizarUbicacion(location);
+            locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER,15000,0,locationListener);
+        }
 
     }
+
 
     private  void convertirDireccion(double lat, double lng){
 
