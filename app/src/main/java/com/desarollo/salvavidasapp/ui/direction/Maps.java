@@ -85,13 +85,12 @@ public class Maps extends FragmentActivity implements OnMapReadyCallback {
         et_alias = findViewById(R.id.et_alias);
         btn_reg = findViewById(R.id.btn_reg);
 
+
         if (ContextCompat.checkSelfPermission(Maps.this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
 
             ActivityCompat.requestPermissions(Maps.this,
                     new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
                     REQUEST_LOCATION);
-
-
         }
 
 
@@ -115,9 +114,23 @@ public class Maps extends FragmentActivity implements OnMapReadyCallback {
         });
     }
 
+
+        public static boolean isGPSProvider(Context context) {
+            LocationManager lm = (LocationManager)context.getSystemService(Context.LOCATION_SERVICE);
+            return lm.isProviderEnabled(LocationManager.GPS_PROVIDER);
+        }
+
+        public static boolean isNetowrkProvider(Context context) {
+            LocationManager lm = (LocationManager)context.getSystemService(Context.LOCATION_SERVICE);
+            return lm.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
+        }
+
+
+
     @Override
     public void onRequestPermissionsResult(int requestCode, String[] permissions,
                                            int[] grantResults) {
+
         switch (requestCode) {
             case PERMISSION_REQUEST_CODE:
                 // If request is cancelled, the result arrays are empty.

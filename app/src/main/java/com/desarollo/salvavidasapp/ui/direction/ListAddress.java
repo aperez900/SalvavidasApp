@@ -1,9 +1,12 @@
 package com.desarollo.salvavidasapp.ui.direction;
 
+import android.content.Context;
 import android.content.Intent;
+import android.location.LocationManager;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -18,6 +21,7 @@ import android.widget.Toast;
 
 import com.desarollo.salvavidasapp.Models.ListDirecciones;
 import com.desarollo.salvavidasapp.R;
+import com.desarollo.salvavidasapp.ui.home.Home;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -85,8 +89,20 @@ public class ListAddress extends Fragment {
         btnUbicacionActual.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent h = new Intent(getApplicationContext(), Maps.class);
-                startActivity(h);
+
+                LocationManager lm = (LocationManager) getApplicationContext().getSystemService(Context.LOCATION_SERVICE);
+                boolean gpsActivo = lm.isProviderEnabled(LocationManager.GPS_PROVIDER);
+
+                if (gpsActivo != false){
+                        Intent h = new Intent(getApplicationContext(), Maps.class);
+                        startActivity(h);
+                }
+                else{
+                    Toast.makeText(getApplicationContext(),"activa el GPS para poder continuar...",Toast.LENGTH_SHORT).show();
+                }
+
+
+
             }
         });
         return view;
