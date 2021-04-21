@@ -94,11 +94,11 @@ public class ListAddress extends Fragment {
                 boolean gpsActivo = lm.isProviderEnabled(LocationManager.GPS_PROVIDER);
 
                 if (gpsActivo != false){
-                        Intent h = new Intent(getApplicationContext(), Maps.class);
+                        Intent h = new Intent(getContext(), Maps.class);
                         startActivity(h);
                 }
                 else{
-                    Toast.makeText(getApplicationContext(),"activa el GPS para poder continuar...",Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getContext(),"activa el GPS para poder continuar...",Toast.LENGTH_SHORT).show();
                 }
 
 

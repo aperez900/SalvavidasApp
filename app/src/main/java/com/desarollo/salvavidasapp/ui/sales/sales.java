@@ -4,6 +4,7 @@ import android.os.Bundle;
 
 import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
+import androidx.navigation.Navigation;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -35,13 +36,7 @@ public class sales extends Fragment {
         CardView card3 = view.findViewById(R.id.card3);
         CardView card4 = view.findViewById(R.id.card4);
 
-        cardAddProduct.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Toast.makeText(getContext(), "Agregar producto",
-                        Toast.LENGTH_SHORT).show();
-            }
-        });
+        cardAddProduct.setOnClickListener(Navigation.createNavigateOnClickListener(R.id.action_nav_sales_to_addProduct));
 
         card2.setOnClickListener(new View.OnClickListener() {
             @Override

@@ -60,6 +60,21 @@
     <string name="ventasAnuladas">Ventas anuladas</string>
     <string name="ventasCanceladas">Ventas canceladas</string>
 
+    <string name="nombreProducto">¿Qué deseas vender?</string>
+    <string name="descripcionProducto">Describe lo que vas a vender</string>
+    <string name="precioProducto">Precio ($COP)</string>
+    <string name="descuentoProducto">Descuento ($COP)</string>
+    <string name="domicilioProducto">Domicilio producto</string>
+    <string name="categoriaProducto">Categoría producto</string>
+    <string name="fechaInicioProducto">Fecha inicio</string>
+    <string name="estructuraFecha">dd/mm/aaaa</string>
+    <string name="registrarProducto">Registrar producto</string>
+    <string name="disponibilidadProducto">Disponibilidad del producto</string>
+    <string name="desdeProducto">Desde:</string>
+    <string name="hastaProducto">Hasta:</string>
+    <string name="estructuraHora">hh/mm</string>
+
+
     <string name="facebook_application_id">1541603559379639</string>
     <string name="facebook_app_id">1541603559379639</string>
     <string name="fb_login_protocol_scheme">fb1541603559379639</string>

@@ -74,5 +74,14 @@
         android:id="@+id/nav_sales"
         android:name="com.desarollo.salvavidasapp.ui.sales.sales"
         android:label="Mis ventas"
-        tools:layout="@layout/fragment_sales" />
+        tools:layout="@layout/fragment_sales" >
+        <action
+            android:id="@+id/action_nav_sales_to_addProduct"
+            app:destination="@id/addProduct" />
+    </fragment>
+    <fragment
+        android:id="@+id/addProduct"
+        android:name="com.desarollo.salvavidasapp.ui.sales.addProduct"
+        android:label="@string/agregarProducto"
+        tools:layout="@layout/fragment_add_product" />
 </navigation>

@@ -22,6 +22,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.desarollo.salvavidasapp.Login.MainActivity;
 import com.desarollo.salvavidasapp.Models.ListDirecciones;
 import com.desarollo.salvavidasapp.R;
 import com.desarollo.salvavidasapp.ui.home.Home;
@@ -100,7 +101,7 @@ public class Maps extends FragmentActivity implements OnMapReadyCallback {
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
-
+        Toast.makeText(Maps.this,"Un momento por favor, te estamos ubicando",Toast.LENGTH_LONG).show();
         miUbicacion();
 
         //acciones del boton registrar
@@ -159,7 +160,7 @@ public class Maps extends FragmentActivity implements OnMapReadyCallback {
         if(makerActual!= null){
             makerActual.remove();
         }
-
+        Toast.makeText(Maps.this,"Agregando punto en el mapa",Toast.LENGTH_SHORT).show();
         makerActual = mMap.addMarker(new MarkerOptions()
                 .position(coordenadas)
                 .title("Mi ubicacion")
