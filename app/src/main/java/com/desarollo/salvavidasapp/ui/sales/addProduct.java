@@ -5,6 +5,7 @@ import android.app.TimePickerDialog;
 import android.os.Build;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.fragment.app.Fragment;
 
@@ -20,7 +21,15 @@ import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
+import com.desarollo.salvavidasapp.Models.Productos;
+import com.desarollo.salvavidasapp.Models.Vendedores;
 import com.desarollo.salvavidasapp.R;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -29,6 +38,12 @@ import java.util.Calendar;
 import static com.facebook.FacebookSdk.getApplicationContext;
 
 public class addProduct extends Fragment {
+
+    FirebaseAuth mAuth;
+    FirebaseUser currentUser;
+    FirebaseDatabase database;
+    DatabaseReference myRefProductos;
+    Productos p;
 
     private int dia, mes, anio, hora, minutos;
 
@@ -39,6 +54,10 @@ public class addProduct extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        mAuth = FirebaseAuth.getInstance();
+        currentUser = mAuth.getCurrentUser();
+        database = FirebaseDatabase.getInstance();
+        myRefProductos = database.getReference("productos");
 
     }
 
@@ -106,17 +125,14 @@ public class addProduct extends Fragment {
             public void onClick(View v) {
                 if(validarCamposVacios(nombreProducto, descripcionProducto, categoriaProducto, precioProducto, descuentoProducto,
                         domicilioProducto, tvFechaInicio, tvFechaFin)) {
-                    //registrar();
+                    registrar(nombreProducto, descripcionProducto, categoriaProducto, precioProducto, descuentoProducto,
+                            domicilioProducto, tvFechaInicio, tvFechaFin);
                 }
             }
         });
 
         return view;
     } //fin OnCreateView
-
-
-
-
 
     public void mostrarCalendario(TextView Fecha){
         Calendar cal = Calendar.getInstance();
@@ -148,8 +164,53 @@ public class addProduct extends Fragment {
         tpd.show();
     }
 
+    public void registrar(EditText et_nombre_producto, EditText et_descripcion_producto, Spinner sp_categoria_producto,
+                          EditText et_precio_producto, EditText et_descuento_producto, Spinner sp_domicilio_producto, TextView tv_fecha_inicio,
+                          TextView tv_fecha_fin){
+
+        p = new Productos();
+        p.setNombreProducto(et_nombre_producto.getText().toString());
+        p.setDescripcionProducto(et_descripcion_producto.getText().toString());
+        p.setCategoriaProducto(sp_categoria_producto.getSelectedItem().toString());
+        p.setPrecio(Double.parseDouble(et_precio_producto.getText().toString()));
+        p.setDescuento(Double.parseDouble(et_descuento_producto.getText().toString()));
+        p.setDomicilio(sp_domicilio_producto.getSelectedItem().toString());
+        p.setFechaInicio(tv_fecha_inicio.getText().toString());
+        p.setEstadoProducto("Programado");
+
+        //guarda los datos del vendedor
+        myRefProductos.child(currentUser.getUid()).child(p.getNombreProducto()).setValue(p)
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        Toast.makeText(getContext(), "Producto registrado correctamente", Toast.LENGTH_SHORT).show();
+                        limpiarCamposProducto(et_nombre_producto, et_descripcion_producto, sp_categoria_producto, et_precio_producto, et_descuento_producto,
+                                sp_domicilio_producto, tv_fecha_inicio, tv_fecha_fin);
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Toast.makeText(getContext(), "Error registrando el producto. Intenta de nuevo mas tarde", Toast.LENGTH_SHORT).show();
+                    }
+                });
+    }
+
+    public void limpiarCamposProducto(EditText et_nombre_producto, EditText et_descripcion_producto, Spinner sp_categoria_producto,
+                                      EditText et_precio_producto, EditText et_descuento_producto, Spinner sp_domicilio_producto, TextView tv_fecha_inicio,
+                                      TextView tv_fecha_fin){
+        et_nombre_producto.setText("");
+        et_descripcion_producto.setText("");
+        //sp_categoria_producto.setAdapter(adapterCategoriaProductos);
+        et_precio_producto.setText("");
+        et_descuento_producto.setText("");
+        //sp_domicilio_producto.setAdapter(adapterDomicilioProductos);
+        tv_fecha_inicio.setText("dd/mm/aaa");
+        tv_fecha_fin.setText("dd/mm/aaa");
+    }
+
     public boolean validarCamposVacios(EditText et_nombre_producto, EditText et_descripcion_producto, Spinner sp_categoria_producto,
-        EditText et_precio_producto, EditText et_descuento_producto, Spinner sp_domicilio_producto, TextView tv_fecha_inicio,
+                                       EditText et_precio_producto, EditText et_descuento_producto, Spinner sp_domicilio_producto, TextView tv_fecha_inicio,
                                        TextView tv_fecha_fin){
         boolean campoLleno = true;
 

@@ -120,8 +120,8 @@ public class seller extends Fragment {
                  */
             }
         }
-
         consultarDatosVendedor(nombres, apellidos, identificacion, celular, nombreEstablecimiento, nit, sp_actividad_econimica, btn_reg,estado);
+
         consultarDatosPerfilUsuario(nombres, apellidos, identificacion, celular);
 
         //Acciones del botón registrar
@@ -169,7 +169,7 @@ public class seller extends Fragment {
                     }
                     @Override
                     public void onCancelled(@NonNull DatabaseError error) {
-                        Toast.makeText(getApplicationContext(), "Error consultando los datos del vendedor. Intente de nuevo mas tarde.", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getContext(), "Error consultando los datos del vendedor. Intente de nuevo mas tarde.", Toast.LENGTH_SHORT).show();
                     }
                 });
     }
