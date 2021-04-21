@@ -15,7 +15,6 @@
         android:layout_marginTop="36dp"
         android:fontFamily="@font/poppins_semibold"
         android:gravity="center"
-        android:hint="25"
         android:text="Agregar o seleccionar una dirección"
         android:textSize="20sp"
         app:layout_constraintEnd_toEndOf="parent"
@@ -40,7 +39,6 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
-
 
             <Spinner
                 android:id="@+id/sp_texto_1_direccion"

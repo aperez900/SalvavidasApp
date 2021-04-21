@@ -9,11 +9,12 @@
 
     <ImageView
         android:id="@+id/imageView"
-        android:layout_width="match_parent"
-        android:layout_height="200dp"
-        android:layout_marginTop="20dp"
+        android:layout_width="336dp"
+        android:layout_height="191dp"
+        android:layout_marginTop="4dp"
         android:contentDescription="@string/logoSalvavidas"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.493"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/logoprincipal" />
@@ -32,8 +33,8 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/imageView" />
 
-
     <TextView
+        android:id="@+id/tv_msg_login"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
@@ -42,22 +43,23 @@
         android:textAlignment="center"
         android:textColor="#FFFFFF"
         android:textSize="18sp"
+        app:layout_constraintBottom_toTopOf="@+id/linearLayout"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/bienvenido" />
+        app:layout_constraintTop_toBottomOf="@+id/bienvenido"
+        app:layout_constraintVertical_bias="0.27" />
 
     <LinearLayout
         android:id="@+id/linearLayout"
         android:layout_width="351dp"
-        android:layout_height="190dp"
+        android:layout_height="wrap_content"
         android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.55"
+        app:layout_constraintHorizontal_bias="0.616"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.611">
-
+        app:layout_constraintTop_toBottomOf="@+id/bienvenido"
+        app:layout_constraintVertical_bias="0.163">
 
         <EditText
             android:id="@+id/et_mail"
@@ -114,20 +116,18 @@
             android:textSize="22sp"
             app:layout_constraintTop_toBottomOf="@+id/et_password" />
 
-
     </LinearLayout>
 
     <LinearLayout
         android:id="@+id/linearLayout2"
         android:layout_width="351dp"
-        android:layout_height="59dp"
+        android:layout_height="30dp"
         android:layout_marginTop="8dp"
         android:gravity="center"
         android:orientation="horizontal"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/linearLayout">
-
 
         <TextView
             android:id="@+id/tv_registro"
@@ -157,8 +157,9 @@
         android:layout_width="220dp"
         android:layout_height="94dp"
         android:layout_gravity="center_horizontal"
-        android:layout_marginTop="24dp"
+        android:layout_marginTop="12dp"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.507"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/linearLayout2" />
 
@@ -171,7 +172,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/login_button"
-        app:layout_constraintVertical_bias="0.258" />
+        app:layout_constraintVertical_bias="0.193" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

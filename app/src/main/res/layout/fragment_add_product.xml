@@ -19,7 +19,7 @@
             android:id="@+id/nombre_perfil"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:fontFamily="@font/abel"
+            android:fontFamily="@font/poppins_semibold"
             android:text="@string/agregarProducto"
             android:textAlignment="center"
             android:textSize="24sp" />
@@ -46,7 +46,7 @@
                     android:layout_marginStart="50dp"
                     android:layout_marginTop="1dp"
                     android:layout_marginEnd="50dp"
-                    android:fontFamily="@font/abel"
+                    android:fontFamily="@font/poppins_light"
                     android:hint="@string/nombreProducto"
                     android:inputType="textPersonName"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -60,7 +60,7 @@
                     android:layout_marginStart="50dp"
                     android:layout_marginTop="10dp"
                     android:layout_marginEnd="50dp"
-                    android:fontFamily="@font/abel"
+                    android:fontFamily="@font/poppins_light"
                     android:hint="@string/descripcionProducto"
                     android:inputType="textPersonName"
                     app:layout_constraintTop_toBottomOf="@id/et_nombre_producto"
@@ -74,7 +74,7 @@
                     android:layout_marginStart="5dp"
                     android:layout_marginTop="10dp"
                     android:background="#FFFFFF"
-                    android:fontFamily="@font/abel"
+                    android:fontFamily="@font/poppins_light"
                     android:hint="@string/categoriaProducto"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/et_descripcion_producto" />
@@ -86,7 +86,7 @@
                     android:layout_marginStart="50dp"
                     android:layout_marginTop="10dp"
                     android:layout_marginEnd="50dp"
-                    android:fontFamily="@font/abel"
+                    android:fontFamily="@font/poppins_light"
                     android:hint="@string/precioProducto"
                     android:inputType="number"
                     app:layout_constraintTop_toBottomOf="@id/sp_categoria_producto"
@@ -99,7 +99,7 @@
                     android:layout_marginStart="50dp"
                     android:layout_marginTop="10dp"
                     android:layout_marginEnd="50dp"
-                    android:fontFamily="@font/abel"
+                    android:fontFamily="@font/poppins_light"
                     android:hint="@string/descuentoProducto"
                     android:inputType="number"
                     app:layout_constraintTop_toBottomOf="@id/et_precio"
@@ -113,7 +113,7 @@
                     android:layout_marginStart="5dp"
                     android:layout_marginTop="10dp"
                     android:background="#FFFFFF"
-                    android:fontFamily="@font/abel"
+                    android:fontFamily="@font/poppins_light"
                     android:hint="@string/domicilioProducto"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/et_descuento"/>
@@ -129,7 +129,7 @@
                         android:layout_marginTop="10dp"
                         android:layout_marginStart="50dp"
                         android:layout_marginEnd="20dp"
-                        android:fontFamily="@font/abel"
+                        android:fontFamily="@font/poppins_light"
                         android:text="@string/disponibilidadProducto"
                         android:textSize="18sp" />
                 </LinearLayout>
@@ -144,7 +144,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginStart="30dp"
                         android:layout_marginTop="10dp"
-                        android:fontFamily="@font/abel"
+                        android:fontFamily="@font/poppins_light"
                         android:textSize="18sp"
                         android:text="@string/desdeProducto" />
 
@@ -154,7 +154,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginStart="5dp"
                         android:layout_marginTop="10dp"
-                        android:fontFamily="@font/abel"
+                        android:fontFamily="@font/poppins_light"
                         android:textAlignment="textEnd"
                         android:textSize="18sp"
                         app:drawableStartCompat="@android:drawable/ic_menu_my_calendar"
@@ -166,7 +166,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="10dp"
                         android:layout_marginEnd="10dp"
-                        android:fontFamily="@font/abel"
+                        android:fontFamily="@font/poppins_light"
                         android:text="@string/estructuraFecha"
                         android:textAlignment="textStart"
                         android:textSize="18sp" />
@@ -176,7 +176,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="10dp"
-                        android:fontFamily="@font/abel"
+                        android:fontFamily="@font/poppins_light"
                         android:textSize="18sp"
                         app:drawableStartCompat="@drawable/icono_reloj" />
 
@@ -186,7 +186,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginStart="5dp"
                         android:layout_marginTop="10dp"
-                        android:fontFamily="@font/abel"
+                        android:fontFamily="@font/poppins_light"
                         android:text="@string/estructuraHora"
                         android:textAlignment="textStart"
                         android:textSize="18sp" />
@@ -201,7 +201,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginStart="30dp"
                         android:layout_marginTop="10dp"
-                        android:fontFamily="@font/abel"
+                        android:fontFamily="@font/poppins_light"
                         android:textSize="18sp"
                         android:text="@string/hastaProducto" />
 
@@ -211,7 +211,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginStart="5dp"
                         android:layout_marginTop="10dp"
-                        android:fontFamily="@font/abel"
+                        android:fontFamily="@font/poppins_light"
                         android:textAlignment="textEnd"
                         android:textSize="18sp"
                         app:drawableStartCompat="@android:drawable/ic_menu_my_calendar"
@@ -223,7 +223,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="10dp"
                         android:layout_marginEnd="10dp"
-                        android:fontFamily="@font/abel"
+                        android:fontFamily="@font/poppins_light"
                         android:text="@string/estructuraFecha"
                         android:textAlignment="textStart"
                         android:textSize="18sp" />
@@ -233,7 +233,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="10dp"
-                        android:fontFamily="@font/abel"
+                        android:fontFamily="@font/poppins_light"
                         android:textSize="18sp"
                         app:drawableStartCompat="@drawable/icono_reloj" />
 
@@ -243,7 +243,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginStart="5dp"
                         android:layout_marginTop="10dp"
-                        android:fontFamily="@font/abel"
+                        android:fontFamily="@font/poppins_light"
                         android:text="@string/estructuraHora"
                         android:textAlignment="textStart"
                         android:textSize="18sp" />
@@ -256,6 +256,7 @@
                     android:layout_marginStart="30dp"
                     android:layout_marginTop="30dp"
                     android:layout_marginEnd="30dp"
+                    android:fontFamily="@font/poppins_semibold"
                     android:text="@string/registrarProducto"
                     app:layout_constraintTop_toBottomOf="@id/sp_domicilio" />
             </LinearLayout>

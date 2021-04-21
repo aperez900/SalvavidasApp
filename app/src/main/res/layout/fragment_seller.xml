@@ -25,7 +25,7 @@
             android:id="@+id/estado"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:fontFamily="@font/abel"
+            android:fontFamily="@font/poppins_light"
             android:text="@string/estadoVendedor"
             android:textAlignment="center"
             android:textSize="18sp" />
@@ -77,6 +77,7 @@
                     android:layout_marginEnd="50dp"
                     android:text="@string/nombre"
                     android:textAlignment="textStart"
+                    android:fontFamily="@font/poppins_light"
                     android:textSize="18sp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent" />
@@ -90,6 +91,7 @@
                     android:layout_marginEnd="50dp"
                     android:text="@string/apellidos"
                     android:textAlignment="textStart"
+                    android:fontFamily="@font/poppins_light"
                     android:textSize="18sp"
                     app:layout_constraintTop_toBottomOf="@id/tv_nombre" />
 
@@ -103,6 +105,7 @@
                     android:layout_marginEnd="50dp"
                     android:text="@string/documento_identidad"
                     android:textAlignment="textStart"
+                    android:fontFamily="@font/poppins_light"
                     android:textSize="18sp"
                     app:layout_constraintTop_toBottomOf="@id/sp_municipio" />
 
@@ -115,6 +118,7 @@
                     android:layout_marginEnd="50dp"
                     android:text="@string/celular"
                     android:textAlignment="textStart"
+                    android:fontFamily="@font/poppins_light"
                     android:textSize="18sp"
                     app:layout_constraintTop_toBottomOf="@id/tv_identidad" />
 
@@ -126,6 +130,7 @@
                     android:layout_marginTop="10dp"
                     android:layout_marginEnd="50dp"
                     android:hint="@string/razonSocial"
+                    android:fontFamily="@font/poppins_light"
                     android:inputType="textPersonName"
                     app:layout_constraintTop_toBottomOf="@id/tv_celular"
                     android:autofillHints="@string/razonSocial" />
@@ -139,6 +144,7 @@
                     android:layout_marginEnd="50dp"
                     android:hint="@string/Nit"
                     android:inputType="number"
+                    android:fontFamily="@font/poppins_light"
                     app:layout_constraintTop_toBottomOf="@id/et_razon_social"
                     android:autofillHints="@string/Nit" />
 
@@ -162,6 +168,7 @@
                     android:layout_marginStart="30dp"
                     android:layout_marginEnd="30dp"
                     android:text="@string/solicitar"
+                    android:fontFamily="@font/poppins_semibold"
                     app:layout_constraintTop_toBottomOf="@id/tv_celular" />
 
             </LinearLayout>

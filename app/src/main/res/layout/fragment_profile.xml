@@ -34,7 +34,7 @@
             android:id="@+id/nombre_perfil"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:fontFamily="@font/abel"
+            android:fontFamily="@font/poppins_light"
             android:text="@string/nombrePerfil"
             android:textAlignment="center"
             android:textSize="24sp" />
@@ -43,7 +43,7 @@
             android:id="@+id/correo_perfil"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:fontFamily="@font/abel"
+            android:fontFamily="@font/poppins_light"
             android:text="@string/correoPerfil"
             android:textAlignment="center"
             android:textSize="18sp" />
@@ -76,7 +76,7 @@
                     android:layout_marginStart="50dp"
                     android:layout_marginTop="1dp"
                     android:layout_marginEnd="50dp"
-                    android:fontFamily="@font/abel"
+                    android:fontFamily="@font/poppins_light"
                     android:hint="@string/nombre"
                     android:inputType="textPersonName"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -89,7 +89,7 @@
                     android:layout_marginStart="50dp"
                     android:layout_marginTop="10dp"
                     android:layout_marginEnd="50dp"
-                    android:fontFamily="@font/abel"
+                    android:fontFamily="@font/poppins_light"
                     android:hint="@string/apellidos"
                     android:inputType="textPersonName"
                     app:layout_constraintTop_toBottomOf="@id/tv_nombre" />
@@ -102,7 +102,7 @@
                     android:layout_marginStart="50dp"
                     android:layout_marginTop="10dp"
                     android:layout_marginEnd="50dp"
-                    android:fontFamily="@font/abel"
+                    android:fontFamily="@font/poppins_light"
                     android:hint="@string/documento_identidad"
                     android:inputType="number"
                     app:layout_constraintTop_toBottomOf="@id/sp_municipio" />
@@ -114,7 +114,7 @@
                     android:layout_marginStart="50dp"
                     android:layout_marginTop="10dp"
                     android:layout_marginEnd="50dp"
-                    android:fontFamily="@font/abel"
+                    android:fontFamily="@font/poppins_light"
                     android:hint="@string/celular"
                     android:inputType="number"
                     app:layout_constraintTop_toBottomOf="@id/tv_identidad" />
@@ -127,7 +127,7 @@
                     android:layout_marginTop="10dp"
                     android:layout_marginEnd="50dp"
                     android:drawableStart="@android:drawable/ic_input_add"
-                    android:fontFamily="@font/abel"
+                    android:fontFamily="@font/poppins_light"
                     android:gravity="center_vertical"
                     android:text="@string/lista_comida"
                     android:textSize="18sp"
@@ -141,6 +141,7 @@
                     android:layout_marginStart="30dp"
                     android:layout_marginTop="10dp"
                     android:layout_marginEnd="30dp"
+                    android:fontFamily="@font/poppins_semibold"
                     android:text="@string/registrar2"
                     app:layout_constraintTop_toBottomOf="@id/lista_comidas" />
 
@@ -151,6 +152,7 @@
                     android:layout_marginStart="30dp"
                     android:layout_marginTop="10dp"
                     android:layout_marginEnd="30dp"
+                    android:fontFamily="@font/poppins_semibold"
                     android:text="@string/desactivar_usuario"
                     app:layout_constraintTop_toBottomOf="@+id/btn_registrar_perfil" />
 
@@ -158,7 +160,7 @@
                     android:id="@+id/tv_quiero_ser_vendedor"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:fontFamily="@font/abel"
+                    android:fontFamily="@font/poppins_light"
                     android:text="@string/serVendedor"
                     android:textAlignment="center"
                     android:textSize="18sp"

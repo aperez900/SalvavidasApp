@@ -34,7 +34,7 @@
             android:drawableStart="@android:drawable/sym_action_email"
             android:drawablePadding="10dp"
             android:ems="10"
-            android:fontFamily="@font/abel"
+            android:fontFamily="@font/poppins_light"
             android:hint="@string/correo"
             android:inputType="textEmailAddress" />
 
@@ -49,7 +49,7 @@
             android:drawableStart="@android:drawable/ic_lock_idle_lock"
             android:drawablePadding="10dp"
             android:ems="10"
-            android:fontFamily="@font/abel"
+            android:fontFamily="@font/poppins_light"
             android:hint="@string/contraseña"
             android:inputType="textPassword" />
 
@@ -61,7 +61,7 @@
             android:id="@+id/btn_registro"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:fontFamily="@font/abel"
+            android:fontFamily="@font/poppins_semibold"
             android:onClick="registro"
             android:text="@string/registrar" />
     </LinearLayout>

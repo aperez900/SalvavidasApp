@@ -22,21 +22,20 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:ems="10"
-            android:fontFamily="@font/abel"
-            android:hint="Correo"
+            android:fontFamily="@font/poppins_light"
+            android:hint="@string/correo"
             android:inputType="textEmailAddress" />
 
         <Space
             android:layout_width="match_parent"
             android:layout_height="55dp" />
 
-
         <Button
             android:id="@+id/btn_recuperar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:fontFamily="@font/abel"
+            android:fontFamily="@font/poppins_semibold"
             android:onClick="registro"
-            android:text="Recuperar" />
+            android:text="@string/Recuperar" />
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -52,10 +52,10 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_gravity="center_horizontal"
-
                     android:text="@string/perfilComprador"
                     android:textAlignment="center"
                     android:textColor="@color/black"
+                    android:fontFamily="@font/poppins_semibold"
                     android:textSize="16sp"
                     android:textStyle="bold" />
             </LinearLayout>
@@ -91,7 +91,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_gravity="center_horizontal"
-                    android:fontFamily="@font/abel"
+                    android:fontFamily="@font/poppins_semibold"
                     android:text="@string/perfilVendedor"
                     android:textAlignment="center"
                     android:textColor="@color/black"
@@ -101,6 +101,5 @@
         </androidx.cardview.widget.CardView>
 
     </androidx.gridlayout.widget.GridLayout>
-
 
 </RelativeLayout>

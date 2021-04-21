@@ -7,30 +7,37 @@
         <item
             android:id="@+id/nav_home"
             android:icon="@drawable/ic_menu_camera"
-            android:title="@string/menu_home" />
+            android:title="@string/menu_home"
+            android:fontFamily="@font/poppins_bold" />
         <item
             android:id="@+id/nav_gallery"
             android:icon="@drawable/ic_menu_gallery"
-            android:title="@string/menu_gallery" />
+            android:title="@string/menu_gallery"
+            android:fontFamily="@font/poppins_bold" />
         <item
             android:id="@+id/nav_slideshow"
             android:icon="@drawable/ic_menu_slideshow"
-            android:title="@string/menu_slideshow" />
+            android:title="@string/menu_slideshow"
+            android:fontFamily="@font/poppins_bold" />
         <item
             android:id="@+id/subMenuProfile"
             android:icon="@drawable/baseline_account_box_black_18"
-            android:title="@string/miPerfil" />
+            android:title="@string/miPerfil"
+            android:fontFamily="@font/poppins_bold" />
         <item
             android:id="@+id/nav_misCompras"
             android:icon="@drawable/icono_corazon"
-            android:title="@string/misCompras" />
+            android:title="@string/misCompras"
+            android:fontFamily="@font/poppins_bold" />
         <item
             android:id="@+id/nav_sales"
             android:icon="@drawable/icono_mis_ventas"
-            android:title="@string/misVentas" />
+            android:title="@string/misVentas"
+            android:fontFamily="@font/poppins_bold" />
         <item
             android:id="@+id/nav_address"
             android:icon="@drawable/icono_address"
-            android:title="Mis Direcciones" />
+            android:title="Mis Direcciones"
+            android:fontFamily="@font/poppins_bold" />
     </group>
 </menu>
