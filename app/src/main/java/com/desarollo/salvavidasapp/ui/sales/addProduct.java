@@ -31,9 +31,12 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
+import org.w3c.dom.Text;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
+import java.util.UUID;
 
 import static com.facebook.FacebookSdk.getApplicationContext;
 
@@ -82,12 +85,12 @@ public class addProduct extends Fragment {
         EditText precioProducto = view.findViewById(R.id.et_precio);
         EditText descuentoProducto = view.findViewById(R.id.et_descuento);
 
-        String[] ArrayCategorias = new String[]{"Selecciona una categoría", "Comida preparada","Comida cruda"};
+        String[] ArrayCategorias = new String[]{"✚ Selecciona una categoría", "Comida preparada","Comida cruda"};
         ArrayList<String> listCategoriaProductos = new ArrayList(Arrays.asList(ArrayCategorias));
         ArrayAdapter<String> adapterCategoriaProductos = new ArrayAdapter<String>(getContext(), R.layout.spinner_item_modified, listCategoriaProductos);
         categoriaProducto.setAdapter(adapterCategoriaProductos);
 
-        String[] ArrayDomicilio = new String[]{"¿Deseas ofrecer domicilio?", "Sí","No"};
+        String[] ArrayDomicilio = new String[]{"✚ ¿Deseas ofrecer domicilio?", "Sí","No"};
         ArrayList<String> listDomicilioProductos = new ArrayList(Arrays.asList(ArrayDomicilio));
         ArrayAdapter<String> adapterDomicilioProductos = new ArrayAdapter<String>(getContext(), R.layout.spinner_item_modified, listDomicilioProductos);
         domicilioProducto.setAdapter(adapterDomicilioProductos);
@@ -99,7 +102,21 @@ public class addProduct extends Fragment {
             }
         });
 
+        tvFechaInicio.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mostrarCalendario(tvFechaInicio);
+            }
+        });
+
         btnFechaFin.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mostrarCalendario(tvFechaFin);
+            }
+        });
+
+        tvFechaFin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 mostrarCalendario(tvFechaFin);
@@ -124,9 +141,9 @@ public class addProduct extends Fragment {
             @Override
             public void onClick(View v) {
                 if(validarCamposVacios(nombreProducto, descripcionProducto, categoriaProducto, precioProducto, descuentoProducto,
-                        domicilioProducto, tvFechaInicio, tvFechaFin)) {
+                        domicilioProducto, tvFechaInicio, tvFechaFin, tvHoraInicio, tvHoraFin)) {
                     registrar(nombreProducto, descripcionProducto, categoriaProducto, precioProducto, descuentoProducto,
-                            domicilioProducto, tvFechaInicio, tvFechaFin);
+                            domicilioProducto, tvFechaInicio, tvFechaFin, tvHoraInicio, tvHoraFin);
                 }
             }
         });
@@ -166,9 +183,10 @@ public class addProduct extends Fragment {
 
     public void registrar(EditText et_nombre_producto, EditText et_descripcion_producto, Spinner sp_categoria_producto,
                           EditText et_precio_producto, EditText et_descuento_producto, Spinner sp_domicilio_producto, TextView tv_fecha_inicio,
-                          TextView tv_fecha_fin){
+                          TextView tv_fecha_fin, TextView tv_hora_inicio, TextView tv_hora_fin){
 
         p = new Productos();
+        p.setIdProducto(UUID.randomUUID().toString());
         p.setNombreProducto(et_nombre_producto.getText().toString());
         p.setDescripcionProducto(et_descripcion_producto.getText().toString());
         p.setCategoriaProducto(sp_categoria_producto.getSelectedItem().toString());
@@ -176,16 +194,18 @@ public class addProduct extends Fragment {
         p.setDescuento(Double.parseDouble(et_descuento_producto.getText().toString()));
         p.setDomicilio(sp_domicilio_producto.getSelectedItem().toString());
         p.setFechaInicio(tv_fecha_inicio.getText().toString());
+        p.setHoraInicio(tv_hora_inicio.getText().toString());
+        p.setHoraFin(tv_hora_fin.getText().toString());
         p.setEstadoProducto("Programado");
 
         //guarda los datos del vendedor
-        myRefProductos.child(currentUser.getUid()).child(p.getNombreProducto()).setValue(p)
+        myRefProductos.child(currentUser.getUid()).child(p.getIdProducto()).setValue(p)
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void aVoid) {
                         Toast.makeText(getContext(), "Producto registrado correctamente", Toast.LENGTH_SHORT).show();
                         limpiarCamposProducto(et_nombre_producto, et_descripcion_producto, sp_categoria_producto, et_precio_producto, et_descuento_producto,
-                                sp_domicilio_producto, tv_fecha_inicio, tv_fecha_fin);
+                                sp_domicilio_producto, tv_fecha_inicio, tv_fecha_fin, tv_hora_inicio, tv_hora_fin);
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {
@@ -198,7 +218,7 @@ public class addProduct extends Fragment {
 
     public void limpiarCamposProducto(EditText et_nombre_producto, EditText et_descripcion_producto, Spinner sp_categoria_producto,
                                       EditText et_precio_producto, EditText et_descuento_producto, Spinner sp_domicilio_producto, TextView tv_fecha_inicio,
-                                      TextView tv_fecha_fin){
+                                      TextView tv_fecha_fin, TextView tv_hora_inicio, TextView tv_hora_fin){
         et_nombre_producto.setText("");
         et_descripcion_producto.setText("");
         //sp_categoria_producto.setAdapter(adapterCategoriaProductos);
@@ -207,11 +227,13 @@ public class addProduct extends Fragment {
         //sp_domicilio_producto.setAdapter(adapterDomicilioProductos);
         tv_fecha_inicio.setText("dd/mm/aaa");
         tv_fecha_fin.setText("dd/mm/aaa");
+        tv_hora_inicio.setText("hh/mm");
+        tv_hora_fin.setText("hh/mm");
     }
 
     public boolean validarCamposVacios(EditText et_nombre_producto, EditText et_descripcion_producto, Spinner sp_categoria_producto,
                                        EditText et_precio_producto, EditText et_descuento_producto, Spinner sp_domicilio_producto, TextView tv_fecha_inicio,
-                                       TextView tv_fecha_fin){
+                                       TextView tv_fecha_fin, TextView tv_hora_inicio, TextView tv_hora_fin){
         boolean campoLleno = true;
 
         String nombreProducto = et_nombre_producto.getText().toString();
@@ -222,6 +244,8 @@ public class addProduct extends Fragment {
         String domicilioProducto = sp_domicilio_producto.getSelectedItem().toString();
         String fechaInicio = tv_fecha_inicio.getText().toString();
         String fechaFin = tv_fecha_fin.getText().toString();
+        String horaInicio = tv_hora_inicio.getText().toString();
+        String horaFin = tv_hora_fin.getText().toString();
 
         if(nombreProducto.isEmpty()){
             et_nombre_producto.setError("Debe diligenciar un nombre para el producto");
@@ -229,7 +253,7 @@ public class addProduct extends Fragment {
         }if(descripcionProducto.isEmpty()){
             et_descripcion_producto.setError("Debe diligenciar una descripción para su producto");
             campoLleno=false;
-        }if(categoriaProducto.equals("Selecciona una categoría")){
+        }if(categoriaProducto.equals("✚ Selecciona una categoría")){
             Toast.makeText(getContext(), "Seleccione una categoría", Toast.LENGTH_SHORT).show();
             campoLleno=false;
         }if(nombreProducto.isEmpty()){
@@ -241,7 +265,7 @@ public class addProduct extends Fragment {
         }if(descuentoProducto.isEmpty()){
             et_descuento_producto.setError("Debe diligenciar un descuento para el producto. Si no tiene digite 0 (cero)");
             campoLleno=false;
-        }if(domicilioProducto.equals("¿Deseas ofrecer domicilio?")){
+        }if(domicilioProducto.equals("✚ ¿Deseas ofrecer domicilio?")){
             Toast.makeText(getContext(), "Seleccione si desea ofrecer domicilio", Toast.LENGTH_SHORT).show();
             campoLleno=false;
         }if(fechaInicio.equals("dd/mm/aaaa")){
@@ -249,13 +273,19 @@ public class addProduct extends Fragment {
             Toast.makeText(getContext(), "Debe seleccionar una fecha de inicio", Toast.LENGTH_SHORT).show();
             campoLleno=false;
         }
-        if(fechaFin.equals("hh/mm")){
+        if(fechaFin.equals("dd/mm/aaaa")){
             tv_fecha_fin.setError("");
             Toast.makeText(getContext(), "Debe seleccionar una fecha de fin", Toast.LENGTH_SHORT).show();
             campoLleno=false;
+        }if(horaInicio.equals("hh/mm")){
+            tv_hora_inicio.setError("");
+            Toast.makeText(getContext(), "Debe seleccionar una hora de inicio", Toast.LENGTH_SHORT).show();
+            campoLleno=false;
+        }if(horaFin.equals("hh/mm")){
+            tv_hora_fin.setError("");
+            Toast.makeText(getContext(), "Debe seleccionar una hora de fin", Toast.LENGTH_SHORT).show();
+            campoLleno=false;
         }
-
-
         return campoLleno;
     }
 

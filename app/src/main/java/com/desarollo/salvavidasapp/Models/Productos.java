@@ -7,6 +7,7 @@ import java.util.Date;
 
 public class Productos {
 
+    private String idProducto;
     private String nombreProducto;
     private String descripcionProducto;
     private String categoriaProducto;
@@ -17,12 +18,20 @@ public class Productos {
     //pendiente definir tipo de dato correcto
     private int foto;
     private String fechaInicio;
-    private Time horaInicio;
-    private Date fechaFin;
-    private Time horafin;
+    private String horaInicio;
+    private String fechaFin;
+    private String horaFin;
 
     public Productos(){
 
+    }
+
+    public String getIdProducto() {
+        return idProducto;
+    }
+
+    public void setIdProducto(String idProducto) {
+        this.idProducto = idProducto;
     }
 
     public String getNombreProducto() {
@@ -97,27 +106,27 @@ public class Productos {
         this.fechaInicio = fechaInicio;
     }
 
-    public Time getHoraInicio() {
-        return horaInicio;
-    }
-
-    public void setHoraInicio(Time horaInicio) {
-        this.horaInicio = horaInicio;
-    }
-
-    public Date getFechaFin() {
+    public String getFechaFin() {
         return fechaFin;
     }
 
-    public void setFechaFin(Date fechaFin) {
+    public void setFechaFin(String fechaFin) {
         this.fechaFin = fechaFin;
     }
 
-    public Time getHorafin() {
-        return horafin;
+    public String getHoraInicio() {
+        return horaInicio;
     }
 
-    public void setHorafin(Time horafin) {
-        this.horafin = horafin;
+    public void setHoraInicio(String horaInicio) {
+        this.horaInicio = horaInicio;
+    }
+
+    public String getHoraFin() {
+        return horaFin;
+    }
+
+    public void setHoraFin(String horaFin) {
+        this.horaFin = horaFin;
     }
 }
