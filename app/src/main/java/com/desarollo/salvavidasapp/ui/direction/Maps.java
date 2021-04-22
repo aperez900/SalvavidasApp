@@ -6,6 +6,7 @@ import androidx.core.content.ContextCompat;
 import androidx.fragment.app.FragmentActivity;
 
 import android.Manifest;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -18,6 +19,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -53,6 +55,7 @@ public class Maps extends FragmentActivity implements OnMapReadyCallback {
     private static final int LOCATION_REQUEST_CODE =1;
     private static final int REQUEST_LOCATION = 1;
     private static final int PERMISSION_REQUEST_CODE = 1;
+    private ProgressDialog mProgessDialog;
 
     private GoogleMap mMap;
     EditText et_direccion;
@@ -71,6 +74,7 @@ public class Maps extends FragmentActivity implements OnMapReadyCallback {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_maps);
+        mProgessDialog = new ProgressDialog(this);
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
@@ -156,7 +160,11 @@ public class Maps extends FragmentActivity implements OnMapReadyCallback {
 
         }
         else{
-            Toast.makeText(Maps.this,"Un momento por favor, te estamos ubicando",Toast.LENGTH_LONG).show();
+            mProgessDialog.setTitle("Ubicación actual");
+            mProgessDialog.setMessage("Un momento por favor, te estamos ubicando.");
+            mProgessDialog.setCancelable(false);
+            mProgessDialog.show();
+            //Toast.makeText(Maps.this,"Un momento por favor, te estamos ubicando",Toast.LENGTH_LONG).show();
             mMap.setMyLocationEnabled(true);
             LocationManager locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
             Location location = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
@@ -191,6 +199,7 @@ public class Maps extends FragmentActivity implements OnMapReadyCallback {
     private  void convertirDireccion(double lat, double lng){
         Geocoder geocoder =  new Geocoder(Maps.this, Locale.getDefault());
         try {
+            mProgessDialog.dismiss();
             List<Address> addresses = geocoder.getFromLocation(lat,lng,1);
             String direccion = addresses.get(0).getAddressLine(0);
             String municipio = addresses.get(0).getLocality();
