@@ -2,6 +2,7 @@ package com.desarollo.salvavidasapp.ui.sales;
 
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
+import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 
@@ -21,9 +22,11 @@ import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
+import com.desarollo.salvavidasapp.Login.MainActivity;
 import com.desarollo.salvavidasapp.Models.Productos;
 import com.desarollo.salvavidasapp.Models.Vendedores;
 import com.desarollo.salvavidasapp.R;
+import com.desarollo.salvavidasapp.ui.home.Home;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
@@ -140,6 +143,7 @@ public class addProduct extends Fragment {
         btnRegistrarProducto.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 if(validarCamposVacios(nombreProducto, descripcionProducto, categoriaProducto, precioProducto, descuentoProducto,
                         domicilioProducto, tvFechaInicio, tvFechaFin, tvHoraInicio, tvHoraFin)) {
                     registrar(nombreProducto, descripcionProducto, categoriaProducto, precioProducto, descuentoProducto,
@@ -206,6 +210,10 @@ public class addProduct extends Fragment {
                         Toast.makeText(getContext(), "Producto registrado correctamente", Toast.LENGTH_SHORT).show();
                         limpiarCamposProducto(et_nombre_producto, et_descripcion_producto, sp_categoria_producto, et_precio_producto, et_descuento_producto,
                                 sp_domicilio_producto, tv_fecha_inicio, tv_fecha_fin, tv_hora_inicio, tv_hora_fin);
+
+                        Intent intent = new Intent(getContext(), addPhoto.class);
+                        intent.putExtra("idProducto", p.getIdProducto());
+                        startActivity(intent);
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {
