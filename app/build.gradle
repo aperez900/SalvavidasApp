@@ -47,6 +47,8 @@ dependencies {
     implementation files('libs/mail.jar')
     implementation 'androidx.gridlayout:gridlayout:1.0.0'
     implementation 'com.google.android.gms:play-services-maps:17.0.0'
+    implementation 'com.google.firebase:firebase-firestore:22.1.2'
+    implementation 'com.google.firebase:firebase-storage:19.2.2'
     testImplementation ('junit:junit:4.+')
     androidTestImplementation 'androidx.test.ext:junit:1.1.2'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
@@ -64,10 +66,14 @@ dependencies {
     //annotationProcessor 'com.github.bumptech.glide:compiler:4.12.0'
     annotationProcessor 'com.github.bumptech.glide:compiler:4.12.0'
 
-
     //recycler View
     implementation 'androidx.recyclerview:recyclerview:1.2.0'
     implementation 'androidx.cardview:cardview:1.0.0'
+
+    //subir imagen a Firebase
+    implementation 'com.theartofdev.edmodo:android-image-cropper:2.8.+'
+    implementation 'com.squareup.picasso:picasso:2.5.0'
+    implementation 'id.zelory:compressor:2.1.0'
 
 }
 apply plugin: 'com.android.application'

@@ -2,6 +2,7 @@ package com.desarollo.salvavidasapp.ui.home;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.KeyEvent;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.Menu;
@@ -86,7 +87,7 @@ public class Home extends AppCompatActivity {
                 .build();
 
         actualizarDatosPerfil();
-    }
+    } // fin OnCreate
 
     private void onConnectionFailed(ConnectionResult connectionResult) {
     }
@@ -112,6 +113,19 @@ public class Home extends AppCompatActivity {
                 CerrarSesion();
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    /*Si se pulsa el botón atrás dentro del home o los fragment lo llevará siempre al home,
+    solución temporal al tema de permitir el ingreso al módulo "Mis Ventas" sin estar
+    autorizado*/
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode==event.KEYCODE_BACK){
+            Intent intent = new Intent(this, Home.class);
+            startActivity(intent);
+            finish();
+        }
+        return super.onKeyDown(keyCode, event);
     }
 
     /*

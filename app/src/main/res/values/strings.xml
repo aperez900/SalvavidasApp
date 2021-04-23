@@ -74,6 +74,9 @@
     <string name="desdeProducto">Desde:</string>
     <string name="hastaProducto">Hasta:</string>
     <string name="estructuraHora">hh/mm</string>
+    <string name="seleccionarFoto">Seleccionar foto</string>
+    <string name="subirFoto">Subir foto</string>
+    <string name="descripcionImagen">Imagen</string>
 
 
     <string name="facebook_application_id">1541603559379639</string>

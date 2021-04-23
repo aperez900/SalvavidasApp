@@ -143,7 +143,6 @@ public class addProduct extends Fragment {
         btnRegistrarProducto.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                 if(validarCamposVacios(nombreProducto, descripcionProducto, categoriaProducto, precioProducto, descuentoProducto,
                         domicilioProducto, tvFechaInicio, tvFechaFin, tvHoraInicio, tvHoraFin)) {
                     registrar(nombreProducto, descripcionProducto, categoriaProducto, precioProducto, descuentoProducto,
@@ -213,6 +212,7 @@ public class addProduct extends Fragment {
 
                         Intent intent = new Intent(getContext(), addPhoto.class);
                         intent.putExtra("idProducto", p.getIdProducto());
+                        intent.putExtra("nombreProducto", p.getNombreProducto());
                         startActivity(intent);
                     }
                 })
@@ -280,8 +280,7 @@ public class addProduct extends Fragment {
             tv_fecha_inicio.setError("");
             Toast.makeText(getContext(), "Debe seleccionar una fecha de inicio", Toast.LENGTH_SHORT).show();
             campoLleno=false;
-        }
-        if(fechaFin.equals("dd/mm/aaaa")){
+        }if(fechaFin.equals("dd/mm/aaaa")){
             tv_fecha_fin.setError("");
             Toast.makeText(getContext(), "Debe seleccionar una fecha de fin", Toast.LENGTH_SHORT).show();
             campoLleno=false;
@@ -296,5 +295,4 @@ public class addProduct extends Fragment {
         }
         return campoLleno;
     }
-
 }
