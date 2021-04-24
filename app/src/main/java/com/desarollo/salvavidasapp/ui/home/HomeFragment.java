@@ -11,8 +11,10 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.desarollo.salvavidasapp.Models.ListDirecciones;
 import com.desarollo.salvavidasapp.Models.Productos;
 import com.desarollo.salvavidasapp.R;
+import com.desarollo.salvavidasapp.ui.direction.ListAddressAdapter;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -30,13 +32,11 @@ public class HomeFragment extends Fragment {
     private HomeViewModel homeViewModel;
     ArrayList<Productos> listaDeDatos = new ArrayList<>();
     RecyclerView listado;
-
+    ListSellAdapter listSellAdapter;
     FirebaseAuth mAuth;
     FirebaseUser currentUser;
     FirebaseDatabase database;
     DatabaseReference myRef;
-
-
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -48,10 +48,12 @@ public class HomeFragment extends Fragment {
         myRef = database.getReference("productos");
 
         listado = view.findViewById(R.id.listado);
-        listado.setLayoutManager(new LinearLayoutManager(getApplicationContext(), LinearLayoutManager.VERTICAL,false));
+        LinearLayoutManager manager = new LinearLayoutManager(getContext());
+        listado.setLayoutManager(manager);
+        listado.setHasFixedSize(true);
+        listSellAdapter = new ListSellAdapter(getContext(),listaDeDatos);
+        listado.setAdapter(listSellAdapter);
 
-        ListSellAdapter adaptador = new ListSellAdapter(getApplicationContext(),listaDeDatos);
-        listado.setAdapter(adaptador);
         crearListado();
         return view;
     }
@@ -63,7 +65,7 @@ public class HomeFragment extends Fragment {
                 "Otra cosa",
                 "Esto es una comida realizada el dia de ayer",
                 "Comidas preparadas",
-                1.0,1.0,"","",1,"","","",""));
+                1.0,1.0,"","","","","","",""));
 
         myRef.child(currentUser.getUid()).addValueEventListener(new ValueEventListener() {
             @Override
@@ -71,20 +73,16 @@ public class HomeFragment extends Fragment {
                 if(snapshot.exists()){
                     listaDeDatos.clear();
                     for(DataSnapshot objsnapshot : snapshot.getChildren()){
-                        String idProducto = objsnapshot.child("idProducto").getValue().toString();
-                        String nombreProducto = objsnapshot.child("nombreProducto").getValue().toString();
-                        String descripcionProducto = objsnapshot.child("descripcionProducto").getValue().toString();
-                        String categoriaProducto = objsnapshot.child("categoriaProducto").getValue().toString();
-
-                       // Toast.makeText(getApplicationContext(),idProducto, Toast.LENGTH_SHORT).show();
-                        listaDeDatos.add(new Productos(idProducto,nombreProducto,descripcionProducto,categoriaProducto,1.0,1.0,"","",1,"","","",""));
-
+                        Productos p = objsnapshot.getValue(Productos.class);
+                        listaDeDatos.add(new Productos(p.getIdProducto(), p.getNombreProducto(), p.getDescripcionProducto(),
+                                p.getCategoriaProducto(), p.getPrecio(), p.getDescuento(), p.getDomicilio(), p.getEstadoProducto(),
+                                p.getUrlFoto(), p.getFechaInicio(), p.getHoraInicio(), p.getFechaFin(), p.getHoraFin()));
                     }
-
+                    listSellAdapter = new ListSellAdapter(getContext(),listaDeDatos);
+                    listado.setAdapter(listSellAdapter);
                 }else{
 
                 }
-
             }
 
             @Override

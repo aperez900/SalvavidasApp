@@ -3,29 +3,30 @@ package com.desarollo.salvavidasapp.Models;
 
 import android.text.format.Time;
 
-import java.io.Serializable;
 import java.util.Date;
 
-public class Productos implements Serializable {
+public class Productos {
 
-     String idProducto;
-     String nombreProducto;
-     String descripcionProducto;
-     String categoriaProducto;
-     double precio;
-     double descuento;
-     String domicilio;
-     String EstadoProducto;
+    private String idProducto;
+    private String nombreProducto;
+    private String descripcionProducto;
+    private String categoriaProducto;
+    private double precio;
+    private double descuento;
+    private String domicilio;
+    private String estadoProducto;
     //pendiente definir tipo de dato correcto
-     int foto;
-     String fechaInicio;
-     String horaInicio;
-     String fechaFin;
-     String horaFin;
+    private String urlFoto;
+    private String fechaInicio;
+    private String horaInicio;
+    private String fechaFin;
+    private String horaFin;
 
-    public Productos(){};
+    public Productos(){
 
-    public Productos(String idProducto  , String nombreProducto, String descripcionProducto, String categoriaProducto, double precio, double descuento, String domicilio, String estadoProducto, int foto, String fechaInicio, String horaInicio, String fechaFin, String horaFin) {
+    }
+
+    public Productos(String idProducto, String nombreProducto, String descripcionProducto, String categoriaProducto, double precio, double descuento, String domicilio, String estadoProducto, String urlFoto, String fechaInicio, String horaInicio, String fechaFin, String horaFin) {
         this.idProducto = idProducto;
         this.nombreProducto = nombreProducto;
         this.descripcionProducto = descripcionProducto;
@@ -33,15 +34,13 @@ public class Productos implements Serializable {
         this.precio = precio;
         this.descuento = descuento;
         this.domicilio = domicilio;
-        this.EstadoProducto = estadoProducto;
-        this.foto = foto;
+        this.estadoProducto = estadoProducto;
+        this.urlFoto = urlFoto;
         this.fechaInicio = fechaInicio;
         this.horaInicio = horaInicio;
         this.fechaFin = fechaFin;
         this.horaFin = horaFin;
     }
-
-
 
     public String getIdProducto() {
         return idProducto;
@@ -99,22 +98,6 @@ public class Productos implements Serializable {
         this.domicilio = domicilio;
     }
 
-    public String getEstadoProducto() {
-        return EstadoProducto;
-    }
-
-    public void setEstadoProducto(String estadoProducto) {
-        EstadoProducto = estadoProducto;
-    }
-
-    public int getFoto() {
-        return foto;
-    }
-
-    public void setFoto(int foto) {
-        this.foto = foto;
-    }
-
     public String getFechaInicio() {
         return fechaInicio;
     }
@@ -145,5 +128,21 @@ public class Productos implements Serializable {
 
     public void setHoraFin(String horaFin) {
         this.horaFin = horaFin;
+    }
+
+    public String getEstadoProducto() {
+        return estadoProducto;
+    }
+
+    public void setEstadoProducto(String estadoProducto) {
+        this.estadoProducto = estadoProducto;
+    }
+
+    public String getUrlFoto() {
+        return urlFoto;
+    }
+
+    public void setUrlFoto(String urlFoto) {
+        this.urlFoto = urlFoto;
     }
 }

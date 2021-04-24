@@ -97,6 +97,7 @@ public class addPhoto extends AppCompatActivity {
                 .setAspectRatio(1,1)
                 .start(addPhoto.this);
         }
+
         if(requestCode==CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE){
             CropImage.ActivityResult result = CropImage.getActivityResult(data);
 

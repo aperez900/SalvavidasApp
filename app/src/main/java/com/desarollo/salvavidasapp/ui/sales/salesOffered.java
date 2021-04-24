@@ -81,7 +81,7 @@ public class salesOffered extends Fragment {
                 "Otra cosa",
                 "Esto es una comida realizada el dia de ayer",
                 "Comidas preparadas",
-                1.0,1.0,"","",1,"","","",""));
+                1.0,1.0,"","","","","","",""));
 
         myRef.child(currentUser.getUid()).addValueEventListener(new ValueEventListener() {
             @Override
@@ -96,7 +96,7 @@ public class salesOffered extends Fragment {
                         String categoriaProducto = objsnapshot.child("categoriaProducto").getValue().toString();
 
                         Toast.makeText(getApplicationContext(),idProducto, Toast.LENGTH_SHORT).show();
-                        listaDeDatos.add(new Productos(idProducto,nombreProducto,descripcionProducto,categoriaProducto,1,1,"","",1,"","","",""));
+                        listaDeDatos.add(new Productos(idProducto,nombreProducto,descripcionProducto,categoriaProducto,1,1,"","","","","","",""));
 
                     }
 
