@@ -188,18 +188,29 @@ public class addProduct extends Fragment {
                           EditText et_precio_producto, EditText et_descuento_producto, Spinner sp_domicilio_producto, TextView tv_fecha_inicio,
                           TextView tv_fecha_fin, TextView tv_hora_inicio, TextView tv_hora_fin){
 
-        p = new Productos();
-        p.setIdProducto(UUID.randomUUID().toString());
-        p.setNombreProducto(et_nombre_producto.getText().toString());
-        p.setDescripcionProducto(et_descripcion_producto.getText().toString());
-        p.setCategoriaProducto(sp_categoria_producto.getSelectedItem().toString());
-        p.setPrecio(Double.parseDouble(et_precio_producto.getText().toString()));
-        p.setDescuento(Double.parseDouble(et_descuento_producto.getText().toString()));
-        p.setDomicilio(sp_domicilio_producto.getSelectedItem().toString());
-        p.setFechaInicio(tv_fecha_inicio.getText().toString());
-        p.setHoraInicio(tv_hora_inicio.getText().toString());
-        p.setHoraFin(tv_hora_fin.getText().toString());
-        p.setEstadoProducto("Programado");
+
+
+        String idProducto,descripcionProducto,nombreProducto,categoriaProducto,estadoProducto, domicilio,   fechaInicio,  horaInicio,  fechaFin,  horaFin;
+        double precio,descuento;
+        int foto;
+
+
+        idProducto = UUID.randomUUID().toString();
+        descripcionProducto = et_descripcion_producto.getText().toString();
+        nombreProducto= et_nombre_producto.getText().toString();
+        estadoProducto = "Programado";
+        categoriaProducto =sp_categoria_producto.getSelectedItem().toString();
+        precio = Double.parseDouble(et_precio_producto.getText().toString());
+        descuento = Double.parseDouble(et_descuento_producto.getText().toString());
+        domicilio = sp_domicilio_producto.getSelectedItem().toString();
+        fechaInicio = tv_fecha_inicio.getText().toString();
+        horaInicio = tv_hora_inicio.getText().toString();
+        fechaFin =  tv_fecha_fin.getText().toString();
+        horaFin = tv_hora_fin.getText().toString();
+        foto = 1;
+
+
+        p = new Productos( idProducto  ,  nombreProducto,  descripcionProducto,  categoriaProducto,  precio,  descuento,  domicilio,  estadoProducto,  foto,  fechaInicio,  horaInicio,  fechaFin,  horaFin ){};
 
         //guarda los datos del vendedor
         myRefProductos.child(currentUser.getUid()).child(p.getIdProducto()).setValue(p)

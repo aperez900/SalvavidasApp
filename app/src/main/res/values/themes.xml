@@ -9,7 +9,7 @@
         <item name="colorSecondary">#FF0000</item>
         <item name="colorSecondaryVariant">#FFFFFF</item>
         <item name="colorOnSecondary">@color/black</item>
-        <item name="fontFamily">@font/poppins</item>
+        <item name="fontFamily">@font/poppins_light</item>
 
 
         <!-- Status bar color. -->

@@ -56,33 +56,24 @@ public class sales extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+
         // Inflate the layout for this fragment
         View view =  inflater.inflate(R.layout.fragment_sales, container, false);
 
         CardView cardAddProduct = view.findViewById(R.id.cardAddProduct);
-        CardView card2 = view.findViewById(R.id.card2);
-        CardView card3 = view.findViewById(R.id.card3);
+        CardView cardScheduledSales = view.findViewById(R.id.cardScheduledSales);
+        CardView cardSalesOffered = view.findViewById(R.id.cardSalesOffered);
         CardView card4 = view.findViewById(R.id.card4);
-
-        cardAddProduct.setOnClickListener(Navigation.createNavigateOnClickListener(R.id.action_nav_sales_to_addProduct));
 
         consultarDatosVendedor();
 
-        card2.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Toast.makeText(getContext(), "Click card 2",
-                        Toast.LENGTH_SHORT).show();
-            }
-        });
 
-        card3.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Toast.makeText(getContext(), "Click card 3",
-                        Toast.LENGTH_SHORT).show();
-            }
-        });
+        cardAddProduct.setOnClickListener(Navigation.createNavigateOnClickListener(R.id.action_nav_sales_to_addProduct));
+
+        cardScheduledSales.setOnClickListener(Navigation.createNavigateOnClickListener(R.id.action_nav_sales_to_scheduleSales));
+
+        cardSalesOffered.setOnClickListener(Navigation.createNavigateOnClickListener(R.id.action_nav_sales_to_salesOffered));
+
 
         card4.setOnClickListener(new View.OnClickListener() {
             @Override

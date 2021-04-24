@@ -3,28 +3,45 @@ package com.desarollo.salvavidasapp.Models;
 
 import android.text.format.Time;
 
+import java.io.Serializable;
 import java.util.Date;
 
-public class Productos {
+public class Productos implements Serializable {
 
-    private String idProducto;
-    private String nombreProducto;
-    private String descripcionProducto;
-    private String categoriaProducto;
-    private double precio;
-    private double descuento;
-    private String domicilio;
-    private String EstadoProducto;
+     String idProducto;
+     String nombreProducto;
+     String descripcionProducto;
+     String categoriaProducto;
+     double precio;
+     double descuento;
+     String domicilio;
+     String EstadoProducto;
     //pendiente definir tipo de dato correcto
-    private int foto;
-    private String fechaInicio;
-    private String horaInicio;
-    private String fechaFin;
-    private String horaFin;
+     int foto;
+     String fechaInicio;
+     String horaInicio;
+     String fechaFin;
+     String horaFin;
 
-    public Productos(){
+    public Productos(){};
 
+    public Productos(String idProducto  , String nombreProducto, String descripcionProducto, String categoriaProducto, double precio, double descuento, String domicilio, String estadoProducto, int foto, String fechaInicio, String horaInicio, String fechaFin, String horaFin) {
+        this.idProducto = idProducto;
+        this.nombreProducto = nombreProducto;
+        this.descripcionProducto = descripcionProducto;
+        this.categoriaProducto = categoriaProducto;
+        this.precio = precio;
+        this.descuento = descuento;
+        this.domicilio = domicilio;
+        this.EstadoProducto = estadoProducto;
+        this.foto = foto;
+        this.fechaInicio = fechaInicio;
+        this.horaInicio = horaInicio;
+        this.fechaFin = fechaFin;
+        this.horaFin = horaFin;
     }
+
+
 
     public String getIdProducto() {
         return idProducto;
