@@ -32,11 +32,9 @@ import static com.facebook.FacebookSdk.getApplicationContext;
 public class salesOffered extends Fragment {
 
 
-    private HomeViewModel homeViewModel;
     ArrayList<Productos> listaDeDatos = new ArrayList<>();
     RecyclerView listado;
-    Productos p;
-
+    ListSellAdapter listSellAdapter;
     FirebaseAuth mAuth;
     FirebaseUser currentUser;
     FirebaseDatabase database;
@@ -64,12 +62,19 @@ public class salesOffered extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_sales_offered,container,false);
 
+        mAuth = FirebaseAuth.getInstance();
+        currentUser = mAuth.getCurrentUser();
+        database = FirebaseDatabase.getInstance();
+        myRef = database.getReference("productos");
+
         listado = view.findViewById(R.id.listado);
-        listado.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL,false));
+        LinearLayoutManager manager = new LinearLayoutManager(getContext());
+        listado.setLayoutManager(manager);
+        //listado.setHasFixedSize(true);
+        listSellAdapter = new ListSellAdapter(getContext(),listaDeDatos);
+        listado.setAdapter(listSellAdapter);
 
         crearListado();
-        ListSaleOffered adaptador = new ListSaleOffered(listaDeDatos);
-        listado.setAdapter(adaptador);
         return view;
     }
 
@@ -87,23 +92,18 @@ public class salesOffered extends Fragment {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 if(snapshot.exists()){
-
                     listaDeDatos.clear();
                     for(DataSnapshot objsnapshot : snapshot.getChildren()){
-                        String idProducto = objsnapshot.child("idProducto").getValue().toString();
-                        String nombreProducto = objsnapshot.child("nombreProducto").getValue().toString();
-                        String descripcionProducto = objsnapshot.child("descripcionProducto").getValue().toString();
-                        String categoriaProducto = objsnapshot.child("categoriaProducto").getValue().toString();
-
-                        Toast.makeText(getApplicationContext(),idProducto, Toast.LENGTH_SHORT).show();
-                        listaDeDatos.add(new Productos(idProducto,nombreProducto,descripcionProducto,categoriaProducto,1,1,"","","","","","",""));
-
+                        Productos p = objsnapshot.getValue(Productos.class);
+                        listaDeDatos.add(new Productos(p.getIdProducto(), p.getNombreProducto(), p.getDescripcionProducto(),
+                                p.getCategoriaProducto(), p.getPrecio(), p.getDescuento(), p.getDomicilio(), p.getEstadoProducto(),
+                                p.getUrlFoto(), p.getFechaInicio(), p.getHoraInicio(), p.getFechaFin(), p.getHoraFin()));
                     }
-
+                    listSellAdapter = new ListSellAdapter(getContext(),listaDeDatos);
+                    listado.setAdapter(listSellAdapter);
                 }else{
 
                 }
-
             }
 
             @Override
@@ -111,7 +111,6 @@ public class salesOffered extends Fragment {
                 Toast.makeText(getApplicationContext(), "Error cargando los productos", Toast.LENGTH_SHORT).show();
             }
         });
-
     }
 }
 

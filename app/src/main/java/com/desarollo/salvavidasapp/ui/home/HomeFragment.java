@@ -50,7 +50,7 @@ public class HomeFragment extends Fragment {
         listado = view.findViewById(R.id.listado);
         LinearLayoutManager manager = new LinearLayoutManager(getContext());
         listado.setLayoutManager(manager);
-        listado.setHasFixedSize(true);
+        //listado.setHasFixedSize(true);
         listSellAdapter = new ListSellAdapter(getContext(),listaDeDatos);
         listado.setAdapter(listSellAdapter);
 
@@ -90,7 +90,5 @@ public class HomeFragment extends Fragment {
                 Toast.makeText(getApplicationContext(), "Error cargando los productos", Toast.LENGTH_SHORT).show();
             }
         });
-
     }
-
 }
