@@ -54,10 +54,10 @@ public class ListSaleOffered extends RecyclerView.Adapter<ListSaleOffered.viewHo
     public class viewHolder extends RecyclerView.ViewHolder {
         public viewHolder(@NonNull View itemView) {
             super(itemView);
-            tipo_producto = itemView.findViewById(R.id.tipo_producto);
+            tipo_producto = itemView.findViewById(R.id.tv_tipo_producto);
             nombre_producto = itemView.findViewById(R.id.et_nombre_producto);
             descripcion_producto = itemView.findViewById(R.id.et_descripcion_producto);
-           imagenProducto = itemView.findViewById(R.id.imagenProducto);
+           imagenProducto = itemView.findViewById(R.id.img_imagen_producto);
 
         }
 
@@ -66,8 +66,6 @@ public class ListSaleOffered extends RecyclerView.Adapter<ListSaleOffered.viewHo
             tipo_producto.setText(datos.getCategoriaProducto());
             nombre_producto.setText(datos.getNombreProducto());
             descripcion_producto.setText(datos.getDescripcionProducto());
-
-
 
 
             itemView.setOnClickListener(new View.OnClickListener() {

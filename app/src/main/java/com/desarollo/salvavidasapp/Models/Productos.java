@@ -143,7 +143,7 @@ public class Productos {
         return foto;
     }
 
-    public void setfoto(String urlFoto) {
-        this.foto = urlFoto;
+    public void setfoto(String Foto) {
+        this.foto = Foto;
     }
 }

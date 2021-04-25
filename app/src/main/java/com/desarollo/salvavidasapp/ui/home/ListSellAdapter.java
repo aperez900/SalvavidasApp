@@ -34,7 +34,6 @@ public class ListSellAdapter extends RecyclerView.Adapter<ListSellAdapter.viewHo
         this.inflater = LayoutInflater.from(context);
         this.listaDeDatos = listaDeDatos;
         this.activity = activity;
-
     }
 
     @NonNull
@@ -43,7 +42,6 @@ public class ListSellAdapter extends RecyclerView.Adapter<ListSellAdapter.viewHo
         View view = inflater.inflate(R.layout.item_de_lista,parent,false);
         view.setOnClickListener(this);
         return new ListSellAdapter.viewHolder(view);
-
     }
 
     public void setOnClickListener(View.OnClickListener listener){
@@ -57,12 +55,17 @@ public class ListSellAdapter extends RecyclerView.Adapter<ListSellAdapter.viewHo
         String tipo_producto = listaDeDatos.get(position).getCategoriaProducto();
         String nombre_producto = listaDeDatos.get(position).getNombreProducto();
         String descripcion_producto = listaDeDatos.get(position).getDescripcionProducto();
+        Double precio = listaDeDatos.get(position).getPrecio();
+        Double descuento = listaDeDatos.get(position).getDescuento();
+        String fechaInicio = listaDeDatos.get(position).getFechaInicio();
+        String fechaFin = listaDeDatos.get(position).getFechaFin();
         String getUrlFoto = listaDeDatos.get(position).getfoto();
-        //Toast.makeText(getApplicationContext(), "Imagen: " + getUrlFoto, Toast.LENGTH_SHORT).show();
         holder.tipo_producto.setText(tipo_producto);
         holder.nombre_producto.setText(nombre_producto);
         holder.descripcion_producto.setText(descripcion_producto);
-        //holder.imagenProducto.setImageURI(getUrlFoto);
+        holder.precio.setText(String.valueOf(precio-descuento));
+        holder.fechaInicio.setText(fechaInicio);
+        holder.fechaFin.setText(fechaFin);
 
         Glide.with(activity)
                 .load(getUrlFoto)
@@ -85,24 +88,25 @@ public class ListSellAdapter extends RecyclerView.Adapter<ListSellAdapter.viewHo
 
 
     @Override
-    public void onClick(View v) {
-
+    public void onClick(View view) {
+        if(listener != null){
+            listener.onClick(view);
+        }
     }
 
     public class viewHolder extends RecyclerView.ViewHolder {
-        TextView tipo_producto,nombre_producto,descripcion_producto;
+        TextView tipo_producto, nombre_producto, descripcion_producto, precio, fechaInicio, fechaFin;
         ImageView imagenProducto;
 
         public viewHolder(@NonNull View itemView) {
             super(itemView);
-            tipo_producto = itemView.findViewById(R.id.tipo_producto);
-            nombre_producto = itemView.findViewById(R.id.et_nombre_producto);
-            descripcion_producto = itemView.findViewById(R.id.et_descripcion_producto);
-            imagenProducto = itemView.findViewById(R.id.imagenProducto);
-
+            tipo_producto = itemView.findViewById(R.id.tv_tipo_producto);
+            nombre_producto = itemView.findViewById(R.id.tv_nombre_producto);
+            descripcion_producto = itemView.findViewById(R.id.tv_descripcion_producto);
+            imagenProducto = itemView.findViewById(R.id.img_imagen_producto);
+            precio = itemView.findViewById(R.id.tv_precio_producto);
+            fechaInicio = itemView.findViewById(R.id.tv_fecha_inicio_producto);
+            fechaFin = itemView.findViewById(R.id.tv_fecha_fin_producto);
         }
-
-
-
     }
 }

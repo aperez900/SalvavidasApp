@@ -2,7 +2,6 @@
 <androidx.cardview.widget.CardView
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     app:layout_constraintTop_toTopOf="parent"
@@ -12,12 +11,12 @@
     app:cardElevation="4dp"
     app:cardUseCompatPadding="true">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
         <TextView
-            android:id="@+id/tipo_producto"
+            android:id="@+id/tv_tipo_producto"
             android:layout_width="377dp"
             android:layout_height="43dp"
             android:layout_marginTop="16dp"
@@ -28,76 +27,119 @@
             android:textAlignment="center"
             android:textColor="@color/black"
             android:textSize="20sp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.466"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="10dp"/>
 
         <ImageView
-            android:id="@+id/imagenProducto"
+            android:id="@+id/img_imagen_producto"
             android:layout_width="186dp"
             android:layout_height="147dp"
             android:padding="5dp"
             android:scaleType="fitCenter"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.047"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tipo_producto" />
+            android:layout_below="@id/tv_tipo_producto"
+            android:layout_marginStart="10dp" />
 
         <TextView
-            android:id="@+id/et_nombre_producto"
-            android:layout_width="191dp"
-            android:layout_height="43dp"
-            android:layout_marginTop="8dp"
+            android:id="@+id/tv_nombre_producto"
+            android:layout_width="190dp"
+            android:layout_height="30dp"
+            android:layout_marginTop="5dp"
             android:fontFamily="@font/poppins_bold"
             android:padding="5dp"
             android:text="Nombre del producto"
             android:textColor="@color/black"
             android:textSize="16sp"
             android:textStyle="bold"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toEndOf="@+id/imagenProducto"
-            app:layout_constraintTop_toBottomOf="@+id/tipo_producto" />
+            android:layout_toEndOf="@id/img_imagen_producto"
+            android:layout_below="@id/tv_tipo_producto"
+            android:layout_marginStart="10dp" />
 
         <TextView
-            android:id="@+id/et_descripcion_producto"
-            android:layout_width="191dp"
-            android:layout_height="43dp"
-            android:layout_marginStart="0dp"
-            android:layout_marginTop="0dp"
-            android:layout_marginEnd="0dp"
+            android:id="@+id/tv_descripcion_producto"
+            android:layout_width="190dp"
+            android:layout_height="30dp"
             android:fontFamily="@font/poppins_light"
             android:padding="5dp"
             android:text="Descripcion"
-            android:textSize="16sp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toEndOf="@+id/imagenProducto"
-            app:layout_constraintTop_toBottomOf="@id/et_nombre_producto" />
-
+            android:textSize="14sp"
+            android:layout_toEndOf="@id/img_imagen_producto"
+            android:layout_below="@id/tv_nombre_producto"
+            android:layout_marginStart="10dp" />
         <TextView
-            android:id="@+id/DescripcionLugar"
-            android:layout_width="157dp"
-            android:layout_height="39dp"
-            android:layout_marginTop="0dp"
-            android:layout_marginEnd="40dp"
-            android:fontFamily="@font/poppins_semibold"
+            android:id="@+id/tv_precio_producto"
+            android:layout_width="190dp"
+            android:layout_height="30dp"
+            android:fontFamily="@font/poppins_light"
             android:padding="5dp"
-            android:text=" + Ver Mas"
-            android:textColor="@color/black"
-            android:textSize="16sp"
-            android:textStyle="bold"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toEndOf="@+id/imagenProducto"
-            app:layout_constraintTop_toBottomOf="@id/et_descripcion_producto" />
+            android:text="Precio"
+            android:textSize="14sp"
+            android:layout_toEndOf="@id/img_imagen_producto"
+            android:layout_below="@id/tv_descripcion_producto"
+            android:layout_marginStart="10dp" />
+        <TextView
+            android:id="@+id/tv_fecha_inicio_producto"
+            android:layout_width="80dp"
+            android:layout_height="30dp"
+            android:fontFamily="@font/poppins_light"
+            android:padding="5dp"
+            android:text="Inicio"
+            android:textSize="14sp"
+            android:layout_toEndOf="@id/img_imagen_producto"
+            android:layout_below="@id/tv_precio_producto"
+            android:layout_marginStart="10dp"/>
+        <TextView
+            android:id="@+id/tv_fecha_fin_producto"
+            android:layout_width="80dp"
+            android:layout_height="30dp"
+            android:fontFamily="@font/poppins_light"
+            android:padding="5dp"
+            android:text="Fin"
+            android:textSize="14sp"
+            android:layout_toEndOf="@id/tv_fecha_inicio_producto"
+            android:layout_below="@id/tv_precio_producto" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_toEndOf="@id/img_imagen_producto"
+            android:layout_below="@id/tv_fecha_inicio_producto">
+            <ImageView
+                android:id="@+id/img_ver_mas_producto"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:fontFamily="@font/poppins_semibold"
+                android:padding="5dp"
+                android:src="@drawable/icono_ver"
+                android:textColor="@color/black"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                android:layout_marginStart="20dp" />
+            <ImageView
+                android:id="@+id/img_editar_producto"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:fontFamily="@font/poppins_semibold"
+                android:padding="7dp"
+                android:src="@drawable/icono_editar"
+                android:textColor="@color/black"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                android:layout_marginStart="5dp"  />
+            <ImageView
+                android:id="@+id/img_cancelar_producto"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_marginTop="0dp"
+                android:layout_marginEnd="5dp"
+                android:fontFamily="@font/poppins_semibold"
+                android:padding="5dp"
+                android:src="@drawable/icono_cancel"
+                android:textColor="@color/black"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                android:layout_marginStart="5dp"  />
+        </LinearLayout>
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
-
-
-
-
+    </RelativeLayout>
 
 </androidx.cardview.widget.CardView>

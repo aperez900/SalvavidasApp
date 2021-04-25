@@ -80,12 +80,7 @@ public class scheduledSales extends Fragment {
 
     private void crearListado() {
 
-
         DateFormat fechaHora = new SimpleDateFormat("dd/MM/yyyy");
-
-
-
-
 
         myRef
                 .child(currentUser.getUid())
@@ -100,23 +95,28 @@ public class scheduledSales extends Fragment {
                         Date hoy = new Date();
                         try {
                             fecha = fechaHora.parse(p.getFechaInicio());
-
                         } catch (ParseException e) {
                             e.printStackTrace();
                         }
-
                         if (fecha.after(hoy)){
 
                            // Toast.makeText(getContext(), p.getFechaInicio(), Toast.LENGTH_SHORT).show();
                             listaDeDatos.add(new Productos(p.getIdProducto(), p.getNombreProducto(), p.getDescripcionProducto(),
                                     p.getCategoriaProducto(), p.getPrecio(), p.getDescuento(), p.getDomicilio(), p.getEstadoProducto(),
                                     p.getfoto(), p.getFechaInicio(), p.getHoraInicio(), p.getFechaFin(), p.getHoraFin()));
-
                         }
-
                       }
                     listSellAdapter = new ListSellAdapter(getContext(),listaDeDatos,getActivity());
                     listado.setAdapter(listSellAdapter);
+                    //Acciones al dar clic en un item de la lista
+                    listSellAdapter.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            String nombreProducto = listaDeDatos.get(listado.getChildAdapterPosition(view)).getNombreProducto();
+                            Toast.makeText(getApplicationContext(),"Seleccionó: " + nombreProducto,Toast.LENGTH_SHORT).show();
+
+                        }
+                    });
                 }else{
 
                 }

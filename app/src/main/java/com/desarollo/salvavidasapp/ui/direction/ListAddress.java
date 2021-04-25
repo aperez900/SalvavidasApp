@@ -100,9 +100,6 @@ public class ListAddress extends Fragment {
                 else{
                     Toast.makeText(getContext(),"activa el GPS para poder continuar...",Toast.LENGTH_SHORT).show();
                 }
-
-
-
             }
         });
         return view;

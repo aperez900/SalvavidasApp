@@ -195,7 +195,6 @@ public class addProduct extends Fragment {
         double precio,descuento;
         String foto = "";
 
-
         idProducto = UUID.randomUUID().toString();
         descripcionProducto = et_descripcion_producto.getText().toString();
         nombreProducto= et_nombre_producto.getText().toString();
@@ -208,7 +207,6 @@ public class addProduct extends Fragment {
         horaInicio = tv_hora_inicio.getText().toString();
         fechaFin =  tv_fecha_fin.getText().toString();
         horaFin = tv_hora_fin.getText().toString();
-
 
         p = new Productos( idProducto  ,  nombreProducto,  descripcionProducto,  categoriaProducto,  precio,  descuento,  domicilio,  estadoProducto,  foto,  fechaInicio,  horaInicio,  fechaFin,  horaFin ){};
 
