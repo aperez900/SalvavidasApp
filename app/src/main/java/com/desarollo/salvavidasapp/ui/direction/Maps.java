@@ -50,7 +50,7 @@ import java.util.Locale;
 
 import static com.facebook.FacebookSdk.getApplicationContext;
 
-public class Maps extends FragmentActivity implements OnMapReadyCallback {
+public class Maps extends FragmentActivity implements GoogleMap.OnMarkerDragListener,OnMapReadyCallback {
 
     private static final int LOCATION_REQUEST_CODE =1;
     private static final int REQUEST_LOCATION = 1;
@@ -102,7 +102,7 @@ public class Maps extends FragmentActivity implements OnMapReadyCallback {
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
-
+        Toast.makeText(getApplicationContext(),"Si desea cambiar la ubicación, dele clic al icono",Toast.LENGTH_LONG).show();
         miUbicacion();
 
         //acciones del boton registrar
@@ -114,6 +114,9 @@ public class Maps extends FragmentActivity implements OnMapReadyCallback {
                 }
             }
         });
+
+        //arrastrar el marcador
+        googleMap.setOnMarkerDragListener(this);
     }
 
         public static boolean isGPSProvider(Context context) {
@@ -149,7 +152,7 @@ public class Maps extends FragmentActivity implements OnMapReadyCallback {
     LocationListener locationListener = new LocationListener() {
         @Override
         public void onLocationChanged(@NonNull Location location) {
-            actualizarUbicacion(location);
+            //actualizarUbicacion(location);
         }
     };
 
@@ -157,14 +160,12 @@ public class Maps extends FragmentActivity implements OnMapReadyCallback {
         if (ActivityCompat.checkSelfPermission(Maps.this, Manifest.permission.ACCESS_FINE_LOCATION) !=
                 PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission
                 (this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-
         }
         else{
             mProgessDialog.setTitle("Ubicación actual");
             mProgessDialog.setMessage("Un momento por favor, te estamos ubicando.");
             mProgessDialog.setCancelable(false);
             mProgessDialog.show();
-            //Toast.makeText(Maps.this,"Un momento por favor, te estamos ubicando",Toast.LENGTH_LONG).show();
             mMap.setMyLocationEnabled(true);
             LocationManager locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
             Location location = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
@@ -206,7 +207,7 @@ public class Maps extends FragmentActivity implements OnMapReadyCallback {
             et_direccion.setText(direccion);
             et_municipio.setText(municipio);
         } catch (IOException e) {
-            Toast.makeText(getApplicationContext(),"Error al extraer dirección",Toast.LENGTH_SHORT).show();
+            Toast.makeText(getApplicationContext(),"Error :" + e,Toast.LENGTH_SHORT).show();
             e.printStackTrace();
         }
     }
@@ -248,7 +249,7 @@ public class Maps extends FragmentActivity implements OnMapReadyCallback {
         boolean campoLleno = true;
 
         if(d.nombreDireccion.isEmpty()){
-            et_alias.setError("Digite una dirección");
+            et_alias.setError("Digite un nombre para su dirección");
             campoLleno=false;
         }
         if(d.direccionUsuario.isEmpty()){
@@ -257,12 +258,32 @@ public class Maps extends FragmentActivity implements OnMapReadyCallback {
         }
 
         if(d.municipioDireccion.isEmpty()){
-            et_municipio.setError("Digite una dirección");
+            et_municipio.setError("Digite el municipio de la dirección");
             campoLleno=false;
         }
 
         return campoLleno;
     }
 
+    //eventos para arrastrar el market
+    @Override
+    public void onMarkerDragStart(Marker marker) {
+        Toast.makeText(getApplicationContext(), "Arrastre el icono a la dirección deseada", Toast.LENGTH_SHORT).show();
+    }
 
+    @Override
+    public void onMarkerDrag(Marker marker) {
+
+    }
+
+    @Override
+    public void onMarkerDragEnd(Marker marker) {
+        if (marker != null){
+            Toast.makeText(getApplicationContext(), "Actualizando dirección", Toast.LENGTH_SHORT).show();
+            double lat = marker.getPosition().latitude;
+            double lng = marker.getPosition().longitude;
+            marker.setTitle("Nueva ubicación");
+            convertirDireccion(lat, lng);
+        }
+    }
 }

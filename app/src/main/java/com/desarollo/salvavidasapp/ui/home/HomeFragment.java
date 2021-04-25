@@ -60,7 +60,6 @@ public class HomeFragment extends Fragment {
 
     private void crearListado() {
 
-
         myRef.child(currentUser.getUid()).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -70,7 +69,7 @@ public class HomeFragment extends Fragment {
                         Productos p = objsnapshot.getValue(Productos.class);
                         listaDeDatos.add(new Productos(p.getIdProducto(), p.getNombreProducto(), p.getDescripcionProducto(),
                                 p.getCategoriaProducto(), p.getPrecio(), p.getDescuento(), p.getDomicilio(), p.getEstadoProducto(),
-                                p.getUrlFoto(), p.getFechaInicio(), p.getHoraInicio(), p.getFechaFin(), p.getHoraFin()));
+                                p.getfoto(), p.getFechaInicio(), p.getHoraInicio(), p.getFechaFin(), p.getHoraFin()));
                     }
                     listSellAdapter = new ListSellAdapter(getContext(),listaDeDatos,getActivity());
                     listado.setAdapter(listSellAdapter);

@@ -3,6 +3,7 @@ package com.desarollo.salvavidasapp.ui.sales;
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 
@@ -192,7 +193,7 @@ public class addProduct extends Fragment {
 
         String idProducto,descripcionProducto,nombreProducto,categoriaProducto,estadoProducto, domicilio,   fechaInicio,  horaInicio,  fechaFin,  horaFin;
         double precio,descuento;
-        String foto;
+        String foto = "";
 
 
         idProducto = UUID.randomUUID().toString();
@@ -207,7 +208,6 @@ public class addProduct extends Fragment {
         horaInicio = tv_hora_inicio.getText().toString();
         fechaFin =  tv_fecha_fin.getText().toString();
         horaFin = tv_hora_fin.getText().toString();
-        foto = "";
 
 
         p = new Productos( idProducto  ,  nombreProducto,  descripcionProducto,  categoriaProducto,  precio,  descuento,  domicilio,  estadoProducto,  foto,  fechaInicio,  horaInicio,  fechaFin,  horaFin ){};

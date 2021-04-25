@@ -2,21 +2,26 @@ package com.desarollo.salvavidasapp.ui.home;
 
 import android.app.Activity;
 import android.content.Context;
+import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 import com.desarollo.salvavidasapp.Models.Productos;
 import com.desarollo.salvavidasapp.R;
 import com.desarollo.salvavidasapp.ui.direction.ListAddressAdapter;
 
 import java.util.ArrayList;
+
+import static com.facebook.FacebookSdk.getApplicationContext;
 
 public class ListSellAdapter extends RecyclerView.Adapter<ListSellAdapter.viewHolder> implements View.OnClickListener {
 
@@ -52,17 +57,16 @@ public class ListSellAdapter extends RecyclerView.Adapter<ListSellAdapter.viewHo
         String tipo_producto = listaDeDatos.get(position).getCategoriaProducto();
         String nombre_producto = listaDeDatos.get(position).getNombreProducto();
         String descripcion_producto = listaDeDatos.get(position).getDescripcionProducto();
-        String getUrlFoto = listaDeDatos.get(position).getUrlFoto();
-
+        String getUrlFoto = listaDeDatos.get(position).getfoto();
+        //Toast.makeText(getApplicationContext(), "Imagen: " + getUrlFoto, Toast.LENGTH_SHORT).show();
         holder.tipo_producto.setText(tipo_producto);
         holder.nombre_producto.setText(nombre_producto);
         holder.descripcion_producto.setText(descripcion_producto);
+        //holder.imagenProducto.setImageURI(getUrlFoto);
 
         Glide.with(activity)
                 .load(getUrlFoto)
                 .into(holder.imagenProducto);
-
-
     }
 
 
@@ -95,8 +99,6 @@ public class ListSellAdapter extends RecyclerView.Adapter<ListSellAdapter.viewHo
             nombre_producto = itemView.findViewById(R.id.et_nombre_producto);
             descripcion_producto = itemView.findViewById(R.id.et_descripcion_producto);
             imagenProducto = itemView.findViewById(R.id.imagenProducto);
-
-
 
         }
 

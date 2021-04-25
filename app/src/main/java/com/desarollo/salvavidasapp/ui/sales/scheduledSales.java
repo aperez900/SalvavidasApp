@@ -110,7 +110,7 @@ public class scheduledSales extends Fragment {
                            // Toast.makeText(getContext(), p.getFechaInicio(), Toast.LENGTH_SHORT).show();
                             listaDeDatos.add(new Productos(p.getIdProducto(), p.getNombreProducto(), p.getDescripcionProducto(),
                                     p.getCategoriaProducto(), p.getPrecio(), p.getDescuento(), p.getDomicilio(), p.getEstadoProducto(),
-                                    p.getUrlFoto(), p.getFechaInicio(), p.getHoraInicio(), p.getFechaFin(), p.getHoraFin()));
+                                    p.getfoto(), p.getFechaInicio(), p.getHoraInicio(), p.getFechaFin(), p.getHoraFin()));
 
                         }
 

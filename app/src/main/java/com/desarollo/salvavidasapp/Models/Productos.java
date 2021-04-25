@@ -1,6 +1,7 @@
 package com.desarollo.salvavidasapp.Models;
 
 
+import android.net.Uri;
 import android.text.format.Time;
 
 import java.util.Date;
@@ -16,7 +17,7 @@ public class Productos {
     private String domicilio;
     private String estadoProducto;
     //pendiente definir tipo de dato correcto
-    private String urlFoto;
+    private String foto;
     private String fechaInicio;
     private String horaInicio;
     private String fechaFin;
@@ -26,7 +27,7 @@ public class Productos {
 
     }
 
-    public Productos(String idProducto, String nombreProducto, String descripcionProducto, String categoriaProducto, double precio, double descuento, String domicilio, String estadoProducto, String urlFoto, String fechaInicio, String horaInicio, String fechaFin, String horaFin) {
+    public Productos(String idProducto, String nombreProducto, String descripcionProducto, String categoriaProducto, double precio, double descuento, String domicilio, String estadoProducto, String foto, String fechaInicio, String horaInicio, String fechaFin, String horaFin) {
         this.idProducto = idProducto;
         this.nombreProducto = nombreProducto;
         this.descripcionProducto = descripcionProducto;
@@ -35,7 +36,7 @@ public class Productos {
         this.descuento = descuento;
         this.domicilio = domicilio;
         this.estadoProducto = estadoProducto;
-        this.urlFoto = urlFoto;
+        this.foto = foto;
         this.fechaInicio = fechaInicio;
         this.horaInicio = horaInicio;
         this.fechaFin = fechaFin;
@@ -138,11 +139,11 @@ public class Productos {
         this.estadoProducto = estadoProducto;
     }
 
-    public String getUrlFoto() {
-        return urlFoto;
+    public String getfoto() {
+        return foto;
     }
 
-    public void setUrlFoto(String urlFoto) {
-        this.urlFoto = urlFoto;
+    public void setfoto(String urlFoto) {
+        this.foto = urlFoto;
     }
 }

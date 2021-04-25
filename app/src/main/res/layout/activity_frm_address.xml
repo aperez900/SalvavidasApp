@@ -7,7 +7,6 @@
     android:background="#EDFAF8F8"
     tools:context=".ui.direction.FrmAddress">
 
-
     <TextView
         android:id="@+id/tv_titulo_frm_dir"
         android:layout_width="340dp"
