@@ -1,5 +1,6 @@
 package com.desarollo.salvavidasapp.ui.sales;
 
+import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,11 +10,15 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.desarollo.salvavidasapp.Models.Productos;
 import com.desarollo.salvavidasapp.R;
 import com.desarollo.salvavidasapp.ui.home.ListSellAdapter;
+import com.google.firebase.storage.StorageReference;
 
 import java.util.ArrayList;
+
+import static com.facebook.FacebookSdk.getApplicationContext;
 
 public class ListSaleOffered extends RecyclerView.Adapter<ListSaleOffered.viewHolder>  {
 
@@ -52,7 +57,7 @@ public class ListSaleOffered extends RecyclerView.Adapter<ListSaleOffered.viewHo
             tipo_producto = itemView.findViewById(R.id.tipo_producto);
             nombre_producto = itemView.findViewById(R.id.et_nombre_producto);
             descripcion_producto = itemView.findViewById(R.id.et_descripcion_producto);
-           // imagenProducto = itemView.findViewById(R.id.imagenProducto);
+           imagenProducto = itemView.findViewById(R.id.imagenProducto);
 
         }
 
@@ -61,7 +66,9 @@ public class ListSaleOffered extends RecyclerView.Adapter<ListSaleOffered.viewHo
             tipo_producto.setText(datos.getCategoriaProducto());
             nombre_producto.setText(datos.getNombreProducto());
             descripcion_producto.setText(datos.getDescripcionProducto());
-            //imagenProducto.setImageResource(datos.getFoto());
+
+
+
 
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override

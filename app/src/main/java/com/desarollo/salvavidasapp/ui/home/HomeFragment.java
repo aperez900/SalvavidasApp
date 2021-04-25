@@ -51,7 +51,7 @@ public class HomeFragment extends Fragment {
         LinearLayoutManager manager = new LinearLayoutManager(getContext());
         listado.setLayoutManager(manager);
         //listado.setHasFixedSize(true);
-        listSellAdapter = new ListSellAdapter(getContext(),listaDeDatos);
+        listSellAdapter = new ListSellAdapter(getContext(),listaDeDatos,getActivity());
         listado.setAdapter(listSellAdapter);
 
         crearListado();
@@ -60,12 +60,6 @@ public class HomeFragment extends Fragment {
 
     private void crearListado() {
 
-        listaDeDatos.add(new Productos(
-                "Hamburguesas",
-                "Otra cosa",
-                "Esto es una comida realizada el dia de ayer",
-                "Comidas preparadas",
-                1.0,1.0,"","","","","","",""));
 
         myRef.child(currentUser.getUid()).addValueEventListener(new ValueEventListener() {
             @Override
@@ -78,7 +72,7 @@ public class HomeFragment extends Fragment {
                                 p.getCategoriaProducto(), p.getPrecio(), p.getDescuento(), p.getDomicilio(), p.getEstadoProducto(),
                                 p.getUrlFoto(), p.getFechaInicio(), p.getHoraInicio(), p.getFechaFin(), p.getHoraFin()));
                     }
-                    listSellAdapter = new ListSellAdapter(getContext(),listaDeDatos);
+                    listSellAdapter = new ListSellAdapter(getContext(),listaDeDatos,getActivity());
                     listado.setAdapter(listSellAdapter);
                 }else{
 

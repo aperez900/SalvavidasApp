@@ -74,6 +74,7 @@ dependencies {
     implementation 'com.theartofdev.edmodo:android-image-cropper:2.8.+'
     implementation 'com.squareup.picasso:picasso:2.5.0'
     implementation 'id.zelory:compressor:2.1.0'
+    implementation 'com.firebaseui:firebase-ui-storage:6.4.0'
 
 }
 apply plugin: 'com.android.application'

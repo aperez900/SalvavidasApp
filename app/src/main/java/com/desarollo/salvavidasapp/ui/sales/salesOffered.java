@@ -24,7 +24,11 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 import static com.facebook.FacebookSdk.getApplicationContext;
 
@@ -71,7 +75,7 @@ public class salesOffered extends Fragment {
         LinearLayoutManager manager = new LinearLayoutManager(getContext());
         listado.setLayoutManager(manager);
         //listado.setHasFixedSize(true);
-        listSellAdapter = new ListSellAdapter(getContext(),listaDeDatos);
+        listSellAdapter = new ListSellAdapter(getContext(),listaDeDatos,getActivity());
         listado.setAdapter(listSellAdapter);
 
         crearListado();
@@ -81,12 +85,8 @@ public class salesOffered extends Fragment {
 
     private void crearListado() {
 
-        listaDeDatos.add(new Productos(
-                "Hamburguesas",
-                "Otra cosa",
-                "Esto es una comida realizada el dia de ayer",
-                "Comidas preparadas",
-                1.0,1.0,"","","","","","",""));
+        DateFormat fechaHora = new SimpleDateFormat("dd/MM/yyyy");
+
 
         myRef.child(currentUser.getUid()).addValueEventListener(new ValueEventListener() {
             @Override
@@ -95,11 +95,25 @@ public class salesOffered extends Fragment {
                     listaDeDatos.clear();
                     for(DataSnapshot objsnapshot : snapshot.getChildren()){
                         Productos p = objsnapshot.getValue(Productos.class);
-                        listaDeDatos.add(new Productos(p.getIdProducto(), p.getNombreProducto(), p.getDescripcionProducto(),
-                                p.getCategoriaProducto(), p.getPrecio(), p.getDescuento(), p.getDomicilio(), p.getEstadoProducto(),
-                                p.getUrlFoto(), p.getFechaInicio(), p.getHoraInicio(), p.getFechaFin(), p.getHoraFin()));
+                        Date fecha = null;
+                        Date hoy = new Date();
+                        try {
+                            fecha = fechaHora.parse(p.getFechaInicio());
+
+                        } catch (ParseException e) {
+                            e.printStackTrace();
+                        }
+
+                        if (fecha.before(hoy)){
+
+                            //Toast.makeText(getContext(), p.getFechaInicio(), Toast.LENGTH_SHORT).show();
+                            listaDeDatos.add(new Productos(p.getIdProducto(), p.getNombreProducto(), p.getDescripcionProducto(),
+                                    p.getCategoriaProducto(), p.getPrecio(), p.getDescuento(), p.getDomicilio(), p.getEstadoProducto(),
+                                    p.getUrlFoto(), p.getFechaInicio(), p.getHoraInicio(), p.getFechaFin(), p.getHoraFin()));
+
+                        }
                     }
-                    listSellAdapter = new ListSellAdapter(getContext(),listaDeDatos);
+                    listSellAdapter = new ListSellAdapter(getContext(),listaDeDatos,getActivity());
                     listado.setAdapter(listSellAdapter);
                 }else{
 
