@@ -20,6 +20,8 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.desarollo.salvavidasapp.Models.Productos;
 import com.desarollo.salvavidasapp.R;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -30,6 +32,8 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+
+import static com.facebook.FacebookSdk.getApplicationContext;
 
 public class editProduct extends AppCompatActivity {
 
@@ -142,7 +146,7 @@ public class editProduct extends AppCompatActivity {
                 .setPositiveButton("Sí", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        Toast.makeText(editProduct.this,"Clic en Sí ",Toast.LENGTH_SHORT).show();
+                        cancelarProducto();
                     }
                 })
                 .setNegativeButton("No", new DialogInterface.OnClickListener() {
@@ -154,5 +158,21 @@ public class editProduct extends AppCompatActivity {
         AlertDialog titulo = confirmacion.create();
         titulo.setTitle("Cancelar producto");
         titulo.show();
+    }
+
+    public void cancelarProducto(){
+        myRef.child(currentUser.getUid()).child(idProducto).child("estadoProducto").setValue("Cancelado")
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        Toast.makeText(editProduct.this, "Producto cancelado con éxito", Toast.LENGTH_SHORT).show();
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Toast.makeText(editProduct.this, "Error cancelando el producto", Toast.LENGTH_SHORT).show();
+                    }
+                });
     }
 }

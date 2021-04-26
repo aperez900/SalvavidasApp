@@ -97,14 +97,15 @@ public class salesOffered extends Fragment {
                         Productos p = objsnapshot.getValue(Productos.class);
                         Date fecha = null;
                         Date hoy = new Date();
+                        String estado="";
                         try {
                             fecha = fechaHora.parse(p.getFechaInicio());
-
+                            estado = p.getEstadoProducto();
                         } catch (ParseException e) {
                             e.printStackTrace();
                         }
 
-                        if (fecha.before(hoy)){
+                        if (fecha.before(hoy) && !estado.equals("Cancelado")){
 
                             //Toast.makeText(getContext(), p.getFechaInicio(), Toast.LENGTH_SHORT).show();
                             listaDeDatos.add(new Productos(p.getIdProducto(), p.getNombreProducto(), p.getDescripcionProducto(),
