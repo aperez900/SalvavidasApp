@@ -66,10 +66,34 @@ public class ListSellAdapter extends RecyclerView.Adapter<ListSellAdapter.viewHo
         holder.precio.setText(String.valueOf(precio-descuento));
         holder.fechaInicio.setText(fechaInicio);
         holder.fechaFin.setText(fechaFin);
-
         Glide.with(activity)
                 .load(getUrlFoto)
                 .into(holder.imagenProducto);
+
+        //Acción del botón ver mas
+        holder.imgVer.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(getApplicationContext(),"Clic en Ver más: " + nombre_producto,Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        //Acción del botón Editar
+        holder.imgEditar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(getApplicationContext(),"Clic en Editar: " + nombre_producto,Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        //Acción del botón Cancelar
+        holder.imgCancelar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(getApplicationContext(),"Clic en Cancelar: " + nombre_producto,Toast.LENGTH_SHORT).show();
+            }
+        });
+
     }
 
 
@@ -96,7 +120,7 @@ public class ListSellAdapter extends RecyclerView.Adapter<ListSellAdapter.viewHo
 
     public class viewHolder extends RecyclerView.ViewHolder {
         TextView tipo_producto, nombre_producto, descripcion_producto, precio, fechaInicio, fechaFin;
-        ImageView imagenProducto;
+        ImageView imagenProducto, imgVer, imgEditar, imgCancelar;
 
         public viewHolder(@NonNull View itemView) {
             super(itemView);
@@ -107,6 +131,9 @@ public class ListSellAdapter extends RecyclerView.Adapter<ListSellAdapter.viewHo
             precio = itemView.findViewById(R.id.tv_precio_producto);
             fechaInicio = itemView.findViewById(R.id.tv_fecha_inicio_producto);
             fechaFin = itemView.findViewById(R.id.tv_fecha_fin_producto);
+            imgVer = itemView.findViewById(R.id.img_ver_mas_producto);
+            imgEditar = itemView.findViewById(R.id.img_editar_producto);
+            imgCancelar = itemView.findViewById(R.id.img_cancelar_producto);
         }
     }
 }
