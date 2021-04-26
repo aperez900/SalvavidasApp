@@ -3,12 +3,8 @@ package com.desarollo.salvavidasapp.ui.sales;
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.content.Intent;
-import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.RequiresApi;
 import androidx.fragment.app.Fragment;
 
 import android.view.LayoutInflater;
@@ -16,33 +12,22 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.TimePicker;
 import android.widget.Toast;
 
-import com.desarollo.salvavidasapp.Login.MainActivity;
 import com.desarollo.salvavidasapp.Models.Productos;
-import com.desarollo.salvavidasapp.Models.Vendedores;
 import com.desarollo.salvavidasapp.R;
-import com.desarollo.salvavidasapp.ui.home.Home;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
-import org.w3c.dom.Text;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.UUID;
-
-import static com.facebook.FacebookSdk.getApplicationContext;
 
 public class addProduct extends Fragment {
 
@@ -52,7 +37,8 @@ public class addProduct extends Fragment {
     DatabaseReference myRefProductos;
     Productos p;
 
-    private int dia, mes, anio, hora, minutos;
+//    private int hora;
+//    private int minutos;
 
     public addProduct() {
         // Required empty public constructor
@@ -65,7 +51,6 @@ public class addProduct extends Fragment {
         currentUser = mAuth.getCurrentUser();
         database = FirebaseDatabase.getInstance();
         myRefProductos = database.getReference("productos");
-
     }
 
     @Override
@@ -73,6 +58,7 @@ public class addProduct extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_add_product, container, false);
+
         Spinner categoriaProducto = view.findViewById(R.id.sp_categoria_producto);
         Spinner domicilioProducto = view.findViewById(R.id.sp_domicilio);
         TextView btnFechaInicio = view.findViewById(R.id.btn_fecha_inicio);
@@ -91,64 +77,31 @@ public class addProduct extends Fragment {
 
         String[] ArrayCategorias = new String[]{"✚ Selecciona una categoría", "Comida preparada","Comida cruda"};
         ArrayList<String> listCategoriaProductos = new ArrayList(Arrays.asList(ArrayCategorias));
-        ArrayAdapter<String> adapterCategoriaProductos = new ArrayAdapter<String>(getContext(), R.layout.spinner_item_modified, listCategoriaProductos);
+        ArrayAdapter<String> adapterCategoriaProductos = new ArrayAdapter<>(getContext(), R.layout.spinner_item_modified, listCategoriaProductos);
         categoriaProducto.setAdapter(adapterCategoriaProductos);
 
         String[] ArrayDomicilio = new String[]{"✚ ¿Deseas ofrecer domicilio?", "Sí","No"};
         ArrayList<String> listDomicilioProductos = new ArrayList(Arrays.asList(ArrayDomicilio));
-        ArrayAdapter<String> adapterDomicilioProductos = new ArrayAdapter<String>(getContext(), R.layout.spinner_item_modified, listDomicilioProductos);
+        ArrayAdapter<String> adapterDomicilioProductos = new ArrayAdapter<>(getContext(), R.layout.spinner_item_modified, listDomicilioProductos);
         domicilioProducto.setAdapter(adapterDomicilioProductos);
 
-        btnFechaInicio.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mostrarCalendario(tvFechaInicio);
-            }
-        });
+        btnFechaInicio.setOnClickListener(v -> mostrarCalendario(tvFechaInicio));
 
-        tvFechaInicio.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mostrarCalendario(tvFechaInicio);
-            }
-        });
+        tvFechaInicio.setOnClickListener(v -> mostrarCalendario(tvFechaInicio));
 
-        btnFechaFin.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mostrarCalendario(tvFechaFin);
-            }
-        });
+        btnFechaFin.setOnClickListener(v -> mostrarCalendario(tvFechaFin));
 
-        tvFechaFin.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mostrarCalendario(tvFechaFin);
-            }
-        });
+        tvFechaFin.setOnClickListener(v -> mostrarCalendario(tvFechaFin));
 
-        btnHoraInicio.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mostrarReloj(tvHoraInicio);
-            }
-        });
+        btnHoraInicio.setOnClickListener(v -> mostrarReloj(tvHoraInicio));
 
-        btnHoraFin.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mostrarReloj(tvHoraFin);
-            }
-        });
+        btnHoraFin.setOnClickListener(v -> mostrarReloj(tvHoraFin));
 
-        btnRegistrarProducto.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if(validarCamposVacios(nombreProducto, descripcionProducto, categoriaProducto, precioProducto, descuentoProducto,
-                        domicilioProducto, tvFechaInicio, tvFechaFin, tvHoraInicio, tvHoraFin)) {
-                    registrar(nombreProducto, descripcionProducto, categoriaProducto, precioProducto, descuentoProducto,
-                            domicilioProducto, tvFechaInicio, tvFechaFin, tvHoraInicio, tvHoraFin);
-                }
+        btnRegistrarProducto.setOnClickListener(v -> {
+            if(validarCamposVacios(nombreProducto, descripcionProducto, categoriaProducto, precioProducto, descuentoProducto,
+                    domicilioProducto, tvFechaInicio, tvFechaFin, tvHoraInicio, tvHoraFin)) {
+                registrar(nombreProducto, descripcionProducto, categoriaProducto, precioProducto, descuentoProducto,
+                        domicilioProducto, tvFechaInicio, tvFechaFin, tvHoraInicio, tvHoraFin);
             }
         });
 
@@ -156,32 +109,29 @@ public class addProduct extends Fragment {
     } //fin OnCreateView
 
     public void mostrarCalendario(TextView Fecha){
+        int mes;
+        int anio;
         Calendar cal = Calendar.getInstance();
         anio = cal.get(Calendar.YEAR);
         mes = cal.get(Calendar.MONTH);
-        dia = cal.get(Calendar.DAY_OF_MONTH);
+        int dia = cal.get(Calendar.DAY_OF_MONTH);
 
-        DatePickerDialog dpd = new DatePickerDialog(getContext(), new DatePickerDialog.OnDateSetListener() {
-            @Override
-            public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
-                String fecha = dayOfMonth + "/" + (month + 1) + "/" + year;
-                Fecha.setText(fecha);
-            }
+        DatePickerDialog dpd = new DatePickerDialog(getContext(), (view, year, month, dayOfMonth) -> {
+            String fecha = dayOfMonth + "/" + (month + 1) + "/" + year;
+            Fecha.setText(fecha);
         },anio, mes, dia);
         dpd.show();
     }
 
     public void mostrarReloj(TextView Hora){
+        /*
         Calendar c = Calendar.getInstance();
+
         int hora = c.get(Calendar.HOUR_OF_DAY);
         int min = c.get(Calendar.MINUTE);
+         */
 
-        TimePickerDialog tpd = new TimePickerDialog(getContext(), new TimePickerDialog.OnTimeSetListener() {
-            @Override
-            public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
-                Hora.setText((hourOfDay)+ ":" + minute);
-            }
-        }, 0, 0,false);
+        TimePickerDialog tpd = new TimePickerDialog(getContext(), (view, hourOfDay, minute) -> Hora.setText((hourOfDay)+ ":" + minute), 0, 0,false);
         tpd.show();
     }
 
@@ -212,27 +162,22 @@ public class addProduct extends Fragment {
 
         //guarda los datos del vendedor
         myRefProductos.child(currentUser.getUid()).child(p.getIdProducto()).setValue(p)
-                .addOnSuccessListener(new OnSuccessListener<Void>() {
-                    @Override
-                    public void onSuccess(Void aVoid) {
-                        Toast.makeText(getContext(), "Producto registrado correctamente", Toast.LENGTH_SHORT).show();
-                        limpiarCamposProducto(et_nombre_producto, et_descripcion_producto, sp_categoria_producto, et_precio_producto, et_descuento_producto,
-                                sp_domicilio_producto, tv_fecha_inicio, tv_fecha_fin, tv_hora_inicio, tv_hora_fin);
+                .addOnSuccessListener(aVoid -> {
 
-                        Intent intent = new Intent(getContext(), addPhoto.class);
-                        intent.putExtra("idProducto", p.getIdProducto());
-                        intent.putExtra("nombreProducto", p.getNombreProducto());
-                        startActivity(intent);
-                    }
+                    /*limpiarCamposProducto(et_nombre_producto, et_descripcion_producto, sp_categoria_producto, et_precio_producto, et_descuento_producto,
+                            sp_domicilio_producto, tv_fecha_inicio, tv_fecha_fin, tv_hora_inicio, tv_hora_fin);
+                     */
+
+                    Intent intent = new Intent(getContext(), addPhoto.class);
+                    intent.putExtra("idProducto", p.getIdProducto());
+                    intent.putExtra("nombreProducto", p.getNombreProducto());
+                    startActivity(intent);
+                    Toast.makeText(getContext(), "Producto registrado correctamente", Toast.LENGTH_SHORT).show();
                 })
-                .addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        Toast.makeText(getContext(), "Error registrando el producto. Intenta de nuevo mas tarde", Toast.LENGTH_SHORT).show();
-                    }
-                });
+                .addOnFailureListener(e -> Toast.makeText(getContext(), "Error registrando el producto. Intenta de nuevo mas tarde", Toast.LENGTH_SHORT).show());
     }
 
+    /*
     public void limpiarCamposProducto(EditText et_nombre_producto, EditText et_descripcion_producto, Spinner sp_categoria_producto,
                                       EditText et_precio_producto, EditText et_descuento_producto, Spinner sp_domicilio_producto, TextView tv_fecha_inicio,
                                       TextView tv_fecha_fin, TextView tv_hora_inicio, TextView tv_hora_fin){
@@ -247,6 +192,7 @@ public class addProduct extends Fragment {
         tv_hora_inicio.setText("hh/mm");
         tv_hora_fin.setText("hh/mm");
     }
+     */
 
     public boolean validarCamposVacios(EditText et_nombre_producto, EditText et_descripcion_producto, Spinner sp_categoria_producto,
                                        EditText et_precio_producto, EditText et_descuento_producto, Spinner sp_domicilio_producto, TextView tv_fecha_inicio,

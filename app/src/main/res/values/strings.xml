@@ -70,6 +70,8 @@
     <string name="fechaInicioProducto">Fecha inicio</string>
     <string name="estructuraFecha">dd/mm/aaaa</string>
     <string name="registrarProducto">Registrar producto</string>
+    <string name="cancelarProducto">Cancelar producto</string>
+    <string name="editarProducto">Editar producto</string>
     <string name="disponibilidadProducto">Disponibilidad del producto</string>
     <string name="desdeProducto">Desde:</string>
     <string name="hastaProducto">Hasta:</string>
