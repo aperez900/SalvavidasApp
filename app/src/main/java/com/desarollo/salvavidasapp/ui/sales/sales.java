@@ -64,6 +64,7 @@ public class sales extends Fragment {
         CardView cardScheduledSales = view.findViewById(R.id.cardScheduledSales);
         CardView cardSalesOffered = view.findViewById(R.id.cardSalesOffered);
         CardView card4 = view.findViewById(R.id.card4);
+        CardView cardCancelledSales = view.findViewById(R.id.cardCancelledSales);
 
         consultarDatosVendedor();
 
@@ -74,6 +75,7 @@ public class sales extends Fragment {
 
         cardSalesOffered.setOnClickListener(Navigation.createNavigateOnClickListener(R.id.action_nav_sales_to_salesOffered));
 
+        cardCancelledSales.setOnClickListener(Navigation.createNavigateOnClickListener(R.id.action_nav_sales_to_cancelledSales));
 
         card4.setOnClickListener(new View.OnClickListener() {
             @Override

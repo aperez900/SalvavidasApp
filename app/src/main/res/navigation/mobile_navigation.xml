@@ -84,6 +84,9 @@
         <action
             android:id="@+id/action_nav_sales_to_salesOffered"
             app:destination="@id/salesOffered" />
+        <action
+            android:id="@+id/action_nav_sales_to_cancelledSales"
+            app:destination="@id/cancelledSales" />
     </fragment>
     <fragment
         android:id="@+id/addProduct"
@@ -101,4 +104,9 @@
         android:name="com.desarollo.salvavidasapp.ui.sales.salesOffered"
         android:label="@string/ventasOfertadas"
         tools:layout="@layout/fragment_sales_offered" />
+    <fragment
+        android:id="@+id/cancelledSales"
+        android:name="com.desarollo.salvavidasapp.ui.sales.cancelledSales"
+        android:label="Productos cancelados"
+        tools:layout="@layout/fragment_cancelled_sales" />
 </navigation>
