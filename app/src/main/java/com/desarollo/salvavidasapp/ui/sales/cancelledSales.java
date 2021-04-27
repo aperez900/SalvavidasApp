@@ -121,7 +121,8 @@ public class cancelledSales extends Fragment {
                                 String fechaFin = listaDeDatos.get(listado.getChildAdapterPosition(view)).getFechaFin();
                                 String horaInicio = listaDeDatos.get(listado.getChildAdapterPosition(view)).getHoraInicio();
                                 String horaFin = listaDeDatos.get(listado.getChildAdapterPosition(view)).getHoraFin();
-                                Intent intent = new Intent(getContext(), editProduct.class);
+
+                                Intent intent = new Intent(getContext(), addProduct.class);
                                 intent.putExtra("idProducto", idProducto);
                                 intent.putExtra("nombreProducto", nombreProducto);
                                 intent.putExtra("descripcionProducto", descripcionProducto);

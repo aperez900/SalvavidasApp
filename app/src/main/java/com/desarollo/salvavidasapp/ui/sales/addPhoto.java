@@ -13,8 +13,10 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import com.desarollo.salvavidasapp.Login.MainActivity;
 import com.desarollo.salvavidasapp.R;
 import com.desarollo.salvavidasapp.ui.home.Home;
 import com.google.android.gms.tasks.Continuation;
@@ -37,6 +39,7 @@ import java.io.IOException;
 import java.util.Objects;
 
 import id.zelory.compressor.Compressor;
+import io.grpc.Context;
 
 public class addPhoto extends AppCompatActivity {
 
@@ -71,7 +74,12 @@ public class addPhoto extends AppCompatActivity {
         storageReference = FirebaseStorage.getInstance().getReference().child("fotos");
         cargando = new ProgressDialog(this);
 
-        seleccionarFoto.setOnClickListener(v -> CropImage.startPickImageActivity(addPhoto.this));
+        seleccionarFoto.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                CropImage.startPickImageActivity(addPhoto.this);
+            }
+        });
 
     } //fin OnCreate
 
@@ -115,35 +123,40 @@ public class addPhoto extends AppCompatActivity {
                 final byte [] thumb_byte = byteArrayOutputStream.toByteArray();
                 //fin del compresor
 
-                // fin OnClick
-                subirFoto.setOnClickListener(v -> {
-                    cargando.setTitle("Subiendo foto");
-                    cargando.setMessage("Cargando...");
-                    cargando.show();
+                subirFoto.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        cargando.setTitle("Subiendo foto");
+                        cargando.setMessage("Cargando...");
+                        cargando.show();
 
-                    final StorageReference ref = storageReference.child(currentUser.getUid()).child(idProducto).child(nombreProducto);
-                    UploadTask uploadTask = ref.putBytes(thumb_byte);
+                        final StorageReference ref = storageReference.child(currentUser.getUid()).child(idProducto).child(nombreProducto);
+                        UploadTask uploadTask = ref.putBytes(thumb_byte);
 
-                    //subir imagen en Storage
-                    Task<Uri> UriTask = uploadTask.continueWithTask(new Continuation<UploadTask.TaskSnapshot, Task<Uri>>() {
-                        @Override
-                        public Task<Uri> then(@NonNull Task<UploadTask.TaskSnapshot> task) throws Exception {
-                            if (!task.isSuccessful()) {
-                                throw Objects.requireNonNull(task.getException());
+                        //subir imagen en Storage
+                        Task<Uri> UriTask = uploadTask.continueWithTask(new Continuation<UploadTask.TaskSnapshot, Task<Uri>>() {
+                            @Override
+                            public Task<Uri> then(@NonNull Task<UploadTask.TaskSnapshot> task) throws Exception {
+                                if (!task.isSuccessful()) {
+                                    throw Objects.requireNonNull(task.getException());
+                                }
+                                return ref.getDownloadUrl();
                             }
-                            return ref.getDownloadUrl();
-                        }
-                    }).addOnCompleteListener(task -> {
-                        //Actualizar URL en la BD
-                        Uri downloaduri = task.getResult();
-                        imgRef.child("foto").setValue(downloaduri.toString());
-                        cargando.dismiss();
-                        Intent intent = new Intent(getApplicationContext(), Home.class);
-                        startActivity(intent);
-                        finish();
-                        Toast.makeText(getApplicationContext(), "Imagen cargada con éxito",
-                                Toast.LENGTH_SHORT).show();
-                    });
+                        }).addOnCompleteListener(new OnCompleteListener<Uri>() {
+                            @Override
+                            public void onComplete(@NonNull Task<Uri> task) {
+                                //Actualizar URL en la BD
+                                Uri downloaduri = task.getResult();
+                                imgRef.child("foto").setValue(downloaduri.toString());
+                                cargando.dismiss();
+                                Intent intent = new Intent(getApplicationContext(), Home.class);
+                                startActivity(intent);
+                                finish();
+                                Toast.makeText(getApplicationContext(), "Imagen cargada con éxito",
+                                        Toast.LENGTH_SHORT).show();
+                            }
+                        });
+                    } // fin OnClick
                 });//fin setOnClickListener
             }
         }

@@ -104,6 +104,7 @@
         android:name="com.desarollo.salvavidasapp.ui.sales.salesOffered"
         android:label="@string/ventasOfertadas"
         tools:layout="@layout/fragment_sales_offered" />
+
     <fragment
         android:id="@+id/cancelledSales"
         android:name="com.desarollo.salvavidasapp.ui.sales.cancelledSales"

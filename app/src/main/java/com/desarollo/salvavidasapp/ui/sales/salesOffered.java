@@ -38,7 +38,7 @@ public class salesOffered extends Fragment {
 
     ArrayList<Productos> listaDeDatos = new ArrayList<>();
     RecyclerView listado;
-    ListSellAdapter listSellAdapter;
+    ListSaleOffered listSaleOffered;
     FirebaseAuth mAuth;
     FirebaseUser currentUser;
     FirebaseDatabase database;
@@ -75,8 +75,8 @@ public class salesOffered extends Fragment {
         LinearLayoutManager manager = new LinearLayoutManager(getContext());
         listado.setLayoutManager(manager);
         //listado.setHasFixedSize(true);
-        listSellAdapter = new ListSellAdapter(getContext(),listaDeDatos,getActivity());
-        listado.setAdapter(listSellAdapter);
+        listSaleOffered = new ListSaleOffered(listaDeDatos,getActivity());
+        listado.setAdapter(listSaleOffered);
 
         crearListado();
         return view;
@@ -101,11 +101,12 @@ public class salesOffered extends Fragment {
                         try {
                             fecha = fechaHora.parse(p.getFechaInicio());
                             estado = p.getEstadoProducto();
+
                         } catch (ParseException e) {
                             e.printStackTrace();
                         }
 
-                        if (fecha.before(hoy) && !estado.equals("Cancelado")){
+                        if (fecha.before(hoy) &&  !estado.equals("Cancelado")){
 
                             //Toast.makeText(getContext(), p.getFechaInicio(), Toast.LENGTH_SHORT).show();
                             listaDeDatos.add(new Productos(p.getIdProducto(), p.getNombreProducto(), p.getDescripcionProducto(),
@@ -114,8 +115,8 @@ public class salesOffered extends Fragment {
 
                         }
                     }
-                    listSellAdapter = new ListSellAdapter(getContext(),listaDeDatos,getActivity());
-                    listado.setAdapter(listSellAdapter);
+                    listSaleOffered = new ListSaleOffered(listaDeDatos,getActivity());
+                    listado.setAdapter(listSaleOffered);
                 }else{
 
                 }
