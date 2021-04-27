@@ -69,13 +69,44 @@ public class sales extends Fragment {
         consultarDatosVendedor();
 
 
-        cardAddProduct.setOnClickListener(Navigation.createNavigateOnClickListener(R.id.action_nav_sales_to_addProduct));
+        //cardAddProduct.setOnClickListener(Navigation.createNavigateOnClickListener(R.id.action_nav_sales_to_addProduct));
+        cardAddProduct.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(sales.this.getContext(), addProduct2.class);
+                startActivity(intent);
+            }
+        });
 
-        cardScheduledSales.setOnClickListener(Navigation.createNavigateOnClickListener(R.id.action_nav_sales_to_scheduleSales));
+        //cardScheduledSales.setOnClickListener(Navigation.createNavigateOnClickListener(R.id.action_nav_sales_to_scheduleSales));
 
-        cardSalesOffered.setOnClickListener(Navigation.createNavigateOnClickListener(R.id.action_nav_sales_to_salesOffered));
+        cardScheduledSales.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(sales.this.getContext(), scheduledSales2.class);
+                startActivity(intent);
+            }
+        });
 
-        cardCancelledSales.setOnClickListener(Navigation.createNavigateOnClickListener(R.id.action_nav_sales_to_cancelledSales));
+        //cardSalesOffered.setOnClickListener(Navigation.createNavigateOnClickListener(R.id.action_nav_sales_to_salesOffered));
+
+        cardSalesOffered.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(sales.this.getContext(), salesOffered2.class);
+                startActivity(intent);
+            }
+        });
+
+        //cardCancelledSales.setOnClickListener(Navigation.createNavigateOnClickListener(R.id.action_nav_sales_to_cancelledSales));
+
+        cardCancelledSales.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(sales.this.getContext(), cancelledSales2.class);
+                startActivity(intent);
+            }
+        });
 
         card4.setOnClickListener(new View.OnClickListener() {
             @Override

@@ -48,7 +48,6 @@ public class ListSellAdapter extends RecyclerView.Adapter<ListSellAdapter.viewHo
         this.inflater = LayoutInflater.from(context);
         this.listaDeDatos = listaDeDatos;
         this.activity = activity;
-
     }
 
     @NonNull

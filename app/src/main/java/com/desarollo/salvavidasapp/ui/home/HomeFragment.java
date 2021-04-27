@@ -51,7 +51,7 @@ public class HomeFragment extends Fragment {
         LinearLayoutManager manager = new LinearLayoutManager(getContext());
         listado.setLayoutManager(manager);
         //listado.setHasFixedSize(true);
-        listSellAdapter = new ListSellAdapter(getContext(),listaDeDatos,getActivity());
+        listSellAdapter = new ListSellAdapter(getContext(),listaDeDatos, getActivity());
         listado.setAdapter(listSellAdapter);
 
         crearListado();
@@ -74,7 +74,7 @@ public class HomeFragment extends Fragment {
 
 
                     }
-                    listSellAdapter = new ListSellAdapter(getContext(),listaDeDatos,getActivity());
+                    listSellAdapter = new ListSellAdapter(getContext(),listaDeDatos, getActivity());
                     listado.setAdapter(listSellAdapter);
                 }else{
 
