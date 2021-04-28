@@ -74,40 +74,6 @@
         android:id="@+id/nav_sales"
         android:name="com.desarollo.salvavidasapp.ui.sales.sales"
         android:label="Mis ventas"
-        tools:layout="@layout/fragment_sales" >
-        <action
-            android:id="@+id/action_nav_sales_to_addProduct"
-            app:destination="@id/addProduct" />
-        <action
-            android:id="@+id/action_nav_sales_to_scheduleSales"
-            app:destination="@id/ScheduledSales" />
-        <action
-            android:id="@+id/action_nav_sales_to_salesOffered"
-            app:destination="@id/salesOffered" />
-        <action
-            android:id="@+id/action_nav_sales_to_cancelledSales"
-            app:destination="@id/cancelledSales" />
-    </fragment>
-    <fragment
-        android:id="@+id/addProduct"
-        android:name="com.desarollo.salvavidasapp.ui.sales.addProduct"
-        android:label="@string/agregarProducto"
-        tools:layout="@layout/fragment_add_product" />
-    <fragment
-        android:id="@+id/ScheduledSales"
-        android:name="com.desarollo.salvavidasapp.ui.sales.scheduledSales"
-        android:label="@string/ventasProgramadas"
-        tools:layout="@layout/fragment_scheduled_sales" />
+        tools:layout="@layout/fragment_sales" />
 
-    <fragment
-        android:id="@+id/salesOffered"
-        android:name="com.desarollo.salvavidasapp.ui.sales.salesOffered"
-        android:label="@string/ventasOfertadas"
-        tools:layout="@layout/fragment_sales_offered" />
-
-    <fragment
-        android:id="@+id/cancelledSales"
-        android:name="com.desarollo.salvavidasapp.ui.sales.cancelledSales"
-        android:label="Productos cancelados"
-        tools:layout="@layout/fragment_cancelled_sales" />
 </navigation>

@@ -52,8 +52,6 @@ public class addProduct2 extends AppCompatActivity {
         database = FirebaseDatabase.getInstance();
         myRefProductos = database.getReference("productos");
 
-
-
         Spinner categoriaProducto = findViewById(R.id.sp_categoria_producto);
         Spinner domicilioProducto = findViewById(R.id.sp_domicilio);
         TextView btnFechaInicio = findViewById(R.id.btn_fecha_inicio);
@@ -70,16 +68,62 @@ public class addProduct2 extends AppCompatActivity {
         EditText precioProducto = findViewById(R.id.et_precio);
         EditText descuentoProducto = findViewById(R.id.et_descuento);
         String fotoConsulta = "";
+        String ScategoriaProductos="";
+        String SdomicilioProducto="";
+        String type="";
 
-        String[] ArrayCategorias = new String[]{"✚ Selecciona una categoría", "Comida preparada","Comida cruda"};
-        ArrayList<String> listCategoriaProductos = new ArrayList(Arrays.asList(ArrayCategorias));
-        ArrayAdapter<String> adapterCategoriaProductos = new ArrayAdapter<String>(this, R.layout.spinner_item_modified, listCategoriaProductos);
-        categoriaProducto.setAdapter(adapterCategoriaProductos);
+        Intent intent = getIntent();
 
-        String[] ArrayDomicilio = new String[]{"✚ ¿Deseas ofrecer domicilio?", "Sí","No"};
-        ArrayList<String> listDomicilioProductos = new ArrayList(Arrays.asList(ArrayDomicilio));
-        ArrayAdapter<String> adapterDomicilioProductos = new ArrayAdapter<String>(this, R.layout.spinner_item_modified, listDomicilioProductos);
-        domicilioProducto.setAdapter(adapterDomicilioProductos);
+        if (intent.getExtras() != null){
+            Bundle extras = getIntent().getExtras();
+
+            nombreProducto.setText(extras.getString("nombreProducto"));
+            descripcionProducto.setText(extras.getString("descripcionProducto"));
+            precioProducto.setText(extras.getString("precio"));
+            descuentoProducto.setText(extras.getString("descuento"));
+            ScategoriaProductos = extras.getString("tipoProducto");
+            SdomicilioProducto = extras.getString("domicilioProducto");
+            tvFechaInicio.setText(extras.getString("fechaInicio"));
+            tvFechaFin.setText(extras.getString("fechaFin"));
+            tvHoraInicio.setText(extras.getString("horaInicio"));
+            tvHoraFin.setText(extras.getString("horaFin"));
+            type = extras.getString("tipyEntry");
+            fotoConsulta = extras.getString("getUrlFoto");
+
+            Toast.makeText(getApplicationContext(),extras.getString("tipyEntry"),Toast.LENGTH_SHORT).show();
+
+            if(type.equals("Editar")){
+                btnRegistrarProducto.setText("Editar Producto");
+                btnRegistrarProducto.setVisibility(View.VISIBLE);
+                // Toast.makeText(getApplicationContext(),"1",Toast.LENGTH_SHORT).show();
+            }
+            else if(type.equals("Consultar")){
+                btnRegistrarProducto.setVisibility(View.INVISIBLE);
+                //Toast.makeText(getApplicationContext(),"2",Toast.LENGTH_SHORT).show();
+            }
+        }
+
+        if(type.equals("Editar") || type.equals("Consultar")){
+            String[] ArrayCategorias = new String[]{ScategoriaProductos,"✚ Selecciona una categoría", "Comida preparada","Comida cruda"};
+            ArrayList<String> listCategoriaProductos = new ArrayList(Arrays.asList(ArrayCategorias));
+            ArrayAdapter<String> adapterCategoriaProductos = new ArrayAdapter<String>(this, R.layout.spinner_item_modified, listCategoriaProductos);
+            categoriaProducto.setAdapter(adapterCategoriaProductos);
+
+            String[] ArrayDomicilio = new String[]{SdomicilioProducto, "✚ ¿Deseas ofrecer domicilio?", "Sí","No"};
+            ArrayList<String> listDomicilioProductos = new ArrayList(Arrays.asList(ArrayDomicilio));
+            ArrayAdapter<String> adapterDomicilioProductos = new ArrayAdapter<String>(this, R.layout.spinner_item_modified, listDomicilioProductos);
+            domicilioProducto.setAdapter(adapterDomicilioProductos);
+        }else {
+            String[] ArrayCategorias = new String[]{"✚ Selecciona una categoría", "Comida preparada", "Comida cruda"};
+            ArrayList<String> listCategoriaProductos = new ArrayList(Arrays.asList(ArrayCategorias));
+            ArrayAdapter<String> adapterCategoriaProductos = new ArrayAdapter<String>(this, R.layout.spinner_item_modified, listCategoriaProductos);
+            categoriaProducto.setAdapter(adapterCategoriaProductos);
+
+            String[] ArrayDomicilio = new String[]{"✚ ¿Deseas ofrecer domicilio?", "Sí", "No"};
+            ArrayList<String> listDomicilioProductos = new ArrayList(Arrays.asList(ArrayDomicilio));
+            ArrayAdapter<String> adapterDomicilioProductos = new ArrayAdapter<String>(this, R.layout.spinner_item_modified, listDomicilioProductos);
+            domicilioProducto.setAdapter(adapterDomicilioProductos);
+        }
 
         btnFechaInicio.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -122,43 +166,6 @@ public class addProduct2 extends AppCompatActivity {
                 mostrarReloj(tvHoraFin);
             }
         });
-
-
-        Intent intent = getIntent();
-
-        if (intent.getExtras() != null){
-            Bundle extras = getIntent().getExtras();
-
-            nombreProducto.setText(extras.getString("nombreProducto"));
-            descripcionProducto.setText(extras.getString("descripcionProducto"));
-            precioProducto.setText(extras.getString("precio"));
-            descuentoProducto.setText(extras.getString("descuento"));
-           // categoriaProducto.getSelectedItemPosition(3) ;   //extras.getString("categoriaProducto");
-           // domicilioProducto.setText(extras.getString("domicilioProducto"));
-            tvFechaInicio.setText(extras.getString("fechaInicio"));
-            tvFechaFin.setText(extras.getString("fechaFin"));
-            tvHoraInicio.setText(extras.getString("horaInicio"));
-            tvHoraFin.setText(extras.getString("horaFin"));
-            String type = extras.getString("tipyEntry");
-            fotoConsulta = extras.getString("getUrlFoto");
-
-            Toast.makeText(getApplicationContext(),extras.getString("tipyEntry"),Toast.LENGTH_SHORT).show();
-
-            if(type.equals("Editar")){
-                btnRegistrarProducto.setText("Editar Producto");
-                btnRegistrarProducto.setVisibility(View.VISIBLE);
-               // Toast.makeText(getApplicationContext(),"1",Toast.LENGTH_SHORT).show();
-            }
-            else if(type.equals("Consultar")){
-                btnRegistrarProducto.setVisibility(View.INVISIBLE);
-                //Toast.makeText(getApplicationContext(),"2",Toast.LENGTH_SHORT).show();
-            }
-
-
-
-
-        }
-
 
         String finalFotoConsulta = fotoConsulta;
         btnRegistrarProducto.setOnClickListener(new View.OnClickListener() {

@@ -84,12 +84,11 @@ public class ListSaleAdapter extends RecyclerView.Adapter<ListSaleAdapter.viewHo
         holder.imgVer.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-
                 Intent intent = new Intent(activity , addProduct2.class);
                 intent.putExtra("nombreProducto", listaDeDatos.get(position).getNombreProducto());
                 intent.putExtra("idProducto" , listaDeDatos.get(position).getIdProducto());
                 intent.putExtra("tipoProducto" , listaDeDatos.get(position).getCategoriaProducto());
+                intent.putExtra("domicilioProducto" , listaDeDatos.get(position).getDomicilio());
                 intent.putExtra("descripcionProducto" , listaDeDatos.get(position).getDescripcionProducto());
                 intent.putExtra("precio" , String.valueOf(listaDeDatos.get(position).getPrecio()));
                 intent.putExtra("descuento" , String.valueOf(listaDeDatos.get(position).getDescuento()));
@@ -101,8 +100,6 @@ public class ListSaleAdapter extends RecyclerView.Adapter<ListSaleAdapter.viewHo
                 intent.putExtra("tipyEntry" , "Consultar");
 
                 activity.startActivity(intent);
-
-
             }
         });
 
@@ -112,11 +109,11 @@ public class ListSaleAdapter extends RecyclerView.Adapter<ListSaleAdapter.viewHo
             @Override
             public void onClick(View v) {
 
-
                 Intent intent = new Intent(activity , addProduct2.class);
                 intent.putExtra("nombreProducto", listaDeDatos.get(position).getNombreProducto());
                 intent.putExtra("idProducto" , listaDeDatos.get(position).getIdProducto());
                 intent.putExtra("tipoProducto" , listaDeDatos.get(position).getCategoriaProducto());
+                intent.putExtra("domicilioProducto" , listaDeDatos.get(position).getDomicilio());
                 intent.putExtra("descripcionProducto" , listaDeDatos.get(position).getDescripcionProducto());
                 intent.putExtra("precio" , String.valueOf(listaDeDatos.get(position).getPrecio()));
                 intent.putExtra("descuento" , String.valueOf(listaDeDatos.get(position).getDescuento()));
@@ -128,7 +125,6 @@ public class ListSaleAdapter extends RecyclerView.Adapter<ListSaleAdapter.viewHo
                 intent.putExtra("tipyEntry" , "Editar");
 
                 activity.startActivity(intent);
-
 
             }
         });

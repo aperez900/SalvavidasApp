@@ -105,7 +105,7 @@ public class cancelledSales2 extends AppCompatActivity {
                                 String horaInicio = listaDeDatos.get(listado.getChildAdapterPosition(view)).getHoraInicio();
                                 String horaFin = listaDeDatos.get(listado.getChildAdapterPosition(view)).getHoraFin();
 
-                                Intent intent = new Intent(cancelledSales2.this, addProduct.class);
+                                Intent intent = new Intent(cancelledSales2.this, addProduct2.class);
                                 intent.putExtra("idProducto", idProducto);
                                 intent.putExtra("nombreProducto", nombreProducto);
                                 intent.putExtra("descripcionProducto", descripcionProducto);
