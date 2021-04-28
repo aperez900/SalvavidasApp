@@ -31,7 +31,7 @@ public class salesOffered2 extends AppCompatActivity {
 
     ArrayList<Productos> listaDeDatos = new ArrayList<>();
     RecyclerView listado;
-    ListSellAdapter listSellAdapter;
+    ListSaleAdapter listSaleAdapter;
     FirebaseAuth mAuth;
     FirebaseUser currentUser;
     FirebaseDatabase database;
@@ -56,8 +56,8 @@ public class salesOffered2 extends AppCompatActivity {
         LinearLayoutManager manager = new LinearLayoutManager(this);
         listado.setLayoutManager(manager);
         //listado.setHasFixedSize(true);
-        listSellAdapter = new ListSellAdapter(this, listaDeDatos,this);
-        listado.setAdapter(listSellAdapter);
+            listSaleAdapter = new ListSaleAdapter(this, listaDeDatos,this);
+        listado.setAdapter(listSaleAdapter);
 
         crearListado();
     }
@@ -93,8 +93,8 @@ public class salesOffered2 extends AppCompatActivity {
 
                         }
                     }
-                    listSellAdapter = new ListSellAdapter(salesOffered2.this, listaDeDatos,salesOffered2.this);
-                    listado.setAdapter(listSellAdapter);
+                    listSaleAdapter = new ListSaleAdapter(salesOffered2.this, listaDeDatos,salesOffered2.this);
+                    listado.setAdapter(listSaleAdapter);
                 }else{
 
                 }

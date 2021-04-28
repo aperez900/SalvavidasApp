@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
+import android.os.Parcelable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,6 +21,7 @@ import com.desarollo.salvavidasapp.Models.Productos;
 import com.desarollo.salvavidasapp.R;
 import com.desarollo.salvavidasapp.ui.direction.ListAddressAdapter;
 import com.desarollo.salvavidasapp.ui.sales.addProduct;
+import com.desarollo.salvavidasapp.ui.sales.addProduct2;
 import com.desarollo.salvavidasapp.ui.sales.sales;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -43,6 +45,7 @@ public class ListSellAdapter extends RecyclerView.Adapter<ListSellAdapter.viewHo
     FirebaseUser currentUser;
     FirebaseDatabase database;
     DatabaseReference myRef;
+
 
     public ListSellAdapter(Context context, ArrayList<Productos> listaDeDatos, Activity activity) {
         this.inflater = LayoutInflater.from(context);
@@ -87,56 +90,6 @@ public class ListSellAdapter extends RecyclerView.Adapter<ListSellAdapter.viewHo
                 .into(holder.imagenProducto);
 
 
-        //Acción del botón ver mas
-        holder.imgVer.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Toast.makeText(getApplicationContext(),"Clic en Ver más: " + nombre_producto,Toast.LENGTH_SHORT).show();
-            }
-        });
-
-        holder.actualizarDatosDeItem();
-
-        //Acción del botón Editar
-        /* holder.imgEditar.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Toast.makeText(getApplicationContext(),"Clic en Editar: " + nombre_producto,Toast.LENGTH_SHORT).show();
-                Intent intent = new Intent(getApplicationContext()  , addPhoto.class);
-                //intent.putExtra("lugar",datos);
-                getApplicationContext().startActivity(intent);
-
-
-            }
-        });*/
-
-        //Acción del botón Cancelar
-        holder.imgCancelar.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                mAuth = FirebaseAuth.getInstance();
-                currentUser = mAuth.getCurrentUser();
-                database = FirebaseDatabase.getInstance();
-                myRef = database.getReference("productos");
-
-                myRef.child(currentUser.getUid()).child(id_producto).child("estadoProducto").setValue("Cancelado")
-                        .addOnSuccessListener(new OnSuccessListener<Void>() {
-                            @Override
-                            public void onSuccess(Void aVoid) {
-                                Toast.makeText(activity, "Producto cancelado con éxito", Toast.LENGTH_SHORT).show();
-                            }
-                        })
-                        .addOnFailureListener(new OnFailureListener() {
-                            @Override
-                            public void onFailure(@NonNull Exception e) {
-                                Toast.makeText(activity, "Error cancelando el producto", Toast.LENGTH_SHORT).show();
-                            }
-                        });
-               // Toast.makeText(getApplicationContext(),"Clic en Cancelar: " + nombre_producto,Toast.LENGTH_SHORT).show();
-            }
-        });
-
     }
 
 
@@ -179,19 +132,7 @@ public class ListSellAdapter extends RecyclerView.Adapter<ListSellAdapter.viewHo
             imgCancelar = itemView.findViewById(R.id.img_cancelar_producto);
         }
 
-        public void actualizarDatosDeItem() {
 
-         /*   itemView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Intent intent = new Intent(itemView.getContext(), sales.class);
-                    //intent.putExtra("");
-                    itemView.getContext().startActivity(intent);
-                }
-            });*/
-
-
-      }
     }
 
 }

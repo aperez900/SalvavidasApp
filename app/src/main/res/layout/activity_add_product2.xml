@@ -9,16 +9,18 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
+
         <ScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             tools:layout_editor_absoluteX="0dp"
-            tools:layout_editor_absoluteY="-71dp">
+            tools:layout_editor_absoluteY="157dp">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
+
                 <EditText
                     android:id="@+id/et_nombre_producto"
                     android:layout_width="match_parent"
@@ -28,10 +30,10 @@
                     android:layout_marginEnd="50dp"
                     android:fontFamily="@font/poppins_light"
                     android:hint="@string/nombreProducto"
+                    android:importantForAutofill="no"
                     android:inputType="textPersonName"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    android:importantForAutofill="no" />
+                    app:layout_constraintStart_toStartOf="parent" />
 
                 <EditText
                     android:id="@+id/et_descripcion_producto"
@@ -42,9 +44,9 @@
                     android:layout_marginEnd="50dp"
                     android:fontFamily="@font/poppins_light"
                     android:hint="@string/descripcionProducto"
+                    android:importantForAutofill="no"
                     android:inputType="textPersonName"
-                    app:layout_constraintTop_toBottomOf="@id/et_nombre_producto"
-                    android:importantForAutofill="no" />
+                    app:layout_constraintTop_toBottomOf="@id/et_nombre_producto" />
 
                 <Spinner
                     android:id="@+id/sp_categoria_producto"
@@ -68,9 +70,9 @@
                     android:layout_marginEnd="50dp"
                     android:fontFamily="@font/poppins_light"
                     android:hint="@string/precioProducto"
-                    android:inputType="number"
-                    app:layout_constraintTop_toBottomOf="@id/sp_categoria_producto"
-                    android:importantForAutofill="no" />
+
+                    android:importantForAutofill="no"
+                    app:layout_constraintTop_toBottomOf="@id/sp_categoria_producto" />
 
                 <EditText
                     android:id="@+id/et_descuento"
@@ -81,9 +83,8 @@
                     android:layout_marginEnd="50dp"
                     android:fontFamily="@font/poppins_light"
                     android:hint="@string/descuentoProducto"
-                    android:inputType="number"
-                    app:layout_constraintTop_toBottomOf="@id/et_precio"
-                    android:importantForAutofill="no" />
+                    android:importantForAutofill="no"
+                    app:layout_constraintTop_toBottomOf="@id/et_precio" />
 
                 <Spinner
                     android:id="@+id/sp_domicilio"
@@ -96,7 +97,7 @@
                     android:fontFamily="@font/poppins_light"
                     android:hint="@string/domicilioProducto"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/et_descuento"/>
+                    app:layout_constraintTop_toBottomOf="@+id/et_descuento" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -106,8 +107,8 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="20dp"
                         android:layout_marginStart="50dp"
+                        android:layout_marginTop="20dp"
                         android:layout_marginEnd="20dp"
                         android:fontFamily="@font/poppins_light"
                         android:text="@string/disponibilidadProducto"
@@ -125,8 +126,8 @@
                         android:layout_marginStart="30dp"
                         android:layout_marginTop="20dp"
                         android:fontFamily="@font/poppins_light"
-                        android:textSize="18sp"
-                        android:text="@string/desdeProducto" />
+                        android:text="@string/desdeProducto"
+                        android:textSize="18sp" />
 
                     <TextView
                         android:id="@+id/btn_fecha_inicio"
@@ -171,6 +172,7 @@
                         android:textAlignment="textStart"
                         android:textSize="18sp" />
                 </LinearLayout>
+
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -182,8 +184,8 @@
                         android:layout_marginStart="30dp"
                         android:layout_marginTop="20dp"
                         android:fontFamily="@font/poppins_light"
-                        android:textSize="18sp"
-                        android:text="@string/hastaProducto" />
+                        android:text="@string/hastaProducto"
+                        android:textSize="18sp" />
 
                     <TextView
                         android:id="@+id/btn_fecha_fin"

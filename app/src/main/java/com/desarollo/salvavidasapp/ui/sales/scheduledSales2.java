@@ -32,7 +32,7 @@ public class scheduledSales2 extends AppCompatActivity {
 
     ArrayList<Productos> listaDeDatos = new ArrayList<>();
     RecyclerView listado;
-    ListSellAdapter listSellAdapter;
+    ListSaleAdapter listSaleAdapter;
     FirebaseAuth mAuth;
     FirebaseUser currentUser;
     FirebaseDatabase database;
@@ -52,8 +52,8 @@ public class scheduledSales2 extends AppCompatActivity {
         LinearLayoutManager manager = new LinearLayoutManager(this);
         listado.setLayoutManager(manager);
         //listado.setHasFixedSize(true);
-        listSellAdapter = new ListSellAdapter(this,listaDeDatos, this);
-        listado.setAdapter(listSellAdapter);
+        listSaleAdapter = new ListSaleAdapter(this,listaDeDatos, this);
+        listado.setAdapter(listSaleAdapter);
 
         crearListado();
     }
@@ -89,17 +89,9 @@ public class scheduledSales2 extends AppCompatActivity {
                                             p.getfoto(), p.getFechaInicio(), p.getHoraInicio(), p.getFechaFin(), p.getHoraFin()));
                                 }
                             }
-                            listSellAdapter = new ListSellAdapter(scheduledSales2.this,listaDeDatos, scheduledSales2.this);
-                            listado.setAdapter(listSellAdapter);
-                            //Acciones al dar clic en un item de la lista
-                            listSellAdapter.setOnClickListener(new View.OnClickListener() {
-                                @Override
-                                public void onClick(View view) {
-                                    String nombreProducto = listaDeDatos.get(listado.getChildAdapterPosition(view)).getNombreProducto();
-                                    Toast.makeText(getApplicationContext(),"Seleccionó: " + nombreProducto,Toast.LENGTH_SHORT).show();
+                            listSaleAdapter = new ListSaleAdapter(scheduledSales2.this,listaDeDatos, scheduledSales2.this);
+                            listado.setAdapter(listSaleAdapter);
 
-                                }
-                            });
                         }else{
 
                         }

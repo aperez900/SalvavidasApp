@@ -14,8 +14,6 @@ import android.widget.Toast;
 
 import com.desarollo.salvavidasapp.Models.Productos;
 import com.desarollo.salvavidasapp.R;
-import com.desarollo.salvavidasapp.ui.home.HomeViewModel;
-import com.desarollo.salvavidasapp.ui.home.ListSellAdapter;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -38,7 +36,7 @@ public class salesOffered extends Fragment {
 
     ArrayList<Productos> listaDeDatos = new ArrayList<>();
     RecyclerView listado;
-    ListSaleOffered listSaleOffered;
+    ListSaleAdapter listSaleOffered;
     FirebaseAuth mAuth;
     FirebaseUser currentUser;
     FirebaseDatabase database;
@@ -75,7 +73,7 @@ public class salesOffered extends Fragment {
         LinearLayoutManager manager = new LinearLayoutManager(getContext());
         listado.setLayoutManager(manager);
         //listado.setHasFixedSize(true);
-        listSaleOffered = new ListSaleOffered(listaDeDatos,getActivity());
+        listSaleOffered = new ListSaleAdapter(getContext(),listaDeDatos,getActivity());
         listado.setAdapter(listSaleOffered);
 
         crearListado();
@@ -115,7 +113,7 @@ public class salesOffered extends Fragment {
 
                         }
                     }
-                    listSaleOffered = new ListSaleOffered(listaDeDatos,getActivity());
+                    listSaleOffered = new ListSaleAdapter(getContext(),listaDeDatos,getActivity());
                     listado.setAdapter(listSaleOffered);
                 }else{
 

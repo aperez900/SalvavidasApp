@@ -63,6 +63,7 @@ public class addPhoto extends AppCompatActivity {
             Bundle extras = getIntent().getExtras();
             idProducto = extras.getString("idProducto");
             nombreProducto = extras.getString("nombreProducto");
+            //String foto2 = extras.getString("fotoConsulta");
         }
 
         foto = findViewById(R.id.img_foto);

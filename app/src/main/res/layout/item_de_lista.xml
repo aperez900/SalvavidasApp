@@ -97,48 +97,7 @@
             android:textSize="14sp"
             android:layout_toEndOf="@id/tv_fecha_inicio_producto"
             android:layout_below="@id/tv_precio_producto" />
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_toEndOf="@id/img_imagen_producto"
-            android:layout_below="@id/tv_fecha_inicio_producto">
-            <ImageView
-                android:id="@+id/img_ver_mas_producto"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:fontFamily="@font/poppins_semibold"
-                android:padding="5dp"
-                android:src="@drawable/icono_ver"
-                android:textColor="@color/black"
-                android:textSize="16sp"
-                android:textStyle="bold"
-                android:layout_marginStart="20dp" />
-            <ImageView
-                android:id="@+id/img_editar_producto"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:fontFamily="@font/poppins_semibold"
-                android:padding="7dp"
-                android:src="@drawable/icono_editar"
-                android:textColor="@color/black"
-                android:textSize="16sp"
-                android:textStyle="bold"
-                android:layout_marginStart="5dp"  />
-            <ImageView
-                android:id="@+id/img_cancelar_producto"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:layout_marginTop="0dp"
-                android:layout_marginEnd="5dp"
-                android:fontFamily="@font/poppins_semibold"
-                android:padding="5dp"
-                android:src="@drawable/icono_cancel"
-                android:textColor="@color/black"
-                android:textSize="16sp"
-                android:textStyle="bold"
-                android:layout_marginStart="5dp"  />
-        </LinearLayout>
+
 
     </RelativeLayout>
 
