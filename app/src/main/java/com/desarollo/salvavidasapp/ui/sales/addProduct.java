@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.content.Intent;
+import android.location.Address;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -26,9 +27,12 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
+
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
+import java.util.List;
 import java.util.UUID;
 
 public class addProduct extends AppCompatActivity {
@@ -215,56 +219,62 @@ public class addProduct extends AppCompatActivity {
                           TextView tv_fecha_fin, TextView tv_hora_inicio, TextView tv_hora_fin,String fotoConsulta, String idProductoEdit){
 
 
+        try {
 
-        String idProducto,descripcionProducto,nombreProducto,categoriaProducto,estadoProducto, domicilio,   fechaInicio,  horaInicio,  fechaFin,  horaFin;
-        double precio,descuento;
-        String foto = "";
+            String idProducto,descripcionProducto,nombreProducto,categoriaProducto,estadoProducto, domicilio,   fechaInicio,  horaInicio,  fechaFin,  horaFin;
+            double precio,descuento;
+            String foto = "";
 
-        if (idProductoEdit==""){
-            idProducto = UUID.randomUUID().toString();
+            if (idProductoEdit==""){
+                idProducto = UUID.randomUUID().toString();
+            }
+            else{
+                idProducto = idProductoEdit;
+            }
+
+           // Toast.makeText(getApplicationContext(),idProducto,Toast.LENGTH_SHORT).show();
+            descripcionProducto = et_descripcion_producto.getText().toString();
+            nombreProducto= et_nombre_producto.getText().toString();
+            estadoProducto = "Programado";
+            categoriaProducto =sp_categoria_producto.getSelectedItem().toString();
+            precio = Double.parseDouble(et_precio_producto.getText().toString());
+            descuento = Double.parseDouble(et_descuento_producto.getText().toString());
+            domicilio = sp_domicilio_producto.getSelectedItem().toString();
+            fechaInicio = tv_fecha_inicio.getText().toString();
+            horaInicio = tv_hora_inicio.getText().toString();
+            fechaFin =  tv_fecha_fin.getText().toString();
+            horaFin = tv_hora_fin.getText().toString();
+
+            p = new Productos( idProducto  ,  nombreProducto,  descripcionProducto,  categoriaProducto,  precio,  descuento,  domicilio,  estadoProducto,  foto,  fechaInicio,  horaInicio,  fechaFin,  horaFin ){};
+
+            //guarda los datos del vendedor
+            myRefProductos.child(currentUser.getUid()).child(p.getIdProducto()).setValue(p)
+                    .addOnSuccessListener(new OnSuccessListener<Void>() {
+                        @Override
+                        public void onSuccess(Void aVoid) {
+                            Toast.makeText(addProduct.this, "Producto registrado correctamente", Toast.LENGTH_SHORT).show();
+                            limpiarCamposProducto(et_nombre_producto, et_descripcion_producto, sp_categoria_producto, et_precio_producto, et_descuento_producto,
+                                    sp_domicilio_producto, tv_fecha_inicio, tv_fecha_fin, tv_hora_inicio, tv_hora_fin);
+
+                            Intent intent = new Intent(addProduct.this, addPhoto.class);
+                            intent.putExtra("idProducto", p.getIdProducto());
+                            intent.putExtra("nombreProducto", p.getNombreProducto());
+                            intent.putExtra("getUrlFoto",fotoConsulta);
+                            startActivity(intent);
+                            finish();
+                        }
+                    })
+                    .addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            Toast.makeText(addProduct.this, "Error registrando el producto. Intenta de nuevo mas tarde", Toast.LENGTH_SHORT).show();
+                        }
+                    });
+
+        } catch (Exception  e) {
+            Toast.makeText(getApplicationContext(),"Error :" + e,Toast.LENGTH_SHORT).show();
+            e.printStackTrace();
         }
-        else{
-            idProducto = idProductoEdit;
-        }
-
-       // Toast.makeText(getApplicationContext(),idProducto,Toast.LENGTH_SHORT).show();
-        descripcionProducto = et_descripcion_producto.getText().toString();
-        nombreProducto= et_nombre_producto.getText().toString();
-        estadoProducto = "Programado";
-        categoriaProducto =sp_categoria_producto.getSelectedItem().toString();
-        precio = Double.parseDouble(et_precio_producto.getText().toString());
-        descuento = Double.parseDouble(et_descuento_producto.getText().toString());
-        domicilio = sp_domicilio_producto.getSelectedItem().toString();
-        fechaInicio = tv_fecha_inicio.getText().toString();
-        horaInicio = tv_hora_inicio.getText().toString();
-        fechaFin =  tv_fecha_fin.getText().toString();
-        horaFin = tv_hora_fin.getText().toString();
-
-        p = new Productos( idProducto  ,  nombreProducto,  descripcionProducto,  categoriaProducto,  precio,  descuento,  domicilio,  estadoProducto,  foto,  fechaInicio,  horaInicio,  fechaFin,  horaFin ){};
-
-        //guarda los datos del vendedor
-        myRefProductos.child(currentUser.getUid()).child(p.getIdProducto()).setValue(p)
-                .addOnSuccessListener(new OnSuccessListener<Void>() {
-                    @Override
-                    public void onSuccess(Void aVoid) {
-                        Toast.makeText(addProduct.this, "Producto registrado correctamente", Toast.LENGTH_SHORT).show();
-                        limpiarCamposProducto(et_nombre_producto, et_descripcion_producto, sp_categoria_producto, et_precio_producto, et_descuento_producto,
-                                sp_domicilio_producto, tv_fecha_inicio, tv_fecha_fin, tv_hora_inicio, tv_hora_fin);
-
-                        Intent intent = new Intent(addProduct.this, addPhoto.class);
-                        intent.putExtra("idProducto", p.getIdProducto());
-                        intent.putExtra("nombreProducto", p.getNombreProducto());
-                        intent.putExtra("getUrlFoto",fotoConsulta);
-                        startActivity(intent);
-                        finish();
-                    }
-                })
-                .addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        Toast.makeText(addProduct.this, "Error registrando el producto. Intenta de nuevo mas tarde", Toast.LENGTH_SHORT).show();
-                    }
-                });
     }
 
     public void limpiarCamposProducto(EditText et_nombre_producto, EditText et_descripcion_producto, Spinner sp_categoria_producto,
