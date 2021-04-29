@@ -71,6 +71,7 @@
                     android:fontFamily="@font/poppins_light"
                     android:hint="@string/precioProducto"
 
+
                     android:importantForAutofill="no"
                     app:layout_constraintTop_toBottomOf="@id/sp_categoria_producto" />
 

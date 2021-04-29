@@ -38,7 +38,7 @@ public class addProduct extends AppCompatActivity {
     FirebaseDatabase database;
     DatabaseReference myRefProductos;
     Productos p;
-    String idProductoEdit;
+    String idProductoEdit ="";
 
     private int dia, mes, anio, hora, minutos;
     @Override
@@ -220,13 +220,14 @@ public class addProduct extends AppCompatActivity {
         double precio,descuento;
         String foto = "";
 
-        if (idProductoEdit.equals(null)){
+        if (idProductoEdit==""){
             idProducto = UUID.randomUUID().toString();
         }
         else{
             idProducto = idProductoEdit;
         }
 
+       // Toast.makeText(getApplicationContext(),idProducto,Toast.LENGTH_SHORT).show();
         descripcionProducto = et_descripcion_producto.getText().toString();
         nombreProducto= et_nombre_producto.getText().toString();
         estadoProducto = "Programado";
