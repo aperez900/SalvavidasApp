@@ -15,11 +15,12 @@
         android:layout_width="wrap_content"
         android:layout_height="235dp">
 
+
+
         <TextView
             android:id="@+id/tv_tipo_producto"
             android:layout_width="match_parent"
-            android:layout_height="40dp
-"
+            android:layout_height="40dp"
             android:layout_alignParentStart="true"
             android:layout_alignParentTop="true"
             android:layout_alignParentEnd="true"
@@ -115,9 +116,10 @@
 
             <ImageView
                 android:id="@+id/img_ver_mas_producto"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
+                android:layout_width="50dp"
+                android:layout_height="match_parent"
                 android:layout_marginStart="20dp"
+                android:background="#F7F8F8"
                 android:fontFamily="@font/poppins_semibold"
                 android:padding="5dp"
                 android:src="@drawable/search_light"
@@ -127,9 +129,10 @@
 
             <ImageView
                 android:id="@+id/img_editar_producto"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
+                android:layout_width="50dp"
+                android:layout_height="match_parent"
                 android:layout_marginStart="5dp"
+                android:background="#F7F8F8"
                 android:fontFamily="@font/poppins_semibold"
                 android:padding="7dp"
                 android:src="@drawable/edit_light"
@@ -139,17 +142,20 @@
 
             <ImageView
                 android:id="@+id/img_cancelar_producto"
-                android:layout_width="40dp"
+                android:layout_width="50dp"
                 android:layout_height="match_parent"
                 android:layout_marginStart="5dp"
                 android:layout_marginTop="0dp"
                 android:layout_marginEnd="5dp"
+                android:background="#F7F8F8"
                 android:fontFamily="@font/poppins_semibold"
                 android:padding="5dp"
                 android:src="@drawable/cancel_light"
                 android:textColor="@color/black"
                 android:textSize="16sp"
                 android:textStyle="bold" />
+
+
         </LinearLayout>
 
     </RelativeLayout>

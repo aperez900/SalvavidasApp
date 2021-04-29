@@ -1,15 +1,11 @@
 package com.desarollo.salvavidasapp.ui.sales;
 
-import android.os.Bundle;
-
 import androidx.annotation.NonNull;
-import androidx.fragment.app.Fragment;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
+import android.os.Bundle;
 import android.widget.Toast;
 
 import com.desarollo.salvavidasapp.Models.Productos;
@@ -28,63 +24,44 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 
-import static com.facebook.FacebookSdk.getApplicationContext;
-
-
-public class salesOffered extends Fragment {
-
+public class salesOffered extends AppCompatActivity {
 
     ArrayList<Productos> listaDeDatos = new ArrayList<>();
     RecyclerView listado;
-    ListSaleAdapter listSaleOffered;
+    ListSaleAdapter listSaleAdapter;
     FirebaseAuth mAuth;
     FirebaseUser currentUser;
     FirebaseDatabase database;
     DatabaseReference myRef;
 
-    public salesOffered() {
-        // Required empty public constructor
-    }
-
-
     @Override
-    public void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_sales_offered);
 
         mAuth = FirebaseAuth.getInstance();
         currentUser = mAuth.getCurrentUser();
         database = FirebaseDatabase.getInstance();
         myRef = database.getReference("productos");
 
-    }
-
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_sales_offered,container,false);
-
         mAuth = FirebaseAuth.getInstance();
         currentUser = mAuth.getCurrentUser();
         database = FirebaseDatabase.getInstance();
         myRef = database.getReference("productos");
 
-        listado = view.findViewById(R.id.listado);
-        LinearLayoutManager manager = new LinearLayoutManager(getContext());
+        listado = findViewById(R.id.listadoOfertados);
+        LinearLayoutManager manager = new LinearLayoutManager(this);
         listado.setLayoutManager(manager);
         //listado.setHasFixedSize(true);
-        listSaleOffered = new ListSaleAdapter(getContext(),listaDeDatos,getActivity());
-        listado.setAdapter(listSaleOffered);
+            listSaleAdapter = new ListSaleAdapter(this, listaDeDatos,this);
+        listado.setAdapter(listSaleAdapter);
 
         crearListado();
-        return view;
     }
-
 
     private void crearListado() {
 
         DateFormat fechaHora = new SimpleDateFormat("dd/MM/yyyy");
-
 
         myRef.child(currentUser.getUid()).addValueEventListener(new ValueEventListener() {
             @Override
@@ -113,8 +90,8 @@ public class salesOffered extends Fragment {
 
                         }
                     }
-                    listSaleOffered = new ListSaleAdapter(getContext(),listaDeDatos,getActivity());
-                    listado.setAdapter(listSaleOffered);
+                    listSaleAdapter = new ListSaleAdapter(salesOffered.this, listaDeDatos, salesOffered.this);
+                    listado.setAdapter(listSaleAdapter);
                 }else{
 
                 }
@@ -122,9 +99,8 @@ public class salesOffered extends Fragment {
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
-                Toast.makeText(getApplicationContext(), "Error cargando los productos", Toast.LENGTH_SHORT).show();
+                Toast.makeText(salesOffered.this, "Error cargando los productos", Toast.LENGTH_SHORT).show();
             }
         });
     }
 }
-

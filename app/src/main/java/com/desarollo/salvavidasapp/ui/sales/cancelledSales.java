@@ -1,16 +1,12 @@
 package com.desarollo.salvavidasapp.ui.sales;
 
-import android.content.Intent;
-import android.os.Bundle;
-
 import androidx.annotation.NonNull;
-import androidx.fragment.app.Fragment;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
+import android.content.Intent;
+import android.os.Bundle;
 import android.widget.Toast;
 
 import com.desarollo.salvavidasapp.Models.Productos;
@@ -30,9 +26,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 
-import static com.facebook.FacebookSdk.getApplicationContext;
-
-public class cancelledSales extends Fragment {
+public class cancelledSales extends AppCompatActivity {
 
     ArrayList<Productos> listaDeDatos = new ArrayList<>();
     RecyclerView listado;
@@ -42,37 +36,24 @@ public class cancelledSales extends Fragment {
     FirebaseDatabase database;
     DatabaseReference myRef;
 
-    public cancelledSales() {
-        // Required empty public constructor
-    }
-
     @Override
-    public void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-    }
-
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_cancelled_sales, container, false);
+        setContentView(R.layout.activity_cancelled_sales);
 
         mAuth = FirebaseAuth.getInstance();
         currentUser = mAuth.getCurrentUser();
         database = FirebaseDatabase.getInstance();
         myRef = database.getReference("productos");
 
-        listado = view.findViewById(R.id.listadoCancelados);
-        LinearLayoutManager manager = new LinearLayoutManager(getContext());
+        listado = findViewById(R.id.listadoCancelados);
+        LinearLayoutManager manager = new LinearLayoutManager(this);
         listado.setLayoutManager(manager);
         //listado.setHasFixedSize(true);
-        listSellAdapter = new ListSellAdapter(getContext(),listaDeDatos, getActivity());
+        listSellAdapter = new ListSellAdapter(this,listaDeDatos, cancelledSales.this);
         listado.setAdapter(listSellAdapter);
 
         crearListado();
-
-        return view;
     }
 
     private void crearListado() {
@@ -106,7 +87,7 @@ public class cancelledSales extends Fragment {
                                             p.getfoto(), p.getFechaInicio(), p.getHoraInicio(), p.getFechaFin(), p.getHoraFin()));
                                 }
                             }
-                            listSellAdapter = new ListSellAdapter(getContext(),listaDeDatos, getActivity());
+                            listSellAdapter = new ListSellAdapter(cancelledSales.this,listaDeDatos, cancelledSales.this);
                             listado.setAdapter(listSellAdapter);
                             //Acciones al dar clic en un item de la lista
                             listSellAdapter.setOnClickListener(view -> {
@@ -122,7 +103,7 @@ public class cancelledSales extends Fragment {
                                 String horaInicio = listaDeDatos.get(listado.getChildAdapterPosition(view)).getHoraInicio();
                                 String horaFin = listaDeDatos.get(listado.getChildAdapterPosition(view)).getHoraFin();
 
-                                Intent intent = new Intent(getContext(), addProduct.class);
+                                Intent intent = new Intent(cancelledSales.this, addProduct.class);
                                 intent.putExtra("idProducto", idProducto);
                                 intent.putExtra("nombreProducto", nombreProducto);
                                 intent.putExtra("descripcionProducto", descripcionProducto);
@@ -146,7 +127,7 @@ public class cancelledSales extends Fragment {
 
                     @Override
                     public void onCancelled(@NonNull DatabaseError error) {
-                        Toast.makeText(getApplicationContext(), "Error cargando los productos", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(cancelledSales.this, "Error cargando los productos", Toast.LENGTH_SHORT).show();
                     }
                 });
     }

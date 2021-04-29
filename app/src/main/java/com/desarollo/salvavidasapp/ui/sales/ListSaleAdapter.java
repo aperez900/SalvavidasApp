@@ -2,6 +2,7 @@ package com.desarollo.salvavidasapp.ui.sales;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,12 +12,12 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.desarollo.salvavidasapp.Models.Productos;
 import com.desarollo.salvavidasapp.R;
-import com.desarollo.salvavidasapp.ui.home.ListSellAdapter;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
@@ -26,14 +27,13 @@ import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.ArrayList;
 
-import static com.facebook.FacebookSdk.getApplicationContext;
-
 public class ListSaleAdapter extends RecyclerView.Adapter<ListSaleAdapter.viewHolder>  implements View.OnClickListener  {
 
     ArrayList<Productos> listaDeDatos;
     LayoutInflater inflater;
     private View.OnClickListener listener;
     Activity  activity;
+    String id_producto;
 
     FirebaseAuth mAuth;
     FirebaseUser currentUser;
@@ -59,7 +59,7 @@ public class ListSaleAdapter extends RecyclerView.Adapter<ListSaleAdapter.viewHo
     @Override
     public void onBindViewHolder(@NonNull ListSaleAdapter.viewHolder holder, int position) {
 
-        String id_producto = listaDeDatos.get(position).getIdProducto();
+        id_producto = listaDeDatos.get(position).getIdProducto();
         String tipo_producto = listaDeDatos.get(position).getCategoriaProducto();
         String nombre_producto = listaDeDatos.get(position).getNombreProducto();
         String descripcion_producto = listaDeDatos.get(position).getDescripcionProducto();
@@ -84,7 +84,7 @@ public class ListSaleAdapter extends RecyclerView.Adapter<ListSaleAdapter.viewHo
         holder.imgVer.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(activity , addProduct2.class);
+                Intent intent = new Intent(activity , addProduct.class);
                 intent.putExtra("nombreProducto", listaDeDatos.get(position).getNombreProducto());
                 intent.putExtra("idProducto" , listaDeDatos.get(position).getIdProducto());
                 intent.putExtra("tipoProducto" , listaDeDatos.get(position).getCategoriaProducto());
@@ -109,7 +109,7 @@ public class ListSaleAdapter extends RecyclerView.Adapter<ListSaleAdapter.viewHo
             @Override
             public void onClick(View v) {
 
-                Intent intent = new Intent(activity , addProduct2.class);
+                Intent intent = new Intent(activity , addProduct.class);
                 intent.putExtra("nombreProducto", listaDeDatos.get(position).getNombreProducto());
                 intent.putExtra("idProducto" , listaDeDatos.get(position).getIdProducto());
                 intent.putExtra("tipoProducto" , listaDeDatos.get(position).getCategoriaProducto());
@@ -133,29 +133,53 @@ public class ListSaleAdapter extends RecyclerView.Adapter<ListSaleAdapter.viewHo
         holder.imgCancelar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-                mAuth = FirebaseAuth.getInstance();
-                currentUser = mAuth.getCurrentUser();
-                database = FirebaseDatabase.getInstance();
-                myRef = database.getReference("productos");
-
-                myRef.child(currentUser.getUid()).child(id_producto).child("estadoProducto").setValue("Cancelado")
-                        .addOnSuccessListener(new OnSuccessListener<Void>() {
-                            @Override
-                            public void onSuccess(Void aVoid) {
-                                Toast.makeText(activity, "Producto cancelado con éxito", Toast.LENGTH_SHORT).show();
-                            }
-                        })
-                        .addOnFailureListener(new OnFailureListener() {
-                            @Override
-                            public void onFailure(@NonNull Exception e) {
-                                Toast.makeText(activity, "Error cancelando el producto", Toast.LENGTH_SHORT).show();
-                            }
-                        });
-                // Toast.makeText(getApplicationContext(),"Clic en Cancelar: " + nombre_producto,Toast.LENGTH_SHORT).show();
+                crearAlertDialog();
             }
         });
 
+    }
+
+
+    public void crearAlertDialog(){
+        AlertDialog.Builder confirmacion = new AlertDialog.Builder(activity);
+        confirmacion.setMessage("¿Esta seguro que desea cancelar el producto?. Éste dejará de estar disponible para su compra.")
+                .setCancelable(false)
+                .setPositiveButton("Sí", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        Toast.makeText(activity,"Clic en Sí ",Toast.LENGTH_SHORT).show();
+
+                        mAuth = FirebaseAuth.getInstance();
+                        currentUser = mAuth.getCurrentUser();
+                        database = FirebaseDatabase.getInstance();
+                        myRef = database.getReference("productos");
+
+                        myRef.child(currentUser.getUid()).child(id_producto).child("estadoProducto").setValue("Cancelado")
+                                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                    @Override
+                                    public void onSuccess(Void aVoid) {
+                                        Toast.makeText(activity, "Producto cancelado con éxito", Toast.LENGTH_SHORT).show();
+                                    }
+                                })
+                                .addOnFailureListener(new OnFailureListener() {
+                                    @Override
+                                    public void onFailure(@NonNull Exception e) {
+                                        Toast.makeText(activity, "Error cancelando el producto", Toast.LENGTH_SHORT).show();
+                                    }
+                                });
+                        // Toast.makeText(getApplicationContext(),"Clic en Cancelar: " + nombre_producto,Toast.LENGTH_SHORT).show();
+
+                    }
+                })
+                .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.cancel();
+                    }
+                });
+        AlertDialog titulo = confirmacion.create();
+        titulo.setTitle("Cancelar producto");
+        titulo.show();
     }
 
     @Override

@@ -6,18 +6,12 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
-import androidx.navigation.Navigation;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.Spinner;
-import android.widget.TextView;
 import android.widget.Toast;
 
-import com.desarollo.salvavidasapp.Login.MainActivity;
 import com.desarollo.salvavidasapp.Models.Vendedores;
 import com.desarollo.salvavidasapp.R;
 import com.desarollo.salvavidasapp.ui.home.Home;
@@ -28,8 +22,6 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-
-import static com.facebook.FacebookSdk.getApplicationContext;
 
 public class sales extends Fragment {
 
@@ -73,7 +65,7 @@ public class sales extends Fragment {
         cardAddProduct.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(sales.this.getContext(), addProduct2.class);
+                Intent intent = new Intent(sales.this.getContext(), addProduct.class);
                 startActivity(intent);
             }
         });
@@ -83,7 +75,7 @@ public class sales extends Fragment {
         cardScheduledSales.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(sales.this.getContext(), scheduledSales2.class);
+                Intent intent = new Intent(sales.this.getContext(), scheduledSales.class);
                 startActivity(intent);
             }
         });
@@ -93,7 +85,7 @@ public class sales extends Fragment {
         cardSalesOffered.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(sales.this.getContext(), salesOffered2.class);
+                Intent intent = new Intent(sales.this.getContext(), salesOffered.class);
                 startActivity(intent);
             }
         });
@@ -103,7 +95,7 @@ public class sales extends Fragment {
         cardCancelledSales.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(sales.this.getContext(), cancelledSales2.class);
+                Intent intent = new Intent(sales.this.getContext(), cancelledSales.class);
                 startActivity(intent);
             }
         });
