@@ -245,7 +245,7 @@ public class addProduct extends AppCompatActivity {
             fechaFin =  tv_fecha_fin.getText().toString();
             horaFin = tv_hora_fin.getText().toString();
 
-            p = new Productos( idProducto  ,  nombreProducto,  descripcionProducto,  categoriaProducto,  precio,  descuento,  domicilio,  estadoProducto,  foto,  fechaInicio,  horaInicio,  fechaFin,  horaFin ){};
+            p = new Productos(idProducto  ,  nombreProducto,  descripcionProducto,  categoriaProducto,  precio,  descuento,  domicilio,  estadoProducto,  foto,  fechaInicio,  horaInicio,  fechaFin,  horaFin ){};
 
             //guarda los datos del vendedor
             myRefProductos.child(currentUser.getUid()).child(p.getIdProducto()).setValue(p)

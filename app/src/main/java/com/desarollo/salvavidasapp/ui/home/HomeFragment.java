@@ -60,19 +60,20 @@ public class HomeFragment extends Fragment {
 
     private void crearListado() {
 
-        myRef.child(currentUser.getUid()).addValueEventListener(new ValueEventListener() {
+        myRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 if(snapshot.exists()){
                     listaDeDatos.clear();
-                    for(DataSnapshot objsnapshot : snapshot.getChildren()){
-                        Productos p = objsnapshot.getValue(Productos.class);
-                        listaDeDatos.add(new Productos(p.getIdProducto(), p.getNombreProducto(), p.getDescripcionProducto(),
-                                p.getCategoriaProducto(), p.getPrecio(), p.getDescuento(), p.getDomicilio(), p.getEstadoProducto(),
-                                p.getfoto(), p.getFechaInicio(), p.getHoraInicio(), p.getFechaFin(), p.getHoraFin()));
-                        //Toast.makeText(getApplicationContext(), p.getfoto(), Toast.LENGTH_SHORT).show();
+                    for(DataSnapshot objsnapshot : snapshot.getChildren()){ //Recorre los usuarios
+                        for(DataSnapshot objsnapshot2 : objsnapshot.getChildren()){ //recorre los productos
+                            Productos p = objsnapshot2.getValue(Productos.class);
 
-
+                            listaDeDatos.add(new Productos(p.getIdProducto(), p.getNombreProducto(), p.getDescripcionProducto(),
+                                    p.getCategoriaProducto(), p.getPrecio(), p.getDescuento(), p.getDomicilio(), p.getEstadoProducto(),
+                                    p.getfoto(), p.getFechaInicio(), p.getHoraInicio(), p.getFechaFin(), p.getHoraFin()));
+                            //Toast.makeText(getApplicationContext(), p.getfoto(), Toast.LENGTH_SHORT).show();
+                        }
                     }
                     listSellAdapter = new ListSellAdapter(getContext(),listaDeDatos, getActivity());
                     listado.setAdapter(listSellAdapter);

@@ -147,7 +147,7 @@ public class ListSaleAdapter extends RecyclerView.Adapter<ListSaleAdapter.viewHo
                 .setPositiveButton("Sí", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        Toast.makeText(activity,"Clic en Sí ",Toast.LENGTH_SHORT).show();
+                        //Toast.makeText(activity,"Clic en Sí ",Toast.LENGTH_SHORT).show();
 
                         mAuth = FirebaseAuth.getInstance();
                         currentUser = mAuth.getCurrentUser();
