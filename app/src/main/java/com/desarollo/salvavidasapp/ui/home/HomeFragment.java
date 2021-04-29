@@ -54,7 +54,8 @@ public class HomeFragment extends Fragment {
         listSellAdapter = new ListSellAdapter(getContext(),listaDeDatos, getActivity());
         listado.setAdapter(listSellAdapter);
 
-        crearListado();
+        //**************
+        //crearListado();
         return view;
     }
 

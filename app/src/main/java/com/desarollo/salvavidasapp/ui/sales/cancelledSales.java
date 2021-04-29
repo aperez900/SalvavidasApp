@@ -53,7 +53,8 @@ public class cancelledSales extends AppCompatActivity {
         listSellAdapter = new ListSellAdapter(this,listaDeDatos, cancelledSales.this);
         listado.setAdapter(listSellAdapter);
 
-        crearListado();
+        //**************
+        //crearListado();
     }
 
     private void crearListado() {

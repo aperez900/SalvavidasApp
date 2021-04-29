@@ -33,20 +33,17 @@ public class ListSaleAdapter extends RecyclerView.Adapter<ListSaleAdapter.viewHo
     LayoutInflater inflater;
     private View.OnClickListener listener;
     Activity  activity;
-    String id_producto;
 
     FirebaseAuth mAuth;
     FirebaseUser currentUser;
     FirebaseDatabase database;
     DatabaseReference myRef;
 
-
     public ListSaleAdapter(Context context, ArrayList<Productos> listaDeDatos, Activity activity) {
         this.inflater = LayoutInflater.from(context);
         this.listaDeDatos = listaDeDatos;
         this.activity = activity;
     }
-
 
     @NonNull
     @Override
@@ -59,7 +56,7 @@ public class ListSaleAdapter extends RecyclerView.Adapter<ListSaleAdapter.viewHo
     @Override
     public void onBindViewHolder(@NonNull ListSaleAdapter.viewHolder holder, int position) {
 
-        id_producto = listaDeDatos.get(position).getIdProducto();
+        String id_producto = listaDeDatos.get(position).getIdProducto();
         String tipo_producto = listaDeDatos.get(position).getCategoriaProducto();
         String nombre_producto = listaDeDatos.get(position).getNombreProducto();
         String descripcion_producto = listaDeDatos.get(position).getDescripcionProducto();
@@ -133,14 +130,13 @@ public class ListSaleAdapter extends RecyclerView.Adapter<ListSaleAdapter.viewHo
         holder.imgCancelar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                crearAlertDialog();
+                crearAlertDialog(id_producto);
             }
         });
 
     }
 
-
-    public void crearAlertDialog(){
+    public void crearAlertDialog(String id_producto){
         AlertDialog.Builder confirmacion = new AlertDialog.Builder(activity);
         confirmacion.setMessage("¿Esta seguro que desea cancelar el producto?. Éste dejará de estar disponible para su compra.")
                 .setCancelable(false)

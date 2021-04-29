@@ -56,7 +56,8 @@ public class salesOffered extends AppCompatActivity {
             listSaleAdapter = new ListSaleAdapter(this, listaDeDatos,this);
         listado.setAdapter(listSaleAdapter);
 
-        crearListado();
+        //**************
+        //crearListado();
     }
 
     private void crearListado() {
