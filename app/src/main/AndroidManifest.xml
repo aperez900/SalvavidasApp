@@ -22,7 +22,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.SalvavidasApp">
-        <activity android:name=".ui.sales.cancelledSales"></activity>
+        <activity android:name=".ui.sales.lookAtProduct"></activity>
+        <activity android:name=".ui.sales.cancelledSales" />
         <activity android:name=".ui.sales.salesOffered" />
         <activity android:name=".ui.sales.scheduledSales" />
         <activity android:name=".ui.sales.addProduct" />

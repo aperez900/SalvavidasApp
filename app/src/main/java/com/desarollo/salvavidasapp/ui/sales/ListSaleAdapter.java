@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Paint;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -32,7 +33,7 @@ public class ListSaleAdapter extends RecyclerView.Adapter<ListSaleAdapter.viewHo
     ArrayList<Productos> listaDeDatos;
     LayoutInflater inflater;
     private View.OnClickListener listener;
-    Activity  activity;
+    Activity activity;
 
     FirebaseAuth mAuth;
     FirebaseUser currentUser;
@@ -62,13 +63,19 @@ public class ListSaleAdapter extends RecyclerView.Adapter<ListSaleAdapter.viewHo
         String descripcion_producto = listaDeDatos.get(position).getDescripcionProducto();
         Double precio = listaDeDatos.get(position).getPrecio();
         Double descuento = listaDeDatos.get(position).getDescuento();
+        long porcDescuento = Math.round(descuento/precio*100);
         String fechaInicio = listaDeDatos.get(position).getFechaInicio();
         String fechaFin = listaDeDatos.get(position).getFechaFin();
         String getUrlFoto = listaDeDatos.get(position).getfoto();
         holder.tipo_producto.setText(tipo_producto);
         holder.nombre_producto.setText(nombre_producto);
         holder.descripcion_producto.setText(descripcion_producto);
-        holder.precio.setText(String.valueOf(precio-descuento));
+        holder.precio.setText(String.valueOf(precio));
+        holder.precio.setPaintFlags(holder.precio.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
+        holder.porcentajeDescuento.setText(String.valueOf(-porcDescuento));
+        holder.descuento.setText(String.valueOf(descuento));
+        holder.total.setText(String.valueOf(precio-descuento));
+        holder.total.setPaintFlags(holder.total.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
         holder.fechaInicio.setText(fechaInicio);
         holder.fechaFin.setText(fechaFin);
 
@@ -81,7 +88,9 @@ public class ListSaleAdapter extends RecyclerView.Adapter<ListSaleAdapter.viewHo
         holder.imgVer.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(activity , addProduct.class);
+
+                //Intent intent = new Intent(activity , addProduct.class);
+                Intent intent = new Intent(activity , lookAtProduct.class);
                 intent.putExtra("nombreProducto", listaDeDatos.get(position).getNombreProducto());
                 intent.putExtra("idProducto" , listaDeDatos.get(position).getIdProducto());
                 intent.putExtra("tipoProducto" , listaDeDatos.get(position).getCategoriaProducto());
@@ -200,7 +209,8 @@ public class ListSaleAdapter extends RecyclerView.Adapter<ListSaleAdapter.viewHo
 
 
     public class viewHolder extends RecyclerView.ViewHolder {
-        TextView tipo_producto, nombre_producto, descripcion_producto, precio, fechaInicio, fechaFin;
+        TextView tipo_producto, nombre_producto, descripcion_producto, precio, fechaInicio, fechaFin,
+                descuento, total, porcentajeDescuento;
         ImageView imagenProducto, imgVer, imgEditar, imgCancelar;
 
         public viewHolder(@NonNull View itemView) {
@@ -210,13 +220,14 @@ public class ListSaleAdapter extends RecyclerView.Adapter<ListSaleAdapter.viewHo
             descripcion_producto = itemView.findViewById(R.id.tv_descripcion_producto);
             imagenProducto = itemView.findViewById(R.id.img_imagen_producto);
             precio = itemView.findViewById(R.id.tv_precio_producto);
+            descuento = itemView.findViewById(R.id.tv_descuento_producto);
+            porcentajeDescuento = itemView.findViewById(R.id.tv_porc_descuento);
+            total = itemView.findViewById(R.id.tv_total_producto);
             fechaInicio = itemView.findViewById(R.id.tv_fecha_inicio_producto);
             fechaFin = itemView.findViewById(R.id.tv_fecha_fin_producto);
             imgVer = itemView.findViewById(R.id.img_ver_mas_producto);
             imgEditar = itemView.findViewById(R.id.img_editar_producto);
             imgCancelar = itemView.findViewById(R.id.img_cancelar_producto);
         }
-
-
     }
 }

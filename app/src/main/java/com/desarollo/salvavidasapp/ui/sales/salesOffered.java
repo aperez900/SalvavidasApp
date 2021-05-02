@@ -52,12 +52,11 @@ public class salesOffered extends AppCompatActivity {
         listado = findViewById(R.id.listadoOfertados);
         LinearLayoutManager manager = new LinearLayoutManager(this);
         listado.setLayoutManager(manager);
-        //listado.setHasFixedSize(true);
-            listSaleAdapter = new ListSaleAdapter(this, listaDeDatos,this);
+        listado.setHasFixedSize(true);
+        listSaleAdapter = new ListSaleAdapter(this, listaDeDatos,this);
         listado.setAdapter(listSaleAdapter);
 
-        //**************
-        //crearListado();
+        crearListado();
     }
 
     private void crearListado() {
@@ -81,7 +80,6 @@ public class salesOffered extends AppCompatActivity {
                         } catch (ParseException e) {
                             e.printStackTrace();
                         }
-
                         if (fecha.before(hoy) &&  !estado.equals("Cancelado")){
 
                             //Toast.makeText(getContext(), p.getFechaInicio(), Toast.LENGTH_SHORT).show();

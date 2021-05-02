@@ -62,12 +62,19 @@
     <string name="ventasCanceladas">Ventas canceladas</string>
 
     <string name="nombreProducto">¿Qué deseas vender?</string>
+    <string name="nombreProducto2">Nombre producto</string>
     <string name="descripcionProducto">Describe lo que vas a vender</string>
-    <string name="precioProducto">Precio ($COP)</string>
-    <string name="descuentoProducto">Descuento ($COP)</string>
+    <string name="descripcionProducto2">Descripción producto</string>
+    <string name="precioProducto">Precio</string>
+    <string name="descuentoProducto">Descuento</string>
+    <string name="porcDescuentoProducto">% Dcto</string>
+    <string name="totalProducto">Total</string>
+    <string name="signoMoneda">$</string>
     <string name="domicilioProducto">Domicilio producto</string>
     <string name="categoriaProducto">Categoría producto</string>
     <string name="fechaInicioProducto">Fecha inicio</string>
+    <string name="inicio">Inicio</string>
+    <string name="fin">Fin</string>
     <string name="estructuraFecha">dd/mm/aaaa</string>
     <string name="registrarProducto">Registrar producto</string>
     <string name="disponibilidadProducto">Disponibilidad del producto</string>

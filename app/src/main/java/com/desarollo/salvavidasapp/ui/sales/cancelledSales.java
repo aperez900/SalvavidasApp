@@ -49,7 +49,7 @@ public class cancelledSales extends AppCompatActivity {
         listado = findViewById(R.id.listadoCancelados);
         LinearLayoutManager manager = new LinearLayoutManager(this);
         listado.setLayoutManager(manager);
-        //listado.setHasFixedSize(true);
+        listado.setHasFixedSize(true);
         listSellAdapter = new ListSellAdapter(this,listaDeDatos, cancelledSales.this);
         listado.setAdapter(listSellAdapter);
 
