@@ -3,7 +3,6 @@ package com.desarollo.salvavidasapp.ui.sales;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Paint;
 import android.os.Bundle;
@@ -12,7 +11,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
-import com.desarollo.salvavidasapp.Models.Productos;
 import com.desarollo.salvavidasapp.R;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -21,15 +19,9 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-import com.google.firebase.storage.StorageReference;
-
-import java.text.ParseException;
-import java.util.Date;
 
 public class lookAtProduct extends AppCompatActivity {
-    private StorageReference mStorage;
-    private ProgressDialog mProgressDialog;
-    FirebaseAuth mAuth;
+        FirebaseAuth mAuth;
     FirebaseUser currentUser;
     FirebaseDatabase database;
     DatabaseReference myRef;
@@ -53,6 +45,8 @@ public class lookAtProduct extends AppCompatActivity {
         TextView descuentoProducto = findViewById(R.id.tv_descuento_producto);
         TextView tvporcDescuento = findViewById(R.id.tv_porc_descuento);
         TextView totalProducto = findViewById(R.id.tv_total_producto);
+        TextView inicioProducto = findViewById(R.id.tv_fecha_inicio_producto);
+        TextView finProducto = findViewById(R.id.tv_fecha_fin_producto);
 
         Intent intent = getIntent();
         if (intent.getExtras() != null){
@@ -72,8 +66,8 @@ public class lookAtProduct extends AppCompatActivity {
             totalProducto.setText(String.valueOf(total));
             //ScategoriaProductos = extras.getString("tipoProducto");
             //SdomicilioProducto = extras.getString("domicilioProducto");
-            //tvFechaInicio.setText(extras.getString("fechaInicio"));
-            //tvFechaFin.setText(extras.getString("fechaFin"));
+            inicioProducto.setText(extras.getString("fechaInicio"));
+            finProducto.setText(extras.getString("fechaFin"));
             //tvHoraInicio.setText(extras.getString("horaInicio"));
             //tvHoraFin.setText(extras.getString("horaFin"));
             //type = extras.getString("tipyEntry");
