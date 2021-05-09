@@ -22,6 +22,7 @@ import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 
 public class scheduledSales extends AppCompatActivity {
@@ -56,7 +57,8 @@ public class scheduledSales extends AppCompatActivity {
 
     private void crearListado() {
 
-        DateFormat fechaHora = new SimpleDateFormat("dd/MM/yyyy");
+        Calendar c = Calendar.getInstance();
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm");
 
         myRef
                 .child(currentUser.getUid())
@@ -67,23 +69,27 @@ public class scheduledSales extends AppCompatActivity {
                             listaDeDatos.clear();
                             for(DataSnapshot objsnapshot : snapshot.getChildren()){
                                 Productos p = objsnapshot.getValue(Productos.class);
-                                Date fecha = null;
-                                Date hoy = new Date();
                                 String estado="";
+                                Date fecha = null;
+                                Date getCurrentDateTime = null;
                                 try {
-                                    fecha = fechaHora.parse(p.getFechaInicio());
-                                    estado = p.getEstadoProducto();
-
+                                    fecha = sdf.parse(p.getFechaInicio() + " " + p.getHoraInicio());
+                                    getCurrentDateTime = c.getTime();
                                 } catch (ParseException e) {
                                     e.printStackTrace();
                                 }
-                                if (fecha.after(hoy) &&  !estado.equals("Cancelado")){
 
-                                    // Toast.makeText(getContext(), p.getFechaInicio(), Toast.LENGTH_SHORT).show();
+                                estado = p.getEstadoProducto();
+                                if (getCurrentDateTime.compareTo(fecha) < 0 &&  !estado.equals("Cancelado")) {
+
+                                    //Toast.makeText(scheduledSales.this, getCurrentDateTime + " - " + fecha + " - " + getCurrentDateTime.compareTo(fecha) , Toast.LENGTH_SHORT).show();
+
                                     listaDeDatos.add(new Productos(p.getIdProducto(), p.getNombreProducto(), p.getDescripcionProducto(),
                                             p.getCategoriaProducto(), p.getPrecio(), p.getDescuento(), p.getDomicilio(), p.getEstadoProducto(),
                                             p.getfoto(), p.getFechaInicio(), p.getHoraInicio(), p.getFechaFin(), p.getHoraFin()));
+
                                 }
+
                             }
                             listSaleAdapter = new ListSaleAdapter(scheduledSales.this,listaDeDatos, scheduledSales.this);
                             listado.setAdapter(listSaleAdapter);

@@ -17,14 +17,17 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.type.DateTime;
 
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 
-public class salesOffered extends AppCompatActivity {
+public class
+salesOffered extends AppCompatActivity {
 
     ArrayList<Productos> listaDeDatos = new ArrayList<>();
     RecyclerView listado;
@@ -61,7 +64,9 @@ public class salesOffered extends AppCompatActivity {
 
     private void crearListado() {
 
-        DateFormat fechaHora = new SimpleDateFormat("dd/MM/yyyy");
+        Calendar c = Calendar.getInstance();
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm");
+
 
         myRef.child(currentUser.getUid()).addValueEventListener(new ValueEventListener() {
             @Override
@@ -70,24 +75,29 @@ public class salesOffered extends AppCompatActivity {
                     listaDeDatos.clear();
                     for(DataSnapshot objsnapshot : snapshot.getChildren()){
                         Productos p = objsnapshot.getValue(Productos.class);
-                        Date fecha = null;
-                        Date hoy = new Date();
-                        String estado="";
-                        try {
-                            fecha = fechaHora.parse(p.getFechaInicio());
-                            estado = p.getEstadoProducto();
 
+                        String estado="";
+
+                        Date fechaInicio = null;
+                        Date fechaFin = null;
+                        Date getCurrentDateTime = null;
+                        try {
+                            fechaInicio = sdf.parse(p.getFechaInicio() + " " + p.getHoraInicio());
+                            fechaFin = sdf.parse(p.getFechaFin() + " " + p.getHoraFin());
+                            getCurrentDateTime = c.getTime();
                         } catch (ParseException e) {
                             e.printStackTrace();
                         }
-                        if (fecha.before(hoy) &&  !estado.equals("Cancelado")){
+                        estado = p.getEstadoProducto();
 
-                            //Toast.makeText(getContext(), p.getFechaInicio(), Toast.LENGTH_SHORT).show();
+                        if (getCurrentDateTime.compareTo(fechaInicio) > 0 && getCurrentDateTime.compareTo(fechaFin) < 0 && !estado.equals("Cancelado")){
+
+                           // Toast.makeText(salesOffered.this, getCurrentDateTime + " - " + fecha + " - " + getCurrentDateTime.compareTo(fecha) , Toast.LENGTH_SHORT).show();
                             listaDeDatos.add(new Productos(p.getIdProducto(), p.getNombreProducto(), p.getDescripcionProducto(),
                                     p.getCategoriaProducto(), p.getPrecio(), p.getDescuento(), p.getDomicilio(), p.getEstadoProducto(),
                                     p.getfoto(), p.getFechaInicio(), p.getHoraInicio(), p.getFechaFin(), p.getHoraFin()));
-
                         }
+
                     }
                     listSaleAdapter = new ListSaleAdapter(salesOffered.this, listaDeDatos, salesOffered.this);
                     listado.setAdapter(listSaleAdapter);
