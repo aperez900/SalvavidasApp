@@ -114,7 +114,6 @@ public class ListSaleAdapter extends RecyclerView.Adapter<ListSaleAdapter.viewHo
         holder.imgEditar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                 Intent intent = new Intent(activity , addProduct.class);
                 intent.putExtra("nombreProducto", listaDeDatos.get(position).getNombreProducto());
                 intent.putExtra("idProducto" , listaDeDatos.get(position).getIdProducto());
@@ -131,7 +130,6 @@ public class ListSaleAdapter extends RecyclerView.Adapter<ListSaleAdapter.viewHo
                 intent.putExtra("tipyEntry" , "Editar");
 
                 activity.startActivity(intent);
-
             }
         });
 
@@ -152,8 +150,6 @@ public class ListSaleAdapter extends RecyclerView.Adapter<ListSaleAdapter.viewHo
                 .setPositiveButton("Sí", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        //Toast.makeText(activity,"Clic en Sí ",Toast.LENGTH_SHORT).show();
-
                         mAuth = FirebaseAuth.getInstance();
                         currentUser = mAuth.getCurrentUser();
                         database = FirebaseDatabase.getInstance();
@@ -172,8 +168,6 @@ public class ListSaleAdapter extends RecyclerView.Adapter<ListSaleAdapter.viewHo
                                         Toast.makeText(activity, "Error cancelando el producto", Toast.LENGTH_SHORT).show();
                                     }
                                 });
-                        // Toast.makeText(getApplicationContext(),"Clic en Cancelar: " + nombre_producto,Toast.LENGTH_SHORT).show();
-
                     }
                 })
                 .setNegativeButton("No", new DialogInterface.OnClickListener() {

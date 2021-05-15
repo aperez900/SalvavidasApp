@@ -374,11 +374,10 @@ public class seller extends Fragment {
         if(nit.isEmpty()){
             et_nit.setError("Debe diligenciar un NIT");
             campoLleno=false;
-        }if(actividades_econo.equals("Seleccione una actividad económica")){
+        }if(actividades_econo.equals("Seleccione actividad económica")){
             Toast.makeText(getApplicationContext(), "Seleccione una actividad económica", Toast.LENGTH_SHORT).show();
             campoLleno=false;
         }
         return campoLleno;
     }
-
 }

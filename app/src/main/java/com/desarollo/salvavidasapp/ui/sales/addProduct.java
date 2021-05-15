@@ -80,7 +80,6 @@ public class addProduct extends AppCompatActivity {
         if (intent.getExtras() != null){
             Bundle extras = getIntent().getExtras();
 
-
             idProductoEdit = extras.getString("idProducto");
             nombreProducto.setText(extras.getString("nombreProducto"));
             descripcionProducto.setText(extras.getString("descripcionProducto"));
@@ -94,7 +93,6 @@ public class addProduct extends AppCompatActivity {
             tvHoraFin.setText(extras.getString("horaFin"));
             type = extras.getString("tipyEntry");
             fotoConsulta = extras.getString("getUrlFoto");
-
 
             if(type.equals("Editar")){
                 btnRegistrarProducto.setText("Editar Producto");
@@ -217,8 +215,6 @@ public class addProduct extends AppCompatActivity {
     public void registrar(EditText et_nombre_producto, EditText et_descripcion_producto, Spinner sp_categoria_producto,
                           EditText et_precio_producto, EditText et_descuento_producto, Spinner sp_domicilio_producto, TextView tv_fecha_inicio,
                           TextView tv_fecha_fin, TextView tv_hora_inicio, TextView tv_hora_fin,String fotoConsulta, String idProductoEdit){
-
-
         try {
 
             String idProducto,descripcionProducto,nombreProducto,categoriaProducto,estadoProducto, domicilio,   fechaInicio,  horaInicio,  fechaFin,  horaFin;
@@ -247,21 +243,21 @@ public class addProduct extends AppCompatActivity {
 
             p = new Productos(idProducto  ,  nombreProducto,  descripcionProducto,  categoriaProducto,  precio,  descuento,  domicilio,  estadoProducto,  foto,  fechaInicio,  horaInicio,  fechaFin,  horaFin ){};
 
-            //guarda los datos del vendedor
+            //guarda los datos del producto
             myRefProductos.child(currentUser.getUid()).child(p.getIdProducto()).setValue(p)
                     .addOnSuccessListener(new OnSuccessListener<Void>() {
                         @Override
                         public void onSuccess(Void aVoid) {
-                            Toast.makeText(addProduct.this, "Producto registrado correctamente", Toast.LENGTH_SHORT).show();
                             limpiarCamposProducto(et_nombre_producto, et_descripcion_producto, sp_categoria_producto, et_precio_producto, et_descuento_producto,
                                     sp_domicilio_producto, tv_fecha_inicio, tv_fecha_fin, tv_hora_inicio, tv_hora_fin);
 
                             Intent intent = new Intent(addProduct.this, addPhoto.class);
                             intent.putExtra("idProducto", p.getIdProducto());
                             intent.putExtra("nombreProducto", p.getNombreProducto());
-                            intent.putExtra("getUrlFoto",fotoConsulta);
+                            //intent.putExtra("getUrlFoto",fotoConsulta);
                             startActivity(intent);
                             finish();
+                            Toast.makeText(addProduct.this, "Producto registrado correctamente", Toast.LENGTH_SHORT).show();
                         }
                     })
                     .addOnFailureListener(new OnFailureListener() {

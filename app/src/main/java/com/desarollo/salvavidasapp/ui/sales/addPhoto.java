@@ -2,10 +2,12 @@ package com.desarollo.salvavidasapp.ui.sales;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
@@ -21,6 +23,8 @@ import com.desarollo.salvavidasapp.R;
 import com.desarollo.salvavidasapp.ui.home.Home;
 import com.google.android.gms.tasks.Continuation;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -150,16 +154,43 @@ public class addPhoto extends AppCompatActivity {
                                 Uri downloaduri = task.getResult();
                                 imgRef.child("foto").setValue(downloaduri.toString());
                                 cargando.dismiss();
-                                Intent intent = new Intent(getApplicationContext(), Home.class);
-                                startActivity(intent);
-                                finish();
+
                                 Toast.makeText(getApplicationContext(), "Imagen cargada con éxito",
                                         Toast.LENGTH_SHORT).show();
+                                crearAlertDialog();
                             }
                         });
                     } // fin OnClick
                 });//fin setOnClickListener
             }
         }
+    }
+
+    public void crearAlertDialog(){
+        AlertDialog.Builder confirmacion = new AlertDialog.Builder(addPhoto.this);
+        confirmacion.setMessage("¿Deseas agregar más fotos?")
+                .setCancelable(false)
+                .setPositiveButton("Sí", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        /*
+                        Intent intent = new Intent(getApplicationContext(), addMorePhoto.class);
+                        startActivity(intent);
+                        finish();
+                         */
+                    }
+                })
+                .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.cancel();
+                        Intent intent = new Intent(addPhoto.this, Home.class);
+                        startActivity(intent);
+                        finish();
+                    }
+                });
+        AlertDialog titulo = confirmacion.create();
+        titulo.setTitle("Agregar mas fotos");
+        titulo.show();
     }
 }
