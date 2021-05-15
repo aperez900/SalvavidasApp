@@ -188,6 +188,7 @@ public class seller2 extends AppCompatActivity {
                 thumb_bitmap.compress(Bitmap.CompressFormat.JPEG,90, byteArrayOutputStream);
                 final byte [] thumb_byte = byteArrayOutputStream.toByteArray();
                 //fin del compresor
+                //
 
                 /*
                 subirFoto.setOnClickListener(new View.OnClickListener() {
