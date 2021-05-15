@@ -2,6 +2,7 @@ package com.desarollo.salvavidasapp.ui.profile;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -23,6 +24,7 @@ import com.bumptech.glide.request.RequestOptions;
 import com.desarollo.salvavidasapp.Models.ListDirecciones;
 import com.desarollo.salvavidasapp.Models.Usuarios;
 import com.desarollo.salvavidasapp.R;
+import com.desarollo.salvavidasapp.ui.seller.seller2;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
@@ -100,7 +102,15 @@ public class Profile extends Fragment {
         }
 
         //pasar de un fragment a otro
-        tv_vendedor.setOnClickListener(Navigation.createNavigateOnClickListener(R.id.action_nav_profile_to_nav_seller));
+        //tv_vendedor.setOnClickListener(Navigation.createNavigateOnClickListener(R.id.action_nav_profile_to_nav_seller));
+
+        tv_vendedor.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getContext(), seller2.class);
+                startActivity(intent);
+            }
+        });
 
         //UserName.setText(currentUser.getDisplayName());
         //UserMail.setText(currentUser.getEmail());

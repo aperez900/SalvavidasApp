@@ -126,13 +126,13 @@
                     android:layout_marginStart="50dp"
                     android:layout_marginTop="10dp"
                     android:layout_marginEnd="50dp"
-                    android:drawableStart="@android:drawable/ic_input_add"
                     android:fontFamily="@font/poppins_light"
                     android:gravity="center_vertical"
                     android:text="@string/lista_comida"
                     android:textSize="18sp"
                     app:drawableTint="@color/red"
-                    app:layout_constraintTop_toBottomOf="@id/tv_celular" />
+                    app:layout_constraintTop_toBottomOf="@id/tv_celular"
+                    app:drawableStartCompat="@android:drawable/ic_input_add" />
 
                 <Button
                     android:id="@+id/btn_registrar_perfil"

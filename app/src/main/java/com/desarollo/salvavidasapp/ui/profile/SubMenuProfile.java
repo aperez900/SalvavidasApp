@@ -1,5 +1,6 @@
 package com.desarollo.salvavidasapp.ui.profile;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -15,7 +16,11 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.desarollo.salvavidasapp.Login.MainActivity;
 import com.desarollo.salvavidasapp.R;
+import com.desarollo.salvavidasapp.ui.home.Home;
+import com.desarollo.salvavidasapp.ui.sales.sales;
+import com.desarollo.salvavidasapp.ui.seller.seller2;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -65,7 +70,14 @@ public class SubMenuProfile extends Fragment {
         consultarDatosVendedor(imgVendedor);
 
         tvPerfilComprador.setOnClickListener(Navigation.createNavigateOnClickListener(R.id.action_subMenuProfile_to_nav_profile));
-        tvPerfilVendedor.setOnClickListener(Navigation.createNavigateOnClickListener(R.id.action_subMenuProfile_to_nav_seller));
+        tvPerfilVendedor.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getContext(), seller2.class);
+                startActivity(intent);
+            }
+        });
+        //tvPerfilVendedor.setOnClickListener(Navigation.createNavigateOnClickListener(R.id.action_subMenuProfile_to_nav_seller));
 
         return view;
     }

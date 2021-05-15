@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.seller.seller">
+    tools:context=".ui.seller.seller2">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -13,7 +13,7 @@
         <Space
             android:layout_width="match_parent"
             android:layout_height="10dp" />
-    <TextView
+        <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:fontFamily="@font/poppins_semibold"
@@ -37,14 +37,24 @@
             android:layout_height="90dp">
 
             <ImageView
-                android:id="@+id/foto_perfil"
+                android:id="@+id/img_foto_tienda"
                 android:layout_width="match_parent"
                 android:layout_height="90dp"
                 android:layout_marginBottom="16dp"
                 android:contentDescription="@string/logo_vendedor"
                 app:srcCompat="@drawable/icono_user_vendedor"
-                app:tint="@color/red"
                 tools:src="@tools:sample/avatars" />
+            <TextView
+                android:id="@+id/tv_seleccionar_foto"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="230dp"
+                android:layout_marginTop="70dp"
+                android:layout_marginEnd="50dp"
+                app:drawableStartCompat="@android:drawable/ic_input_add"
+                app:drawableTint="@color/red"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent" />
         </FrameLayout>
     </LinearLayout>
 

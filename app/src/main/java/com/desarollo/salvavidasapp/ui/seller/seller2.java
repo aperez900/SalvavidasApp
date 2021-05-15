@@ -1,19 +1,17 @@
 package com.desarollo.salvavidasapp.ui.seller;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
+
+import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
-
-import androidx.annotation.NonNull;
-import androidx.fragment.app.Fragment;
-import androidx.navigation.Navigation;
-
-import android.os.Message;
 import android.os.StrictMode;
-import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
@@ -22,15 +20,14 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.request.RequestOptions;
-import com.desarollo.salvavidasapp.Models.ListDirecciones;
-import com.desarollo.salvavidasapp.Models.Usuarios;
 import com.desarollo.salvavidasapp.Models.Vendedores;
 import com.desarollo.salvavidasapp.R;
-import com.desarollo.salvavidasapp.ui.home.Home;
+import com.desarollo.salvavidasapp.ui.sales.addPhoto;
+import com.google.android.gms.tasks.Continuation;
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.UserInfo;
@@ -39,11 +36,18 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
+import com.squareup.picasso.Picasso;
+import com.theartofdev.edmodo.cropper.CropImage;
+import com.theartofdev.edmodo.cropper.CropImageView;
 
-import org.w3c.dom.Text;
-
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Objects;
 import java.util.Properties;
 
 import javax.mail.Authenticator;
@@ -53,10 +57,11 @@ import javax.mail.Transport;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 
+import id.zelory.compressor.Compressor;
+
 import static com.facebook.FacebookSdk.getApplicationContext;
 
-
-public class seller extends Fragment {
+public class seller2 extends AppCompatActivity {
 
     FirebaseAuth mAuth;
     FirebaseUser currentUser;
@@ -64,45 +69,43 @@ public class seller extends Fragment {
     DatabaseReference myRefVendedores, myRefPerfilUsuario;
     Vendedores v;
     Session session;
+    ProgressDialog cargando;
+    Bitmap thumb_bitmap = null;
 
     private String name;
     private String emailUser;
     private String correo="";
     private String contrasena="";
+    ImageView foto_tienda;
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_seller2);
         mAuth = FirebaseAuth.getInstance();
         currentUser = mAuth.getCurrentUser();
         database = FirebaseDatabase.getInstance();
         myRefVendedores = database.getReference("vendedores");
         myRefPerfilUsuario = database.getReference("usuarios");
-    }
 
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-
-        View view = inflater.inflate(R.layout.fragment_seller,container,false);
-        TextView nombres = view.findViewById(R.id.tv_nombre);
-        TextView apellidos = view.findViewById(R.id.tv_apellido);
-        TextView identificacion = view.findViewById(R.id.tv_identidad);
-        TextView celular = view.findViewById(R.id.tv_celular);
-        EditText nombreEstablecimiento = view.findViewById(R.id.et_razon_social);
-        EditText nit = view.findViewById(R.id.et_nit);
-        Button btn_reg = view.findViewById(R.id.btn_registrar_vendedor);
-        TextView estado = view.findViewById(R.id.estado);
-        ImageView UserPhoto = view.findViewById(R.id.foto_perfil);
-        Spinner sp_actividad_econimica = view.findViewById(R.id.sp_actividad_economica);
+        TextView nombres = findViewById(R.id.tv_nombre);
+        TextView apellidos = findViewById(R.id.tv_apellido);
+        TextView identificacion = findViewById(R.id.tv_identidad);
+        TextView celular = findViewById(R.id.tv_celular);
+        EditText nombreEstablecimiento = findViewById(R.id.et_razon_social);
+        EditText nit = findViewById(R.id.et_nit);
+        Button btn_reg = findViewById(R.id.btn_registrar_vendedor);
+        TextView estado = findViewById(R.id.estado);
+        Spinner sp_actividad_econimica = findViewById(R.id.sp_actividad_economica);
+        TextView seleccionarFoto = findViewById(R.id.tv_seleccionar_foto);
+        foto_tienda = findViewById(R.id.img_foto_tienda);
 
         String[] ArrayActividadesEconimicas = new String[]{
                 "Seleccione actividad económica", "Actividad 1","Actividad 2","Actividad 3", "Actividad 4"
         };
 
         ArrayList<String> listActividadesEconomicas = new ArrayList(Arrays.asList(ArrayActividadesEconimicas));
-        ArrayAdapter<String> adapterActividadesEconomicas = new ArrayAdapter<String>(getContext(), R.layout.spinner_item_modified, listActividadesEconomicas);
+        ArrayAdapter<String> adapterActividadesEconomicas = new ArrayAdapter<String>(seller2.this, R.layout.spinner_item_modified, listActividadesEconomicas);
         sp_actividad_econimica.setAdapter(adapterActividadesEconomicas);
 
         //Actualiza los datos del perfil logeado en el fragmenProfile
@@ -124,21 +127,107 @@ public class seller extends Fragment {
 
         consultarDatosPerfilUsuario(nombres, apellidos, identificacion, celular);
 
+        seleccionarFoto.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                CropImage.startPickImageActivity(seller2.this);
+            }
+        });
+
         //Acciones del botón registrar
         btn_reg.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 if(validarCamposVacios( nombres, apellidos, identificacion, celular, nombreEstablecimiento, nit, sp_actividad_econimica)) {
-                    Toast.makeText(getContext(), "Procesando solicitud", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(seller2.this, "Procesando solicitud", Toast.LENGTH_SHORT).show();
                     registrar(nombres, apellidos, identificacion, celular, nombreEstablecimiento, nit, sp_actividad_econimica);
                     enviar_email(correo,contrasena, nombres, celular);
                     enviar_email_usuario(correo,contrasena, nombres, celular);
                 }
             }
         });
+    }//fin OnCreate
 
-        return view;
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode==CropImage.PICK_IMAGE_CHOOSER_REQUEST_CODE && resultCode== Activity.RESULT_OK){
+            Uri imageUri = CropImage.getPickImageResultUri(seller2.this,data);
+
+            //recortar imagen
+            CropImage.activity(imageUri)
+                    .setGuidelines(CropImageView.Guidelines.ON)
+                    .setRequestedSize(1000, 1000)
+                    .setAspectRatio(1,1)
+                    .start(seller2.this);
+        }
+
+        if(requestCode==CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE){
+            CropImage.ActivityResult result = CropImage.getActivityResult(data);
+
+            if(resultCode==RESULT_OK){
+                Uri resultUri = result.getUri();
+
+                File url = new File(resultUri.getPath());
+
+                Picasso.with(seller2.this).load(url).into(foto_tienda);
+
+                //comprimiendo imagen
+                try{
+                    thumb_bitmap = new Compressor(seller2.this)
+                            .setMaxWidth(1000)
+                            .setMaxHeight(1000)
+                            .setQuality(90)
+                            .compressToBitmap(url);
+                }catch (IOException e){
+                    e.printStackTrace();
+                }
+                ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+                thumb_bitmap.compress(Bitmap.CompressFormat.JPEG,90, byteArrayOutputStream);
+                final byte [] thumb_byte = byteArrayOutputStream.toByteArray();
+                //fin del compresor
+
+                /*
+                subirFoto.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        cargando.setTitle("Subiendo foto");
+                        cargando.setMessage("Cargando...");
+                        cargando.show();
+
+                        final StorageReference ref = storageReference.child(currentUser.getUid()).child(idProducto).child(nombreProducto);
+                        UploadTask uploadTask = ref.putBytes(thumb_byte);
+
+                        //subir imagen en Storage
+                        Task<Uri> UriTask = uploadTask.continueWithTask(new Continuation<UploadTask.TaskSnapshot, Task<Uri>>() {
+                            @Override
+                            public Task<Uri> then(@NonNull Task<UploadTask.TaskSnapshot> task) throws Exception {
+                                if (!task.isSuccessful()) {
+                                    throw Objects.requireNonNull(task.getException());
+                                }
+                                return ref.getDownloadUrl();
+                            }
+                        }).addOnCompleteListener(new OnCompleteListener<Uri>() {
+                            @Override
+                            public void onComplete(@NonNull Task<Uri> task) {
+                                //Actualizar URL en la BD
+                                Uri downloaduri = task.getResult();
+                                imgRef.child("foto").setValue(downloaduri.toString());
+                                cargando.dismiss();
+
+                                Toast.makeText(getApplicationContext(), "Imagen cargada con éxito",
+                                        Toast.LENGTH_SHORT).show();
+                            }
+                        });
+                    } // fin OnClick
+                });//fin subir foto
+                */
+            }
+        }
     }
+
 
     public void consultarDatosVendedor(TextView tv_nombres, TextView tv_apellidos, TextView et_identificacion,
                                        TextView tv_celular, EditText et_nombreEstablecimiento, EditText et_nit, Spinner sp_actividad_econimica, Button btn_reg, TextView tv_estado){
@@ -169,13 +258,13 @@ public class seller extends Fragment {
                     }
                     @Override
                     public void onCancelled(@NonNull DatabaseError error) {
-                        Toast.makeText(getContext(), "Error consultando los datos del vendedor. Intente de nuevo mas tarde.", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(seller2.this, "Error consultando los datos del vendedor. Intente de nuevo mas tarde.", Toast.LENGTH_SHORT).show();
                     }
                 });
     }
 
     public void consultarDatosPerfilUsuario(TextView tv_nombres, TextView tv_apellidos, TextView tv_identificacion,
-                                       TextView tv_celular){
+                                            TextView tv_celular){
         myRefPerfilUsuario.child(currentUser.getUid())
                 .addValueEventListener(new ValueEventListener() {
                     @Override
@@ -190,12 +279,12 @@ public class seller extends Fragment {
                             String celular = snapshot.child("celular").getValue().toString();
                             tv_celular.setText(celular);
                         }else{
-                            Toast.makeText(getContext(), "Debes completar primero el perfil del comprador", Toast.LENGTH_LONG).show();
+                            Toast.makeText(seller2.this, "Debes completar primero el perfil del comprador", Toast.LENGTH_LONG).show();
                         }
                     }
                     @Override
                     public void onCancelled(@NonNull DatabaseError error) {
-                        Toast.makeText(getContext(), "Error consultando los datos del perfil. Intente de nuevo mas tarde.", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(seller2.this, "Error consultando los datos del perfil. Intente de nuevo mas tarde.", Toast.LENGTH_SHORT).show();
                     }
                 });
     }
@@ -225,7 +314,7 @@ public class seller extends Fragment {
                         //Toast.makeText(getApplicationContext(), "Error registrando la solicitud. Intenta de nuevo mas tarde", Toast.LENGTH_SHORT).show();
                     }
                 });
-        }
+    }
 
     public void enviar_email( String correo, String contrasena, TextView nombres, TextView celular){
 

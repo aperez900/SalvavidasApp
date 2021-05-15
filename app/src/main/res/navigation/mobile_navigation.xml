@@ -27,11 +27,7 @@
         android:id="@+id/nav_profile"
         android:name="com.desarollo.salvavidasapp.ui.profile.Profile"
         android:label="@string/miPerfil"
-        tools:layout="@layout/fragment_profile" >
-        <action
-            android:id="@+id/action_nav_profile_to_nav_seller"
-            app:destination="@id/nav_seller" />
-    </fragment>
+        tools:layout="@layout/fragment_profile" />
 
     <fragment
         android:id="@+id/nav_direction"
@@ -46,15 +42,6 @@
         tools:layout="@layout/fragment_address" />
 
     <fragment
-        android:id="@+id/nav_seller"
-        android:name="com.desarollo.salvavidasapp.ui.seller.seller"
-        android:label="Mis ventas"
-        tools:layout="@layout/fragment_seller" >
-        <action
-            android:id="@+id/action_nav_seller_to_nav_profile"
-            app:destination="@id/nav_profile" />
-    </fragment>
-    <fragment
         android:id="@+id/subMenuProfile"
         android:name="com.desarollo.salvavidasapp.ui.profile.SubMenuProfile"
         android:label="Sub menú perfil"
@@ -62,13 +49,6 @@
         <action
             android:id="@+id/action_subMenuProfile_to_nav_profile"
             app:destination="@id/nav_profile" />
-        <action
-            android:id="@+id/action_subMenuProfile_to_nav_seller"
-            app:destination="@id/nav_seller"
-            app:enterAnim="@anim/nav_default_enter_anim"
-            app:exitAnim="@anim/nav_default_exit_anim"
-            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
-            app:popExitAnim="@anim/nav_default_pop_exit_anim" />
     </fragment>
     <fragment
         android:id="@+id/nav_sales"
