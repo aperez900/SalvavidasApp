@@ -20,9 +20,9 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.desarollo.salvavidasapp.Models.Vendedores;
 import com.desarollo.salvavidasapp.R;
-import com.desarollo.salvavidasapp.ui.sales.addPhoto;
 import com.google.android.gms.tasks.Continuation;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -36,9 +36,9 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
-import com.squareup.picasso.Picasso;
 import com.theartofdev.edmodo.cropper.CropImage;
 import com.theartofdev.edmodo.cropper.CropImageView;
 
@@ -59,24 +59,25 @@ import javax.mail.internet.MimeMessage;
 
 import id.zelory.compressor.Compressor;
 
-import static com.facebook.FacebookSdk.getApplicationContext;
-
 public class seller2 extends AppCompatActivity {
 
     FirebaseAuth mAuth;
     FirebaseUser currentUser;
     FirebaseDatabase database;
-    DatabaseReference myRefVendedores, myRefPerfilUsuario;
+    DatabaseReference myRefVendedores, myRefPerfilUsuario, imgRef;
     Vendedores v;
     Session session;
-    ProgressDialog cargando;
+    StorageReference storageReference;
     Bitmap thumb_bitmap = null;
+    byte [] thumb_byte = null;
+    ProgressDialog cargando;
 
     private String name;
     private String emailUser;
     private String correo="";
     private String contrasena="";
-    ImageView foto_tienda;
+    ImageView foto_tienda=null;
+    String urlFoto="";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -87,6 +88,9 @@ public class seller2 extends AppCompatActivity {
         database = FirebaseDatabase.getInstance();
         myRefVendedores = database.getReference("vendedores");
         myRefPerfilUsuario = database.getReference("usuarios");
+        imgRef = myRefVendedores.child(currentUser.getUid());
+        storageReference = FirebaseStorage.getInstance().getReference().child("vendedores");
+        cargando = new ProgressDialog(this);
 
         TextView nombres = findViewById(R.id.tv_nombre);
         TextView apellidos = findViewById(R.id.tv_apellido);
@@ -101,7 +105,7 @@ public class seller2 extends AppCompatActivity {
         foto_tienda = findViewById(R.id.img_foto_tienda);
 
         String[] ArrayActividadesEconimicas = new String[]{
-                "Seleccione actividad económica", "Actividad 1","Actividad 2","Actividad 3", "Actividad 4"
+                "✚ Seleccione una actividad económica", "Actividad 1","Actividad 2","Actividad 3", "Actividad 4"
         };
 
         ArrayList<String> listActividadesEconomicas = new ArrayList(Arrays.asList(ArrayActividadesEconimicas));
@@ -115,15 +119,17 @@ public class seller2 extends AppCompatActivity {
                 //UserName.setText(name);
                 emailUser = profile.getEmail();
                 //UserMail.setText(email);
+                /*
                 Uri photoUrl = profile.getPhotoUrl();
-                /*Glide.with(UserPhoto.getContext())
+                Glide.with(UserPhoto.getContext())
                         .load(photoUrl)
                         .apply(RequestOptions.circleCropTransform())
                         .into(UserPhoto);
                  */
             }
         }
-        consultarDatosVendedor(nombres, apellidos, identificacion, celular, nombreEstablecimiento, nit, sp_actividad_econimica, btn_reg,estado);
+        consultarDatosVendedor(nombres, apellidos, identificacion, celular, nombreEstablecimiento, nit, sp_actividad_econimica,
+                btn_reg,estado);
 
         consultarDatosPerfilUsuario(nombres, apellidos, identificacion, celular);
 
@@ -138,9 +144,9 @@ public class seller2 extends AppCompatActivity {
         btn_reg.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(validarCamposVacios( nombres, apellidos, identificacion, celular, nombreEstablecimiento, nit, sp_actividad_econimica)) {
-                    Toast.makeText(seller2.this, "Procesando solicitud", Toast.LENGTH_SHORT).show();
-                    registrar(nombres, apellidos, identificacion, celular, nombreEstablecimiento, nit, sp_actividad_econimica);
+                if(validarCamposVacios( nombres, apellidos, identificacion, celular, nombreEstablecimiento, nit, sp_actividad_econimica,
+                        urlFoto)) {
+                    registrar(nombres, apellidos, identificacion, celular, nombreEstablecimiento, nit, sp_actividad_econimica, estado);
                     enviar_email(correo,contrasena, nombres, celular);
                     enviar_email_usuario(correo,contrasena, nombres, celular);
                 }
@@ -172,89 +178,112 @@ public class seller2 extends AppCompatActivity {
 
                 File url = new File(resultUri.getPath());
 
-                Picasso.with(seller2.this).load(url).into(foto_tienda);
+                //Picasso.with(seller2.this).load(url).into(foto_tienda);
 
-                //comprimiendo imagen
-                try{
-                    thumb_bitmap = new Compressor(seller2.this)
-                            .setMaxWidth(1000)
-                            .setMaxHeight(1000)
-                            .setQuality(90)
-                            .compressToBitmap(url);
-                }catch (IOException e){
-                    e.printStackTrace();
-                }
-                ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-                thumb_bitmap.compress(Bitmap.CompressFormat.JPEG,90, byteArrayOutputStream);
-                final byte [] thumb_byte = byteArrayOutputStream.toByteArray();
-                //fin del compresor
-                //
-
-                /*
-                subirFoto.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        cargando.setTitle("Subiendo foto");
-                        cargando.setMessage("Cargando...");
-                        cargando.show();
-
-                        final StorageReference ref = storageReference.child(currentUser.getUid()).child(idProducto).child(nombreProducto);
-                        UploadTask uploadTask = ref.putBytes(thumb_byte);
-
-                        //subir imagen en Storage
-                        Task<Uri> UriTask = uploadTask.continueWithTask(new Continuation<UploadTask.TaskSnapshot, Task<Uri>>() {
-                            @Override
-                            public Task<Uri> then(@NonNull Task<UploadTask.TaskSnapshot> task) throws Exception {
-                                if (!task.isSuccessful()) {
-                                    throw Objects.requireNonNull(task.getException());
-                                }
-                                return ref.getDownloadUrl();
-                            }
-                        }).addOnCompleteListener(new OnCompleteListener<Uri>() {
-                            @Override
-                            public void onComplete(@NonNull Task<Uri> task) {
-                                //Actualizar URL en la BD
-                                Uri downloaduri = task.getResult();
-                                imgRef.child("foto").setValue(downloaduri.toString());
-                                cargando.dismiss();
-
-                                Toast.makeText(getApplicationContext(), "Imagen cargada con éxito",
-                                        Toast.LENGTH_SHORT).show();
-                            }
-                        });
-                    } // fin OnClick
-                });//fin subir foto
-                */
+                Glide.with(seller2.this)
+                        .load(url)
+                        //.apply(RequestOptions.circleCropTransform())
+                        .into(foto_tienda);
+                comprimirImagen(url);
             }
+            cargando.setTitle("Subiendo foto");
+            cargando.setMessage("Cargando...");
+            cargando.show();
+
+            final StorageReference ref = storageReference.child(currentUser.getUid()).child("logo").child("logo_empresa");
+            UploadTask uploadTask = ref.putBytes(thumb_byte);
+
+            //subir imagen en Storage
+            Task<Uri> UriTask = uploadTask.continueWithTask(new Continuation<UploadTask.TaskSnapshot, Task<Uri>>() {
+                @Override
+                public Task<Uri> then(@NonNull Task<UploadTask.TaskSnapshot> task) throws Exception {
+                    if (!task.isSuccessful()) {
+                        throw Objects.requireNonNull(task.getException());
+                    }
+                    return ref.getDownloadUrl();
+                }
+            }).addOnCompleteListener(new OnCompleteListener<Uri>() {
+                @Override
+                public void onComplete(@NonNull Task<Uri> task) {
+                    //Actualizar URL en la BD
+                    Uri downloaduri = task.getResult();
+                    imgRef.child("url_logo").setValue(downloaduri.toString());
+                    urlFoto = downloaduri.toString();
+                    cargando.dismiss();
+                }
+            });
         }
     }
 
+    public void comprimirImagen(File url){
+        //comprimiendo imagen
+        try{
+            thumb_bitmap = new Compressor(seller2.this)
+                    .setMaxWidth(1000)
+                    .setMaxHeight(1000)
+                    .setQuality(90)
+                    .compressToBitmap(url);
+        }catch (IOException e){
+            e.printStackTrace();
+        }
+        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+        thumb_bitmap.compress(Bitmap.CompressFormat.JPEG,90, byteArrayOutputStream);
+        thumb_byte = byteArrayOutputStream.toByteArray();
+        //fin del compresor
+    }
 
     public void consultarDatosVendedor(TextView tv_nombres, TextView tv_apellidos, TextView et_identificacion,
-                                       TextView tv_celular, EditText et_nombreEstablecimiento, EditText et_nit, Spinner sp_actividad_econimica, Button btn_reg, TextView tv_estado){
+                                       TextView tv_celular, EditText et_nombreEstablecimiento, EditText et_nit,
+                                       Spinner sp_actividad_econimica, Button btn_reg, TextView tv_estado){
         //consultando datos del vendedor
         myRefVendedores.child(currentUser.getUid())
                 .addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
                         if(snapshot.exists()){
-                            String nombre = snapshot.child("nombre").getValue().toString();
-                            tv_nombres.setText(nombre);
-                            String apellido = snapshot.child("apellido").getValue().toString();
-                            tv_apellidos.setText(apellido);
-                            String identificacion = snapshot.child("identificacion").getValue().toString();
-                            et_identificacion.setText(identificacion);
-                            String celular = snapshot.child("celular").getValue().toString();
-                            tv_celular.setText(celular);
-                            String nombre_establecimiento = snapshot.child("nombre_establecimiento").getValue().toString();
-                            et_nombreEstablecimiento.setText(nombre_establecimiento);
-                            String nit = snapshot.child("nit").getValue().toString();
-                            et_nit.setText(nit);
-                            String actividad_economica = snapshot.child("actividad_economica").getValue().toString();
-                            //sp_actividad_econimica.setAdapter(actividad_economica);
-                            String estado = snapshot.child("estado").getValue().toString();
-                            tv_estado.setText(estado);
-                            btn_reg.setText("Reenviar solicitud");
+                            if (snapshot.child("nombre").exists()) {
+                                String nombre = Objects.requireNonNull(snapshot.child("nombre").getValue()).toString();
+                                tv_nombres.setText(nombre);
+                                btn_reg.setText("Reenviar solicitud");
+                            }
+                            if (snapshot.child("apellido").exists()) {
+                                String apellido = Objects.requireNonNull(snapshot.child("apellido").getValue()).toString();
+                                tv_apellidos.setText(apellido);
+                            }
+                            if (snapshot.child("identificacion").exists()) {
+                                String identificacion = Objects.requireNonNull(snapshot.child("identificacion").getValue()).toString();
+                                et_identificacion.setText(identificacion);
+                            }
+                            if (snapshot.child("celular").exists()) {
+                                String celular = Objects.requireNonNull(snapshot.child("celular").getValue()).toString();
+                                tv_celular.setText(celular);
+                            }
+                            if (snapshot.child("nombre_establecimiento").exists()) {
+                                String nombre_establecimiento = Objects.requireNonNull(snapshot.child("nombre_establecimiento").getValue()).toString();
+                                et_nombreEstablecimiento.setText(nombre_establecimiento);
+                            }
+                            if (snapshot.child("nit").exists()) {
+                                String nit = Objects.requireNonNull(snapshot.child("nit").getValue()).toString();
+                                et_nit.setText(nit);
+                            }
+                            if (snapshot.child("actividad_economica").exists()) {
+                                String actividad_economica = Objects.requireNonNull(snapshot.child("actividad_economica").getValue()).toString();
+                                String[] ArrayActividadEconomica = new String[]{actividad_economica, "✚ Seleccione una actividad económica", "Actividad 1", "Actividad 2", "Actividad 3", "Actividad 4"};
+                                ArrayList<String> listActividadesEconomicas = new ArrayList(Arrays.asList(ArrayActividadEconomica));
+                                ArrayAdapter<String> adapterActividadesEconomicas = new ArrayAdapter<String>(seller2.this, R.layout.spinner_item_modified, listActividadesEconomicas);
+                                sp_actividad_econimica.setAdapter(adapterActividadesEconomicas);
+                            }
+                            if (snapshot.child("estado").exists()) {
+                                String estado = Objects.requireNonNull(snapshot.child("estado").getValue()).toString();
+                                tv_estado.setText(estado);
+                            }
+                            if (snapshot.child("url_logo").exists()) {
+                                urlFoto = Objects.requireNonNull(snapshot.child("url_logo").getValue()).toString();
+                                Glide.with(getApplicationContext())
+                                        .load(urlFoto)
+                                        //.apply(RequestOptions.circleCropTransform())
+                                        .into(foto_tienda);
+                            }
                         }
                     }
                     @Override
@@ -271,14 +300,22 @@ public class seller2 extends AppCompatActivity {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
                         if(snapshot.exists()){
-                            String nombre = snapshot.child("nombre").getValue().toString();
-                            tv_nombres.setText(nombre);
-                            String apellido = snapshot.child("apellido").getValue().toString();
-                            tv_apellidos.setText(apellido);
-                            String identificacion = snapshot.child("identificacion").getValue().toString();
-                            tv_identificacion.setText(identificacion);
-                            String celular = snapshot.child("celular").getValue().toString();
-                            tv_celular.setText(celular);
+                            if(snapshot.child("nombre").exists()) {
+                                String nombre = Objects.requireNonNull(snapshot.child("nombre").getValue()).toString();
+                                tv_nombres.setText(nombre);
+                            }
+                            if(snapshot.child("apellido").exists()) {
+                                String apellido = Objects.requireNonNull(snapshot.child("apellido").getValue()).toString();
+                                tv_apellidos.setText(apellido);
+                            }
+                            if(snapshot.child("identificacion").exists()) {
+                                String identificacion = Objects.requireNonNull(snapshot.child("identificacion").getValue()).toString();
+                                tv_identificacion.setText(identificacion);
+                            }
+                            if(snapshot.child("celular").exists()) {
+                                String celular = Objects.requireNonNull(snapshot.child("celular").getValue()).toString();
+                                tv_celular.setText(celular);
+                            }
                         }else{
                             Toast.makeText(seller2.this, "Debes completar primero el perfil del comprador", Toast.LENGTH_LONG).show();
                         }
@@ -290,16 +327,21 @@ public class seller2 extends AppCompatActivity {
                 });
     }
 
-    private void registrar(TextView nombres, TextView apellidos, TextView identificacion, TextView celular, EditText nombre_establecimiento, EditText nit, Spinner sp_actividad_econimica) {
+    private void registrar(TextView nombres, TextView apellidos, TextView identificacion, TextView celular, EditText nombre_establecimiento, EditText nit, Spinner sp_actividad_econimica,
+                           TextView estado) {
         v = new Vendedores();
         v.setNombre(nombres.getText().toString());
         v.setApellido(apellidos.getText().toString());
         v.setIdentificacion(identificacion.getText().toString());
         v.setCelular(celular.getText().toString());
-        v.setEstado("Pendiente");
+        if(estado.getText().toString().equals("SIN REGISTRO")){
+            estado.setText("Pendiente");
+        }
+        v.setEstado(estado.getText().toString());
         v.setNombre_establecimiento(nombre_establecimiento.getText().toString());
         v.setNit(nit.getText().toString());
         v.setActividad_economica(sp_actividad_econimica.getSelectedItem().toString());
+        v.setUrl_logo(urlFoto);
 
         //guarda los datos del vendedor
         myRefVendedores.child(currentUser.getUid()).setValue(v)
@@ -423,7 +465,7 @@ public class seller2 extends AppCompatActivity {
         }
     }
     public boolean validarCamposVacios(TextView nombres, TextView apellidos, TextView identificacion, TextView celular,
-                                       EditText nombre_establec, EditText et_nit, Spinner sp_actividades_economicas){
+                                       EditText nombre_establec, EditText et_nit, Spinner sp_actividades_economicas, String urlFoto){
         boolean campoLleno = true;
 
         String nombreV = nombres.getText().toString();
@@ -464,8 +506,11 @@ public class seller2 extends AppCompatActivity {
         if(nit.isEmpty()){
             et_nit.setError("Debe diligenciar un NIT");
             campoLleno=false;
-        }if(actividades_econo.equals("Seleccione actividad económica")){
+        }if(actividades_econo.equals("✚ Seleccione una actividad económica")){
             Toast.makeText(getApplicationContext(), "Seleccione una actividad económica", Toast.LENGTH_SHORT).show();
+            campoLleno=false;
+        }if(urlFoto.equals("")){
+            Toast.makeText(getApplicationContext(), "Por favor cargue el logo de su empresa", Toast.LENGTH_SHORT).show();
             campoLleno=false;
         }
         return campoLleno;

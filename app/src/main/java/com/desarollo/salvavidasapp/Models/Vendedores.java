@@ -12,6 +12,7 @@ public class Vendedores {
     private String nombre_establecimiento;
     private String nit;
     private String actividad_economica;
+    private String url_logo;
 
     public Vendedores(){
 
@@ -79,5 +80,13 @@ public class Vendedores {
 
     public void setActividad_economica(String actividad_economica) {
         this.actividad_economica = actividad_economica;
+    }
+
+    public String getUrl_logo() {
+        return url_logo;
+    }
+
+    public void setUrl_logo(String url_logo) {
+        this.url_logo = url_logo;
     }
 }

@@ -76,7 +76,7 @@ public class addPhoto extends AppCompatActivity {
         mAuth = FirebaseAuth.getInstance();
         currentUser = mAuth.getCurrentUser();
         imgRef = FirebaseDatabase.getInstance().getReference("productos").child(currentUser.getUid()).child(idProducto);
-        storageReference = FirebaseStorage.getInstance().getReference().child("fotos");
+        storageReference = FirebaseStorage.getInstance().getReference().child("vendedores");
         cargando = new ProgressDialog(this);
 
         seleccionarFoto.setOnClickListener(new View.OnClickListener() {
@@ -135,7 +135,7 @@ public class addPhoto extends AppCompatActivity {
                         cargando.setMessage("Cargando...");
                         cargando.show();
 
-                        final StorageReference ref = storageReference.child(currentUser.getUid()).child(idProducto).child(nombreProducto);
+                        final StorageReference ref = storageReference.child(currentUser.getUid()).child("productos").child(idProducto).child(nombreProducto);
                         UploadTask uploadTask = ref.putBytes(thumb_byte);
 
                         //subir imagen en Storage
