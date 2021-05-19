@@ -11,93 +11,226 @@
     app:cardElevation="4dp"
     app:cardUseCompatPadding="true">
 
+
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="245dp">
 
         <TextView
             android:id="@+id/tv_tipo_producto"
-            android:layout_width="377dp"
-            android:layout_height="43dp"
-            android:layout_marginTop="16dp"
-            android:background="#EDEDED"
-            android:fontFamily="@font/poppins_semibold"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentEnd="true"
+            android:layout_marginStart="0dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="0dp"
+            android:background="#F7F8F8"
+            android:fontFamily="@font/poppins_bold"
             android:padding="5dp"
-            android:text="Tipo de producto"
+            android:text="@string/categoriaProducto"
             android:textAlignment="center"
             android:textColor="@color/black"
-            android:textSize="20sp"
-            android:layout_marginStart="10dp"
-            android:layout_marginEnd="10dp"/>
+            android:textSize="18sp"
+            android:textStyle="bold" />
 
         <ImageView
             android:id="@+id/img_imagen_producto"
-            android:layout_width="186dp"
-            android:layout_height="147dp"
-            android:padding="5dp"
-            android:scaleType="fitCenter"
+            android:layout_width="210dp"
+            android:layout_height="160dp"
             android:layout_below="@id/tv_tipo_producto"
-            android:layout_marginStart="10dp" />
+            android:contentDescription="@string/descripcionImagen"
+            android:padding="3dp"
+            android:scaleType="fitCenter"/>
 
         <TextView
             android:id="@+id/tv_nombre_producto"
             android:layout_width="190dp"
             android:layout_height="30dp"
+            android:layout_below="@id/tv_tipo_producto"
+            android:layout_marginStart="5dp"
             android:layout_marginTop="5dp"
+            android:layout_toEndOf="@id/img_imagen_producto"
             android:fontFamily="@font/poppins_bold"
             android:padding="5dp"
-            android:text="Nombre del producto"
+            android:text="@string/nombreProducto2"
             android:textColor="@color/black"
             android:textSize="16sp"
-            android:textStyle="bold"
-            android:layout_toEndOf="@id/img_imagen_producto"
-            android:layout_below="@id/tv_tipo_producto"
-            android:layout_marginStart="10dp" />
+            android:textStyle="bold" />
 
         <TextView
             android:id="@+id/tv_descripcion_producto"
             android:layout_width="190dp"
             android:layout_height="30dp"
+            android:layout_below="@id/tv_nombre_producto"
+            android:layout_marginStart="5dp"
+            android:layout_toEndOf="@id/img_imagen_producto"
             android:fontFamily="@font/poppins_light"
             android:padding="5dp"
-            android:text="Descripcion"
-            android:textSize="14sp"
+            android:text="@string/descripcionProducto2"
+            android:textSize="14sp" />
+
+        <TextView
+            android:id="@+id/tv_precio_producto1"
+            android:layout_width="90dp"
+            android:layout_height="30dp"
+            android:layout_below="@id/tv_descripcion_producto"
+            android:layout_marginStart="5dp"
             android:layout_toEndOf="@id/img_imagen_producto"
-            android:layout_below="@id/tv_nombre_producto"
-            android:layout_marginStart="10dp" />
+            android:fontFamily="@font/poppins_light"
+            android:padding="5dp"
+            android:text="@string/precioProducto"
+            android:textSize="14sp" />
+
+        <TextView
+            android:id="@+id/tv_signo_moneda"
+            android:layout_width="20dp"
+            android:layout_height="30dp"
+            android:layout_below="@id/tv_descripcion_producto"
+            android:layout_toEndOf="@id/tv_descuento_producto1"
+            android:fontFamily="@font/poppins_bold"
+            android:padding="5dp"
+            android:text="@string/signoMoneda"
+            android:textSize="14sp" />
+
         <TextView
             android:id="@+id/tv_precio_producto"
-            android:layout_width="190dp"
+            android:layout_width="70dp"
             android:layout_height="30dp"
+            android:layout_below="@id/tv_descripcion_producto"
+            android:layout_toEndOf="@id/tv_signo_moneda"
             android:fontFamily="@font/poppins_light"
             android:padding="5dp"
-            android:text="Precio"
+            android:text=""
             android:textSize="14sp"
+            android:textAlignment="textEnd" />
+
+        <TextView
+            android:id="@+id/tv_descuento_producto1"
+            android:layout_width="90dp"
+            android:layout_height="30dp"
+            android:layout_below="@id/tv_precio_producto"
+            android:layout_marginStart="5dp"
             android:layout_toEndOf="@id/img_imagen_producto"
-            android:layout_below="@id/tv_descripcion_producto"
-            android:layout_marginStart="10dp" />
+            android:fontFamily="@font/poppins_light"
+            android:padding="5dp"
+            android:text="@string/descuentoProducto"
+            android:textSize="14sp" />
+
+        <TextView
+            android:id="@+id/tv_signo_moneda2"
+            android:layout_width="20dp"
+            android:layout_height="30dp"
+            android:layout_below="@id/tv_signo_moneda"
+            android:layout_toEndOf="@id/tv_descuento_producto1"
+            android:fontFamily="@font/poppins_bold"
+            android:padding="5dp"
+            android:text="@string/signoMoneda"
+            android:textSize="14sp" />
+
+        <TextView
+            android:id="@+id/tv_descuento_producto"
+            android:layout_width="70dp"
+            android:layout_height="30dp"
+            android:layout_below="@id/tv_precio_producto"
+            android:layout_toEndOf="@id/tv_signo_moneda2"
+            android:fontFamily="@font/poppins_light"
+            android:padding="5dp"
+            android:text=""
+            android:textAlignment="textEnd"
+            android:textSize="14sp" />
+
+        <TextView
+            android:id="@+id/tv_porc_descuento"
+            android:layout_width="35dp"
+            android:layout_height="25dp"
+            android:layout_below="@id/tv_tipo_producto"
+            android:background="@color/red"
+            android:fontFamily="@font/poppins_bold"
+            android:padding="5dp"
+            android:layout_marginTop="3dp"
+            android:textAlignment="textEnd"
+            android:textColor="@color/white"
+            android:textSize="12sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/tv_signo_porc"
+            android:layout_width="50dp"
+            android:layout_height="25dp"
+            android:layout_below="@id/tv_tipo_producto"
+            android:layout_marginTop="3dp"
+            android:layout_toEndOf="@id/tv_porc_descuento"
+            android:background="@color/red"
+            android:fontFamily="@font/poppins_bold"
+            android:padding="5dp"
+            android:text="@string/porcDescuentoProducto"
+            android:textAlignment="textStart"
+            android:textColor="@color/white"
+            android:textSize="12sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/tv_total_producto1"
+            android:layout_width="90dp"
+            android:layout_height="30dp"
+            android:layout_below="@id/tv_descuento_producto"
+            android:layout_marginStart="5dp"
+            android:layout_toEndOf="@id/img_imagen_producto"
+            android:fontFamily="@font/poppins_bold"
+            android:padding="5dp"
+            android:text="@string/totalProducto"
+            android:textSize="14sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/tv_signo_moneda3"
+            android:layout_width="20dp"
+            android:layout_height="30dp"
+            android:layout_below="@id/tv_signo_moneda2"
+            android:layout_toEndOf="@id/tv_total_producto1"
+            android:fontFamily="@font/poppins_bold"
+            android:padding="5dp"
+            android:text="@string/signoMoneda"
+            android:textSize="14sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/tv_total_producto"
+            android:layout_width="70dp"
+            android:layout_height="30dp"
+            android:layout_below="@id/tv_descuento_producto"
+            android:layout_toEndOf="@id/tv_signo_moneda3"
+            android:fontFamily="@font/poppins_bold"
+            android:padding="5dp"
+            android:text=""
+            android:textSize="14sp"
+            android:textStyle="bold"
+            android:textAlignment="textEnd"/>
+
         <TextView
             android:id="@+id/tv_fecha_inicio_producto"
-            android:layout_width="80dp"
+            android:layout_width="90dp"
             android:layout_height="30dp"
+            android:layout_below="@id/tv_total_producto"
+            android:layout_marginStart="5dp"
+            android:layout_toEndOf="@id/img_imagen_producto"
             android:fontFamily="@font/poppins_light"
             android:padding="5dp"
-            android:text="Inicio"
-            android:textSize="14sp"
-            android:layout_toEndOf="@id/img_imagen_producto"
-            android:layout_below="@id/tv_precio_producto"
-            android:layout_marginStart="10dp"/>
+            android:text="@string/inicio"
+            android:textSize="14sp" />
+
         <TextView
             android:id="@+id/tv_fecha_fin_producto"
-            android:layout_width="80dp"
+            android:layout_width="90dp"
             android:layout_height="30dp"
+            android:layout_below="@id/tv_total_producto"
+            android:layout_toEndOf="@id/tv_fecha_inicio_producto"
             android:fontFamily="@font/poppins_light"
             android:padding="5dp"
-            android:text="Fin"
-            android:textSize="14sp"
-            android:layout_toEndOf="@id/tv_fecha_inicio_producto"
-            android:layout_below="@id/tv_precio_producto" />
-
+            android:text="@string/fin"
+            android:textSize="14sp" />
 
     </RelativeLayout>
 

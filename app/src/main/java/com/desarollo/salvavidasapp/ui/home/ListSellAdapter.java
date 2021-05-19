@@ -2,6 +2,7 @@ package com.desarollo.salvavidasapp.ui.home;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,6 +16,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.desarollo.salvavidasapp.Models.Productos;
 import com.desarollo.salvavidasapp.R;
+import com.desarollo.salvavidasapp.ui.sales.lookAtProduct;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
@@ -80,6 +82,31 @@ public class ListSellAdapter extends RecyclerView.Adapter<ListSellAdapter.viewHo
                 .into(holder.imagenProducto);
 
 
+        holder.imagenProducto.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                //Intent intent = new Intent(activity , addProduct.class);
+                Intent intent = new Intent(activity , lookAtProduct.class);
+                intent.putExtra("nombreProducto", listaDeDatos.get(position).getNombreProducto());
+                intent.putExtra("idProducto" , listaDeDatos.get(position).getIdProducto());
+                intent.putExtra("tipoProducto" , listaDeDatos.get(position).getCategoriaProducto());
+                intent.putExtra("domicilioProducto" , listaDeDatos.get(position).getDomicilio());
+                intent.putExtra("descripcionProducto" , listaDeDatos.get(position).getDescripcionProducto());
+                intent.putExtra("precio" , String.valueOf(listaDeDatos.get(position).getPrecio()));
+                intent.putExtra("descuento" , String.valueOf(listaDeDatos.get(position).getDescuento()));
+                intent.putExtra("fechaInicio", listaDeDatos.get(position).getFechaInicio());
+                intent.putExtra("horaInicio", listaDeDatos.get(position).getHoraInicio());
+                intent.putExtra("fechaFin", listaDeDatos.get(position).getFechaFin());
+                intent.putExtra("horaFin", listaDeDatos.get(position).getHoraFin());
+                intent.putExtra("getUrlFoto" , listaDeDatos.get(position).getfoto());
+                intent.putExtra("tipyEntry" , "Consultar");
+
+                activity.startActivity(intent);
+            }
+        });
+
+
     }
 
 
@@ -117,9 +144,8 @@ public class ListSellAdapter extends RecyclerView.Adapter<ListSellAdapter.viewHo
             precio = itemView.findViewById(R.id.tv_precio_producto);
             fechaInicio = itemView.findViewById(R.id.tv_fecha_inicio_producto);
             fechaFin = itemView.findViewById(R.id.tv_fecha_fin_producto);
-            imgVer = itemView.findViewById(R.id.img_ver_mas_producto);
-            imgEditar = itemView.findViewById(R.id.img_editar_producto);
-            imgCancelar = itemView.findViewById(R.id.img_cancelar_producto);
+
+
         }
 
 
