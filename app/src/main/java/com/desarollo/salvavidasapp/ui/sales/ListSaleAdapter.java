@@ -207,6 +207,7 @@ public class ListSaleAdapter extends RecyclerView.Adapter<ListSaleAdapter.viewHo
                 descuento, total, porcentajeDescuento;
         ImageView imagenProducto, imgVer, imgEditar, imgCancelar;
 
+
         public viewHolder(@NonNull View itemView) {
             super(itemView);
             tipo_producto = itemView.findViewById(R.id.tv_tipo_producto);

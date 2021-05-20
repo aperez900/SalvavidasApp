@@ -15,6 +15,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.desarollo.salvavidasapp.Models.ListDirecciones;
 import com.desarollo.salvavidasapp.Models.Productos;
+import com.desarollo.salvavidasapp.Models.TipoComidas;
 import com.desarollo.salvavidasapp.R;
 import com.desarollo.salvavidasapp.ui.direction.ListAddressAdapter;
 import com.desarollo.salvavidasapp.ui.sales.addProduct;
@@ -35,13 +36,17 @@ public class HomeFragment extends Fragment {
 
     private HomeViewModel homeViewModel;
     ArrayList<Productos> listaDeDatos = new ArrayList<>();
-    RecyclerView listado;
+    ArrayList<TipoComidas> listaDeDatosTipo = new ArrayList<>();
+    RecyclerView listado_comidas,listado_tipo_comidas;
     ListSellAdapter listSellAdapter;
+    ListTypeFood listTypeFood;
+
     FirebaseAuth mAuth;
     FirebaseUser currentUser;
     FirebaseDatabase database;
+    DatabaseReference myRefTypeFood;
     DatabaseReference myRef;
-    ImageView comida_preparada,comida_cruda;
+
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -50,39 +55,59 @@ public class HomeFragment extends Fragment {
         mAuth = FirebaseAuth.getInstance();
         currentUser = mAuth.getCurrentUser();
         database = FirebaseDatabase.getInstance();
+        myRefTypeFood = database.getReference("tipo_comidas");
         myRef = database.getReference("productos");
 
-        listado = view.findViewById(R.id.listado);
+
+        listado_comidas = view.findViewById(R.id.listado);
+        listado_tipo_comidas = view.findViewById(R.id.tipo_comidas);
+
+        listado_tipo_comidas.setLayoutManager(new LinearLayoutManager(getContext(),LinearLayoutManager.HORIZONTAL,false));
+        listTypeFood = new ListTypeFood(getContext(),listaDeDatosTipo,getActivity());
+        listado_tipo_comidas.setAdapter(listTypeFood);
+
         LinearLayoutManager manager = new LinearLayoutManager(getContext());
-        listado.setLayoutManager(manager);
+        listado_comidas.setLayoutManager(manager);
         //listado.setHasFixedSize(true);
         listSellAdapter = new ListSellAdapter(getContext(),listaDeDatos, getActivity());
 
-        listado.setAdapter(listSellAdapter);
+        listado_comidas.setAdapter(listSellAdapter);
 
+        crearListadoTipo();
         crearListado();
 
-        comida_preparada = view.findViewById(R.id.comida_preparada);
-        comida_cruda = view.findViewById(R.id.comida_cruda);
-
-        comida_preparada.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(getContext(), products_by_type.class);
-                startActivity(intent);
-            }
-        });
-
-        comida_cruda.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(getContext(), products_by_type.class);
-                startActivity(intent);
-            }
-        });
 
 
         return view;
+    }
+
+
+    private void crearListadoTipo() {
+        myRefTypeFood.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if(snapshot.exists()){
+                    listaDeDatosTipo.clear();
+                    for(DataSnapshot objsnapshot : snapshot.getChildren()){ //Recorre los usuarios
+                            TipoComidas t = objsnapshot.getValue(TipoComidas.class);
+
+                            listaDeDatosTipo.add(new TipoComidas(t.getTipoComida(),t.getFoto()));
+                           // Toast.makeText(getApplicationContext(), t.getTipoComida(), Toast.LENGTH_SHORT).show();
+                        }
+
+                    listTypeFood = new ListTypeFood(getContext(),listaDeDatosTipo, getActivity());
+                    listado_tipo_comidas.setAdapter(listTypeFood);
+                }else{
+
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                Toast.makeText(getApplicationContext(), "Error cargando los productos", Toast.LENGTH_SHORT).show();
+            }
+        });
+
     }
 
     private void crearListado() {
@@ -103,7 +128,7 @@ public class HomeFragment extends Fragment {
                         }
                     }
                     listSellAdapter = new ListSellAdapter(getContext(),listaDeDatos, getActivity());
-                    listado.setAdapter(listSellAdapter);
+                    listado_comidas.setAdapter(listSellAdapter);
                 }else{
 
                 }

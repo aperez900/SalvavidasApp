@@ -17,59 +17,15 @@
         android:textSize="20sp"
         android:textStyle="bold" />
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/tipo_comidas"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-        <ImageView
-            android:id="@+id/comida_preparada"
-            android:layout_width="144dp"
-            android:layout_height="124dp"
-            android:layout_marginStart="32dp"
-            app:layout_constraintEnd_toStartOf="@+id/comida_cruda"
-            app:layout_constraintHorizontal_bias="0.294"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/com_prep" />
-
-        <TextView
-            android:layout_width="180dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="32dp"
-            android:fontFamily="@font/poppins_light"
-            android:gravity="center"
-            android:text="comida preparada"
-            android:textAlignment="center"
-            android:textSize="18sp"
-            android:textStyle="bold"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/comida_preparada" />
-
-        <ImageView
-            android:id="@+id/comida_cruda"
-            android:layout_width="144dp"
-            android:layout_height="124dp"
-            android:layout_marginEnd="40dp"
-            android:background="#FF0000"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/comida_preparada"
-            app:srcCompat="@drawable/com_crud" />
-
-        <TextView
-            android:layout_width="180dp"
-            android:layout_height="wrap_content"
-            android:fontFamily="@font/poppins_light"
-            android:gravity="center"
-            android:text="comida cruda"
-            android:textAlignment="center"
-            android:textSize="18sp"
-            android:textStyle="bold"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.917"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/comida_cruda" />
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
+        android:layout_height="150dp"
+        android:layout_marginTop="12dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
 
 
