@@ -24,7 +24,6 @@
             android:layout_alignParentTop="true"
             android:layout_alignParentEnd="true"
             android:layout_marginStart="0dp"
-            android:layout_marginTop="10dp"
             android:layout_marginEnd="0dp"
             android:background="#F7F8F8"
             android:fontFamily="@font/poppins_bold"

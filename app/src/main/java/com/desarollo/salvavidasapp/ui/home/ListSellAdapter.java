@@ -22,7 +22,10 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
 import java.util.ArrayList;
+import java.util.Locale;
 
 import static com.facebook.FacebookSdk.getApplicationContext;
 
@@ -67,15 +70,23 @@ public class ListSellAdapter extends RecyclerView.Adapter<ListSellAdapter.viewHo
         String descripcion_producto = listaDeDatos.get(position).getDescripcionProducto();
         Double precio = listaDeDatos.get(position).getPrecio();
         Double descuento = listaDeDatos.get(position).getDescuento();
+        long porcDescuento = Math.round(descuento/precio*100);
         String fechaInicio = listaDeDatos.get(position).getFechaInicio();
         String fechaFin = listaDeDatos.get(position).getFechaFin();
         String getUrlFoto = listaDeDatos.get(position).getfoto();
-        holder.tipo_producto.setText(tipo_producto);
+        DecimalFormat df = new DecimalFormat("#,00");
+        double aleatorio = Math.random()*5;
+        String Distancia = df.format(aleatorio);
         holder.nombre_producto.setText(nombre_producto);
-        holder.descripcion_producto.setText(descripcion_producto);
-        holder.precio.setText(String.valueOf(precio-descuento));
+        String patron = "###. ###, ##";
+        DecimalFormat objDF = new DecimalFormat (patron);
+        holder.precio.setText(objDF.format(precio-descuento));
+        //holder.precio.setText(String.valueOf(precio-descuento));
+        holder.porcentajeDescuento.setText(String.valueOf(-porcDescuento));
         holder.fechaInicio.setText(fechaInicio);
         holder.fechaFin.setText(fechaFin);
+        holder.nombre_empresa.setText("Nombre empresa");
+        holder.distancia.setText(Distancia + " KM");
 
         Glide.with(activity)
                 .load(getUrlFoto)
@@ -132,22 +143,23 @@ public class ListSellAdapter extends RecyclerView.Adapter<ListSellAdapter.viewHo
     }
 
     public class viewHolder extends RecyclerView.ViewHolder {
-        TextView tipo_producto, nombre_producto, descripcion_producto, precio, fechaInicio, fechaFin;
+        TextView tipo_producto, nombre_producto, descripcion_producto, precio, fechaInicio, fechaFin,
+                porcentajeDescuento, nombre_empresa, distancia;
         ImageView imagenProducto, imgVer, imgEditar, imgCancelar;
 
         public viewHolder(@NonNull View itemView) {
             super(itemView);
-            tipo_producto = itemView.findViewById(R.id.tv_tipo_producto);
+
             nombre_producto = itemView.findViewById(R.id.tv_nombre_producto);
-            descripcion_producto = itemView.findViewById(R.id.tv_descripcion_producto);
+
             imagenProducto = itemView.findViewById(R.id.img_imagen_producto);
-            precio = itemView.findViewById(R.id.tv_precio_producto);
+            precio = itemView.findViewById(R.id.tv_total_producto);
             fechaInicio = itemView.findViewById(R.id.tv_fecha_inicio_producto);
             fechaFin = itemView.findViewById(R.id.tv_fecha_fin_producto);
-
-
+            porcentajeDescuento = itemView.findViewById(R.id.tv_porc_descuento);
+            nombre_empresa = itemView.findViewById(R.id.tv_nombre_empresa);
+            distancia = itemView.findViewById(R.id.tv_distancia);
         }
-
 
     }
 

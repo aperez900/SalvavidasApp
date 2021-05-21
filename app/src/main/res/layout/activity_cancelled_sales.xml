@@ -4,7 +4,28 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.sales.cancelledSales">
+    tools:context=".ui.sales.cancelledSales"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/tv_titulo_cancelados"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:fontFamily="@font/poppins_bold"
+        android:textStyle="bold"
+        android:textSize="16sp"
+        android:text="@string/noProductosCancelados"
+        android:textAlignment="center"/>
+
+    <TextView
+        android:id="@+id/tv_subtitulo_cancelados"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/poppins_semibold"
+        android:textSize="14sp"
+        android:text="@string/descripcionNoCancelados"
+        android:textAlignment="center"/>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/listadoCancelados"

@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.desarollo.salvavidasapp.Models.Productos;
@@ -35,11 +36,15 @@ public class cancelledSales extends AppCompatActivity {
     FirebaseUser currentUser;
     FirebaseDatabase database;
     DatabaseReference myRef;
+    TextView titulo_cancelados, subtitulo_cancelados;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_cancelled_sales);
+
+        titulo_cancelados = findViewById(R.id.tv_titulo_cancelados);
+        subtitulo_cancelados = findViewById(R.id.tv_subtitulo_cancelados);
 
         mAuth = FirebaseAuth.getInstance();
         currentUser = mAuth.getCurrentUser();
@@ -80,8 +85,9 @@ public class cancelledSales extends AppCompatActivity {
                                     e.printStackTrace();
                                 }
                                 if (estado.equals("Cancelado")){
-
                                     // Toast.makeText(getContext(), p.getFechaInicio(), Toast.LENGTH_SHORT).show();
+                                    titulo_cancelados.setText("Productos cancelados");
+                                    subtitulo_cancelados.setText("Los siguientes productos ya no estan disponibles para la venta");
                                     listaDeDatos.add(new Productos(p.getIdProducto(), p.getNombreProducto(), p.getDescripcionProducto(),
                                             p.getCategoriaProducto(), Math.round(p.getPrecio()), Math.round(p.getDescuento()), p.getDomicilio(), p.getEstadoProducto(),
                                             p.getfoto(), p.getFechaInicio(), p.getHoraInicio(), p.getFechaFin(), p.getHoraFin()));
@@ -89,6 +95,7 @@ public class cancelledSales extends AppCompatActivity {
                             }
                             listSellAdapter = new ListSellAdapter(cancelledSales.this,listaDeDatos, cancelledSales.this);
                             listado.setAdapter(listSellAdapter);
+                            /*
                             //Acciones al dar clic en un item de la lista
                             listSellAdapter.setOnClickListener(view -> {
                                 String idProducto = listaDeDatos.get(listado.getChildAdapterPosition(view)).getIdProducto();
@@ -117,6 +124,7 @@ public class cancelledSales extends AppCompatActivity {
                                 intent.putExtra("horaFin", horaFin);
                                 startActivity(intent);
                             });
+                             */
                         }else{
                             //Valores por defecto
                             listaDeDatos.add(new Productos("", "Nombre producto", "Descipción producto",

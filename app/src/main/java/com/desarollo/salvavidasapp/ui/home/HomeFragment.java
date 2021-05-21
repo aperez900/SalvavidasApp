@@ -117,14 +117,18 @@ public class HomeFragment extends Fragment {
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 if(snapshot.exists()){
                     listaDeDatos.clear();
+                    String estado="";
                     for(DataSnapshot objsnapshot : snapshot.getChildren()){ //Recorre los usuarios
                         for(DataSnapshot objsnapshot2 : objsnapshot.getChildren()){ //recorre los productos
                             Productos p = objsnapshot2.getValue(Productos.class);
+                            estado = p.getEstadoProducto();
 
-                            listaDeDatos.add(new Productos(p.getIdProducto(), p.getNombreProducto(), p.getDescripcionProducto(),
-                                    p.getCategoriaProducto(), p.getPrecio(), p.getDescuento(), p.getDomicilio(), p.getEstadoProducto(),
-                                    p.getfoto(), p.getFechaInicio(), p.getHoraInicio(), p.getFechaFin(), p.getHoraFin()));
-                            //Toast.makeText(getApplicationContext(), p.getfoto(), Toast.LENGTH_SHORT).show();
+                            if (!estado.equals("Cancelado")) {
+                                listaDeDatos.add(new Productos(p.getIdProducto(), p.getNombreProducto(), p.getDescripcionProducto(),
+                                        p.getCategoriaProducto(), p.getPrecio(), p.getDescuento(), p.getDomicilio(), p.getEstadoProducto(),
+                                        p.getfoto(), p.getFechaInicio(), p.getHoraInicio(), p.getFechaFin(), p.getHoraFin()));
+                                //Toast.makeText(getApplicationContext(), p.getfoto(), Toast.LENGTH_SHORT).show();
+                            }
                         }
                     }
                     listSellAdapter = new ListSellAdapter(getContext(),listaDeDatos, getActivity());

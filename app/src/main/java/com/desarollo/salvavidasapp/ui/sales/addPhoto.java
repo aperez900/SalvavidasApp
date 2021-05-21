@@ -98,8 +98,8 @@ public class addPhoto extends AppCompatActivity {
             //recortar imagen
             CropImage.activity(imageUri)
                 .setGuidelines(CropImageView.Guidelines.ON)
-                .setRequestedSize(1000, 1000)
-                .setAspectRatio(1,1)
+                .setRequestedSize(6000, 4000)
+                .setAspectRatio(2,1)
                 .start(addPhoto.this);
         }
 
@@ -116,8 +116,8 @@ public class addPhoto extends AppCompatActivity {
                 //comprimiendo imagen
                 try{
                     thumb_bitmap = new Compressor(addPhoto.this)
-                            .setMaxWidth(1000)
-                            .setMaxHeight(1000)
+                            .setMaxWidth(6000)
+                            .setMaxHeight(4000)
                             .setQuality(90)
                             .compressToBitmap(url);
                 }catch (IOException e){

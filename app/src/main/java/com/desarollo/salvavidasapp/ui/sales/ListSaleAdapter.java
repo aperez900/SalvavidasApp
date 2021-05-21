@@ -204,7 +204,7 @@ public class ListSaleAdapter extends RecyclerView.Adapter<ListSaleAdapter.viewHo
 
     public class viewHolder extends RecyclerView.ViewHolder {
         TextView tipo_producto, nombre_producto, descripcion_producto, precio, fechaInicio, fechaFin,
-                descuento, total, porcentajeDescuento;
+                descuento, total, porcentajeDescuento, nombre_empresa;
         ImageView imagenProducto, imgVer, imgEditar, imgCancelar;
 
 

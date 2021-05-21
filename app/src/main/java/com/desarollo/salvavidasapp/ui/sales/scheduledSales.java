@@ -6,6 +6,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Bundle;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.desarollo.salvavidasapp.Models.Productos;
@@ -34,11 +35,15 @@ public class scheduledSales extends AppCompatActivity {
     FirebaseUser currentUser;
     FirebaseDatabase database;
     DatabaseReference myRef;
+    TextView tv1, tv2;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_scheduled_sales);
+
+        tv1 = findViewById(R.id.tv1);
+        tv2 = findViewById(R.id.tv2);
 
         mAuth = FirebaseAuth.getInstance();
         currentUser = mAuth.getCurrentUser();
@@ -83,7 +88,8 @@ public class scheduledSales extends AppCompatActivity {
                                 if (getCurrentDateTime.compareTo(fecha) < 0 &&  !estado.equals("Cancelado")) {
 
                                     //Toast.makeText(scheduledSales.this, getCurrentDateTime + " - " + fecha + " - " + getCurrentDateTime.compareTo(fecha) , Toast.LENGTH_SHORT).show();
-
+                                    tv1.setText("Productos programados");
+                                    tv2.setText("Los siguientes productos estarán disponibles para la venta una vez se cumpla su fecha y hora de inicio");
                                     listaDeDatos.add(new Productos(p.getIdProducto(), p.getNombreProducto(), p.getDescripcionProducto(),
                                             p.getCategoriaProducto(), p.getPrecio(), p.getDescuento(), p.getDomicilio(), p.getEstadoProducto(),
                                             p.getfoto(), p.getFechaInicio(), p.getHoraInicio(), p.getFechaFin(), p.getHoraFin()));

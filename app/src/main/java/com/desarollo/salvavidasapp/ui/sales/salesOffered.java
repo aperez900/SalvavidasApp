@@ -6,6 +6,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Bundle;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.desarollo.salvavidasapp.Models.Productos;
@@ -36,11 +37,15 @@ salesOffered extends AppCompatActivity {
     FirebaseUser currentUser;
     FirebaseDatabase database;
     DatabaseReference myRef;
+    TextView titulo_ofertados, subtitulo_ofertados;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sales_offered);
+
+        titulo_ofertados = findViewById(R.id.tv_titulo_ofertados);
+        subtitulo_ofertados = findViewById(R.id.tv_subtitulo_ofertados);
 
         mAuth = FirebaseAuth.getInstance();
         currentUser = mAuth.getCurrentUser();
@@ -93,11 +98,12 @@ salesOffered extends AppCompatActivity {
                         if (getCurrentDateTime.compareTo(fechaInicio) > 0 && getCurrentDateTime.compareTo(fechaFin) < 0 && !estado.equals("Cancelado")){
 
                            // Toast.makeText(salesOffered.this, getCurrentDateTime + " - " + fecha + " - " + getCurrentDateTime.compareTo(fecha) , Toast.LENGTH_SHORT).show();
+                            titulo_ofertados.setText("Productos ofertados");
+                            subtitulo_ofertados.setText("Los siguientes productos estan disponibles para la venta hasta que se cumpla su fecha y hora de fin");
                             listaDeDatos.add(new Productos(p.getIdProducto(), p.getNombreProducto(), p.getDescripcionProducto(),
                                     p.getCategoriaProducto(), p.getPrecio(), p.getDescuento(), p.getDomicilio(), p.getEstadoProducto(),
                                     p.getfoto(), p.getFechaInicio(), p.getHoraInicio(), p.getFechaFin(), p.getHoraFin()));
                         }
-
                     }
                     listSaleAdapter = new ListSaleAdapter(salesOffered.this, listaDeDatos, salesOffered.this);
                     listado.setAdapter(listSaleAdapter);
