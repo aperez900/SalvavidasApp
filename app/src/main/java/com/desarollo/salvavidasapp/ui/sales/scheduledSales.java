@@ -53,7 +53,7 @@ public class scheduledSales extends AppCompatActivity {
         listado = findViewById(R.id.listadoProgramados);
         LinearLayoutManager manager = new LinearLayoutManager(this);
         listado.setLayoutManager(manager);
-        listado.setHasFixedSize(true);
+//        listado.setHasFixedSize(true);
         listSaleAdapter = new ListSaleAdapter(this,listaDeDatos, this);
         listado.setAdapter(listSaleAdapter);
 

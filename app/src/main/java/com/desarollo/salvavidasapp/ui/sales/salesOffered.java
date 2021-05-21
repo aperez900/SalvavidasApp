@@ -60,7 +60,7 @@ salesOffered extends AppCompatActivity {
         listado = findViewById(R.id.listadoOfertados);
         LinearLayoutManager manager = new LinearLayoutManager(this);
         listado.setLayoutManager(manager);
-        listado.setHasFixedSize(true);
+//        listado.setHasFixedSize(true);
         listSaleAdapter = new ListSaleAdapter(this, listaDeDatos,this);
         listado.setAdapter(listSaleAdapter);
 

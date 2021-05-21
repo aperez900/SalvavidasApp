@@ -78,10 +78,10 @@ public class ListSellAdapter extends RecyclerView.Adapter<ListSellAdapter.viewHo
         double aleatorio = Math.random()*5;
         String Distancia = df.format(aleatorio);
         holder.nombre_producto.setText(nombre_producto);
-        String patron = "###. ###, ##";
-        DecimalFormat objDF = new DecimalFormat (patron);
-        holder.precio.setText(objDF.format(precio-descuento));
-        //holder.precio.setText(String.valueOf(precio-descuento));
+        //String patron = "###.###,##";
+        //DecimalFormat objDF = new DecimalFormat (patron);
+        //holder.precio.setText(objDF.format(precio-descuento));
+        holder.precio.setText(String.valueOf(precio-descuento));
         holder.porcentajeDescuento.setText(String.valueOf(-porcDescuento));
         holder.fechaInicio.setText(fechaInicio);
         holder.fechaFin.setText(fechaFin);
