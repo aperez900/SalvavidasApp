@@ -8,11 +8,13 @@
     tools:context=".ui.home.HomeFragment">
 
     <TextView
+        android:id="@+id/tv_saludo_home"
         android:layout_width="match_parent"
-        android:layout_height="70dp"
+        android:layout_height="wrap_content"
         android:fontFamily="@font/poppins_light"
         android:gravity="center"
-        android:text="Hola Juliana ¿Que vas a pedir hoy?"
+        android:layout_marginTop="20dp"
+        android:text="@string/queVasAPedirHoy"
         android:textAlignment="center"
         android:textSize="20sp"
         android:textStyle="bold" />
@@ -21,13 +23,22 @@
         android:id="@+id/tipo_comidas"
         android:layout_width="match_parent"
         android:layout_height="150dp"
-        android:layout_marginTop="12dp"
+        android:layout_marginTop="10dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-
+    <TextView
+        android:id="@+id/tv_recomendaciones"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="5dp"
+        android:fontFamily="@font/poppins_light"
+        android:text="@string/tenemosEstoParaTi"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        android:textColor="@color/red" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/listado"

@@ -85,7 +85,7 @@ public class lookAtProduct extends AppCompatActivity {
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 if(snapshot.exists()){
                     urlFoto = snapshot.child("foto").getValue().toString();
-                    Glide.with(lookAtProduct.this)
+                    Glide.with(getApplicationContext())
                             .load(urlFoto)
                             .into(imgProducto);
                 }

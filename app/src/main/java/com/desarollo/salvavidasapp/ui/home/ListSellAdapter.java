@@ -74,7 +74,7 @@ public class ListSellAdapter extends RecyclerView.Adapter<ListSellAdapter.viewHo
         String fechaInicio = listaDeDatos.get(position).getFechaInicio();
         String fechaFin = listaDeDatos.get(position).getFechaFin();
         String getUrlFoto = listaDeDatos.get(position).getfoto();
-        DecimalFormat df = new DecimalFormat("#,00");
+        DecimalFormat df = new DecimalFormat("#.00");
         double aleatorio = Math.random()*5;
         String Distancia = df.format(aleatorio);
         holder.nombre_producto.setText(nombre_producto);

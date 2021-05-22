@@ -56,6 +56,7 @@ public class addProduct extends AppCompatActivity {
         myRefProductos = database.getReference("productos");
 
         Spinner categoriaProducto = findViewById(R.id.sp_categoria_producto);
+        Spinner subCategoriaProducto = findViewById(R.id.sp_sub_categoria_producto);
         Spinner domicilioProducto = findViewById(R.id.sp_domicilio);
         TextView btnFechaInicio = findViewById(R.id.btn_fecha_inicio);
         TextView tvFechaInicio = findViewById(R.id.tv_fecha_inicio);
@@ -72,6 +73,7 @@ public class addProduct extends AppCompatActivity {
         EditText descuentoProducto = findViewById(R.id.et_descuento);
         String fotoConsulta = "";
         String ScategoriaProductos="";
+        String SsubCategoriaProductos="";
         String SdomicilioProducto="";
         String type="";
 
@@ -86,13 +88,14 @@ public class addProduct extends AppCompatActivity {
             precioProducto.setText(extras.getString("precio"));
             descuentoProducto.setText(extras.getString("descuento"));
             ScategoriaProductos = extras.getString("tipoProducto");
+            SsubCategoriaProductos = extras.getString("subTipoProducto");
             SdomicilioProducto = extras.getString("domicilioProducto");
             tvFechaInicio.setText(extras.getString("fechaInicio"));
             tvFechaFin.setText(extras.getString("fechaFin"));
             tvHoraInicio.setText(extras.getString("horaInicio"));
             tvHoraFin.setText(extras.getString("horaFin"));
             type = extras.getString("tipyEntry");
-            fotoConsulta = extras.getString("getUrlFoto");
+            fotoConsulta = extras.getString("urlFoto");
 
             if(type.equals("Editar")){
                 btnRegistrarProducto.setText("Editar Producto");
@@ -106,20 +109,30 @@ public class addProduct extends AppCompatActivity {
         }
 
         if(type.equals("Editar") || type.equals("Consultar")){
-            String[] ArrayCategorias = new String[]{ScategoriaProductos,"✚ Selecciona una categoría", "Comida preparada","Comida cruda"};
+            String[] ArrayCategorias = new String[]{ScategoriaProductos,"✚ Seleccione una categoría", "Comida preparada","Comida cruda"};
             ArrayList<String> listCategoriaProductos = new ArrayList(Arrays.asList(ArrayCategorias));
             ArrayAdapter<String> adapterCategoriaProductos = new ArrayAdapter<String>(this, R.layout.spinner_item_modified, listCategoriaProductos);
             categoriaProducto.setAdapter(adapterCategoriaProductos);
+
+            String[] ArraySubCategorias = new String[]{SsubCategoriaProductos, "✚ Seleccione una sub categoría", "Verduras", "Frutas", "Hamburguesas"};
+            ArrayList<String> listSubCategoriaProductos = new ArrayList(Arrays.asList(ArraySubCategorias));
+            ArrayAdapter<String> adapterSubCategoriaProductos = new ArrayAdapter<String>(this, R.layout.spinner_item_modified, listSubCategoriaProductos);
+            subCategoriaProducto.setAdapter(adapterSubCategoriaProductos);
 
             String[] ArrayDomicilio = new String[]{SdomicilioProducto, "✚ ¿Deseas ofrecer domicilio?", "Sí","No"};
             ArrayList<String> listDomicilioProductos = new ArrayList(Arrays.asList(ArrayDomicilio));
             ArrayAdapter<String> adapterDomicilioProductos = new ArrayAdapter<String>(this, R.layout.spinner_item_modified, listDomicilioProductos);
             domicilioProducto.setAdapter(adapterDomicilioProductos);
         }else {
-            String[] ArrayCategorias = new String[]{"✚ Selecciona una categoría", "Comida preparada", "Comida cruda"};
+            String[] ArrayCategorias = new String[]{"✚ Seleccione una categoría", "Comida preparada", "Comida cruda"};
             ArrayList<String> listCategoriaProductos = new ArrayList(Arrays.asList(ArrayCategorias));
             ArrayAdapter<String> adapterCategoriaProductos = new ArrayAdapter<String>(this, R.layout.spinner_item_modified, listCategoriaProductos);
             categoriaProducto.setAdapter(adapterCategoriaProductos);
+
+            String[] ArraySubCategorias = new String[]{"✚ Seleccione una sub categoría", "Verduras", "Frutas", "Hamburguesas"};
+            ArrayList<String> listSubCategoriaProductos = new ArrayList(Arrays.asList(ArraySubCategorias));
+            ArrayAdapter<String> adapterSubCategoriaProductos = new ArrayAdapter<String>(this, R.layout.spinner_item_modified, listSubCategoriaProductos);
+            subCategoriaProducto.setAdapter(adapterSubCategoriaProductos);
 
             String[] ArrayDomicilio = new String[]{"✚ ¿Deseas ofrecer domicilio?", "Sí", "No"};
             ArrayList<String> listDomicilioProductos = new ArrayList(Arrays.asList(ArrayDomicilio));
@@ -173,9 +186,9 @@ public class addProduct extends AppCompatActivity {
         btnRegistrarProducto.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(validarCamposVacios(nombreProducto, descripcionProducto, categoriaProducto, precioProducto, descuentoProducto,
+                if(validarCamposVacios(nombreProducto, descripcionProducto, categoriaProducto, subCategoriaProducto, precioProducto, descuentoProducto,
                         domicilioProducto, tvFechaInicio, tvFechaFin, tvHoraInicio, tvHoraFin)) {
-                    registrar(nombreProducto, descripcionProducto, categoriaProducto, precioProducto, descuentoProducto,
+                    registrar(nombreProducto, descripcionProducto, categoriaProducto, subCategoriaProducto, precioProducto, descuentoProducto,
                             domicilioProducto, tvFechaInicio, tvFechaFin, tvHoraInicio, tvHoraFin, finalFotoConsulta,idProductoEdit);
                 }
             }
@@ -208,18 +221,18 @@ public class addProduct extends AppCompatActivity {
             public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
                 Hora.setText((hourOfDay)+ ":" + minute);
             }
-        }, 0, 0,false);
+        }, hora, min,false);
         tpd.show();
     }
 
-    public void registrar(EditText et_nombre_producto, EditText et_descripcion_producto, Spinner sp_categoria_producto,
+    public void registrar(EditText et_nombre_producto, EditText et_descripcion_producto, Spinner sp_categoria_producto, Spinner sp_sub_categoria_producto,
                           EditText et_precio_producto, EditText et_descuento_producto, Spinner sp_domicilio_producto, TextView tv_fecha_inicio,
                           TextView tv_fecha_fin, TextView tv_hora_inicio, TextView tv_hora_fin,String fotoConsulta, String idProductoEdit){
         try {
-
-            String idProducto,descripcionProducto,nombreProducto,categoriaProducto,estadoProducto, domicilio,   fechaInicio,  horaInicio,  fechaFin,  horaFin;
+            String idProducto,descripcionProducto,nombreProducto,categoriaProducto, subCategoriaProducto, estadoProducto, domicilio,   fechaInicio,
+                    horaInicio,  fechaFin,  horaFin;
             double precio,descuento;
-            String foto = "";
+            String foto = fotoConsulta;
 
             if (idProductoEdit==""){
                 idProducto = UUID.randomUUID().toString();
@@ -232,7 +245,8 @@ public class addProduct extends AppCompatActivity {
             descripcionProducto = et_descripcion_producto.getText().toString();
             nombreProducto= et_nombre_producto.getText().toString();
             estadoProducto = "Programado";
-            categoriaProducto =sp_categoria_producto.getSelectedItem().toString();
+            categoriaProducto = sp_categoria_producto.getSelectedItem().toString();
+            subCategoriaProducto = sp_sub_categoria_producto.getSelectedItem().toString();
             precio = Double.parseDouble(et_precio_producto.getText().toString());
             descuento = Double.parseDouble(et_descuento_producto.getText().toString());
             domicilio = sp_domicilio_producto.getSelectedItem().toString();
@@ -241,16 +255,17 @@ public class addProduct extends AppCompatActivity {
             fechaFin =  tv_fecha_fin.getText().toString();
             horaFin = tv_hora_fin.getText().toString();
 
-            p = new Productos(idProducto  ,  nombreProducto,  descripcionProducto,  categoriaProducto,  precio,  descuento,  domicilio,  estadoProducto,  foto,  fechaInicio,  horaInicio,  fechaFin,  horaFin ){};
+            p = new Productos(idProducto  ,  nombreProducto,  descripcionProducto,  categoriaProducto,  subCategoriaProducto,
+                    precio,  descuento,  domicilio,  estadoProducto,  foto,  fechaInicio,  horaInicio,  fechaFin,  horaFin ){};
 
             //guarda los datos del producto
             myRefProductos.child(currentUser.getUid()).child(p.getIdProducto()).setValue(p)
                     .addOnSuccessListener(new OnSuccessListener<Void>() {
                         @Override
                         public void onSuccess(Void aVoid) {
-                            limpiarCamposProducto(et_nombre_producto, et_descripcion_producto, sp_categoria_producto, et_precio_producto, et_descuento_producto,
+                            /*limpiarCamposProducto(et_nombre_producto, et_descripcion_producto, sp_categoria_producto, et_precio_producto, et_descuento_producto,
                                     sp_domicilio_producto, tv_fecha_inicio, tv_fecha_fin, tv_hora_inicio, tv_hora_fin);
-
+                             */
                             Intent intent = new Intent(addProduct.this, addPhoto.class);
                             intent.putExtra("idProducto", p.getIdProducto());
                             intent.putExtra("nombreProducto", p.getNombreProducto());
@@ -273,6 +288,7 @@ public class addProduct extends AppCompatActivity {
         }
     }
 
+    /*
     public void limpiarCamposProducto(EditText et_nombre_producto, EditText et_descripcion_producto, Spinner sp_categoria_producto,
                                       EditText et_precio_producto, EditText et_descuento_producto, Spinner sp_domicilio_producto, TextView tv_fecha_inicio,
                                       TextView tv_fecha_fin, TextView tv_hora_inicio, TextView tv_hora_fin){
@@ -287,15 +303,18 @@ public class addProduct extends AppCompatActivity {
         tv_hora_inicio.setText("hh/mm");
         tv_hora_fin.setText("hh/mm");
     }
+     */
 
     public boolean validarCamposVacios(EditText et_nombre_producto, EditText et_descripcion_producto, Spinner sp_categoria_producto,
-                                       EditText et_precio_producto, EditText et_descuento_producto, Spinner sp_domicilio_producto, TextView tv_fecha_inicio,
-                                       TextView tv_fecha_fin, TextView tv_hora_inicio, TextView tv_hora_fin){
+                                       Spinner sp_sub_categoria_producto, EditText et_precio_producto, EditText et_descuento_producto,
+                                       Spinner sp_domicilio_producto, TextView tv_fecha_inicio, TextView tv_fecha_fin, TextView tv_hora_inicio,
+                                       TextView tv_hora_fin){
         boolean campoLleno = true;
 
         String nombreProducto = et_nombre_producto.getText().toString();
         String descripcionProducto = et_descripcion_producto.getText().toString();
         String categoriaProducto = sp_categoria_producto.getSelectedItem().toString();
+        String subCategoriaProducto = sp_sub_categoria_producto.getSelectedItem().toString();
         String precioProducto = et_precio_producto.getText().toString();
         String descuentoProducto = et_descuento_producto.getText().toString();
         String domicilioProducto = sp_domicilio_producto.getSelectedItem().toString();
@@ -310,8 +329,11 @@ public class addProduct extends AppCompatActivity {
         }if(descripcionProducto.isEmpty()){
             et_descripcion_producto.setError("Debe diligenciar una descripción para su producto");
             campoLleno=false;
-        }if(categoriaProducto.equals("✚ Selecciona una categoría")){
+        }if(categoriaProducto.equals("✚ Seleccione una categoría")){
             Toast.makeText(this, "Seleccione una categoría", Toast.LENGTH_SHORT).show();
+            campoLleno=false;
+        }if(subCategoriaProducto.equals("✚ Seleccione una sub categoría")){
+            Toast.makeText(this, "Seleccione una sub categoría", Toast.LENGTH_SHORT).show();
             campoLleno=false;
         }if(nombreProducto.isEmpty()){
             et_nombre_producto.setError("Debe diligenciar un nombre para el producto");

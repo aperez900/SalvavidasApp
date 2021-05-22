@@ -101,7 +101,7 @@ salesOffered extends AppCompatActivity {
                             titulo_ofertados.setText("Productos ofertados");
                             subtitulo_ofertados.setText("Los siguientes productos estan disponibles para la venta hasta que se cumpla su fecha y hora de fin");
                             listaDeDatos.add(new Productos(p.getIdProducto(), p.getNombreProducto(), p.getDescripcionProducto(),
-                                    p.getCategoriaProducto(), p.getPrecio(), p.getDescuento(), p.getDomicilio(), p.getEstadoProducto(),
+                                    p.getCategoriaProducto(), p.getSubCategoriaProducto(), p.getPrecio(), p.getDescuento(), p.getDomicilio(), p.getEstadoProducto(),
                                     p.getfoto(), p.getFechaInicio(), p.getHoraInicio(), p.getFechaFin(), p.getHoraFin()));
                         }
                     }

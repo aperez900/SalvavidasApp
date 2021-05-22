@@ -12,11 +12,11 @@ public class Productos {
     private String nombreProducto;
     private String descripcionProducto;
     private String categoriaProducto;
+    private String subCategoriaProducto;
     private double precio;
     private double descuento;
     private String domicilio;
     private String estadoProducto;
-    //pendiente definir tipo de dato correcto
     private String foto;
     private String fechaInicio;
     private String horaInicio;
@@ -27,11 +27,12 @@ public class Productos {
 
     }
 
-    public Productos(String idProducto, String nombreProducto, String descripcionProducto, String categoriaProducto, double precio, double descuento, String domicilio, String estadoProducto, String foto, String fechaInicio, String horaInicio, String fechaFin, String horaFin) {
+    public Productos(String idProducto, String nombreProducto, String descripcionProducto, String categoriaProducto, String subCategoriaProducto, double precio, double descuento, String domicilio, String estadoProducto, String foto, String fechaInicio, String horaInicio, String fechaFin, String horaFin) {
         this.idProducto = idProducto;
         this.nombreProducto = nombreProducto;
         this.descripcionProducto = descripcionProducto;
         this.categoriaProducto = categoriaProducto;
+        this.subCategoriaProducto = subCategoriaProducto;
         this.precio = precio;
         this.descuento = descuento;
         this.domicilio = domicilio;
@@ -73,6 +74,14 @@ public class Productos {
 
     public void setCategoriaProducto(String categoriaProducto) {
         this.categoriaProducto = categoriaProducto;
+    }
+
+    public String getSubCategoriaProducto() {
+        return subCategoriaProducto;
+    }
+
+    public void setSubCategoriaProducto(String subCategoriaProducto) {
+        this.subCategoriaProducto = subCategoriaProducto;
     }
 
     public double getPrecio() {

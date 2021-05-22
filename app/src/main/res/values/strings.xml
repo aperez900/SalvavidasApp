@@ -90,6 +90,8 @@
     <string name="noProductosOfertados">No hay productos ofertados</string>
     <string name="noProductosCancelados">No hay productos cancelados</string>
     <string name="descripcionNoCancelados">vaya al producto y oprima el icono de la "X"</string>
+    <string name="tenemosEstoParaTi">¡Tenemos esto para tí!</string>
+    <string name="queVasAPedirHoy">Hola @nombre@ ¿Que vas a pedir hoy?</string>
 
     <string name="facebook_application_id">1541603559379639</string>
     <string name="facebook_app_id">1541603559379639</string>
