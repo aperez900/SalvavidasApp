@@ -6,7 +6,11 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -15,6 +19,7 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.desarollo.salvavidasapp.Models.ListDirecciones;
 import com.desarollo.salvavidasapp.Models.Productos;
 import com.desarollo.salvavidasapp.Models.TipoComidas;
@@ -22,6 +27,7 @@ import com.desarollo.salvavidasapp.R;
 import com.desarollo.salvavidasapp.ui.direction.ListAddressAdapter;
 import com.desarollo.salvavidasapp.ui.sales.addProduct;
 import com.desarollo.salvavidasapp.ui.sales.sales;
+import com.desarollo.salvavidasapp.ui.seller.seller2;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -33,11 +39,13 @@ import com.google.firebase.database.ValueEventListener;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
+import java.util.Objects;
 
 import static com.facebook.FacebookSdk.getApplicationContext;
 
@@ -54,7 +62,7 @@ public class HomeFragment extends Fragment {
     FirebaseAuth mAuth;
     FirebaseUser currentUser;
     FirebaseDatabase database;
-    DatabaseReference myRefTypeFood,myRef;
+    DatabaseReference myRefTypeFood,myRef,myRefVendedores;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -65,6 +73,7 @@ public class HomeFragment extends Fragment {
         database = FirebaseDatabase.getInstance();
         myRefTypeFood = database.getReference("tipo_comidas");
         myRef = database.getReference("productos");
+        myRefVendedores = database.getReference("vendedores");
         TextView tv_saludo = view.findViewById(R.id.tv_saludo_home);
         cargando = new ProgressDialog(getActivity());
 
@@ -163,7 +172,7 @@ public class HomeFragment extends Fragment {
 
                                 listaDeDatos.add(new Productos(p.getIdProducto(), p.getNombreProducto(), p.getDescripcionProducto(),
                                         p.getCategoriaProducto(), p.getSubCategoriaProducto(), p.getPrecio(), p.getDescuento(), p.getDomicilio(), p.getEstadoProducto(),
-                                        p.getfoto(), p.getFechaInicio(), p.getHoraInicio(), p.getFechaFin(), p.getHoraFin()));
+                                        p.getfoto(), p.getFechaInicio(), p.getHoraInicio(), p.getFechaFin(), p.getHoraFin(),p.getNombreEmpresa()));
                             }
                         }
                     }
@@ -180,6 +189,6 @@ public class HomeFragment extends Fragment {
                 Toast.makeText(getApplicationContext(), "Error cargando los productos", Toast.LENGTH_SHORT).show();
             }
         });
-
     }
+
 }

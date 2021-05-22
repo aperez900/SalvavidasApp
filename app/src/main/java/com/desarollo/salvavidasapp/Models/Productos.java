@@ -22,12 +22,15 @@ public class Productos {
     private String horaInicio;
     private String fechaFin;
     private String horaFin;
+    private String nombreEmpresa;
 
     public Productos(){
 
     }
 
-    public Productos(String idProducto, String nombreProducto, String descripcionProducto, String categoriaProducto, String subCategoriaProducto, double precio, double descuento, String domicilio, String estadoProducto, String foto, String fechaInicio, String horaInicio, String fechaFin, String horaFin) {
+    public Productos(String idProducto, String nombreProducto, String descripcionProducto, String categoriaProducto,
+                     String subCategoriaProducto, double precio, double descuento, String domicilio, String estadoProducto,
+                     String foto, String fechaInicio, String horaInicio, String fechaFin, String horaFin, String nombreEmpresa) {
         this.idProducto = idProducto;
         this.nombreProducto = nombreProducto;
         this.descripcionProducto = descripcionProducto;
@@ -42,6 +45,7 @@ public class Productos {
         this.horaInicio = horaInicio;
         this.fechaFin = fechaFin;
         this.horaFin = horaFin;
+        this.nombreEmpresa = nombreEmpresa;
     }
 
     public String getIdProducto() {
@@ -154,5 +158,13 @@ public class Productos {
 
     public void setfoto(String Foto) {
         this.foto = Foto;
+    }
+
+    public String getNombreEmpresa() {
+        return nombreEmpresa;
+    }
+
+    public void setNombreEmpresa(String nombreEmpresa) {
+        this.nombreEmpresa = nombreEmpresa;
     }
 }

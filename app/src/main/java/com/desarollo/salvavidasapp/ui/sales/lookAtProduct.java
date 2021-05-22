@@ -66,8 +66,8 @@ public class lookAtProduct extends AppCompatActivity {
             totalProducto.setText(String.valueOf(total));
             //ScategoriaProductos = extras.getString("tipoProducto");
             //SdomicilioProducto = extras.getString("domicilioProducto");
-            inicioProducto.setText(extras.getString("fechaInicio"));
-            finProducto.setText(extras.getString("fechaFin"));
+            inicioProducto.setText(extras.getString("fechaInicio") + " " + extras.getString("horaInicio"));
+            finProducto.setText(extras.getString("fechaFin") + " " + extras.getString("horaFin"));
             //tvHoraInicio.setText(extras.getString("horaInicio"));
             //tvHoraFin.setText(extras.getString("horaFin"));
             //type = extras.getString("tipyEntry");

@@ -27,6 +27,7 @@ import java.util.ArrayList;
 public class ListTypeFood  extends RecyclerView.Adapter<ListTypeFood.viewHolder> implements View.OnClickListener{
     ArrayList<TipoComidas> listaDeDatos;
     LayoutInflater inflater;
+
     private View.OnClickListener listener;
     Activity activity;
 
@@ -62,8 +63,6 @@ public class ListTypeFood  extends RecyclerView.Adapter<ListTypeFood.viewHolder>
                 .into(holder.imagenTipoComida);
 
 
-
-
         holder.imagenTipoComida.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -82,9 +81,6 @@ public class ListTypeFood  extends RecyclerView.Adapter<ListTypeFood.viewHolder>
     public void setOnClickListener(View.OnClickListener listener){
         this.listener = listener;
     }
-
-
-
 
 
     @Override

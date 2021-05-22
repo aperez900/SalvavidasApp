@@ -18,14 +18,19 @@ import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.desarollo.salvavidasapp.Models.Productos;
 import com.desarollo.salvavidasapp.R;
+import com.desarollo.salvavidasapp.ui.seller.seller2;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 
 import java.io.IOException;
@@ -33,6 +38,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.List;
+import java.util.Objects;
 import java.util.UUID;
 
 public class addProduct extends AppCompatActivity {
@@ -40,9 +46,10 @@ public class addProduct extends AppCompatActivity {
     FirebaseAuth mAuth;
     FirebaseUser currentUser;
     FirebaseDatabase database;
-    DatabaseReference myRefProductos;
+    DatabaseReference myRefProductos, myRefVendedores;
     Productos p;
     String idProductoEdit ="";
+    String nombreEstablecimiento;
 
     private int dia, mes, anio, hora, minutos;
     @Override
@@ -54,6 +61,7 @@ public class addProduct extends AppCompatActivity {
         currentUser = mAuth.getCurrentUser();
         database = FirebaseDatabase.getInstance();
         myRefProductos = database.getReference("productos");
+        myRefVendedores = database.getReference("vendedores");
 
         Spinner categoriaProducto = findViewById(R.id.sp_categoria_producto);
         Spinner subCategoriaProducto = findViewById(R.id.sp_sub_categoria_producto);
@@ -107,6 +115,8 @@ public class addProduct extends AppCompatActivity {
                 //Toast.makeText(getApplicationContext(),"2",Toast.LENGTH_SHORT).show();
             }
         }
+
+        consultarNombreEstablecimiento();
 
         if(type.equals("Editar") || type.equals("Consultar")){
             String[] ArrayCategorias = new String[]{ScategoriaProductos,"✚ Seleccione una categoría", "Comida preparada","Comida cruda"};
@@ -256,7 +266,7 @@ public class addProduct extends AppCompatActivity {
             horaFin = tv_hora_fin.getText().toString();
 
             p = new Productos(idProducto  ,  nombreProducto,  descripcionProducto,  categoriaProducto,  subCategoriaProducto,
-                    precio,  descuento,  domicilio,  estadoProducto,  foto,  fechaInicio,  horaInicio,  fechaFin,  horaFin ){};
+                    precio,  descuento,  domicilio,  estadoProducto,  foto,  fechaInicio,  horaInicio,  fechaFin,  horaFin, nombreEstablecimiento ){};
 
             //guarda los datos del producto
             myRefProductos.child(currentUser.getUid()).child(p.getIdProducto()).setValue(p)
@@ -365,5 +375,24 @@ public class addProduct extends AppCompatActivity {
             campoLleno=false;
         }
         return campoLleno;
+    }
+
+    public void consultarNombreEstablecimiento(){
+        //consultando datos del vendedor
+        myRefVendedores.child(currentUser.getUid())
+                .addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        if(snapshot.exists()){
+                            if (snapshot.child("nombre_establecimiento").exists()) {
+                                nombreEstablecimiento = Objects.requireNonNull(snapshot.child("nombre_establecimiento").getValue()).toString();
+                            }
+                        }
+                    }
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+                        Toast.makeText(addProduct.this, "Error consultando el nombre del establecimiento. Intente de nuevo mas tarde.", Toast.LENGTH_SHORT).show();
+                    }
+                });
     }
 }

@@ -20,6 +20,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 import static com.facebook.FacebookSdk.getApplicationContext;
 
@@ -32,6 +33,7 @@ public class products_by_type extends AppCompatActivity {
     FirebaseUser currentUser;
     FirebaseDatabase database;
     DatabaseReference myRef;
+
     //ListTypeFood listTypeFood;
     //RecyclerView listado_tipo_comidas;
     //ArrayList<TipoComidas> listaDeDatosTipo = new ArrayList<>();
@@ -56,7 +58,7 @@ public class products_by_type extends AppCompatActivity {
         //listTypeFood = new ListTypeFood(getApplicationContext(),listaDeDatosTipo,products_by_type.this);
         //listado_tipo_comidas.setAdapter(listTypeFood);
 
-        LinearLayoutManager manager = new LinearLayoutManager(getApplicationContext());
+        LinearLayoutManager manager = new LinearLayoutManager(this);
         listado.setLayoutManager(manager);
         //listado.setHasFixedSize(true);
         listSellAdapter = new ListSellAdapter(getApplicationContext(),listaDeDatos, products_by_type.this);
@@ -109,7 +111,7 @@ public class products_by_type extends AppCompatActivity {
 
                             listaDeDatos.add(new Productos(p.getIdProducto(), p.getNombreProducto(), p.getDescripcionProducto(),
                                     p.getCategoriaProducto(), p.getSubCategoriaProducto(), p.getPrecio(), p.getDescuento(), p.getDomicilio(), p.getEstadoProducto(),
-                                    p.getfoto(), p.getFechaInicio(), p.getHoraInicio(), p.getFechaFin(), p.getHoraFin()));
+                                    p.getfoto(), p.getFechaInicio(), p.getHoraInicio(), p.getFechaFin(), p.getHoraFin(),p.getNombreEmpresa()));
                             //Toast.makeText(getApplicationContext(), p.getfoto(), Toast.LENGTH_SHORT).show();
                         }
                     }
@@ -126,4 +128,5 @@ public class products_by_type extends AppCompatActivity {
             }
         });
     }
+
 }

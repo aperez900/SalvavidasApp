@@ -36,12 +36,6 @@ public class ListSellAdapter extends RecyclerView.Adapter<ListSellAdapter.viewHo
     private View.OnClickListener listener;
     Activity  activity;
 
-    FirebaseAuth mAuth;
-    FirebaseUser currentUser;
-    FirebaseDatabase database;
-    DatabaseReference myRef;
-
-
     public ListSellAdapter(Context context, ArrayList<Productos> listaDeDatos, Activity activity) {
         this.inflater = LayoutInflater.from(context);
         this.listaDeDatos = listaDeDatos;
@@ -71,21 +65,21 @@ public class ListSellAdapter extends RecyclerView.Adapter<ListSellAdapter.viewHo
         Double precio = listaDeDatos.get(position).getPrecio();
         Double descuento = listaDeDatos.get(position).getDescuento();
         long porcDescuento = Math.round(descuento/precio*100);
-        String fechaInicio = listaDeDatos.get(position).getFechaInicio();
-        String fechaFin = listaDeDatos.get(position).getFechaFin();
+        String fechaInicio = listaDeDatos.get(position).getFechaInicio() + " " + listaDeDatos.get(position).getHoraInicio();
+        String fechaFin = listaDeDatos.get(position).getFechaFin() + " " + listaDeDatos.get(position).getHoraFin();;
         String getUrlFoto = listaDeDatos.get(position).getfoto();
         DecimalFormat df = new DecimalFormat("#.00");
         double aleatorio = Math.random()*5;
         String Distancia = df.format(aleatorio);
         holder.nombre_producto.setText(nombre_producto);
-        //String patron = "###.###,##";
-        //DecimalFormat objDF = new DecimalFormat (patron);
-        //holder.precio.setText(objDF.format(precio-descuento));
-        holder.precio.setText(String.valueOf(precio-descuento));
+        String patron = "###,###.##";
+        DecimalFormat objDF = new DecimalFormat (patron);
+        String nombreEstablecimiento = listaDeDatos.get(position).getNombreEmpresa();
+        holder.precio.setText(objDF.format(precio-descuento));
         holder.porcentajeDescuento.setText(String.valueOf(-porcDescuento));
         holder.fechaInicio.setText(fechaInicio);
         holder.fechaFin.setText(fechaFin);
-        holder.nombre_empresa.setText("Nombre empresa");
+        holder.nombre_empresa.setText(nombreEstablecimiento);
         holder.distancia.setText(Distancia + " KM");
 
         Glide.with(activity)
@@ -116,8 +110,6 @@ public class ListSellAdapter extends RecyclerView.Adapter<ListSellAdapter.viewHo
                 activity.startActivity(intent);
             }
         });
-
-
     }
 
 
@@ -151,7 +143,6 @@ public class ListSellAdapter extends RecyclerView.Adapter<ListSellAdapter.viewHo
             super(itemView);
 
             nombre_producto = itemView.findViewById(R.id.tv_nombre_producto);
-
             imagenProducto = itemView.findViewById(R.id.img_imagen_producto);
             precio = itemView.findViewById(R.id.tv_total_producto);
             fechaInicio = itemView.findViewById(R.id.tv_fecha_inicio_producto);
