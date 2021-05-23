@@ -111,6 +111,34 @@
                     app:layout_constraintTop_toBottomOf="@id/et_precio"
                     android:inputType="number" />
 
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                <EditText
+                    android:id="@+id/et_direccion"
+                    android:layout_width="250dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="50dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginEnd="10dp"
+                    android:fontFamily="@font/poppins_light"
+                    android:hint="@string/direccionVenta"
+                    android:importantForAutofill="no"
+                    app:layout_constraintTop_toBottomOf="@id/et_descuento"
+                    android:inputType="number" />
+
+
+                <Button
+                    android:id="@+id/bt_direccion"
+                    android:layout_width="50dp"
+                    android:layout_height="54dp"
+                    android:layout_marginTop="10dp"
+                    android:fontFamily="@font/poppins_light"
+                    android:text="+" />
+            </LinearLayout>
+
                 <Spinner
                     android:id="@+id/sp_domicilio"
                     android:layout_width="320sp"
@@ -123,6 +151,7 @@
                     android:hint="@string/domicilioProducto"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/et_descuento" />
+
 
                 <LinearLayout
                     android:layout_width="match_parent"

@@ -5,8 +5,10 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.location.Address;
+import android.location.LocationManager;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -21,6 +23,7 @@ import android.widget.Toast;
 import com.bumptech.glide.Glide;
 import com.desarollo.salvavidasapp.Models.Productos;
 import com.desarollo.salvavidasapp.R;
+import com.desarollo.salvavidasapp.ui.direction.Maps;
 import com.desarollo.salvavidasapp.ui.seller.seller2;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -63,6 +66,7 @@ public class addProduct extends AppCompatActivity {
         myRefProductos = database.getReference("productos");
         myRefVendedores = database.getReference("vendedores");
 
+
         Spinner categoriaProducto = findViewById(R.id.sp_categoria_producto);
         Spinner subCategoriaProducto = findViewById(R.id.sp_sub_categoria_producto);
         Spinner domicilioProducto = findViewById(R.id.sp_domicilio);
@@ -79,11 +83,15 @@ public class addProduct extends AppCompatActivity {
         EditText descripcionProducto = findViewById(R.id.et_descripcion_producto);
         EditText precioProducto = findViewById(R.id.et_precio);
         EditText descuentoProducto = findViewById(R.id.et_descuento);
+        Button direccionVenta = findViewById(R.id.bt_direccion);
+
         String fotoConsulta = "";
         String ScategoriaProductos="";
         String SsubCategoriaProductos="";
         String SdomicilioProducto="";
         String type="";
+
+        String direccionUsuario="";
 
         Intent intent = getIntent();
 
@@ -104,6 +112,9 @@ public class addProduct extends AppCompatActivity {
             tvHoraFin.setText(extras.getString("horaFin"));
             type = extras.getString("tipyEntry");
             fotoConsulta = extras.getString("urlFoto");
+          // direccionUsuario = extras.getString("direccionUsuario");
+
+            //direccionVenta.setText(direccionUsuario);
 
             if(type.equals("Editar")){
                 btnRegistrarProducto.setText("Editar Producto");
@@ -149,6 +160,25 @@ public class addProduct extends AppCompatActivity {
             ArrayAdapter<String> adapterDomicilioProductos = new ArrayAdapter<String>(this, R.layout.spinner_item_modified, listDomicilioProductos);
             domicilioProducto.setAdapter(adapterDomicilioProductos);
         }
+
+        direccionVenta.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                LocationManager lm = (LocationManager) getApplicationContext().getSystemService(Context.LOCATION_SERVICE);
+                boolean gpsActivo = lm.isProviderEnabled(LocationManager.GPS_PROVIDER);
+
+                if (gpsActivo != false){
+                    Intent h = new Intent(getApplicationContext(), productsMaps.class);
+                   // h.putExtra("tipo", "vendedor");
+                    startActivity(h);
+                   // finish();
+
+                }
+                else{
+                    Toast.makeText(addProduct.this,"activa el GPS para poder continuar...",Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
 
         btnFechaInicio.setOnClickListener(new View.OnClickListener() {
             @Override

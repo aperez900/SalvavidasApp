@@ -32,6 +32,7 @@
     <string name="correoPerfil">Correo perfil</string>
     <string name="desactivar_usuario">Desactivar Usuario</string>
     <string name="agregarDirecciones">Agregar direccion manualmente</string>
+    <string name="agregarDireccion">Agregar direccion </string>
     <string name="ubicacionActual">Ubicación actual</string>
 
     <string name="mis_datos">Mis datos</string>
@@ -67,6 +68,7 @@
     <string name="descripcionProducto2">Descripción producto</string>
     <string name="precioProducto">Precio</string>
     <string name="descuentoProducto">Descuento</string>
+    <string name="direccionVenta">Direccion de la venta</string>
     <string name="porcDescuentoProducto">% Dcto</string>
     <string name="totalProducto">Total</string>
     <string name="signoMoneda">$</string>
@@ -101,6 +103,8 @@
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="title_activity_maps">Map</string>
+    <string name="title_activity_sales_maps">Map</string>
+    <string name="title_activity_products_maps">Map</string>
 
 
 </resources>

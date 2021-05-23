@@ -6,8 +6,10 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.location.LocationManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.StrictMode;
@@ -23,6 +25,8 @@ import android.widget.Toast;
 import com.bumptech.glide.Glide;
 import com.desarollo.salvavidasapp.Models.Vendedores;
 import com.desarollo.salvavidasapp.R;
+import com.desarollo.salvavidasapp.ui.direction.Maps;
+import com.desarollo.salvavidasapp.ui.sales.lookAtProduct;
 import com.google.android.gms.tasks.Continuation;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -58,6 +62,8 @@ import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 
 import id.zelory.compressor.Compressor;
+
+import static com.facebook.FacebookSdk.getApplicationContext;
 
 public class seller2 extends AppCompatActivity {
 
@@ -99,6 +105,7 @@ public class seller2 extends AppCompatActivity {
         EditText nombreEstablecimiento = findViewById(R.id.et_razon_social);
         EditText nit = findViewById(R.id.et_nit);
         Button btn_reg = findViewById(R.id.btn_registrar_vendedor);
+        Button btn_ag_direccion = findViewById(R.id.agregar_direccion);
         TextView estado = findViewById(R.id.estado);
         Spinner sp_actividad_econimica = findViewById(R.id.sp_actividad_economica);
         TextView seleccionarFoto = findViewById(R.id.tv_seleccionar_foto);
@@ -152,6 +159,26 @@ public class seller2 extends AppCompatActivity {
                 }
             }
         });
+
+        btn_ag_direccion.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                LocationManager lm = (LocationManager) getApplicationContext().getSystemService(Context.LOCATION_SERVICE);
+                boolean gpsActivo = lm.isProviderEnabled(LocationManager.GPS_PROVIDER);
+
+                if (gpsActivo != false){
+                    Intent h = new Intent(seller2.this, Maps.class);
+                    h.putExtra("tipo", "vendedor");
+                    startActivity(h);
+
+                }
+                else{
+                    Toast.makeText(seller2.this,"activa el GPS para poder continuar...",Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+
     }//fin OnCreate
 
 
@@ -326,6 +353,9 @@ public class seller2 extends AppCompatActivity {
                     }
                 });
     }
+
+
+
 
     private void registrar(TextView nombres, TextView apellidos, TextView identificacion, TextView celular, EditText nombre_establecimiento, EditText nit, Spinner sp_actividad_econimica,
                            TextView estado) {

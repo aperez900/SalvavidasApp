@@ -8,74 +8,10 @@
     tools:context=".ui.home.HomeFragment">
 
 
-
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="20dp">
-
-        <ImageView
-            android:id="@+id/comida_preparada"
-            android:layout_width="68dp"
-            android:layout_height="73dp"
-            android:layout_marginStart="10dp"
-            android:layout_marginTop="4dp"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/g1" />
-
-
-        <ImageView
-            android:id="@+id/comida_cruda"
-            android:layout_width="68dp"
-            android:layout_height="73dp"
-            android:layout_marginStart="12dp"
-            android:layout_marginTop="4dp"
-            app:layout_constraintStart_toEndOf="@+id/comida_preparada"
-            app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/g2" />
-
-        <ImageView
-            android:id="@+id/pescado"
-            android:layout_width="68dp"
-            android:layout_height="73dp"
-            android:layout_marginStart="12dp"
-            android:layout_marginTop="4dp"
-            app:layout_constraintStart_toEndOf="@+id/comida_cruda"
-            app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/g3" />
-
-        <ImageView
-            android:id="@+id/pollo"
-            android:layout_width="70dp"
-            android:layout_height="72dp"
-            android:layout_marginStart="12dp"
-            android:layout_marginTop="4dp"
-            app:layout_constraintStart_toEndOf="@+id/pescado"
-            app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/g4" />
-
-        <ImageView
-            android:id="@+id/comidas_rapidas"
-            android:layout_width="68dp"
-            android:layout_height="73dp"
-            android:layout_marginStart="19dp"
-            android:layout_marginTop="4dp"
-            android:layout_marginEnd="8dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="1.0"
-            app:layout_constraintStart_toEndOf="@+id/pollo"
-            app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/g5" />
-
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
-
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/sub_tipo_comidas"
         android:layout_width="match_parent"
-        android:layout_height="10dp"
+        android:layout_height="130dp"
         android:layout_marginTop="10dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

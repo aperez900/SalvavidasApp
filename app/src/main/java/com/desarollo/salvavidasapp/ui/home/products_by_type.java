@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.widget.Toast;
 
 import com.desarollo.salvavidasapp.Models.Productos;
+import com.desarollo.salvavidasapp.Models.SubTipoComidas;
 import com.desarollo.salvavidasapp.Models.TipoComidas;
 import com.desarollo.salvavidasapp.R;
 import com.google.firebase.auth.FirebaseAuth;
@@ -26,18 +27,19 @@ import static com.facebook.FacebookSdk.getApplicationContext;
 
 public class products_by_type extends AppCompatActivity {
 
-    ArrayList<Productos> listaDeDatos = new ArrayList<>();
-    RecyclerView listado;
-    ListSellAdapter listSellAdapter;
     FirebaseAuth mAuth;
     FirebaseUser currentUser;
     FirebaseDatabase database;
+
+    ArrayList<Productos> listaDeDatos = new ArrayList<>();
+    RecyclerView listado;
+    ListSellAdapter listSellAdapter;
     DatabaseReference myRef;
 
-    //ListTypeFood listTypeFood;
-    //RecyclerView listado_tipo_comidas;
-    //ArrayList<TipoComidas> listaDeDatosTipo = new ArrayList<>();
-    //DatabaseReference myRefTypeFood;
+    ListSubTypeFood listSubTypeFood;
+    RecyclerView listado_subtipo_comidas;
+    ArrayList<SubTipoComidas> listaDeDatosSubTipo = new ArrayList<>();
+    DatabaseReference myRefTypeFood;
 
 
     @Override
@@ -49,42 +51,42 @@ public class products_by_type extends AppCompatActivity {
         currentUser = mAuth.getCurrentUser();
         database = FirebaseDatabase.getInstance();
         myRef = database.getReference("productos");
-        //myRefTypeFood = database.getReference("tipo_comidas");
+        myRefTypeFood = database.getReference("tipo_comidas");
+
+        listado_subtipo_comidas = findViewById(R.id.sub_tipo_comidas);
+        listado_subtipo_comidas.setLayoutManager(new LinearLayoutManager(getApplicationContext(),LinearLayoutManager.HORIZONTAL,false));
+        listSubTypeFood = new ListSubTypeFood(getApplicationContext(),listaDeDatosSubTipo,products_by_type.this);
+        listado_subtipo_comidas.setAdapter(listSubTypeFood);
+
 
         listado = findViewById(R.id.listado);
-        //listado_tipo_comidas = findViewById(R.id.tipo_comidas);
-
-        //listado_tipo_comidas.setLayoutManager(new LinearLayoutManager(getApplicationContext(),LinearLayoutManager.HORIZONTAL,false));
-        //listTypeFood = new ListTypeFood(getApplicationContext(),listaDeDatosTipo,products_by_type.this);
-        //listado_tipo_comidas.setAdapter(listTypeFood);
-
-        LinearLayoutManager manager = new LinearLayoutManager(this);
+        LinearLayoutManager manager = new LinearLayoutManager(getApplicationContext());
         listado.setLayoutManager(manager);
         //listado.setHasFixedSize(true);
         listSellAdapter = new ListSellAdapter(getApplicationContext(),listaDeDatos, products_by_type.this);
 
         listado.setAdapter(listSellAdapter);
 
+        crearListadoSubTipo();
         crearListado();
     }
 
 
-/*
     private void crearListadoSubTipo() {
-        myRefTypeFood.addValueEventListener(new ValueEventListener() {
+        myRefTypeFood.child("1").child("subTipo").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 if(snapshot.exists()){
-                    listaDeDatosTipo.clear();
+                    listaDeDatosSubTipo.clear();
                     for(DataSnapshot objsnapshot : snapshot.getChildren()){ //Recorre los usuarios
-                        TipoComidas t = objsnapshot.getValue(TipoComidas.class);
+                        SubTipoComidas st = objsnapshot.getValue(SubTipoComidas.class);
 
-                        listaDeDatosTipo.add(new TipoComidas(t.getTipoComida(),t.getFoto()));
-                        // Toast.makeText(getApplicationContext(), t.getTipoComida(), Toast.LENGTH_SHORT).show();
+                        listaDeDatosSubTipo.add(new SubTipoComidas(st.getSubTipoComida(),st.getFoto()));
+                        // Toast.makeText(getApplicationContext(), st.getSubTipoComida(), Toast.LENGTH_SHORT).show();
                     }
 
-                    listTypeFood = new ListTypeFood(getApplicationContext(),listaDeDatosTipo, products_by_type.this);
-                    listado_tipo_comidas.setAdapter(listTypeFood);
+                    listSubTypeFood = new ListSubTypeFood(getApplicationContext(),listaDeDatosSubTipo, products_by_type.this);
+                    listado_subtipo_comidas.setAdapter(listSubTypeFood);
                 }else{
 
                 }
@@ -96,7 +98,7 @@ public class products_by_type extends AppCompatActivity {
             }
         });
 
-    }*/
+    }
 
     private void crearListado() {
 
