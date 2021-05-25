@@ -3,9 +3,11 @@ package com.desarollo.salvavidasapp.ui.sales;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.location.Address;
 import android.location.LocationManager;
@@ -21,6 +23,7 @@ import android.widget.TimePicker;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.desarollo.salvavidasapp.Models.ListDirecciones;
 import com.desarollo.salvavidasapp.Models.Productos;
 import com.desarollo.salvavidasapp.R;
 import com.desarollo.salvavidasapp.ui.direction.Maps;
@@ -40,9 +43,13 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 import java.util.UUID;
+
+import static com.facebook.FacebookSdk.getApplicationContext;
 
 public class addProduct extends AppCompatActivity {
 
@@ -53,6 +60,8 @@ public class addProduct extends AppCompatActivity {
     Productos p;
     String idProductoEdit ="";
     String nombreEstablecimiento;
+
+    Map<String,Object> selectedItems = new HashMap<>();
 
     private int dia, mes, anio, hora, minutos;
     @Override
@@ -65,7 +74,6 @@ public class addProduct extends AppCompatActivity {
         database = FirebaseDatabase.getInstance();
         myRefProductos = database.getReference("productos");
         myRefVendedores = database.getReference("vendedores");
-
 
         Spinner categoriaProducto = findViewById(R.id.sp_categoria_producto);
         Spinner subCategoriaProducto = findViewById(R.id.sp_sub_categoria_producto);
@@ -84,6 +92,7 @@ public class addProduct extends AppCompatActivity {
         EditText precioProducto = findViewById(R.id.et_precio);
         EditText descuentoProducto = findViewById(R.id.et_descuento);
         Button direccionVenta = findViewById(R.id.bt_direccion);
+        EditText direccionProducto = findViewById(R.id.et_direccion);
 
         String fotoConsulta = "";
         String ScategoriaProductos="";
@@ -164,6 +173,7 @@ public class addProduct extends AppCompatActivity {
         direccionVenta.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                /*
                 LocationManager lm = (LocationManager) getApplicationContext().getSystemService(Context.LOCATION_SERVICE);
                 boolean gpsActivo = lm.isProviderEnabled(LocationManager.GPS_PROVIDER);
 
@@ -177,6 +187,8 @@ public class addProduct extends AppCompatActivity {
                 else{
                     Toast.makeText(addProduct.this,"activa el GPS para poder continuar...",Toast.LENGTH_SHORT).show();
                 }
+                 */
+                crearModalDirecciones(direccionProducto);
             }
         });
 
@@ -424,5 +436,77 @@ public class addProduct extends AppCompatActivity {
                         Toast.makeText(addProduct.this, "Error consultando el nombre del establecimiento. Intente de nuevo mas tarde.", Toast.LENGTH_SHORT).show();
                     }
                 });
+    }
+
+    private void crearModalDirecciones(EditText et_direccion_producto) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(addProduct.this );
+        builder.setTitle("Elige una dirección");
+        builder.setCancelable(false);
+
+        String[] direcciones = new String[]
+        {
+                "Dirección 1", "Dirección 2", "Dirección 3", "Dirección 4", "Dirección 5"
+        };
+
+        //array booleano para marcar casillas por defecto
+        boolean[] checkItems = new boolean[]{
+                false, false, false, false, false
+        };
+
+        //consulta las direcciones del vendedor
+        myRefVendedores.child(currentUser.getUid()).child("mis direcciones")
+                .addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        int i=0;
+                        if(snapshot.exists()){
+                            for(DataSnapshot objsnapshot : snapshot.getChildren()){
+                                ListDirecciones d = objsnapshot.getValue(ListDirecciones.class);
+                                direcciones[i] = d.getDireccionUsuario();
+                                checkItems[i]=false;
+                                if (i < direcciones.length){
+                                    i=i+1;
+                                }
+                            }
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+                        Toast.makeText(getApplicationContext(), "Error consultando las direcciones. Intente de nuevo mas tarde.", Toast.LENGTH_SHORT).show();
+                    }
+                });
+
+        final List<String> foodList = Arrays.asList(direcciones);
+
+        builder.setMultiChoiceItems(direcciones, checkItems, new DialogInterface.OnMultiChoiceClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i, boolean b) {
+                checkItems[i] = b; //verificar si existe un item seleccionado
+                String currentItems = foodList.get(i); //Obtener el valor seleccionado
+            }
+        });
+        builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                selectedItems.clear();
+                //recorre los items y valida cuales fueron checkeados
+                for(int x=0;x<checkItems.length;x++){
+                    boolean checked = checkItems[x];
+                    if(checked){
+                        selectedItems.put(foodList.get(x),checked);
+                        et_direccion_producto.setText(foodList.get(x));
+                    }
+                }
+            }
+        });
+        builder.setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                dialogInterface.cancel();
+            }
+        });
+        AlertDialog dialog = builder.create();
+        dialog.show();
     }
 }
