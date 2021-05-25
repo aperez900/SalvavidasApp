@@ -110,6 +110,7 @@ public class seller2 extends AppCompatActivity {
         Spinner sp_actividad_econimica = findViewById(R.id.sp_actividad_economica);
         TextView seleccionarFoto = findViewById(R.id.tv_seleccionar_foto);
         foto_tienda = findViewById(R.id.img_foto_tienda);
+        EditText direccionVendedor = findViewById(R.id.et_direccion);
 
         String[] ArrayActividadesEconimicas = new String[]{
                 "✚ Seleccione una actividad económica", "Actividad 1","Actividad 2","Actividad 3", "Actividad 4"
@@ -134,6 +135,15 @@ public class seller2 extends AppCompatActivity {
                         .into(UserPhoto);
                  */
             }
+        }
+
+
+        Intent intent = getIntent();
+        if (intent.getExtras()  != null){
+            Bundle extras = getIntent().getExtras();
+            String direccion = extras.getString("direccion");
+            direccionVendedor.setText(direccion);
+
         }
         consultarDatosVendedor(nombres, apellidos, identificacion, celular, nombreEstablecimiento, nit, sp_actividad_econimica,
                 btn_reg,estado);
@@ -169,7 +179,7 @@ public class seller2 extends AppCompatActivity {
 
                 if (gpsActivo != false){
                     Intent h = new Intent(seller2.this, Maps.class);
-                    h.putExtra("tipo", "vendedor");
+                    h.putExtra("tipo", "vendedores");
                     startActivity(h);
 
                 }

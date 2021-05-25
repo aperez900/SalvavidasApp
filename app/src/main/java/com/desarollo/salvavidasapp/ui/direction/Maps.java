@@ -90,7 +90,7 @@ public class Maps extends FragmentActivity implements GoogleMap.OnMarkerDragList
         if (intent.getExtras()  != null){
             Bundle extras = getIntent().getExtras();
             tipo = extras.getString("tipo");
-            if (tipo.equals("vendedor")){
+            if (tipo.equals("vendedores")){
                 myRef = database.getReference("vendedores");
             }
             else{
@@ -240,17 +240,18 @@ public class Maps extends FragmentActivity implements GoogleMap.OnMarkerDragList
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void aVoid) {
-                        if (tipo.equals("vendedor")){
+                        if (tipo.equals("vendedores")){
                             Toast.makeText(getApplicationContext(), "Dirección registrada correctamente", Toast.LENGTH_SHORT).show();
                             Intent h = new Intent(getApplicationContext(), seller2.class);
+                            h.putExtra("direccion",et_direccion.getText().toString());
                             startActivity(h);
-                            finish();
+
 
                         }else{
                             Toast.makeText(getApplicationContext(), "Dirección registrada correctamente", Toast.LENGTH_SHORT).show();
                             Intent h = new Intent(getApplicationContext(), Home.class);
                             startActivity(h);
-                            finish();
+
 
                         }
 

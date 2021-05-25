@@ -24,13 +24,13 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="25dp"
+                    android:fontFamily="@font/poppins_bold"
                     android:text="@string/agregarProducto"
                     android:textAlignment="center"
-                    android:layout_marginTop="15dp"
-                    android:fontFamily="@font/poppins_bold"
                     android:textColor="@color/black"
-                    android:textStyle="bold"
-                    android:textSize="26sp"/>
+                    android:textSize="24sp"
+                    android:textStyle="bold" />
 
                 <EditText
                     android:id="@+id/et_nombre_producto"
@@ -130,13 +130,13 @@
                     android:inputType="number" />
 
 
-                <Button
-                    android:id="@+id/bt_direccion"
-                    android:layout_width="50dp"
-                    android:layout_height="54dp"
-                    android:layout_marginTop="10dp"
-                    android:fontFamily="@font/poppins_light"
-                    android:text="+" />
+                    <Button
+                        android:id="@+id/bt_direccion"
+                        android:layout_width="50dp"
+                        android:layout_height="54dp"
+                        android:layout_marginTop="10dp"
+                        android:fontFamily="@font/poppins_light"
+                        app:icon="@drawable/icono_near_me" />
             </LinearLayout>
 
                 <Spinner

@@ -168,23 +168,45 @@
                     android:layout_height="43dp"
                     android:layout_gravity="center"
                     android:layout_marginStart="8dp"
-                    android:layout_marginTop="20dp"
+                    android:layout_marginTop="10dp"
                     android:background="#FFFFFF"
                     android:fontFamily="@font/abel"
                     android:hint="@string/ActividadEconomica"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/et_nit" />
 
-                <Button
-                    android:id="@+id/agregar_direccion"
+                <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="50dp"
-                    android:layout_marginStart="30dp"
-                    android:layout_marginEnd="30dp"
-                    android:text="@string/agregarDireccion"
-                    android:fontFamily="@font/poppins_semibold"
-                    app:layout_constraintTop_toBottomOf="@id/tv_celular" />
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_marginTop="10dp">
 
+                    <EditText
+                        android:id="@+id/et_direccion"
+                        android:layout_width="250dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="50dp"
+                        android:layout_marginTop="0dp"
+                        android:layout_marginEnd="0dp"
+                        android:fontFamily="@font/poppins_light"
+                        android:hint="@string/agregarDireccion"
+                        android:importantForAutofill="no"
+                        app:layout_constraintTop_toBottomOf="@id/et_descuento"
+                        android:inputType="number" />
+
+                    <Button
+                        android:id="@+id/agregar_direccion"
+                        android:layout_width="match_parent"
+                        android:layout_height="50dp"
+                        android:layout_marginStart="20dp"
+                        android:layout_marginEnd="30dp"
+                        android:fontFamily="@font/poppins_semibold"
+                        app:icon="@drawable/ic_icono_address"
+                        app:layout_constraintTop_toBottomOf="@id/tv_celular" />
+
+
+
+                </LinearLayout>
 
                 <Button
                     android:id="@+id/btn_registrar_vendedor"

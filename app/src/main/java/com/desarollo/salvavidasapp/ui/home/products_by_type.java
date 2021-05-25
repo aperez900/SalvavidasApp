@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Toast;
 
@@ -40,6 +41,7 @@ public class products_by_type extends AppCompatActivity {
     RecyclerView listado_subtipo_comidas;
     ArrayList<SubTipoComidas> listaDeDatosSubTipo = new ArrayList<>();
     DatabaseReference myRefTypeFood;
+    String tipoComida;
 
 
     @Override
@@ -67,13 +69,22 @@ public class products_by_type extends AppCompatActivity {
 
         listado.setAdapter(listSellAdapter);
 
+        tipoComida = "";
+
+        Intent intent = getIntent();
+        if (intent.getExtras()  != null){
+            Bundle extras = getIntent().getExtras();
+            tipoComida = extras.getString("TipoComida");
+
+        }
+
         crearListadoSubTipo();
         crearListado();
     }
 
 
     private void crearListadoSubTipo() {
-        myRefTypeFood.child("1").child("subTipo").addValueEventListener(new ValueEventListener() {
+        myRefTypeFood.child(tipoComida).child("subTipo").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 if(snapshot.exists()){
