@@ -90,7 +90,7 @@
             android:textStyle="bold"
             android:padding="5dp"
             android:text="@string/inicio"
-            android:textSize="14sp" />
+            android:textSize="12sp" />
 
         <TextView
             android:id="@+id/tv_fecha_fin_producto"
@@ -103,7 +103,7 @@
             android:textStyle="bold"
             android:padding="5dp"
             android:text="@string/fin"
-            android:textSize="14sp" />
+            android:textSize="12sp" />
 
         <ImageView
             android:id="@+id/img_restaurant"

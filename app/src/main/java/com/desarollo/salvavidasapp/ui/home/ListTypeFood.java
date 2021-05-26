@@ -85,7 +85,6 @@ public class ListTypeFood  extends RecyclerView.Adapter<ListTypeFood.viewHolder>
 
     @Override
     public int getItemCount() {
-
         int a ;
         if(listaDeDatos != null && !listaDeDatos.isEmpty()) {
             a = listaDeDatos.size();

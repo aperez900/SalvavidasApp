@@ -57,7 +57,6 @@ public class HomeFragment extends Fragment {
     RecyclerView listado_comidas,listado_tipo_comidas;
     ListSellAdapter listSellAdapter;
     ListTypeFood listTypeFood;
-
     ProgressDialog cargando;
 
     FirebaseAuth mAuth;

@@ -139,7 +139,7 @@ public class addProduct extends AppCompatActivity {
         consultarNombreEstablecimiento();
 
         if(type.equals("Editar") || type.equals("Consultar")){
-            String[] ArrayCategorias = new String[]{ScategoriaProductos,"✚ Seleccione una categoría", "Comida preparada","Comida cruda"};
+            String[] ArrayCategorias = new String[]{ScategoriaProductos,"✚ Seleccione una categoría", "comida preparada","comida cruda"};
             ArrayList<String> listCategoriaProductos = new ArrayList(Arrays.asList(ArrayCategorias));
             ArrayAdapter<String> adapterCategoriaProductos = new ArrayAdapter<String>(this, R.layout.spinner_item_modified, listCategoriaProductos);
             categoriaProducto.setAdapter(adapterCategoriaProductos);
@@ -154,7 +154,7 @@ public class addProduct extends AppCompatActivity {
             ArrayAdapter<String> adapterDomicilioProductos = new ArrayAdapter<String>(this, R.layout.spinner_item_modified, listDomicilioProductos);
             domicilioProducto.setAdapter(adapterDomicilioProductos);
         }else {
-            String[] ArrayCategorias = new String[]{"✚ Seleccione una categoría", "Comida preparada", "Comida cruda"};
+            String[] ArrayCategorias = new String[]{"✚ Seleccione una categoría", "comida preparada", "comida cruda"};
             ArrayList<String> listCategoriaProductos = new ArrayList(Arrays.asList(ArrayCategorias));
             ArrayAdapter<String> adapterCategoriaProductos = new ArrayAdapter<String>(this, R.layout.spinner_item_modified, listCategoriaProductos);
             categoriaProducto.setAdapter(adapterCategoriaProductos);
