@@ -10,8 +10,6 @@ import android.os.Bundle;
 import android.widget.Toast;
 
 import com.desarollo.salvavidasapp.Models.Productos;
-import com.desarollo.salvavidasapp.Models.SubTipoComidas;
-import com.desarollo.salvavidasapp.Models.TipoComidas;
 import com.desarollo.salvavidasapp.R;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -22,12 +20,8 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
-import java.util.Objects;
 
-import static com.facebook.FacebookSdk.getApplicationContext;
-
-public class
-products_by_type extends AppCompatActivity {
+public class products_by_sub_type extends AppCompatActivity {
 
     FirebaseAuth mAuth;
     FirebaseUser currentUser;
@@ -38,78 +32,36 @@ products_by_type extends AppCompatActivity {
     ListSellAdapter listSellAdapter;
     DatabaseReference myRef;
 
-    ListSubTypeFood listSubTypeFood;
-    RecyclerView listado_subtipo_comidas;
-    ArrayList<SubTipoComidas> listaDeDatosSubTipo = new ArrayList<>();
-    DatabaseReference myRefTypeFood;
-    String tipoComida;
-
+    String SubtipoComida;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_products_by_type);
+        setContentView(R.layout.activity_products_by_sub_type);
 
         mAuth = FirebaseAuth.getInstance();
         currentUser = mAuth.getCurrentUser();
         database = FirebaseDatabase.getInstance();
         myRef = database.getReference("productos");
-        myRefTypeFood = database.getReference("tipo_comidas");
 
-        listado_subtipo_comidas = findViewById(R.id.sub_tipo_comidas);
-        listado_subtipo_comidas.setLayoutManager(new LinearLayoutManager(getApplicationContext(),LinearLayoutManager.HORIZONTAL,false));
-        listSubTypeFood = new ListSubTypeFood(getApplicationContext(),listaDeDatosSubTipo,products_by_type.this);
-        listado_subtipo_comidas.setAdapter(listSubTypeFood);
-
-
-        listado = findViewById(R.id.listado);
+        listado = findViewById(R.id.listadoSubTipo);
         LinearLayoutManager manager = new LinearLayoutManager(getApplicationContext());
         listado.setLayoutManager(manager);
         //listado.setHasFixedSize(true);
-        listSellAdapter = new ListSellAdapter(getApplicationContext(),listaDeDatos, products_by_type.this);
+        listSellAdapter = new ListSellAdapter(getApplicationContext(),listaDeDatos, products_by_sub_type.this);
 
         listado.setAdapter(listSellAdapter);
 
-        tipoComida = "";
-
+        SubtipoComida = "";
         Intent intent = getIntent();
         if (intent.getExtras()  != null){
             Bundle extras = getIntent().getExtras();
-            tipoComida = extras.getString("TipoComida");
+            SubtipoComida = extras.getString("SubTipoComida");
 
         }
 
-        crearListadoSubTipo();
+
         crearListado();
-    }
-
-
-    private void crearListadoSubTipo() {
-        myRefTypeFood.child(tipoComida).child("subTipo").addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                if(snapshot.exists()){
-                    listaDeDatosSubTipo.clear();
-                    for(DataSnapshot objsnapshot : snapshot.getChildren()){ //Recorre los usuarios
-                        SubTipoComidas st = objsnapshot.getValue(SubTipoComidas.class);
-
-                        listaDeDatosSubTipo.add(new SubTipoComidas(st.getSubTipoComida(),st.getFoto()));
-                        // Toast.makeText(getApplicationContext(), st.getSubTipoComida(), Toast.LENGTH_SHORT).show();
-                    }
-
-                    listSubTypeFood = new ListSubTypeFood(getApplicationContext(),listaDeDatosSubTipo, products_by_type.this);
-                    listado_subtipo_comidas.setAdapter(listSubTypeFood);
-                }else{
-
-                }
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-                Toast.makeText(getApplicationContext(), "Error cargando los productos", Toast.LENGTH_SHORT).show();
-            }
-        });
-
     }
 
     private void crearListado() {
@@ -123,7 +75,7 @@ products_by_type extends AppCompatActivity {
                         for (DataSnapshot objsnapshot2 : objsnapshot.getChildren()) { //recorre los productos
                             Productos p = objsnapshot2.getValue(Productos.class);
 
-                            if (p.getCategoriaProducto().equals(tipoComida)){
+                            if (p.getCategoriaProducto().equals(SubtipoComida)){
                                 listaDeDatos.add(new Productos(p.getIdProducto(), p.getNombreProducto(), p.getDescripcionProducto(),
                                         p.getCategoriaProducto(), p.getSubCategoriaProducto(), p.getPrecio(), p.getDescuento(), p.getDomicilio(), p.getEstadoProducto(),
                                         p.getfoto(), p.getFechaInicio(), p.getHoraInicio(), p.getFechaFin(), p.getHoraFin(),p.getNombreEmpresa(),p.getDireccion()));
@@ -133,7 +85,7 @@ products_by_type extends AppCompatActivity {
 
                         }
                     }
-                    listSellAdapter = new ListSellAdapter(getApplicationContext(), listaDeDatos, products_by_type.this);
+                    listSellAdapter = new ListSellAdapter(getApplicationContext(), listaDeDatos, products_by_sub_type.this);
                     listado.setAdapter(listSellAdapter);
                 } else {
 
@@ -146,5 +98,4 @@ products_by_type extends AppCompatActivity {
             }
         });
     }
-
 }

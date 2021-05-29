@@ -2,24 +2,24 @@ package com.desarollo.salvavidasapp.Models;
 
 public class SubTipoComidas {
 
-        private String SubTipoComida;
+        private String descripcion;
         private String foto;
 
         public SubTipoComidas(){
 
         }
 
-    public SubTipoComidas(String subTipoComida, String foto) {
-        SubTipoComida = subTipoComida;
+    public SubTipoComidas(String descripcion, String foto) {
+        this.descripcion = descripcion;
         this.foto = foto;
     }
 
     public String getSubTipoComida() {
-        return SubTipoComida;
+        return descripcion;
     }
 
-    public void setSubTipoComida(String subTipoComida) {
-        SubTipoComida = subTipoComida;
+    public void setSubTipoComida(String descripcion) {
+        this.descripcion = descripcion;
     }
 
     public String getFoto() {

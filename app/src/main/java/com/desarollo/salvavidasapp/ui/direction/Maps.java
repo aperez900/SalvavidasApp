@@ -59,6 +59,7 @@ public class Maps extends FragmentActivity implements GoogleMap.OnMarkerDragList
     private ProgressDialog mProgessDialog;
 
     private GoogleMap mMap;
+
     EditText et_direccion;
     EditText et_municipio;
     EditText et_alias;

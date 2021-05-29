@@ -28,11 +28,6 @@ public class ListSubTypeFood extends RecyclerView.Adapter<ListSubTypeFood.viewHo
     private View.OnClickListener listener;
     Activity activity;
 
-    FirebaseAuth mAuth;
-    FirebaseUser currentUser;
-    FirebaseDatabase database;
-    DatabaseReference myRef;
-
 
     public ListSubTypeFood(Context context, ArrayList<SubTipoComidas> listaDeDatos, Activity activity) {
         this.inflater = LayoutInflater.from(context);
@@ -57,16 +52,13 @@ public class ListSubTypeFood extends RecyclerView.Adapter<ListSubTypeFood.viewHo
                 .into(holder.imagenTipoComida);
 
 
-
-
         holder.imagenTipoComida.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                 //Intent intent = new Intent(activity , addProduct.class);
-                Intent intent = new Intent(activity , products_by_type.class);
-                intent.putExtra("foto" , listaDeDatos.get(position).getFoto());
-
+                String SubTipoComida = listaDeDatos.get(position).getSubTipoComida();
+                Intent intent = new Intent(activity , products_by_sub_type.class);
+                intent.putExtra("SubTipoComida", SubTipoComida);
                 activity.startActivity(intent);
             }
         });
@@ -76,9 +68,6 @@ public class ListSubTypeFood extends RecyclerView.Adapter<ListSubTypeFood.viewHo
     public void setOnClickListener(View.OnClickListener listener){
         this.listener = listener;
     }
-
-
-
 
 
     @Override
@@ -110,9 +99,6 @@ public class ListSubTypeFood extends RecyclerView.Adapter<ListSubTypeFood.viewHo
             super(itemView);
             TipoComida = itemView.findViewById(R.id.tipo_comidas);
             imagenTipoComida = itemView.findViewById(R.id.img_imagen_tipo);
-
-
-
 
         }
 

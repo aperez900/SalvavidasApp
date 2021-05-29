@@ -31,11 +31,6 @@ public class ListTypeFood  extends RecyclerView.Adapter<ListTypeFood.viewHolder>
     private View.OnClickListener listener;
     Activity activity;
 
-    FirebaseAuth mAuth;
-    FirebaseUser currentUser;
-    FirebaseDatabase database;
-    DatabaseReference myRef;
-
 
     public ListTypeFood(Context context, ArrayList<TipoComidas> listaDeDatos, Activity activity) {
         this.inflater = LayoutInflater.from(context);

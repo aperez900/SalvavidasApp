@@ -81,7 +81,7 @@
         <TextView
             android:id="@+id/tv_fecha_inicio_producto"
             android:layout_width="70dp"
-            android:layout_height="30dp"
+            android:layout_height="32dp"
             android:layout_below="@id/tv_nombre_producto"
             android:layout_toEndOf="@id/img_disponibilidad"
             android:layout_marginStart="5dp"
@@ -90,12 +90,12 @@
             android:textStyle="bold"
             android:padding="5dp"
             android:text="@string/inicio"
-            android:textSize="12sp" />
+            android:textSize="14sp" />
 
         <TextView
             android:id="@+id/tv_fecha_fin_producto"
             android:layout_width="70dp"
-            android:layout_height="30dp"
+            android:layout_height="32dp"
             android:layout_marginTop="10dp"
             android:layout_below="@id/tv_nombre_producto"
             android:layout_toEndOf="@id/tv_fecha_inicio_producto"
@@ -103,7 +103,7 @@
             android:textStyle="bold"
             android:padding="5dp"
             android:text="@string/fin"
-            android:textSize="12sp" />
+            android:textSize="14sp" />
 
         <ImageView
             android:id="@+id/img_restaurant"

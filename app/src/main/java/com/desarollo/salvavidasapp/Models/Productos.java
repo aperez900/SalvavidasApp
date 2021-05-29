@@ -16,6 +16,7 @@ public class Productos {
     private double precio;
     private double descuento;
     private String domicilio;
+    private String direccion;
     private String estadoProducto;
     private String foto;
     private String fechaInicio;
@@ -28,9 +29,11 @@ public class Productos {
 
     }
 
+
+
     public Productos(String idProducto, String nombreProducto, String descripcionProducto, String categoriaProducto,
                      String subCategoriaProducto, double precio, double descuento, String domicilio, String estadoProducto,
-                     String foto, String fechaInicio, String horaInicio, String fechaFin, String horaFin, String nombreEmpresa) {
+                     String foto, String fechaInicio, String horaInicio, String fechaFin, String horaFin, String nombreEmpresa,String direccion) {
         this.idProducto = idProducto;
         this.nombreProducto = nombreProducto;
         this.descripcionProducto = descripcionProducto;
@@ -46,6 +49,7 @@ public class Productos {
         this.fechaFin = fechaFin;
         this.horaFin = horaFin;
         this.nombreEmpresa = nombreEmpresa;
+        this.direccion = direccion;
     }
 
     public String getIdProducto() {
@@ -166,5 +170,13 @@ public class Productos {
 
     public void setNombreEmpresa(String nombreEmpresa) {
         this.nombreEmpresa = nombreEmpresa;
+    }
+
+    public String getDireccion() {
+        return direccion;
+    }
+
+    public void setDireccion(String direccion) {
+        this.direccion = direccion;
     }
 }

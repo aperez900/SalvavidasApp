@@ -121,6 +121,7 @@ public class addProduct extends AppCompatActivity {
             tvHoraFin.setText(extras.getString("horaFin"));
             type = extras.getString("tipyEntry");
             fotoConsulta = extras.getString("urlFoto");
+
           // direccionUsuario = extras.getString("direccionUsuario");
 
             //direccionVenta.setText(direccionUsuario);
@@ -239,9 +240,9 @@ public class addProduct extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if(validarCamposVacios(nombreProducto, descripcionProducto, categoriaProducto, subCategoriaProducto, precioProducto, descuentoProducto,
-                        domicilioProducto, tvFechaInicio, tvFechaFin, tvHoraInicio, tvHoraFin)) {
+                        domicilioProducto, tvFechaInicio, tvFechaFin, tvHoraInicio, tvHoraFin,direccionProducto)) {
                     registrar(nombreProducto, descripcionProducto, categoriaProducto, subCategoriaProducto, precioProducto, descuentoProducto,
-                            domicilioProducto, tvFechaInicio, tvFechaFin, tvHoraInicio, tvHoraFin, finalFotoConsulta,idProductoEdit);
+                            domicilioProducto, tvFechaInicio, tvFechaFin, tvHoraInicio, tvHoraFin, finalFotoConsulta,idProductoEdit,direccionProducto);
                 }
             }
         });
@@ -279,9 +280,9 @@ public class addProduct extends AppCompatActivity {
 
     public void registrar(EditText et_nombre_producto, EditText et_descripcion_producto, Spinner sp_categoria_producto, Spinner sp_sub_categoria_producto,
                           EditText et_precio_producto, EditText et_descuento_producto, Spinner sp_domicilio_producto, TextView tv_fecha_inicio,
-                          TextView tv_fecha_fin, TextView tv_hora_inicio, TextView tv_hora_fin,String fotoConsulta, String idProductoEdit){
+                          TextView tv_fecha_fin, TextView tv_hora_inicio, TextView tv_hora_fin,String fotoConsulta, String idProductoEdit,EditText direccionProducto){
         try {
-            String idProducto,descripcionProducto,nombreProducto,categoriaProducto, subCategoriaProducto, estadoProducto, domicilio,   fechaInicio,
+            String idProducto,descripcionProducto,nombreProducto,categoriaProducto, subCategoriaProducto, estadoProducto, domicilio,   fechaInicio, direccion,
                     horaInicio,  fechaFin,  horaFin;
             double precio,descuento;
             String foto = fotoConsulta;
@@ -306,9 +307,10 @@ public class addProduct extends AppCompatActivity {
             horaInicio = tv_hora_inicio.getText().toString();
             fechaFin =  tv_fecha_fin.getText().toString();
             horaFin = tv_hora_fin.getText().toString();
+            direccion = direccionProducto.getText().toString();
 
             p = new Productos(idProducto  ,  nombreProducto,  descripcionProducto,  categoriaProducto,  subCategoriaProducto,
-                    precio,  descuento,  domicilio,  estadoProducto,  foto,  fechaInicio,  horaInicio,  fechaFin,  horaFin, nombreEstablecimiento ){};
+                    precio,  descuento,  domicilio,  estadoProducto,  foto,  fechaInicio,  horaInicio,  fechaFin,  horaFin, nombreEstablecimiento,direccion ){};
 
             //guarda los datos del producto
             myRefProductos.child(currentUser.getUid()).child(p.getIdProducto()).setValue(p)
@@ -360,7 +362,7 @@ public class addProduct extends AppCompatActivity {
     public boolean validarCamposVacios(EditText et_nombre_producto, EditText et_descripcion_producto, Spinner sp_categoria_producto,
                                        Spinner sp_sub_categoria_producto, EditText et_precio_producto, EditText et_descuento_producto,
                                        Spinner sp_domicilio_producto, TextView tv_fecha_inicio, TextView tv_fecha_fin, TextView tv_hora_inicio,
-                                       TextView tv_hora_fin){
+                                       TextView tv_hora_fin , EditText direccionProducto){
         boolean campoLleno = true;
 
         String nombreProducto = et_nombre_producto.getText().toString();
@@ -374,6 +376,7 @@ public class addProduct extends AppCompatActivity {
         String fechaFin = tv_fecha_fin.getText().toString();
         String horaInicio = tv_hora_inicio.getText().toString();
         String horaFin = tv_hora_fin.getText().toString();
+        String direccion = direccionProducto.getText().toString();
 
         if(nombreProducto.isEmpty()){
             et_nombre_producto.setError("Debe diligenciar un nombre para el producto");
@@ -415,6 +418,10 @@ public class addProduct extends AppCompatActivity {
             tv_hora_fin.setError("");
             Toast.makeText(this, "Debe seleccionar una hora de fin", Toast.LENGTH_SHORT).show();
             campoLleno=false;
+        }if(direccion.isEmpty()) {
+            direccionProducto.setError("");
+            Toast.makeText(this, "Debe agregar una direccion", Toast.LENGTH_SHORT).show();
+            campoLleno = false;
         }
         return campoLleno;
     }

@@ -114,15 +114,11 @@ public class HomeFragment extends Fragment {
                     listaDeDatosTipo.clear();
                     for(DataSnapshot objsnapshot : snapshot.getChildren()){ //Recorre los usuarios
                             TipoComidas t = objsnapshot.getValue(TipoComidas.class);
-
                             listaDeDatosTipo.add(new TipoComidas(t.getTipoComida(),t.getFoto()));
                            // Toast.makeText(getApplicationContext(), t.getTipoComida(), Toast.LENGTH_SHORT).show();
                         }
-
                     listTypeFood = new ListTypeFood(getContext(),listaDeDatosTipo, getActivity());
                     listado_tipo_comidas.setAdapter(listTypeFood);
-                }else{
-
                 }
             }
 
@@ -172,7 +168,7 @@ public class HomeFragment extends Fragment {
 
                                 listaDeDatos.add(new Productos(p.getIdProducto(), p.getNombreProducto(), p.getDescripcionProducto(),
                                         p.getCategoriaProducto(), p.getSubCategoriaProducto(), p.getPrecio(), p.getDescuento(), p.getDomicilio(), p.getEstadoProducto(),
-                                        p.getfoto(), p.getFechaInicio(), p.getHoraInicio(), p.getFechaFin(), p.getHoraFin(),p.getNombreEmpresa()));
+                                        p.getfoto(), p.getFechaInicio(), p.getHoraInicio(), p.getFechaFin(), p.getHoraFin(),p.getNombreEmpresa(),p.getDireccion()));
                             }
                         }
                     }
