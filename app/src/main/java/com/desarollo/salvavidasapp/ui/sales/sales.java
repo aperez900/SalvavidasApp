@@ -57,9 +57,9 @@ public class sales extends Fragment {
         CardView cardSalesOffered = view.findViewById(R.id.cardSalesOffered);
         CardView card4 = view.findViewById(R.id.card4);
         CardView cardCancelledSales = view.findViewById(R.id.cardCancelledSales);
+        CardView cardUnsoldOffers = view.findViewById(R.id.cardUnsoldOffers);
 
         consultarDatosVendedor();
-
 
         //cardAddProduct.setOnClickListener(Navigation.createNavigateOnClickListener(R.id.action_nav_sales_to_addProduct));
         cardAddProduct.setOnClickListener(new View.OnClickListener() {
@@ -96,6 +96,14 @@ public class sales extends Fragment {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(sales.this.getContext(), cancelledSales.class);
+                startActivity(intent);
+            }
+        });
+
+        cardUnsoldOffers.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(sales.this.getContext(), unsoldOffers.class);
                 startActivity(intent);
             }
         });

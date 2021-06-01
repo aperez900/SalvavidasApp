@@ -60,19 +60,12 @@
                 android:textStyle="bold" />
         </LinearLayout>
 
-        <RatingBar
-            android:id="@+id/ratingBar"
-            android:layout_width="240dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="30dp"
-            android:layout_below="@id/img_imagen_producto" />
-
         <ScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             tools:layout_editor_absoluteX="0dp"
             tools:layout_editor_absoluteY="-71dp"
-            android:layout_below="@id/ratingBar" >
+            android:layout_below="@id/img_imagen_producto" >
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -287,6 +280,47 @@
                         android:text=""
                         android:textSize="22sp"
                         android:textAlignment="textStart"/>
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="0dp"
+                    android:orientation="horizontal">
+                    <Button
+                        android:id="@+id/btn_menos"
+                        android:layout_width="40dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="5dp"
+                        android:layout_marginStart="30dp"
+                        android:fontFamily="@font/poppins_light"
+                        android:padding="5dp"
+                        android:textSize="18sp"
+                        android:text="@string/menos"
+                        android:textStyle="bold"
+                        android:textAlignment="center"/>
+
+                    <TextView
+                        android:id="@+id/tv_numero_productos"
+                        android:layout_width="40dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="5dp"
+                        android:fontFamily="@font/poppins_bold"
+                        android:padding="5dp"
+                        android:text="@string/nroProductosPorDefecto"
+                        android:textSize="22sp"
+                        android:gravity="center" />
+
+                    <Button
+                        android:id="@+id/btn_mas"
+                        android:layout_width="40dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="5dp"
+                        android:fontFamily="@font/poppins_light"
+                        android:padding="5dp"
+                        android:textSize="18sp"
+                        android:text="@string/mas"
+                        android:textAlignment="center"
+                        android:textStyle="bold"/>
                 </LinearLayout>
             </LinearLayout>
         </ScrollView>

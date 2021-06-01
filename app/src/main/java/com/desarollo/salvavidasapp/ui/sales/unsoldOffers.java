@@ -18,17 +18,14 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-import com.google.type.DateTime;
 
-import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 
-public class
-salesOffered extends AppCompatActivity {
+public class unsoldOffers extends AppCompatActivity {
 
     ArrayList<Productos> listaDeDatos = new ArrayList<>();
     RecyclerView listado;
@@ -37,22 +34,22 @@ salesOffered extends AppCompatActivity {
     FirebaseUser currentUser;
     FirebaseDatabase database;
     DatabaseReference myRef;
-    TextView titulo_ofertados, subtitulo_ofertados;
+    TextView titulo_ofertados_no_vendidos, subtitulo_ofertados_no_vendidos;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_sales_offered);
+        setContentView(R.layout.activity_unsold_offers);
 
-        titulo_ofertados = findViewById(R.id.tv_titulo_ofertados);
-        subtitulo_ofertados = findViewById(R.id.tv_subtitulo_ofertados);
+        titulo_ofertados_no_vendidos = findViewById(R.id.tv_titulo_ofertados_no_vendidos);
+        subtitulo_ofertados_no_vendidos = findViewById(R.id.tv_subtitulo_ofertados_no_vendidos);
 
         mAuth = FirebaseAuth.getInstance();
         currentUser = mAuth.getCurrentUser();
         database = FirebaseDatabase.getInstance();
         myRef = database.getReference("productos");
 
-        listado = findViewById(R.id.listadoOfertados);
+        listado = findViewById(R.id.listadoOfertadosNoVendidos);
         LinearLayoutManager manager = new LinearLayoutManager(this);
         listado.setLayoutManager(manager);
 //        listado.setHasFixedSize(true);
@@ -90,17 +87,17 @@ salesOffered extends AppCompatActivity {
                         }
                         estado = p.getEstadoProducto();
 
-                        if (getCurrentDateTime.compareTo(fechaInicio) > 0 && getCurrentDateTime.compareTo(fechaFin) < 0 && !estado.equals("Cancelado")){
+                        if (getCurrentDateTime.compareTo(fechaFin) > 0 && !estado.equals("Cancelado")){
 
-                           // Toast.makeText(salesOffered.this, getCurrentDateTime + " - " + fecha + " - " + getCurrentDateTime.compareTo(fecha) , Toast.LENGTH_SHORT).show();
-                            titulo_ofertados.setText("Productos ofertados");
-                            subtitulo_ofertados.setText("Los siguientes productos estan disponibles para la venta hasta que se cumpla su fecha y hora de fin");
+                            // Toast.makeText(salesOffered.this, getCurrentDateTime + " - " + fecha + " - " + getCurrentDateTime.compareTo(fecha) , Toast.LENGTH_SHORT).show();
+                            titulo_ofertados_no_vendidos.setText("Productos ofertados no vendidos");
+                            subtitulo_ofertados_no_vendidos.setText("Los siguientes productos ya no estan disponibles para la venta porque se cumplió su fecha y hora de fin");
                             listaDeDatos.add(new Productos(p.getIdProducto(), p.getNombreProducto(), p.getDescripcionProducto(),
                                     p.getCategoriaProducto(), p.getSubCategoriaProducto(), p.getPrecio(), p.getDescuento(), p.getDomicilio(), p.getEstadoProducto(),
                                     p.getfoto(), p.getFechaInicio(), p.getHoraInicio(), p.getFechaFin(), p.getHoraFin(),p.getNombreEmpresa(),p.getDireccion()));
                         }
                     }
-                    listSaleAdapter = new ListSaleAdapter(salesOffered.this, listaDeDatos, salesOffered.this);
+                    listSaleAdapter = new ListSaleAdapter(unsoldOffers.this, listaDeDatos, unsoldOffers.this);
                     listado.setAdapter(listSaleAdapter);
                 }else{
 
@@ -109,7 +106,7 @@ salesOffered extends AppCompatActivity {
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
-                Toast.makeText(salesOffered.this, "Error cargando los productos", Toast.LENGTH_SHORT).show();
+                Toast.makeText(unsoldOffers.this, "Error cargando los productos", Toast.LENGTH_SHORT).show();
             }
         });
     }

@@ -77,11 +77,11 @@ public class ListSellAdapter extends RecyclerView.Adapter<ListSellAdapter.viewHo
         Double precio = listaDeDatos.get(position).getPrecio();
         Double descuento = listaDeDatos.get(position).getDescuento();
         long porcDescuento = Math.round(descuento/precio*100);
-        String fechaInicio = listaDeDatos.get(position).getFechaInicio() + " " + listaDeDatos.get(position).getHoraInicio();
-        String fechaFin = listaDeDatos.get(position).getFechaFin() + " " + listaDeDatos.get(position).getHoraFin();;
+        String fechaInicio = listaDeDatos.get(position).getFechaInicio();
+        String fechaFin = listaDeDatos.get(position).getFechaFin();
         String getUrlFoto = listaDeDatos.get(position).getfoto();
         DecimalFormat df = new DecimalFormat("#.00");
-        double aleatorio = Math.random()*5;
+        //double aleatorio = Math.random()*5;
         String direccion = listaDeDatos.get(position).getDireccion();
         String Distancia = df.format(convertirDireccion(direccion));
         holder.nombre_producto.setText(nombre_producto);

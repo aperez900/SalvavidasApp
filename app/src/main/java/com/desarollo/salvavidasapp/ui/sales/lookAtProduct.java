@@ -6,6 +6,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.graphics.Paint;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -21,12 +23,13 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 public class lookAtProduct extends AppCompatActivity {
-        FirebaseAuth mAuth;
+    FirebaseAuth mAuth;
     FirebaseUser currentUser;
     FirebaseDatabase database;
     DatabaseReference myRef;
     String idProducto ="";
     String urlFoto="";
+    int numeroProductos = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,6 +50,9 @@ public class lookAtProduct extends AppCompatActivity {
         TextView totalProducto = findViewById(R.id.tv_total_producto);
         TextView inicioProducto = findViewById(R.id.tv_fecha_inicio_producto);
         TextView finProducto = findViewById(R.id.tv_fecha_fin_producto);
+        Button btnMas = findViewById(R.id.btn_mas);
+        Button btnMenos = findViewById(R.id.btn_menos);
+        TextView tvNumeroProductos = findViewById(R.id.tv_numero_productos);
 
         Intent intent = getIntent();
         if (intent.getExtras() != null){
@@ -76,18 +82,45 @@ public class lookAtProduct extends AppCompatActivity {
 
         consultarImagen(imgProducto);
 
+        btnMas.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                numeroProductos = numeroProductos+1;
+                tvNumeroProductos.setText(String.valueOf(numeroProductos));
+            }
+        });
+
+        btnMenos.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String numeroActual;
+                numeroActual = tvNumeroProductos.getText().toString();
+                if (numeroActual.equals("1")) {
+
+                }else{
+                    numeroProductos = numeroProductos-1;
+                    tvNumeroProductos.setText(String.valueOf(numeroProductos));
+                }
+            }
+        });
     }
 
     public void consultarImagen(ImageView imgProducto){
 
-        myRef.child(currentUser.getUid()).child(idProducto).addValueEventListener(new ValueEventListener() {
+        myRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 if(snapshot.exists()){
-                    urlFoto = snapshot.child("foto").getValue().toString();
-                    Glide.with(getApplicationContext())
-                            .load(urlFoto)
-                            .into(imgProducto);
+                    for(DataSnapshot objsnapshot : snapshot.getChildren()){ //Recorre los usuarios
+                        for(DataSnapshot objsnapshot2 : objsnapshot.getChildren()){ //recorre los productos
+                            if (objsnapshot2.child("idProducto").getValue().toString().equals(idProducto)) {
+                                urlFoto = objsnapshot2.child("foto").getValue().toString();
+                                Glide.with(getApplicationContext())
+                                        .load(urlFoto)
+                                        .into(imgProducto);
+                            }
+                        }
+                    }
                 }
             }
             @Override

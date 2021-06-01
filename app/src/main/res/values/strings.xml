@@ -61,6 +61,7 @@
     <string name="ventasEfectuadas">Ventas efectuadas</string>
     <string name="ventasAnuladas">Ventas anuladas</string>
     <string name="ventasCanceladas">Ventas canceladas</string>
+    <string name="ofertasNoVendidas">Ofertas no vendidas</string>
 
     <string name="nombreProducto">¿Qué deseas vender?</string>
     <string name="nombreProducto2">Nombre producto</string>
@@ -90,10 +91,15 @@
     <string name="noProductosProgramados">No hay productos programados</string>
     <string name="descripcionNoProductos">vaya a "Mis ventas" / "Agregar producto"</string>
     <string name="noProductosOfertados">No hay productos ofertados</string>
+    <string name="noProductosOfertadosNoVendidos">No hay productos ofertados que no se hayan vendido</string>
+    <string name="descripcionNoOfertadosNoVendidos">No hay productos actualmente a los que se les haya terminado su fecha fin</string>
     <string name="noProductosCancelados">No hay productos cancelados</string>
     <string name="descripcionNoCancelados">vaya al producto y oprima el icono de la "X"</string>
     <string name="tenemosEstoParaTi">¡Tenemos esto para tí!</string>
     <string name="queVasAPedirHoy">Hola @nombre@ ¿Que vas a pedir hoy?</string>
+    <string name="nroProductosPorDefecto">1</string>
+    <string name="menos">-</string>
+    <string name="mas">+</string>
 
     <string name="facebook_application_id">1541603559379639</string>
     <string name="facebook_app_id">1541603559379639</string>

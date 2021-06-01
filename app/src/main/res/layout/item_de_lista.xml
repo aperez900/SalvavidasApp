@@ -80,7 +80,7 @@
 
         <TextView
             android:id="@+id/tv_fecha_inicio_producto"
-            android:layout_width="70dp"
+            android:layout_width="80dp"
             android:layout_height="32dp"
             android:layout_below="@id/tv_nombre_producto"
             android:layout_toEndOf="@id/img_disponibilidad"
@@ -94,7 +94,7 @@
 
         <TextView
             android:id="@+id/tv_fecha_fin_producto"
-            android:layout_width="70dp"
+            android:layout_width="80dp"
             android:layout_height="32dp"
             android:layout_marginTop="10dp"
             android:layout_below="@id/tv_nombre_producto"
@@ -178,7 +178,7 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/img_restaurant"
             android:layout_toEndOf="@id/tv_total_producto"
-            android:layout_marginStart="60dp"
+            android:layout_marginStart="80dp"
             android:layout_marginTop="10dp"
             android:contentDescription="@string/descripcionImagen"
             android:fontFamily="@font/poppins_semibold"
