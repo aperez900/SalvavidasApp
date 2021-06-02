@@ -5,8 +5,10 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.location.LocationManager;
@@ -23,9 +25,11 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.desarollo.salvavidasapp.Models.ListDirecciones;
 import com.desarollo.salvavidasapp.Models.Vendedores;
 import com.desarollo.salvavidasapp.R;
 import com.desarollo.salvavidasapp.ui.direction.Maps;
+import com.desarollo.salvavidasapp.ui.sales.addProduct;
 import com.desarollo.salvavidasapp.ui.sales.lookAtProduct;
 import com.google.android.gms.tasks.Continuation;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -51,6 +55,9 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 import java.util.Properties;
 
@@ -71,6 +78,8 @@ public class seller2 extends AppCompatActivity {
     FirebaseUser currentUser;
     FirebaseDatabase database;
     DatabaseReference myRefVendedores, myRefPerfilUsuario, imgRef;
+    Map<String,Object> selectedItems = new HashMap<>();
+
     Vendedores v;
     Session session;
     StorageReference storageReference;
@@ -146,7 +155,7 @@ public class seller2 extends AppCompatActivity {
 
         }
         consultarDatosVendedor(nombres, apellidos, identificacion, celular, nombreEstablecimiento, nit, sp_actividad_econimica,
-                btn_reg,estado);
+                btn_reg,estado,direccionVendedor);
 
         consultarDatosPerfilUsuario(nombres, apellidos, identificacion, celular);
 
@@ -162,8 +171,8 @@ public class seller2 extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 if(validarCamposVacios( nombres, apellidos, identificacion, celular, nombreEstablecimiento, nit, sp_actividad_econimica,
-                        urlFoto)) {
-                    registrar(nombres, apellidos, identificacion, celular, nombreEstablecimiento, nit, sp_actividad_econimica, estado);
+                        urlFoto,direccionVendedor)) {
+                    registrar(nombres, apellidos, identificacion, celular, nombreEstablecimiento, nit, sp_actividad_econimica, estado,direccionVendedor);
                     enviar_email(correo,contrasena, nombres, celular);
                     enviar_email_usuario(correo,contrasena, nombres, celular);
                 }
@@ -174,6 +183,7 @@ public class seller2 extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
+                /*
                 LocationManager lm = (LocationManager) getApplicationContext().getSystemService(Context.LOCATION_SERVICE);
                 boolean gpsActivo = lm.isProviderEnabled(LocationManager.GPS_PROVIDER);
 
@@ -185,7 +195,9 @@ public class seller2 extends AppCompatActivity {
                 }
                 else{
                     Toast.makeText(seller2.this,"activa el GPS para poder continuar...",Toast.LENGTH_SHORT).show();
-                }
+                }*/
+
+                crearModalDirecciones(direccionVendedor);
             }
         });
 
@@ -271,7 +283,8 @@ public class seller2 extends AppCompatActivity {
 
     public void consultarDatosVendedor(TextView tv_nombres, TextView tv_apellidos, TextView et_identificacion,
                                        TextView tv_celular, EditText et_nombreEstablecimiento, EditText et_nit,
-                                       Spinner sp_actividad_econimica, Button btn_reg, TextView tv_estado){
+                                       Spinner sp_actividad_econimica, Button btn_reg, TextView tv_estado,EditText direccionVendedor){
+
         //consultando datos del vendedor
         myRefVendedores.child(currentUser.getUid())
                 .addValueEventListener(new ValueEventListener() {
@@ -314,6 +327,12 @@ public class seller2 extends AppCompatActivity {
                                 String estado = Objects.requireNonNull(snapshot.child("estado").getValue()).toString();
                                 tv_estado.setText(estado);
                             }
+
+                            if (snapshot.child("direccion").exists()) {
+                                String direccion = Objects.requireNonNull(snapshot.child("direccion").getValue()).toString();
+                                direccionVendedor.setText(direccion);
+                            }
+
                             if (snapshot.child("url_logo").exists()) {
                                 urlFoto = Objects.requireNonNull(snapshot.child("url_logo").getValue()).toString();
                                 Glide.with(getApplicationContext())
@@ -368,7 +387,7 @@ public class seller2 extends AppCompatActivity {
 
 
     private void registrar(TextView nombres, TextView apellidos, TextView identificacion, TextView celular, EditText nombre_establecimiento, EditText nit, Spinner sp_actividad_econimica,
-                           TextView estado) {
+                           TextView estado, EditText direccionVendedor) {
         v = new Vendedores();
         v.setNombre(nombres.getText().toString());
         v.setApellido(apellidos.getText().toString());
@@ -382,6 +401,7 @@ public class seller2 extends AppCompatActivity {
         v.setNit(nit.getText().toString());
         v.setActividad_economica(sp_actividad_econimica.getSelectedItem().toString());
         v.setUrl_logo(urlFoto);
+        v.setDireccion(direccionVendedor.getText().toString());
 
         //guarda los datos del vendedor
         myRefVendedores.child(currentUser.getUid()).setValue(v)
@@ -505,7 +525,7 @@ public class seller2 extends AppCompatActivity {
         }
     }
     public boolean validarCamposVacios(TextView nombres, TextView apellidos, TextView identificacion, TextView celular,
-                                       EditText nombre_establec, EditText et_nit, Spinner sp_actividades_economicas, String urlFoto){
+                                       EditText nombre_establec, EditText et_nit, Spinner sp_actividades_economicas, String urlFoto,EditText direccionVendedor){
         boolean campoLleno = true;
 
         String nombreV = nombres.getText().toString();
@@ -515,6 +535,7 @@ public class seller2 extends AppCompatActivity {
         String nombre_establecimiento = nombre_establec.getText().toString();
         String nit = et_nit.getText().toString();
         String actividades_econo = sp_actividades_economicas.getSelectedItem().toString();
+        String direccion = direccionVendedor.getText().toString();
 
         if(nombreV.equals("Nombres")){
             nombres.setError("Debe diligenciar un nombre");
@@ -543,6 +564,10 @@ public class seller2 extends AppCompatActivity {
             nombre_establec.setError("Debe diligenciar un nombre de establecimiento");
             campoLleno=false;
         }
+        if(direccion.isEmpty()){
+            direccionVendedor.setError("Debe diligenciar la direccion");
+            campoLleno=false;
+        }
         if(nit.isEmpty()){
             et_nit.setError("Debe diligenciar un NIT");
             campoLleno=false;
@@ -554,5 +579,78 @@ public class seller2 extends AppCompatActivity {
             campoLleno=false;
         }
         return campoLleno;
+    }
+
+
+    private void crearModalDirecciones(EditText et_direccion_producto) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(seller2.this );
+        builder.setTitle("Elige una dirección");
+        builder.setCancelable(false);
+
+        String[] direcciones = new String[]
+                {
+                        "Dirección 1", "Dirección 2", "Dirección 3", "Dirección 4", "Dirección 5"
+                };
+
+        //array booleano para marcar casillas por defecto
+        boolean[] checkItems = new boolean[]{
+                false, false, false, false, false
+        };
+
+        //consulta las direcciones del vendedor
+        myRefPerfilUsuario.child(currentUser.getUid()).child("mis direcciones")
+                .addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        int i=0;
+                        if(snapshot.exists()){
+                            for(DataSnapshot objsnapshot : snapshot.getChildren()){
+                                ListDirecciones d = objsnapshot.getValue(ListDirecciones.class);
+                                direcciones[i] = d.getDireccionUsuario();
+                                checkItems[i]=false;
+                                if (i < direcciones.length){
+                                    i=i+1;
+                                }
+                            }
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+                        Toast.makeText(getApplicationContext(), "Error consultando las direcciones. Intente de nuevo mas tarde.", Toast.LENGTH_SHORT).show();
+                    }
+                });
+
+        final List<String> foodList = Arrays.asList(direcciones);
+
+        builder.setMultiChoiceItems(direcciones, checkItems, new DialogInterface.OnMultiChoiceClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i, boolean b) {
+                checkItems[i] = b; //verificar si existe un item seleccionado
+                String currentItems = foodList.get(i); //Obtener el valor seleccionado
+            }
+        });
+        builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                selectedItems.clear();
+                //recorre los items y valida cuales fueron checkeados
+                for(int x=0;x<checkItems.length;x++){
+                    boolean checked = checkItems[x];
+                    if(checked){
+                        selectedItems.put(foodList.get(x),checked);
+                        et_direccion_producto.setText(foodList.get(x));
+                    }
+                }
+            }
+        });
+        builder.setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                dialogInterface.cancel();
+            }
+        });
+        AlertDialog dialog = builder.create();
+        dialog.show();
     }
 }

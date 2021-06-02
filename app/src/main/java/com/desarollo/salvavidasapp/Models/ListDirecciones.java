@@ -6,14 +6,26 @@ public class ListDirecciones {
     public String direccionUsuario;
     public String municipioDireccion;
     public int imagenID;
+    public String seleccion;
 
     public ListDirecciones(){}
 
-    public ListDirecciones(String nombreDireccion, String direccionUsuario, String municipioDireccion, int imagenID) {
+    public ListDirecciones(String nombreDireccion, String direccionUsuario, String municipioDireccion, int imagenID,String seleccion) {
         this.nombreDireccion = nombreDireccion;
         this.direccionUsuario = direccionUsuario;
         this.municipioDireccion = municipioDireccion;
         this.imagenID = imagenID;
+        this.seleccion = seleccion;
+    }
+
+
+
+    public String getSeleccion() {
+        return seleccion;
+    }
+
+    public void setSeleccion(String seleccion) {
+        this.seleccion = seleccion;
     }
 
     public String getNombreDireccion() {

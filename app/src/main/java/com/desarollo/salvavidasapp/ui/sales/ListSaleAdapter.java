@@ -67,6 +67,8 @@ public class ListSaleAdapter extends RecyclerView.Adapter<ListSaleAdapter.viewHo
         String fechaInicio = listaDeDatos.get(position).getFechaInicio();
         String fechaFin = listaDeDatos.get(position).getFechaFin();
         String getUrlFoto = listaDeDatos.get(position).getfoto();
+        String direccionProducto = listaDeDatos.get(position).getDireccion();
+
         holder.tipo_producto.setText(tipo_producto);
         holder.nombre_producto.setText(nombre_producto);
         holder.descripcion_producto.setText(descripcion_producto);
@@ -104,6 +106,7 @@ public class ListSaleAdapter extends RecyclerView.Adapter<ListSaleAdapter.viewHo
                 intent.putExtra("fechaFin", listaDeDatos.get(position).getFechaFin());
                 intent.putExtra("horaFin", listaDeDatos.get(position).getHoraFin());
                 intent.putExtra("urlFoto" , listaDeDatos.get(position).getfoto());
+                intent.putExtra("direccionProducto" , listaDeDatos.get(position).getDireccion());
                 intent.putExtra("tipyEntry" , "Consultar");
 
                 activity.startActivity(intent);
@@ -129,6 +132,7 @@ public class ListSaleAdapter extends RecyclerView.Adapter<ListSaleAdapter.viewHo
                 intent.putExtra("fechaFin", listaDeDatos.get(position).getFechaFin());
                 intent.putExtra("horaFin", listaDeDatos.get(position).getHoraFin());
                 intent.putExtra("urlFoto", listaDeDatos.get(position).getfoto());
+                intent.putExtra("direccionProducto" , listaDeDatos.get(position).getDireccion());
                 intent.putExtra("tipyEntry" , "Editar");
 
                 activity.startActivity(intent);

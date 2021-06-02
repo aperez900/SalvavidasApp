@@ -127,7 +127,7 @@
                     android:hint="@string/direccionVenta"
                     android:importantForAutofill="no"
                     app:layout_constraintTop_toBottomOf="@id/et_descuento"
-                    android:inputType="number" />
+                     />
 
 
                     <Button

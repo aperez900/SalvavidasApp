@@ -78,13 +78,7 @@ public class ListAddress extends Fragment {
         //cargar la lista
         cargarLista();
 
-        btnAgregarDir.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent h = new Intent(getApplicationContext(), FrmAddress.class);
-                startActivity(h);
-            }
-        });
+
 
         btnUbicacionActual.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -113,11 +107,12 @@ public class ListAddress extends Fragment {
                     listaDirecciones.clear();
                     for(DataSnapshot objsnapshot : snapshot.getChildren()){
                         ListDirecciones d = objsnapshot.getValue(ListDirecciones.class);
-                        listaDirecciones.add(new ListDirecciones(d.getNombreDireccion(),d.getDireccionUsuario(), d.getMunicipioDireccion(),R.drawable.ic_icono_address));
+                        listaDirecciones.add(new ListDirecciones(d.getNombreDireccion(),d.getDireccionUsuario(), d.getMunicipioDireccion(),R.drawable.marker,d.getSeleccion()));
                     }
 
                     listAddressAdapter = new ListAddressAdapter(getApplicationContext(),listaDirecciones);
                     recyclerViewDirecciones.setAdapter(listAddressAdapter);
+
                     //Acciones al dar clic en un item de la lista
                     listAddressAdapter.setOnClickListener(new View.OnClickListener() {
                         @Override
@@ -139,8 +134,8 @@ public class ListAddress extends Fragment {
         });
     }
     public void mostrarData(){
-        listaDirecciones.add(new ListDirecciones("Nombre dirección 1", "Dirección 1","Ciudad/Departamento",R.drawable.ic_icono_address));
-        listaDirecciones.add(new ListDirecciones("Nombre dirección 2", "Dirección 2","Ciudad/Departamento",R.drawable.ic_icono_address));
+        listaDirecciones.add(new ListDirecciones("Nombre dirección 1", "Dirección 1","Ciudad/Departamento",R.drawable.marker,"false"));
+        listaDirecciones.add(new ListDirecciones("Nombre dirección 2", "Dirección 2","Ciudad/Departamento",R.drawable.marker,"false"));
 
         recyclerViewDirecciones.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
         listAddressAdapter = new ListAddressAdapter(getApplicationContext(),listaDirecciones);

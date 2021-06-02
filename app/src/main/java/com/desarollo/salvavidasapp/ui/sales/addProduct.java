@@ -100,7 +100,6 @@ public class addProduct extends AppCompatActivity {
         String SdomicilioProducto="";
         String type="";
 
-        String direccionUsuario="";
 
         Intent intent = getIntent();
 
@@ -121,8 +120,7 @@ public class addProduct extends AppCompatActivity {
             tvHoraFin.setText(extras.getString("horaFin"));
             type = extras.getString("tipyEntry");
             fotoConsulta = extras.getString("urlFoto");
-
-          // direccionUsuario = extras.getString("direccionUsuario");
+            direccionProducto.setText(extras.getString("direccionProducto"));
 
             //direccionVenta.setText(direccionUsuario);
 

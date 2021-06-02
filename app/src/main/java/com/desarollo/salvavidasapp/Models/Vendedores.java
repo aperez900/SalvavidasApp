@@ -12,6 +12,7 @@ public class Vendedores {
     private String nombre_establecimiento;
     private String nit;
     private String actividad_economica;
+    private String direccion;
     private String url_logo;
 
     public Vendedores(){
@@ -20,6 +21,15 @@ public class Vendedores {
 
     public String getNombre() {
         return nombre;
+    }
+
+
+    public String getDireccion() {
+        return direccion;
+    }
+
+    public void setDireccion(String direccion) {
+        this.direccion = direccion;
     }
 
     public void setNombre(String nombre) {
