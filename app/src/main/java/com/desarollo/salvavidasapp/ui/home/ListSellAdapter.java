@@ -177,7 +177,7 @@ public class ListSellAdapter extends RecyclerView.Adapter<ListSellAdapter.viewHo
     public class viewHolder extends RecyclerView.ViewHolder {
         TextView tipo_producto, nombre_producto, descripcion_producto, precio, fechaInicio, fechaFin,
                 porcentajeDescuento, nombre_empresa, distancia;
-        ImageView imagenProducto, imgVer, imgEditar, imgCancelar;
+        ImageView imagenProducto;
 
         public viewHolder(@NonNull View itemView) {
             super(itemView);

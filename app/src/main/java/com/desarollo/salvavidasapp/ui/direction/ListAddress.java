@@ -3,9 +3,11 @@ package com.desarollo.salvavidasapp.ui.direction;
 import android.content.Context;
 import android.content.Intent;
 import android.location.LocationManager;
+import android.os.Build;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -22,6 +24,10 @@ import android.widget.Toast;
 import com.desarollo.salvavidasapp.Models.ListDirecciones;
 import com.desarollo.salvavidasapp.R;
 import com.desarollo.salvavidasapp.ui.home.Home;
+import com.desarollo.salvavidasapp.ui.sales.addPhoto;
+import com.desarollo.salvavidasapp.ui.sales.addProduct;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -31,6 +37,9 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Objects;
 
 import static com.facebook.FacebookSdk.getApplicationContext;
 
@@ -69,7 +78,7 @@ public class ListAddress extends Fragment {
         LinearLayoutManager manager = new LinearLayoutManager(getApplicationContext());
         recyclerViewDirecciones.setLayoutManager(manager);
         recyclerViewDirecciones.setHasFixedSize(true);
-        listAddressAdapter = new ListAddressAdapter(getApplicationContext(),listaDirecciones);
+        listAddressAdapter = new ListAddressAdapter(getApplicationContext(),listaDirecciones,getActivity());
         recyclerViewDirecciones.setAdapter(listAddressAdapter);
 
         Button btnAgregarDir = view.findViewById(R.id.btnAgregarDirecciones);
@@ -96,8 +105,22 @@ public class ListAddress extends Fragment {
                 }
             }
         });
+
+
+        btnAgregarDir.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                    Intent h = new Intent(getContext(), FrmAddress.class);
+                    startActivity(h);
+
+            }
+        });
         return view;
     }
+
+
+
 
     public void cargarLista(){
         myRef.child(currentUser.getUid()).child("mis direcciones").addValueEventListener(new ValueEventListener() {
@@ -110,15 +133,15 @@ public class ListAddress extends Fragment {
                         listaDirecciones.add(new ListDirecciones(d.getNombreDireccion(),d.getDireccionUsuario(), d.getMunicipioDireccion(),R.drawable.marker,d.getSeleccion()));
                     }
 
-                    listAddressAdapter = new ListAddressAdapter(getApplicationContext(),listaDirecciones);
+                    listAddressAdapter = new ListAddressAdapter(getApplicationContext(),listaDirecciones,getActivity());
                     recyclerViewDirecciones.setAdapter(listAddressAdapter);
 
                     //Acciones al dar clic en un item de la lista
                     listAddressAdapter.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
-                            String nombreDireccion = listaDirecciones.get(recyclerViewDirecciones.getChildAdapterPosition(view)).getNombreDireccion();
-                            Toast.makeText(getApplicationContext(),"Seleccionó: " + nombreDireccion,Toast.LENGTH_SHORT).show();
+                            String nombre_seleccion = listaDirecciones.get(recyclerViewDirecciones.getChildAdapterPosition(view)).getNombreDireccion();
+                            direccionPrincipal(nombre_seleccion);
                         }
                     });
                 }else{
@@ -138,12 +161,76 @@ public class ListAddress extends Fragment {
         listaDirecciones.add(new ListDirecciones("Nombre dirección 2", "Dirección 2","Ciudad/Departamento",R.drawable.marker,"false"));
 
         recyclerViewDirecciones.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
-        listAddressAdapter = new ListAddressAdapter(getApplicationContext(),listaDirecciones);
+        listAddressAdapter = new ListAddressAdapter(getApplicationContext(),listaDirecciones,getActivity());
         recyclerViewDirecciones.setAdapter(listAddressAdapter);
     }
 
     public void agregarDirecciones(View v) {
         Intent h = new Intent(getApplicationContext(), FrmAddress.class);
         startActivity(h);
+    }
+
+
+    String check = "";
+    Map<String,String> selectedItems = new HashMap<>();
+
+    public void direccionPrincipal(String nombre_seleccion){
+
+
+        myRef.child(currentUser.getUid()).child("mis direcciones").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if(snapshot.exists()){
+                    for(DataSnapshot objsnapshot : snapshot.getChildren()){
+
+                        if (objsnapshot.child("nombreDireccion").exists()) {
+                            String nombre = Objects.requireNonNull(objsnapshot.child("nombreDireccion").getValue()).toString();
+
+                            if(nombre_seleccion.equals(nombre)){
+                                check= "true";
+
+                            }
+                            else{
+                                check = "false";
+                            }
+                            selectedItems.put(nombre,check);
+                        }
+
+                    }
+
+
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                Toast.makeText(getApplicationContext(), "Error cargando las direcciones", Toast.LENGTH_SHORT).show();
+            }
+
+
+        });
+
+        for (Map.Entry<String, String> entry : selectedItems.entrySet()) {
+
+
+            myRef.child(currentUser.getUid()).child("mis direcciones").child(entry.getKey()).child("seleccion").setValue(entry.getValue())
+                    .addOnSuccessListener(new OnSuccessListener<Void>() {
+                        @Override
+                        public void onSuccess(Void aVoid) {
+
+                        }
+                    })
+                    .addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+
+                        }
+                    });
+
+            //Toast.makeText(getApplicationContext(), entry.getKey() + " " + entry.getValue() , Toast.LENGTH_SHORT).show();
+
+        }
+
+        selectedItems.clear();
     }
 }

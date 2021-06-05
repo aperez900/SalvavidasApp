@@ -1,11 +1,13 @@
 package com.desarollo.salvavidasapp.ui.direction;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.RadioButton;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -14,6 +16,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.desarollo.salvavidasapp.Models.ListDirecciones;
 import com.desarollo.salvavidasapp.R;
 import com.desarollo.salvavidasapp.ui.sales.addProduct;
+import com.desarollo.salvavidasapp.ui.sales.lookAtProduct;
 
 import java.util.ArrayList;
 /*
@@ -24,13 +27,15 @@ public class ListAddressAdapter extends RecyclerView.Adapter<ListAddressAdapter.
     ArrayList<ListDirecciones> model;
     LayoutInflater inflater;
     String seleccion = "";
+    Activity activity;
 
     //listener
     private View.OnClickListener listener;
 
-    public ListAddressAdapter(Context context, ArrayList<ListDirecciones> model){
+    public ListAddressAdapter(Context context, ArrayList<ListDirecciones> model,Activity activity){
             this.inflater = LayoutInflater.from(context);
             this.model = model;
+            this.activity = activity;
     }
 
     @NonNull
@@ -52,27 +57,44 @@ public class ListAddressAdapter extends RecyclerView.Adapter<ListAddressAdapter.
         String municipio = model.get(position).getMunicipioDireccion();
         seleccion = model.get(position).getSeleccion();
 
-        int imagen = model.get(position).getImagenID();
+
         holder.nombre.setText(nombre);
         holder.direccion.setText(direccion);
         holder.municipio.setText(municipio);
+
+        int imagen = model.get(position).getImagenID();
         holder.imagenDireccion.setImageResource(imagen);
         if(seleccion.equals("true")){
-            holder.imagenSeleccion.setImageResource(R.drawable.ok);
+            holder.direccion_principal.setChecked(true);
         }
+        else{
+            holder.direccion_principal.setChecked(false);
+        }
+
+
+        holder.direccion_principal.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+
+
+
+            }
+        });
 
 
         holder.imagenDireccion.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-               if (seleccion.equals("true")) {
 
-                   seleccion="false";
-                   holder.imagenSeleccion.setImageResource(0);
-               }else{
-                   seleccion="true";
-                   holder.imagenSeleccion.setImageResource(R.drawable.ok);
-               }
+                //Intent intent = new Intent(activity , addProduct.class);
+                Intent intent = new Intent(activity , look_at_address.class);
+                intent.putExtra("nombre", nombre);
+                intent.putExtra("direccion" , direccion);
+                intent.putExtra("municipio" , municipio);
+
+                activity.startActivity(intent);
+
             }
         });
     }
@@ -100,14 +122,16 @@ public class ListAddressAdapter extends RecyclerView.Adapter<ListAddressAdapter.
 
     public class ViewHolder extends RecyclerView.ViewHolder{
         TextView nombre, direccion, municipio;
-        ImageView imagenDireccion,imagenSeleccion;
+        RadioButton direccion_principal;
+        ImageView imagenDireccion;
+
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             nombre = itemView.findViewById(R.id.NombreDireccion);
             direccion = itemView.findViewById(R.id.Direccion);
             municipio = itemView.findViewById(R.id.municipioDireccion);
             imagenDireccion = itemView.findViewById(R.id.Imagen_direccion);
-            imagenSeleccion = itemView.findViewById(R.id.Imagen_seleccion);
+            direccion_principal = itemView.findViewById(R.id.direccion_principal);
 
         }
     }

@@ -115,6 +115,7 @@ public class FrmAddress extends AppCompatActivity {
                 barrio.getText().toString() + " "+
                 adicional.getText().toString();
         d.municipioDireccion = municipio.getSelectedItem().toString();
+        d.seleccion = "false";
 
         //guarda los datos del usuario
         myRef.child(currentUser.getUid()).child("mis direcciones").child(d.nombreDireccion).setValue(d)

@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#EDFAF8F8"
+    tools:context=".ui.direction.FrmAddress">
+
+    <TextView
+        android:id="@+id/tv_titulo_frm_dir"
+        android:layout_width="340dp"
+        android:layout_height="46dp"
+        android:layout_marginTop="72dp"
+        android:fontFamily="@font/poppins"
+        android:gravity="center"
+        android:text="Consultar o Editar una dirección"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.492"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cardView"
+        android:layout_width="381dp"
+        android:layout_height="459dp"
+        android:layout_marginTop="136dp"
+
+        app:cardCornerRadius="20dp"
+        app:cardElevation="4dp"
+        app:cardUseCompatPadding="true"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.466"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+
+            <EditText
+                android:id="@+id/direccion"
+                android:layout_width="331dp"
+                android:layout_height="42dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="20dp"
+                android:background="#FFFFFF"
+                android:fontFamily="@font/poppins_light"
+                android:gravity="start"
+                android:hint="Direccion"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/et_alias" />
+
+            <EditText
+                android:id="@+id/sp_municipio"
+                android:layout_width="328dp"
+                android:layout_height="45dp"
+                android:layout_marginTop="80dp"
+                android:background="#FFFFFF"
+                android:fontFamily="@font/poppins_light"
+                android:hint="municipio"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.485"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/et_alias" />
+
+            <EditText
+                android:id="@+id/et_barrio"
+                android:layout_width="331dp"
+                android:layout_height="42dp"
+                android:layout_marginStart="35dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="35dp"
+                android:background="#FFFFFF"
+                android:ems="10"
+                android:fontFamily="@font/poppins_light"
+                android:hint="Barrio"
+                android:inputType="text"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/sp_municipio" />
+
+
+            <EditText
+                android:id="@+id/et_alias"
+                android:layout_width="331dp"
+                android:layout_height="45dp"
+                android:layout_marginTop="48dp"
+                android:background="#FFFFFF"
+                android:ems="10"
+                android:fontFamily="@font/poppins_light"
+                android:hint="Mi casa"
+                android:inputType="textEmailAddress"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.531"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <EditText
+                android:id="@+id/et_adicional"
+                android:layout_width="331dp"
+                android:layout_height="45dp"
+                android:layout_marginTop="16dp"
+                android:background="#FFFFFF"
+                android:ems="10"
+                android:fontFamily="@font/poppins_light"
+                android:hint="Datos adicionales"
+                android:inputType="text"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/et_barrio" />
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.cardview.widget.CardView>
+
+    <Button
+        android:id="@+id/btn_modificar_direccion"
+        android:layout_width="343dp"
+        android:layout_height="52dp"
+        android:layout_marginTop="32dp"
+        android:fontFamily="@font/poppins_semibold"
+        android:text="Modificar"
+        android:textSize="16sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.514"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/cardView" />
+</androidx.constraintlayout.widget.ConstraintLayout>
+

@@ -237,6 +237,7 @@ public class Maps extends FragmentActivity implements GoogleMap.OnMarkerDragList
         d.nombreDireccion = et_alias.getText().toString();
         d.direccionUsuario = et_direccion.getText().toString();
         d.municipioDireccion = et_municipio.getText().toString();
+        d.seleccion = "false";
 
         //guarda los datos del usuario
         myRef.child(currentUser.getUid()).child("mis direcciones").child(d.nombreDireccion).setValue(d)

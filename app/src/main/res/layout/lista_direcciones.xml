@@ -15,6 +15,7 @@
         android:layout_height="wrap_content"
         android:padding="10dp" >
 
+
         <ImageView
             android:id="@+id/Imagen_direccion"
             android:layout_width="50dp"
@@ -60,13 +61,16 @@
             android:layout_marginStart="10dp">
         </TextView>
 
-        <ImageView
-            android:id="@+id/Imagen_seleccion"
+
+        <RadioButton
+            android:id="@+id/direccion_principal"
             android:layout_width="35dp"
             android:layout_height="35dp"
-            android:layout_marginTop="25dp"
             android:layout_marginStart="330dp"
-            ></ImageView>
+            android:layout_marginTop="25dp"
+            android:buttonTint="#FF0000"
+            android:text="" />
+
 
     </RelativeLayout>
 
