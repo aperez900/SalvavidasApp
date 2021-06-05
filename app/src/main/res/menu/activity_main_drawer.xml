@@ -36,8 +36,8 @@
             android:fontFamily="@font/poppins_bold" />
         <item
             android:id="@+id/nav_address"
-            android:icon="@drawable/icono_address"
-            android:title="Mis Direcciones"
+            android:icon="@drawable/icono_maps_24"
+            android:title="@string/misDirecciones"
             android:fontFamily="@font/poppins_bold" />
     </group>
 </menu>

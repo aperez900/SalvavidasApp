@@ -19,7 +19,9 @@ import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.ResultCallback;
 import com.google.android.gms.common.api.Status;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
+import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.auth.FirebaseAuth;
 
 import androidx.annotation.NonNull;
@@ -111,6 +113,10 @@ public class Home extends AppCompatActivity {
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         if (item.getItemId() == R.id.action_settings) {
                 CerrarSesion();
+        }
+        if (item.getItemId() == R.id.shop) {
+            Toast.makeText(Home.this, "En construcción.",
+                    Toast.LENGTH_SHORT).show();
         }
         return super.onOptionsItemSelected(item);
     }

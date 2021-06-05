@@ -1,23 +1,17 @@
 <resources>
     <string name="app_name">SalvavidasApp</string>
     <string name="title_activity_home">Home</string>
-    <string name="navigation_drawer_open">Open navigation drawer</string>
-    <string name="navigation_drawer_close">Close navigation drawer</string>
-    <string name="nav_header_title">Android Studio</string>
-    <string name="nav_header_subtitle">android.studio@android.com</string>
-    <string name="nav_header_desc">Navigation header</string>
-    <string name="action_settings">Settings</string>
 
     <string name="menu_home">Home</string>
     <string name="menu_gallery">Gallery</string>
     <string name="menu_slideshow">Slideshow</string>
     <string name="misCompras">Mis Compras</string>
     <string name="misVentas">Mis Ventas</string>
+    <string name="misDirecciones">Mis Direcciones</string>
 
     <string name="Recuperar">Recuperar</string>
     <string name="Bienvenido">Bienvenido</string>
     <string name="mensajeLogin">Inicia sesión para continuar</string>
-    <string name="verificarCorreo">Revisa tú correo para continuar</string>
     <string name="logoSalvavidas">Logo Salvavidas</string>
     <string name="cerrar_sesion">Cerrar sesión</string>
     <string name="correo">Correo</string>
@@ -35,10 +29,8 @@
     <string name="agregarDireccion">Agregar direccion </string>
     <string name="ubicacionActual">Ubicación actual</string>
 
-    <string name="mis_datos">Mis datos</string>
     <string name="nombre">Nombres</string>
     <string name="apellidos">Apellidos</string>
-    <string name="direccion">Dirección</string>
     <string name="documento_identidad">Documento de identidad</string>
     <string name="celular">Celular</string>
     <string name="lista_comida">Lista de comidas preferidas</string>
@@ -46,8 +38,6 @@
     <string name="perfilComprador">PERFIL COMPRADOR</string>
     <string name="perfilVendedor">PERFIL VENDEDOR</string>
     <string name="estadoVendedor">SIN REGISTRO</string>
-    <string name="TeEstabamosBuscando">!Te estabamos buscando!</string>
-    <string name="descripcionSolicitud">Diligencia el siguiente formulario si deseas vender tus productos en Salvavidas App</string>
     <string name="razonSocial">Nombre del establecimiento</string>
     <string name="Nit">Nit</string>
     <string name="ActividadEconomica">Actividad económica</string>
@@ -75,7 +65,6 @@
     <string name="signoMoneda">$</string>
     <string name="domicilioProducto">Domicilio producto</string>
     <string name="categoriaProducto">Categoría producto</string>
-    <string name="fechaInicioProducto">Fecha inicio</string>
     <string name="inicio">Inicio</string>
     <string name="fin">Fin</string>
     <string name="estructuraFecha">dd/mm/aaaa</string>
@@ -91,7 +80,6 @@
     <string name="noProductosProgramados">No hay productos programados</string>
     <string name="descripcionNoProductos">vaya a "Mis ventas" / "Agregar producto"</string>
     <string name="noProductosOfertados">No hay productos ofertados</string>
-    <string name="noProductosOfertadosNoVendidos">No hay productos ofertados que no se hayan vendido</string>
     <string name="descripcionNoOfertadosNoVendidos">No hay productos actualmente a los que se les haya terminado su fecha fin</string>
     <string name="noProductosCancelados">No hay productos cancelados</string>
     <string name="descripcionNoCancelados">vaya al producto y oprima el icono de la "X"</string>
@@ -100,14 +88,13 @@
     <string name="nroProductosPorDefecto">1</string>
     <string name="menos">-</string>
     <string name="mas">+</string>
+    <string name="añadirCarrito">Añadir al carrito</string>
 
-    <string name="facebook_application_id">1541603559379639</string>
     <string name="facebook_app_id">1541603559379639</string>
     <string name="fb_login_protocol_scheme">fb1541603559379639</string>
 
     <string name="web_client_id">423730616970-6mn3q3u61lu5futioc1m610focr3ffjm.apps.googleusercontent.com</string>
     <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="title_activity_maps">Map</string>
     <string name="title_activity_sales_maps">Map</string>
     <string name="title_activity_products_maps">Map</string>
