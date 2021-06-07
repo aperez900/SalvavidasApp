@@ -90,7 +90,7 @@ public class cancelledSales extends AppCompatActivity {
                                     subtitulo_cancelados.setText("Los siguientes productos ya no estan disponibles para la venta");
                                     listaDeDatos.add(new Productos(p.getIdProducto(), p.getNombreProducto(), p.getDescripcionProducto(),
                                             p.getCategoriaProducto(), p.getSubCategoriaProducto(), Math.round(p.getPrecio()), Math.round(p.getDescuento()), p.getDomicilio(), p.getEstadoProducto(),
-                                            p.getfoto(), p.getFechaInicio(), p.getHoraInicio(), p.getFechaFin(), p.getHoraFin(),p.getNombreEmpresa(),p.getDireccion()));
+                                            p.getfoto(), p.getFechaInicio(), p.getHoraInicio(), p.getFechaFin(), p.getHoraFin(),p.getNombreEmpresa(),p.getDireccion(),1));
                                 }
                             }
                             listSellAdapter = new ListSellAdapter(cancelledSales.this,listaDeDatos, cancelledSales.this);
@@ -129,7 +129,7 @@ public class cancelledSales extends AppCompatActivity {
                             //Valores por defecto
                             listaDeDatos.add(new Productos("", "Nombre producto", "Descipción producto",
                                     "Categoría producto", "Sub categoría producto",0, 0, "Domicilio Sí/No", "Estado producto",
-                                    "", "Fecha inicio", "Hora inicio", "Fecha fin", "Hora fin","Nombre empresa","No hay direccion"));
+                                    "", "Fecha inicio", "Hora inicio", "Fecha fin", "Hora fin","Nombre empresa","No hay direccion",1));
                         }
                     }
 

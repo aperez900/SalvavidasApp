@@ -24,16 +24,16 @@ public class Productos {
     private String fechaFin;
     private String horaFin;
     private String nombreEmpresa;
+    private int cantidad;
 
     public Productos(){
 
     }
 
-
-
     public Productos(String idProducto, String nombreProducto, String descripcionProducto, String categoriaProducto,
                      String subCategoriaProducto, double precio, double descuento, String domicilio, String estadoProducto,
-                     String foto, String fechaInicio, String horaInicio, String fechaFin, String horaFin, String nombreEmpresa,String direccion) {
+                     String foto, String fechaInicio, String horaInicio, String fechaFin, String horaFin, String nombreEmpresa,String direccion,
+                     int cantidad) {
         this.idProducto = idProducto;
         this.nombreProducto = nombreProducto;
         this.descripcionProducto = descripcionProducto;
@@ -50,6 +50,7 @@ public class Productos {
         this.horaFin = horaFin;
         this.nombreEmpresa = nombreEmpresa;
         this.direccion = direccion;
+        this.cantidad = cantidad;
     }
 
     public String getIdProducto() {
@@ -178,5 +179,13 @@ public class Productos {
 
     public void setDireccion(String direccion) {
         this.direccion = direccion;
+    }
+
+    public int getCantidad() {
+        return cantidad;
+    }
+
+    public void setCantidad(int cantidad) {
+        this.cantidad = cantidad;
     }
 }

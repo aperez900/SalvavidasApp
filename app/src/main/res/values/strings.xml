@@ -88,7 +88,12 @@
     <string name="nroProductosPorDefecto">1</string>
     <string name="menos">-</string>
     <string name="mas">+</string>
+
     <string name="añadirCarrito">Añadir al carrito</string>
+    <string name="tituloCarrito">Carrito de compras</string>
+    <string name="subtituloCarrito">No hay productos en el carrito</string>
+    <string name="totalCarrito">Total</string>
+    <string name="cantidad">Cantidad</string>
 
     <string name="facebook_app_id">1541603559379639</string>
     <string name="fb_login_protocol_scheme">fb1541603559379639</string>

@@ -25,6 +25,8 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.util.HashMap;
+
 public class lookAtProduct extends AppCompatActivity {
     FirebaseAuth mAuth;
     FirebaseUser currentUser;
@@ -33,7 +35,8 @@ public class lookAtProduct extends AppCompatActivity {
     String idProducto ="";
     String urlFoto="";
     int numeroProductos = 1;
-    Productos p;
+    Double total;
+    HashMap<String, String> producto = new HashMap<String, String>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -76,7 +79,7 @@ public class lookAtProduct extends AppCompatActivity {
             tvdescuentoProducto.setText(String.valueOf(descuento));
             long porcDescuento = Math.round(descuento/precio*100);
             tvporcDescuento.setText(String.valueOf(-porcDescuento));
-            Double total = precio-descuento;
+            total = precio-descuento;
             tvtotalProducto.setText(String.valueOf(total));
             //ScategoriaProductos = extras.getString("tipoProducto");
             //SdomicilioProducto = extras.getString("domicilioProducto");
@@ -155,9 +158,13 @@ public class lookAtProduct extends AppCompatActivity {
     }
 
     public void agregarCarrito(){
-
+        producto.clear();
+        producto.put("idProducto", idProducto);
+        producto.put("valorProducto",String.valueOf(total));
+        producto.put("cantidadProducto",String.valueOf(numeroProductos));
+        
         //guarda los datos del carrito de compras
-        myRefCarrito.child(currentUser.getUid()).child("carrito_compras").child(idProducto).setValue(idProducto)
+        myRefCarrito.child(currentUser.getUid()).child("carrito_compras").child(idProducto).setValue(producto)
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void aVoid) {

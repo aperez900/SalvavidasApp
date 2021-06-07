@@ -1,14 +1,11 @@
-package com.desarollo.salvavidasapp.ui.home;
+package com.desarollo.salvavidasapp.ui.sales;
 
-import android.Manifest;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
-import android.location.LocationManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,39 +13,39 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-
 import androidx.annotation.NonNull;
-import androidx.core.app.ActivityCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.desarollo.salvavidasapp.Models.Productos;
 import com.desarollo.salvavidasapp.R;
-import com.desarollo.salvavidasapp.ui.direction.Maps;
-import com.desarollo.salvavidasapp.ui.sales.lookAtProduct;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.io.IOException;
 import java.text.DecimalFormat;
-import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
 import static com.facebook.FacebookSdk.getApplicationContext;
 
-public class ListSellAdapter extends RecyclerView.Adapter<ListSellAdapter.viewHolder> implements View.OnClickListener {
+public class listShoppingCartAdapter extends RecyclerView.Adapter<listShoppingCartAdapter.viewHolder> implements View.OnClickListener {
 
     ArrayList<Productos> listaDeDatos;
     LayoutInflater inflater;
     private View.OnClickListener listener;
     Activity  activity;
+    String id_producto;
 
-    public ListSellAdapter(Context context, ArrayList<Productos> listaDeDatos, Activity activity) {
+
+    public listShoppingCartAdapter(Context context, ArrayList<Productos> listaDeDatos, Activity activity) {
         this.inflater = LayoutInflater.from(context);
         this.listaDeDatos = listaDeDatos;
         this.activity = activity;
@@ -56,21 +53,21 @@ public class ListSellAdapter extends RecyclerView.Adapter<ListSellAdapter.viewHo
 
     @NonNull
     @Override
-    public viewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = inflater.inflate(R.layout.item_de_lista,null,false);
+    public listShoppingCartAdapter.viewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        View view = inflater.inflate(R.layout.item_carrito_compras,null,false);
         view.setOnClickListener(this);
-        return new viewHolder(view);
+        return new listShoppingCartAdapter.viewHolder(view);
     }
 
     public void setOnClickListener(View.OnClickListener listener){
         this.listener = listener;
     }
 
-    @Override
 
-    public void onBindViewHolder(@NonNull ListSellAdapter.viewHolder holder, int position) {
-        String id_producto = listaDeDatos.get(position).getIdProducto();
-        String tipo_producto = listaDeDatos.get(position).getCategoriaProducto();
+    @Override
+    public void onBindViewHolder(@NonNull listShoppingCartAdapter.viewHolder holder, int position) {
+        id_producto = listaDeDatos.get(position).getIdProducto();
+
         String nombre_producto = listaDeDatos.get(position).getNombreProducto();
         String descripcion_producto = listaDeDatos.get(position).getDescripcionProducto();
         Double precio = listaDeDatos.get(position).getPrecio();
@@ -82,19 +79,15 @@ public class ListSellAdapter extends RecyclerView.Adapter<ListSellAdapter.viewHo
         DecimalFormat df = new DecimalFormat("#.00");
         //double aleatorio = Math.random()*5;
         String direccion = listaDeDatos.get(position).getDireccion();
-        String Distancia = df.format(convertirDireccion(direccion));
+
         holder.nombre_producto.setText(nombre_producto);
         String patron = "###,###.##";
         DecimalFormat objDF = new DecimalFormat (patron);
         String nombreEstablecimiento = listaDeDatos.get(position).getNombreEmpresa();
-        holder.precio.setText(objDF.format(precio-descuento));
-        holder.porcentajeDescuento.setText(String.valueOf(-porcDescuento));
-        holder.fechaInicio.setText(fechaInicio);
-        holder.fechaFin.setText(fechaFin);
         holder.nombre_empresa.setText(nombreEstablecimiento);
-
-        holder.distancia.setText(Distancia + " KM");
-
+        holder.precio.setText("$" + objDF.format(precio-descuento));
+        int cantidad = listaDeDatos.get(position).getCantidad();
+        holder.tvcantidad.setText(String.valueOf(cantidad));
 
         Glide.with(activity)
                 .load(getUrlFoto)
@@ -104,7 +97,7 @@ public class ListSellAdapter extends RecyclerView.Adapter<ListSellAdapter.viewHo
         holder.imagenProducto.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                /*
                 //Intent intent = new Intent(activity , addProduct.class);
                 Intent intent = new Intent(activity , lookAtProduct.class);
                 intent.putExtra("nombreProducto", listaDeDatos.get(position).getNombreProducto());
@@ -123,33 +116,34 @@ public class ListSellAdapter extends RecyclerView.Adapter<ListSellAdapter.viewHo
                 intent.putExtra("tipyEntry" , "Consultar");
 
                 activity.startActivity(intent);
+
+                 */
+            }
+        });
+
+        holder.imgBorrarProducto.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                borrarProductoCarrito();
             }
         });
     }
 
-    private  double convertirDireccion(String direccion){
-        Geocoder geocoder =  new Geocoder(getApplicationContext(), Locale.getDefault());
-        Location location = new Location("localizacion 1");
-        Location location2 = new Location("localizacion 2");
-        double distance = 0;
+    public void borrarProductoCarrito(){
+        FirebaseAuth mAuth;
+        FirebaseUser currentUser;
+        FirebaseDatabase database;
+        DatabaseReference myRef;
 
-        try {
-            List<Address> addresses = geocoder.getFromLocationName(direccion,1);
-            double latitud = addresses.get(0).getLatitude();
-            double longitud = addresses.get(0).getLongitude();
-            location.setLatitude(latitud);
-            location.setLongitude(longitud);
-            location2.setLatitude(6.243834294982797);
-            location2.setLongitude(-75.5751187321564);
-            distance = location.distanceTo(location2)/1000;
-
-        } catch (IOException e) {
-            Toast.makeText(getApplicationContext(),"Error :" + e,Toast.LENGTH_SHORT).show();
-            e.printStackTrace();
-        }
-        return distance;
+        mAuth = FirebaseAuth.getInstance();
+        currentUser = mAuth.getCurrentUser();
+        database = FirebaseDatabase.getInstance();
+        myRef = database.getReference("usuarios").child(currentUser.getUid()).child("carrito_compras").child(id_producto);
+        myRef.removeValue();
+        Toast.makeText(getApplicationContext(), "Producto borrado del carrito", Toast.LENGTH_SHORT).show();
+        Intent intent = new Intent(activity , shoppingCart.class);
+        activity.startActivity(intent);
     }
-    private GoogleMap mMap;
 
 
     @Override
@@ -174,23 +168,19 @@ public class ListSellAdapter extends RecyclerView.Adapter<ListSellAdapter.viewHo
     }
 
     public class viewHolder extends RecyclerView.ViewHolder {
-        TextView tipo_producto, nombre_producto, descripcion_producto, precio, fechaInicio, fechaFin,
-                porcentajeDescuento, nombre_empresa, distancia;
-        ImageView imagenProducto;
+        TextView nombre_producto, precio, nombre_empresa, tvcantidad;
+        ImageView imagenProducto, imgBorrarProducto;
 
         public viewHolder(@NonNull View itemView) {
             super(itemView);
 
             nombre_producto = itemView.findViewById(R.id.tv_nombre_producto);
-            imagenProducto = itemView.findViewById(R.id.img_imagen_producto);
-            precio = itemView.findViewById(R.id.tv_total_producto);
-            fechaInicio = itemView.findViewById(R.id.tv_fecha_inicio_producto);
-            fechaFin = itemView.findViewById(R.id.tv_fecha_fin_producto);
-            porcentajeDescuento = itemView.findViewById(R.id.tv_porc_descuento);
             nombre_empresa = itemView.findViewById(R.id.tv_nombre_empresa);
-            distancia = itemView.findViewById(R.id.tv_distancia);
+            tvcantidad = itemView.findViewById(R.id.tv_cantidad_producto2);
+            imagenProducto = itemView.findViewById(R.id.img_imagen_producto);
+            precio = itemView.findViewById(R.id.tv_total_producto2);
+            imgBorrarProducto = itemView.findViewById(R.id.img_borrar_producto);
+
         }
-
     }
-
 }

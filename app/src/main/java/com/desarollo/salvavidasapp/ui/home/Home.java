@@ -1,16 +1,20 @@
 package com.desarollo.salvavidasapp.ui.home;
 
+import android.content.ClipData;
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.KeyEvent;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.Menu;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.desarollo.salvavidasapp.Login.MainActivity;
 import com.desarollo.salvavidasapp.R;
+import com.desarollo.salvavidasapp.ui.sales.shoppingCart;
 import com.facebook.login.LoginManager;
 import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
@@ -35,6 +39,11 @@ import androidx.appcompat.widget.Toolbar;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.UserInfo;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 public class Home extends AppCompatActivity {
 
@@ -43,6 +52,9 @@ public class Home extends AppCompatActivity {
     private GoogleApiClient googleApiClient;
     FirebaseAuth mAuth;
     FirebaseUser currentUser;
+    FirebaseDatabase database;
+    DatabaseReference myRef;
+    int numeroProductosCarrito=0;
     
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,6 +65,9 @@ public class Home extends AppCompatActivity {
 
         mAuth = FirebaseAuth.getInstance();
         currentUser = mAuth.getCurrentUser();
+        database = FirebaseDatabase.getInstance();
+        myRef = database.getReference("usuarios");
+        int itemCarrito = R.id.shop;
 
         //Botón flotante
         /*
@@ -89,6 +104,7 @@ public class Home extends AppCompatActivity {
                 .build();
 
         actualizarDatosPerfil();
+        //verNroProductosCarritoCompras();
     } // fin OnCreate
 
     private void onConnectionFailed(ConnectionResult connectionResult) {
@@ -108,16 +124,19 @@ public class Home extends AppCompatActivity {
                 || super.onSupportNavigateUp();
     }
 
-    //botón de cerrar sesión en el menú
+    //botón de cerrar sesión y carrito compras en el menú
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         if (item.getItemId() == R.id.action_settings) {
                 CerrarSesion();
         }
         if (item.getItemId() == R.id.shop) {
-            Toast.makeText(Home.this, "En construcción.",
-                    Toast.LENGTH_SHORT).show();
+
+            Intent intent = new Intent(this, shoppingCart.class);
+            startActivity(intent);
+            finish();
         }
+
         return super.onOptionsItemSelected(item);
     }
 
@@ -230,6 +249,24 @@ public class Home extends AppCompatActivity {
                 navUserMail.setText(email);
             }
         }
+    }
 
+    public void verNroProductosCarritoCompras(){
+        myRef.child(currentUser.getUid()).child("carrito_compras").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if(snapshot.exists()){
+                    for(DataSnapshot objsnapshot : snapshot.getChildren()){
+                        numeroProductosCarrito=numeroProductosCarrito+1;
+                    }
+                    Toast.makeText(Home.this, "Hay " + numeroProductosCarrito + " productos en el carrito" , Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                Toast.makeText(Home.this, "Error contando los productos del carrito", Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 }

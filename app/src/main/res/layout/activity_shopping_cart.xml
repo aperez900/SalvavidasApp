@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.sales.shoppingCart"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/tv_titulo_carrito"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:fontFamily="@font/poppins_bold"
+        android:textStyle="bold"
+        android:textSize="22sp"
+        android:text="@string/tituloCarrito"
+        android:textAlignment="center"/>
+
+    <TextView
+        android:id="@+id/tv_subtitulo_carrito"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/poppins_semibold"
+        android:textSize="14sp"
+        android:text="@string/subtituloCarrito"
+        android:textAlignment="center"/>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/listadoCarrito"
+        android:layout_width="match_parent"
+        android:layout_height="500dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:layout_editor_absoluteX="0dp"
+        tools:layout_editor_absoluteY="-71dp">
+        <TextView
+            android:id="@+id/tv_total_carrito"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/poppins_bold"
+            android:textSize="22sp"
+            android:text="@string/totalCarrito"
+            android:textStyle="bold"
+            android:textAlignment="center"
+            android:background="@color/red"
+            android:textColor="@color/white"/>
+    </ScrollView>
+
+</LinearLayout>
