@@ -22,7 +22,6 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.SalvavidasApp">
-        <activity android:name=".ui.sales.shoppingCart"></activity>
         <activity android:name=".ui.direction.look_at_address" />
         <activity android:name=".ui.sales.unsoldOffers" />
         <activity android:name=".ui.home.products_by_sub_type" />
@@ -41,15 +40,13 @@
         <activity
             android:name=".ui.sales.productsMaps"
             android:label="@string/title_activity_products_maps" />
-        <activity
-            android:name=".salesMaps"
-            android:label="@string/title_activity_sales_maps" />
         <activity android:name=".ui.home.products_by_type" />
         <activity android:name=".ui.seller.seller2" />
         <activity android:name=".ui.sales.lookAtProduct" />
         <activity android:name=".ui.sales.cancelledSales" />
         <activity android:name=".ui.sales.salesOffered" />
         <activity android:name=".ui.sales.scheduledSales" />
+        <activity android:name=".ui.home.shoppingCart" />
         <activity android:name=".ui.sales.addProduct" />
         <activity android:name=".ui.sales.addPhoto" />
         <activity

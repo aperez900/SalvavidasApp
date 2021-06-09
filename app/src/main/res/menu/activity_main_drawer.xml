@@ -10,14 +10,9 @@
             android:title="@string/menu_home"
             android:fontFamily="@font/poppins_bold" />
         <item
-            android:id="@+id/nav_gallery"
-            android:icon="@drawable/ic_menu_gallery"
-            android:title="@string/menu_gallery"
-            android:fontFamily="@font/poppins_bold" />
-        <item
-            android:id="@+id/nav_slideshow"
-            android:icon="@drawable/ic_menu_slideshow"
-            android:title="@string/menu_slideshow"
+            android:id="@+id/nav_statistics"
+            android:icon="@drawable/icono_estadisticas_24"
+            android:title="@string/estadisticas"
             android:fontFamily="@font/poppins_bold" />
         <item
             android:id="@+id/subMenuProfile"
@@ -38,6 +33,11 @@
             android:id="@+id/nav_address"
             android:icon="@drawable/icono_maps_24"
             android:title="@string/misDirecciones"
+            android:fontFamily="@font/poppins_bold" />
+        <item
+            android:id="@+id/nav_settings"
+            android:icon="@drawable/icono_settings_24"
+            android:title="@string/configuraciones"
             android:fontFamily="@font/poppins_bold" />
     </group>
 </menu>

@@ -1,11 +1,8 @@
-package com.desarollo.salvavidasapp.ui.sales;
+package com.desarollo.salvavidasapp.ui.home;
 
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.location.Address;
-import android.location.Geocoder;
-import android.location.Location;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,20 +16,16 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.desarollo.salvavidasapp.Models.Productos;
 import com.desarollo.salvavidasapp.R;
-import com.google.android.gms.maps.GoogleMap;
+import com.desarollo.salvavidasapp.ui.sales.lookAtProduct;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
 
-import java.io.IOException;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
-import java.util.List;
-import java.util.Locale;
 
 import static com.facebook.FacebookSdk.getApplicationContext;
 
@@ -97,7 +90,7 @@ public class listShoppingCartAdapter extends RecyclerView.Adapter<listShoppingCa
         holder.imagenProducto.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                /*
+
                 //Intent intent = new Intent(activity , addProduct.class);
                 Intent intent = new Intent(activity , lookAtProduct.class);
                 intent.putExtra("nombreProducto", listaDeDatos.get(position).getNombreProducto());
@@ -117,19 +110,19 @@ public class listShoppingCartAdapter extends RecyclerView.Adapter<listShoppingCa
 
                 activity.startActivity(intent);
 
-                 */
+
             }
         });
 
         holder.imgBorrarProducto.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                borrarProductoCarrito();
+                borrarProductoCarrito(listaDeDatos.get(position).getIdProducto());
             }
         });
     }
 
-    public void borrarProductoCarrito(){
+    public void borrarProductoCarrito(String idProducto){
         FirebaseAuth mAuth;
         FirebaseUser currentUser;
         FirebaseDatabase database;
@@ -138,11 +131,22 @@ public class listShoppingCartAdapter extends RecyclerView.Adapter<listShoppingCa
         mAuth = FirebaseAuth.getInstance();
         currentUser = mAuth.getCurrentUser();
         database = FirebaseDatabase.getInstance();
-        myRef = database.getReference("usuarios").child(currentUser.getUid()).child("carrito_compras").child(id_producto);
-        myRef.removeValue();
-        Toast.makeText(getApplicationContext(), "Producto borrado del carrito", Toast.LENGTH_SHORT).show();
-        Intent intent = new Intent(activity , shoppingCart.class);
+        myRef = database.getReference("usuarios").child(currentUser.getUid()).child("carrito_compras").child(idProducto);
+        myRef.removeValue().addOnSuccessListener(new OnSuccessListener<Void>() {
+            @Override
+            public void onSuccess(Void aVoid) {
+                Toast.makeText(getApplicationContext(), "Producto borrado del carrito", Toast.LENGTH_SHORT).show();
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Toast.makeText(getApplicationContext(), "Error. Intenta de nuevo mas tarde", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        /*Intent intent = new Intent(activity , shoppingCart.class);
         activity.startActivity(intent);
+         */
     }
 
 

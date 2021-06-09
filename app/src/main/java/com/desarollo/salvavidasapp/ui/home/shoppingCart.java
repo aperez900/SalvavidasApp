@@ -1,10 +1,11 @@
-package com.desarollo.salvavidasapp.ui.sales;
+package com.desarollo.salvavidasapp.ui.home;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -66,7 +67,7 @@ public class shoppingCart extends AppCompatActivity {
         crearListado();
     }
 
-    private void crearListado() {
+    public void crearListado() {
 
         Calendar c = Calendar.getInstance();
         SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm");
@@ -84,7 +85,11 @@ public class shoppingCart extends AppCompatActivity {
                         consultarDetalleProducto(idProd,cantidad);
 
                     }
-
+                }else{
+                    Intent intent = new Intent(shoppingCart.this , Home.class);
+                    startActivity(intent);
+                    finish();
+                    Toast.makeText(shoppingCart.this, "Carrito de compras vacío", Toast.LENGTH_SHORT).show();
                 }
             }
 
@@ -96,6 +101,7 @@ public class shoppingCart extends AppCompatActivity {
     }
 
     public void consultarDetalleProducto(String idProduct, String cantidad){
+        totalCarrito=0.0;
         myRefProductos.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -112,12 +118,12 @@ public class shoppingCart extends AppCompatActivity {
                             }
                         }
                     }
-                    ListShoppingCartAdapter = new listShoppingCartAdapter(shoppingCart.this, listaDeDatos, shoppingCart.this);
-                    listado.setAdapter(ListShoppingCartAdapter);
-                    String patron = "###,###.##";
-                    DecimalFormat objDF = new DecimalFormat (patron);
-                    total_carrito.setText("Total: $" + objDF.format(totalCarrito));
                 }
+                ListShoppingCartAdapter = new listShoppingCartAdapter(shoppingCart.this, listaDeDatos, shoppingCart.this);
+                listado.setAdapter(ListShoppingCartAdapter);
+                String patron = "###,###.##";
+                DecimalFormat objDF = new DecimalFormat (patron);
+                total_carrito.setText("Total: $" + objDF.format(totalCarrito));
             }
 
             @Override

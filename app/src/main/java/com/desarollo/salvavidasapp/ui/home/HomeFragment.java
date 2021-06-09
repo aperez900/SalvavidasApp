@@ -4,6 +4,7 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
@@ -62,7 +63,10 @@ public class HomeFragment extends Fragment {
     FirebaseAuth mAuth;
     FirebaseUser currentUser;
     FirebaseDatabase database;
-    DatabaseReference myRefTypeFood,myRef,myRefVendedores;
+    DatabaseReference myRefTypeFood,myRef,myRefVendedores,myRefUsuarios;
+
+    int numeroProductosCarrito=0;
+    MenuItem itemCarrito;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -73,6 +77,7 @@ public class HomeFragment extends Fragment {
         database = FirebaseDatabase.getInstance();
         myRefTypeFood = database.getReference("tipo_comidas");
         myRef = database.getReference("productos");
+        myRefUsuarios = database.getReference("usuarios");
         myRefVendedores = database.getReference("vendedores");
         TextView tv_saludo = view.findViewById(R.id.tv_saludo_home);
         cargando = new ProgressDialog(getActivity());
@@ -84,6 +89,8 @@ public class HomeFragment extends Fragment {
         listTypeFood = new ListTypeFood(getContext(),listaDeDatosTipo,getActivity());
         listado_tipo_comidas.setAdapter(listTypeFood);
 
+        itemCarrito = view.findViewById(R.id.shop);
+
         LinearLayoutManager manager = new LinearLayoutManager(getContext());
         listado_comidas.setLayoutManager(manager);
         //listado.setHasFixedSize(true);
@@ -92,6 +99,7 @@ public class HomeFragment extends Fragment {
         listado_comidas.setAdapter(listSellAdapter);
 
         actualizarNombreUsuario(tv_saludo);
+        verNroProductosCarritoCompras(itemCarrito);
         crearListadoTipo();
         crearListado();
 
@@ -183,6 +191,27 @@ public class HomeFragment extends Fragment {
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
                 Toast.makeText(getApplicationContext(), "Error cargando los productos", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    public void verNroProductosCarritoCompras(MenuItem itemCarrito){
+        //Toast.makeText(getApplicationContext(), "Entró" , Toast.LENGTH_LONG).show();
+        myRefUsuarios.child(currentUser.getUid()).child("carrito_compras").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if(snapshot.exists()){
+                    for(DataSnapshot objsnapshot : snapshot.getChildren()){
+                        numeroProductosCarrito=numeroProductosCarrito+1;
+                    }
+                    //Toast.makeText(getApplicationContext(), "Hay " + numeroProductosCarrito + " productos en el carrito" , Toast.LENGTH_LONG).show();
+                    itemCarrito.setIcon(R.drawable.icono_address);
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                Toast.makeText(getApplicationContext(), "Error contando los productos del carrito", Toast.LENGTH_SHORT).show();
             }
         });
     }

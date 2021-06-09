@@ -3,11 +3,14 @@
     <string name="title_activity_home">Home</string>
 
     <string name="menu_home">Home</string>
-    <string name="menu_gallery">Gallery</string>
-    <string name="menu_slideshow">Slideshow</string>
+    <string name="estadisticas">Estadisticas</string>
+    <string name="miPerfil">Perfil</string>
     <string name="misCompras">Mis Compras</string>
     <string name="misVentas">Mis Ventas</string>
     <string name="misDirecciones">Mis Direcciones</string>
+    <string name="configuraciones">Configuraciones</string>
+    <string name="menu_slideshow">Slideshow</string>
+    <string name="menu_gallery">Gallery</string>
 
     <string name="Recuperar">Recuperar</string>
     <string name="Bienvenido">Bienvenido</string>
@@ -21,7 +24,6 @@
     <string name="olvideClave">Olvidé mi clave</string>
     <string name="registrar">Registrar/</string>
     <string name="registrar2">Registrar</string>
-    <string name="miPerfil">Mi Perfil</string>
     <string name="nombrePerfil">Nombre perfil</string>
     <string name="correoPerfil">Correo perfil</string>
     <string name="desactivar_usuario">Desactivar Usuario</string>
@@ -103,6 +105,8 @@
     <string name="title_activity_maps">Map</string>
     <string name="title_activity_sales_maps">Map</string>
     <string name="title_activity_products_maps">Map</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 
 
 </resources>
