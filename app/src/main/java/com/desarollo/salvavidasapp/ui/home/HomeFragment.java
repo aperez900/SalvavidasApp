@@ -65,8 +65,8 @@ public class HomeFragment extends Fragment {
     FirebaseDatabase database;
     DatabaseReference myRefTypeFood,myRef,myRefVendedores,myRefUsuarios;
 
-    int numeroProductosCarrito=0;
-    MenuItem itemCarrito;
+    //int numeroProductosCarrito=0;
+    //MenuItem itemCarrito;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -89,7 +89,7 @@ public class HomeFragment extends Fragment {
         listTypeFood = new ListTypeFood(getContext(),listaDeDatosTipo,getActivity());
         listado_tipo_comidas.setAdapter(listTypeFood);
 
-        itemCarrito = view.findViewById(R.id.shop);
+        //itemCarrito = view.findViewById(R.id.shop);
 
         LinearLayoutManager manager = new LinearLayoutManager(getContext());
         listado_comidas.setLayoutManager(manager);
@@ -99,7 +99,7 @@ public class HomeFragment extends Fragment {
         listado_comidas.setAdapter(listSellAdapter);
 
         actualizarNombreUsuario(tv_saludo);
-        verNroProductosCarritoCompras(itemCarrito);
+        //verNroProductosCarritoCompras(itemCarrito);
         crearListadoTipo();
         crearListado();
 
@@ -195,6 +195,7 @@ public class HomeFragment extends Fragment {
         });
     }
 
+    /*
     public void verNroProductosCarritoCompras(MenuItem itemCarrito){
         //Toast.makeText(getApplicationContext(), "Entró" , Toast.LENGTH_LONG).show();
         myRefUsuarios.child(currentUser.getUid()).child("carrito_compras").addValueEventListener(new ValueEventListener() {
@@ -215,5 +216,7 @@ public class HomeFragment extends Fragment {
             }
         });
     }
+
+     */
 
 }
