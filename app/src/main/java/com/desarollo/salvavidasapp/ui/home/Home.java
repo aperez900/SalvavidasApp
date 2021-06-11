@@ -38,6 +38,8 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import static com.facebook.FacebookSdk.getApplicationContext;
+
 public class Home extends AppCompatActivity {
 
     private AppBarConfiguration mAppBarConfiguration;
@@ -47,6 +49,11 @@ public class Home extends AppCompatActivity {
     FirebaseUser currentUser;
     FirebaseDatabase database;
     DatabaseReference myRef;
+
+    MenuItem menuItem;
+    TextView badgeCounter;
+    ImageView imgCarrito;
+    int nroProductosCarrito = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -104,7 +111,52 @@ public class Home extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
+
         getMenuInflater().inflate(R.menu.home, menu);
+
+        menuItem = menu.findItem(R.id.shop);
+
+        if(nroProductosCarrito == 0){
+            menuItem.setActionView(null);
+        }
+
+        //Ver nroProductosCarrito
+        myRef.child(currentUser.getUid()).child("carrito_compras").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if(snapshot.exists()){
+                    nroProductosCarrito=0;
+                    for(DataSnapshot objsnapshot : snapshot.getChildren()){
+                        nroProductosCarrito = nroProductosCarrito + 1;
+                    }
+                    menuItem.setActionView(R.layout.notification_badge);
+                    View view = menuItem.getActionView();
+                    badgeCounter = view.findViewById(R.id.tv_nro_productos_carrito);
+                    imgCarrito = view.findViewById(R.id.img_carrito_compras);
+                    badgeCounter.setText(String.valueOf(nroProductosCarrito));
+                    //Toast.makeText(getApplicationContext(), "Hay " + nroProductosCarrito + " productos en el carrito" , Toast.LENGTH_LONG).show();
+                    imgCarrito.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            irAlCarrito();
+                        }
+                    });
+
+                    badgeCounter.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            irAlCarrito();
+                        }
+                    });
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                Toast.makeText(getApplicationContext(), "Error contando los productos del carrito", Toast.LENGTH_SHORT).show();
+            }
+        });
+
         return true;
     }
 
@@ -122,11 +174,7 @@ public class Home extends AppCompatActivity {
                 CerrarSesion();
         }
         if (item.getItemId() == R.id.shop) {
-
-            Intent intent = new Intent(this, shoppingCart.class);
-            startActivity(intent);
-            finish();
-
+            irAlCarrito();
         }
 
         return super.onOptionsItemSelected(item);
@@ -243,5 +291,31 @@ public class Home extends AppCompatActivity {
         }
     }
 
+    public int verNroProductosCarritoCompras(){
+        //Toast.makeText(getApplicationContext(), "Entró" , Toast.LENGTH_LONG).show();
+        myRef.child(currentUser.getUid()).child("carrito_compras").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if(snapshot.exists()){
+                    for(DataSnapshot objsnapshot : snapshot.getChildren()){
+                        nroProductosCarrito = nroProductosCarrito + 1;
+                    }
+                    Toast.makeText(getApplicationContext(), "Hay " + nroProductosCarrito + " productos en el carrito" , Toast.LENGTH_LONG).show();
+                    //badgeCounter.setText(nroProductosCarrito);
+                }
+            }
 
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                Toast.makeText(getApplicationContext(), "Error contando los productos del carrito", Toast.LENGTH_SHORT).show();
+            }
+        });
+        return nroProductosCarrito;
+    }
+
+    public void irAlCarrito(){
+        Intent intent = new Intent(this, shoppingCart.class);
+        startActivity(intent);
+        finish();
+    }
 }

@@ -59,15 +59,11 @@ public class HomeFragment extends Fragment {
     ListSellAdapter listSellAdapter;
     ListTypeFood listTypeFood;
     ProgressDialog cargando;
-    TextView badge;
 
     FirebaseAuth mAuth;
     FirebaseUser currentUser;
     FirebaseDatabase database;
     DatabaseReference myRefTypeFood,myRef,myRefVendedores,myRefUsuarios;
-
-    int numeroProductosCarrito=0;
-    //MenuItem itemCarrito;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -90,9 +86,6 @@ public class HomeFragment extends Fragment {
         listTypeFood = new ListTypeFood(getContext(),listaDeDatosTipo,getActivity());
         listado_tipo_comidas.setAdapter(listTypeFood);
 
-        badge = view.findViewById(R.id.badge);
-        //itemCarrito = view.findViewById(R.id.shop);
-
         LinearLayoutManager manager = new LinearLayoutManager(getContext());
         listado_comidas.setLayoutManager(manager);
         //listado.setHasFixedSize(true);
@@ -101,7 +94,6 @@ public class HomeFragment extends Fragment {
         listado_comidas.setAdapter(listSellAdapter);
 
         actualizarNombreUsuario(tv_saludo);
-        //verNroProductosCarritoCompras(itemCarrito);
         crearListadoTipo();
         crearListado();
 
@@ -196,30 +188,4 @@ public class HomeFragment extends Fragment {
             }
         });
     }
-
-
-    public void verNroProductosCarritoCompras(MenuItem itemCarrito){
-        //Toast.makeText(getApplicationContext(), "Entró" , Toast.LENGTH_LONG).show();
-        myRefUsuarios.child(currentUser.getUid()).child("carrito_compras").addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                if(snapshot.exists()){
-                    for(DataSnapshot objsnapshot : snapshot.getChildren()){
-                        numeroProductosCarrito=numeroProductosCarrito+1;
-                    }
-                    //Toast.makeText(getApplicationContext(), "Hay " + numeroProductosCarrito + " productos en el carrito" , Toast.LENGTH_LONG).show();
-
-                    badge.setText(numeroProductosCarrito);
-                }
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-                Toast.makeText(getApplicationContext(), "Error contando los productos del carrito", Toast.LENGTH_SHORT).show();
-            }
-        });
-    }
-
-
-
 }
