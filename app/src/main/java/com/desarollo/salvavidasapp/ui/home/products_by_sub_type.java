@@ -19,7 +19,11 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 
 public class products_by_sub_type extends AppCompatActivity {
 
@@ -65,6 +69,8 @@ public class products_by_sub_type extends AppCompatActivity {
     }
 
     private void crearListado() {
+        Calendar c = Calendar.getInstance();
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm");
 
         myRef.addValueEventListener(new ValueEventListener() {
             @Override
@@ -76,13 +82,33 @@ public class products_by_sub_type extends AppCompatActivity {
                             Productos p = objsnapshot2.getValue(Productos.class);
 
                             if (p.getCategoriaProducto().equals(SubtipoComida)){
-                                listaDeDatos.add(new Productos(p.getIdProducto(), p.getNombreProducto(), p.getDescripcionProducto(),
-                                        p.getCategoriaProducto(), p.getSubCategoriaProducto(), p.getPrecio(), p.getDescuento(), p.getDomicilio(), p.getEstadoProducto(),
-                                        p.getfoto(), p.getFechaInicio(), p.getHoraInicio(), p.getFechaFin(), p.getHoraFin(),p.getNombreEmpresa(),p.getDireccion(),1));
-                                //Toast.makeText(getApplicationContext(), p.getfoto(), Toast.LENGTH_SHORT).show();
+                                String estado="";
+                                String subCategoria="";
+                                Date fechaInicio = null;
+                                Date fechaFin = null;
+                                Date getCurrentDateTime = null;
+                                try {
+                                    fechaInicio = sdf.parse(p.getFechaInicio() + " " + p.getHoraInicio());
+                                    fechaFin = sdf.parse(p.getFechaFin() + " " + p.getHoraFin());
+                                    getCurrentDateTime = c.getTime();
+                                } catch (ParseException e) {
+                                    e.printStackTrace();
+                                }
+                                estado = p.getEstadoProducto();
+                                subCategoria = p.getSubCategoriaProducto();
 
+                                if (getCurrentDateTime.compareTo(fechaInicio) > 0 && getCurrentDateTime.compareTo(fechaFin) < 0
+                                        && !estado.equals("Cancelado")){
+
+                                    listaDeDatos.add(new Productos(p.getIdProducto(), p.getNombreProducto(), p.getDescripcionProducto(),
+                                            p.getCategoriaProducto(), p.getSubCategoriaProducto(), p.getPrecio(), p.getDescuento(), p.getDomicilio(), p.getEstadoProducto(),
+                                            p.getfoto(), p.getFechaInicio(), p.getHoraInicio(), p.getFechaFin(), p.getHoraFin(),p.getNombreEmpresa(),p.getDireccion(),1));
+                                    //Toast.makeText(getApplicationContext(), p.getfoto(), Toast.LENGTH_SHORT).show();
+
+
+
+                                }
                             }
-
                         }
                     }
                     listSellAdapter = new ListSellAdapter(getApplicationContext(), listaDeDatos, products_by_sub_type.this);

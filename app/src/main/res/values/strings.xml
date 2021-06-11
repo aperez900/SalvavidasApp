@@ -9,6 +9,7 @@
     <string name="misVentas">Mis Ventas</string>
     <string name="misDirecciones">Mis Direcciones</string>
     <string name="configuraciones">Configuraciones</string>
+    <string name="favoritos">Mis favoritos</string>
     <string name="menu_slideshow">Slideshow</string>
     <string name="menu_gallery">Gallery</string>
 
@@ -28,6 +29,7 @@
     <string name="correoPerfil">Correo perfil</string>
     <string name="desactivar_usuario">Desactivar Usuario</string>
     <string name="agregarDirecciones">Agregar direccion manualmente</string>
+    <string name="agregarFavoritos">Agregar favoritos</string>
     <string name="agregarDireccion">Agregar direccion </string>
     <string name="ubicacionActual">Ubicación actual</string>
 

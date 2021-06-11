@@ -49,9 +49,15 @@
         android:label="@string/estadisticas"
         tools:layout="@layout/fragment_statistics" />
     <fragment
+        android:id="@+id/nav_favorites"
+        android:name="com.desarollo.salvavidasapp.ui.favorites.favorites"
+        android:label="@string/favoritos"
+        tools:layout="@layout/fragment_favorites" />
+    <fragment
         android:id="@+id/nav_settings"
         android:name="com.desarollo.salvavidasapp.ui.settings.Settings"
         android:label="@string/configuraciones"
         tools:layout="@layout/fragment_settings" />
+
 
 </navigation>

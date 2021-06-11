@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Toast;
@@ -21,7 +22,11 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.Objects;
 
 import static com.facebook.FacebookSdk.getApplicationContext;
@@ -55,6 +60,7 @@ products_by_type extends AppCompatActivity {
         database = FirebaseDatabase.getInstance();
         myRef = database.getReference("productos");
         myRefTypeFood = database.getReference("tipo_comidas");
+
 
         listado_subtipo_comidas = findViewById(R.id.sub_tipo_comidas);
         listado_subtipo_comidas.setLayoutManager(new LinearLayoutManager(getApplicationContext(),LinearLayoutManager.HORIZONTAL,false));
@@ -113,6 +119,9 @@ products_by_type extends AppCompatActivity {
     }
 
     private void crearListado() {
+        Calendar c = Calendar.getInstance();
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm");
+
 
         myRef.addValueEventListener(new ValueEventListener() {
             @Override
@@ -124,15 +133,35 @@ products_by_type extends AppCompatActivity {
                             Productos p = objsnapshot2.getValue(Productos.class);
 
                             if (p.getCategoriaProducto().equals(tipoComida)){
-                                listaDeDatos.add(new Productos(p.getIdProducto(), p.getNombreProducto(), p.getDescripcionProducto(),
-                                        p.getCategoriaProducto(), p.getSubCategoriaProducto(), p.getPrecio(), p.getDescuento(), p.getDomicilio(), p.getEstadoProducto(),
-                                        p.getfoto(), p.getFechaInicio(), p.getHoraInicio(), p.getFechaFin(), p.getHoraFin(),p.getNombreEmpresa(),p.getDireccion(), 1));
-                                //Toast.makeText(getApplicationContext(), p.getfoto(), Toast.LENGTH_SHORT).show();
+                                String estado="";
+                                String subCategoria="";
+                                Date fechaInicio = null;
+                                Date fechaFin = null;
+                                Date getCurrentDateTime = null;
+                                try {
+                                    fechaInicio = sdf.parse(p.getFechaInicio() + " " + p.getHoraInicio());
+                                    fechaFin = sdf.parse(p.getFechaFin() + " " + p.getHoraFin());
+                                    getCurrentDateTime = c.getTime();
+                                } catch (ParseException e) {
+                                    e.printStackTrace();
+                                }
+                                estado = p.getEstadoProducto();
+                                subCategoria = p.getSubCategoriaProducto();
 
+                                if (getCurrentDateTime.compareTo(fechaInicio) > 0 && getCurrentDateTime.compareTo(fechaFin) < 0
+                                        && !estado.equals("Cancelado")){
+
+                                    listaDeDatos.add(new Productos(p.getIdProducto(), p.getNombreProducto(), p.getDescripcionProducto(),
+                                            p.getCategoriaProducto(), p.getSubCategoriaProducto(), p.getPrecio(), p.getDescuento(), p.getDomicilio(), p.getEstadoProducto(),
+                                            p.getfoto(), p.getFechaInicio(), p.getHoraInicio(), p.getFechaFin(), p.getHoraFin(),p.getNombreEmpresa(),p.getDireccion(), 1));
+                                    //Toast.makeText(getApplicationContext(), p.getfoto(), Toast.LENGTH_SHORT).show();
+
+
+                                }
                             }
-
                         }
                     }
+
                     listSellAdapter = new ListSellAdapter(getApplicationContext(), listaDeDatos, products_by_type.this);
                     listado.setAdapter(listSellAdapter);
                 } else {

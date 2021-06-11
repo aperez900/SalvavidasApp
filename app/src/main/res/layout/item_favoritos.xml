@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/cv"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:animateLayoutChanges="true"
+    app:cardCornerRadius="3dp"
+    app:cardElevation="3dp"
+    app:cardUseCompatPadding="true">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="77dp"
+        android:padding="10dp">
+
+        <ImageView
+            android:id="@+id/img_imagen_fav_producto"
+            android:layout_width="wrap_content"
+            android:layout_height="76dp"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentBottom="true"
+            android:layout_marginTop="0dp"
+            android:layout_marginBottom="0dp"
+            android:contentDescription="@string/descripcionImagen"
+            android:src="@drawable/icono_fastfood"></ImageView>
+
+        <TextView
+            android:id="@+id/tv_nombre_fav_tipo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="4dp"
+            android:layout_toEndOf="@id/img_imagen_fav_producto"
+            android:fontFamily="@font/poppins"
+            android:text="@string/nombreProducto2"
+            android:textAlignment="viewStart"
+            android:textSize="20sp"
+            android:textStyle="bold"></TextView>
+
+        <TextView
+            android:id="@+id/tv_nombre_fav_sub_tipo"
+            android:layout_width="160dp"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/tv_nombre_fav_tipo"
+            android:layout_marginStart="4dp"
+            android:layout_marginTop="4dp"
+            android:layout_toEndOf="@id/img_imagen_fav_producto"
+            android:fontFamily="@font/poppins_light"
+            android:text="@string/nombre"
+            android:textSize="18sp"></TextView>
+
+        <CheckBox
+            android:id="@+id/ch_favorito"
+            android:layout_width="wrap_content"
+            android:layout_height="35dp"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentBottom="true"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="45dp"
+            android:layout_marginBottom="22dp"
+            android:text="" />
+
+
+    </RelativeLayout>
+
+</androidx.cardview.widget.CardView>

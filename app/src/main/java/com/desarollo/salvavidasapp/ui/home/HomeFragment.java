@@ -59,13 +59,14 @@ public class HomeFragment extends Fragment {
     ListSellAdapter listSellAdapter;
     ListTypeFood listTypeFood;
     ProgressDialog cargando;
+    TextView badge;
 
     FirebaseAuth mAuth;
     FirebaseUser currentUser;
     FirebaseDatabase database;
     DatabaseReference myRefTypeFood,myRef,myRefVendedores,myRefUsuarios;
 
-    //int numeroProductosCarrito=0;
+    int numeroProductosCarrito=0;
     //MenuItem itemCarrito;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
@@ -89,6 +90,7 @@ public class HomeFragment extends Fragment {
         listTypeFood = new ListTypeFood(getContext(),listaDeDatosTipo,getActivity());
         listado_tipo_comidas.setAdapter(listTypeFood);
 
+        badge = view.findViewById(R.id.badge);
         //itemCarrito = view.findViewById(R.id.shop);
 
         LinearLayoutManager manager = new LinearLayoutManager(getContext());
@@ -195,7 +197,7 @@ public class HomeFragment extends Fragment {
         });
     }
 
-    /*
+
     public void verNroProductosCarritoCompras(MenuItem itemCarrito){
         //Toast.makeText(getApplicationContext(), "Entró" , Toast.LENGTH_LONG).show();
         myRefUsuarios.child(currentUser.getUid()).child("carrito_compras").addValueEventListener(new ValueEventListener() {
@@ -206,7 +208,8 @@ public class HomeFragment extends Fragment {
                         numeroProductosCarrito=numeroProductosCarrito+1;
                     }
                     //Toast.makeText(getApplicationContext(), "Hay " + numeroProductosCarrito + " productos en el carrito" , Toast.LENGTH_LONG).show();
-                    itemCarrito.setIcon(R.drawable.icono_address);
+
+                    badge.setText(numeroProductosCarrito);
                 }
             }
 
@@ -217,6 +220,6 @@ public class HomeFragment extends Fragment {
         });
     }
 
-     */
+
 
 }
