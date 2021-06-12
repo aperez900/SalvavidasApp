@@ -18,6 +18,7 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.desarollo.salvavidasapp.Models.Favoritos;
 import com.desarollo.salvavidasapp.Models.ListDirecciones;
 import com.desarollo.salvavidasapp.Models.Productos;
 import com.desarollo.salvavidasapp.Models.SubTipoComidas;
@@ -26,12 +27,19 @@ import com.desarollo.salvavidasapp.R;
 import com.desarollo.salvavidasapp.ui.direction.FrmAddress;
 import com.desarollo.salvavidasapp.ui.direction.ListAddressAdapter;
 import com.desarollo.salvavidasapp.ui.direction.Maps;
+import com.desarollo.salvavidasapp.ui.home.Home;
+import com.desarollo.salvavidasapp.ui.home.HomeFragment;
 import com.desarollo.salvavidasapp.ui.home.HomeViewModel;
 import com.desarollo.salvavidasapp.ui.home.ListSellAdapter;
 import com.desarollo.salvavidasapp.ui.home.ListTypeFood;
 import com.desarollo.salvavidasapp.ui.home.listShoppingCartAdapter;
+import com.desarollo.salvavidasapp.ui.sales.addPhoto;
+import com.desarollo.salvavidasapp.ui.sales.addProduct;
+import com.desarollo.salvavidasapp.ui.seller.seller2;
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -56,7 +64,7 @@ public class favorites extends Fragment {
 
     ListFavoritesAdapter listFavoritesAdapter;
     RecyclerView recyclerViewFavorites;
-    ArrayList<SubTipoComidas> listaSubTipo;
+    ArrayList<Favoritos> listaSubTipo;
 
     FirebaseAuth mAuth;
     FirebaseUser currentUser;
@@ -76,17 +84,26 @@ public class favorites extends Fragment {
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater,
-                         ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_favorites,container,false);
+                             ViewGroup container, Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.fragment_favorites, container, false);
 
         recyclerViewFavorites = (RecyclerView) view.findViewById(R.id.recycle_favoritos);
         LinearLayoutManager manager = new LinearLayoutManager(getApplicationContext());
         recyclerViewFavorites.setLayoutManager(manager);
         recyclerViewFavorites.setHasFixedSize(true);
-        listFavoritesAdapter = new ListFavoritesAdapter(getApplicationContext(),listaSubTipo,getActivity());
+        listFavoritesAdapter = new ListFavoritesAdapter(getApplicationContext(), listaSubTipo, getActivity());
         recyclerViewFavorites.setAdapter(listFavoritesAdapter);
 
         Button btnAgregar = view.findViewById(R.id.btnAgregarFavoritos);
+
+        btnAgregar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getContext(), Home.class);
+                startActivity(intent);
+
+            }
+        });
 
 
         listaSubTipo = new ArrayList<>();
@@ -97,32 +114,27 @@ public class favorites extends Fragment {
         return view;
     }
 
-    public void cargarLista(){
+
+
+    public void cargarLista() {
+
         myRef.child("comida cruda").child("subTipo").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                if(snapshot.exists()){
+                if (snapshot.exists()) {
                     listaSubTipo.clear();
-                    for(DataSnapshot objsnapshot : snapshot.getChildren()){
-                        SubTipoComidas d = objsnapshot.getValue(SubTipoComidas.class);
-                        listaSubTipo.add(new SubTipoComidas(d.getSubTipoComida(), d.getFoto()));
+                    for (DataSnapshot objsnapshot : snapshot.getChildren()) {
+                        Favoritos d = objsnapshot.getValue(Favoritos.class);
+
+                        listaSubTipo.add(new Favoritos(d.getSubTipoComida(), d.getFoto(), false));
 
                     }
 
-                    listFavoritesAdapter = new ListFavoritesAdapter(getApplicationContext(),listaSubTipo,getActivity());
+                    listFavoritesAdapter = new ListFavoritesAdapter(getApplicationContext(), listaSubTipo, getActivity());
                     recyclerViewFavorites.setAdapter(listFavoritesAdapter);
 
-                    //Acciones al dar clic en un item de la lista
-                    listFavoritesAdapter.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View view) {
-                            String nombre_seleccion = listaSubTipo.get(recyclerViewFavorites.getChildAdapterPosition(view)).getSubTipoComida();
+                } else {
 
-                        }
-                    });
-                }else{
-                    //mostrar los datos por defecto
-                    mostrarData();
                 }
             }
 
@@ -131,9 +143,38 @@ public class favorites extends Fragment {
                 Toast.makeText(getApplicationContext(), "Error cargando las direcciones", Toast.LENGTH_SHORT).show();
             }
         });
-    }
-    public void mostrarData(){
 
     }
+    Boolean estado;
+    public Boolean consultar(String tipo) {
 
+
+        myRef.child(currentUser.getUid()).child("comidas_preferidas").child(tipo)
+                .addValueEventListener(new ValueEventListener() {
+
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot2) {
+                        if (snapshot2.exists()) {
+                            String estado_ = snapshot2.getValue().toString();
+                            estado = Boolean.parseBoolean(estado_);
+                        } else {
+                            estado = false;
+                        }
+                    }
+
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+                    }
+
+
+
+                });
+
+        if (estado.equals(null)){
+            estado = false;
+        }
+        return estado;
+
+    }
 }

@@ -1,16 +1,25 @@
 package com.desarollo.salvavidasapp.Models;
 
-public class SubTipoComidas {
+public class Favoritos {
 
     public String descripcion;
     public String foto;
+    public Boolean estado;
 
+    public Favoritos(){ }
 
-    public SubTipoComidas(){ }
-
-    public SubTipoComidas(String descripcion, String foto) {
+    public Favoritos(String descripcion, String foto, Boolean estado) {
         this.descripcion = descripcion;
         this.foto = foto;
+        this.estado = estado;
+    }
+
+    public Boolean getEstado() {
+        return estado;
+    }
+
+    public void setEstado(Boolean estado) {
+        this.estado = estado;
     }
 
     public String getSubTipoComida() {
