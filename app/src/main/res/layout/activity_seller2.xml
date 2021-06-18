@@ -88,6 +88,7 @@
                     android:textAlignment="textStart"
                     android:fontFamily="@font/poppins_light"
                     android:textSize="16sp"
+                    android:inputType="textPersonName"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent" />
 
@@ -102,6 +103,7 @@
                     android:textAlignment="textStart"
                     android:fontFamily="@font/poppins_light"
                     android:textSize="16sp"
+                    android:inputType="textPersonName"
                     app:layout_constraintTop_toBottomOf="@id/tv_nombre" />
 
 
@@ -116,6 +118,7 @@
                     android:textAlignment="textStart"
                     android:fontFamily="@font/poppins_light"
                     android:textSize="16sp"
+                    android:inputType="number"
                     app:layout_constraintTop_toBottomOf="@id/sp_municipio" />
 
 
@@ -129,8 +132,8 @@
                     android:autofillHints="@string/razonSocial"
                     android:fontFamily="@font/poppins_light"
                     android:hint="@string/celular"
-                    android:inputType="textPersonName"
                     android:textSize="16sp"
+                    android:inputType="number"
                     app:layout_constraintTop_toBottomOf="@id/tv_identidad" />
 
                 <EditText
@@ -191,8 +194,8 @@
                         android:fontFamily="@font/poppins_light"
                         android:hint="@string/agregarDireccion"
                         android:importantForAutofill="no"
-                        app:layout_constraintTop_toBottomOf="@id/et_descuento"
-                        android:inputType="number" />
+                        android:inputType="textPersonName"
+                        app:layout_constraintTop_toBottomOf="@id/et_descuento" />
 
                     <Button
                         android:id="@+id/agregar_direccion"

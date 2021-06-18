@@ -28,6 +28,7 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.HashMap;
 
 public class lookAtProduct extends AppCompatActivity {
+
     FirebaseAuth mAuth;
     FirebaseUser currentUser;
     FirebaseDatabase database;
@@ -61,6 +62,7 @@ public class lookAtProduct extends AppCompatActivity {
         TextView tvañadirCarrito = findViewById(R.id.tv_añadir_carrito);
         Button btnMas = findViewById(R.id.btn_mas);
         Button btnMenos = findViewById(R.id.btn_menos);
+        Button btn_comprar_producto = findViewById(R.id.btn_comprar_producto);
         TextView tvNumeroProductos = findViewById(R.id.tv_numero_productos);
         ImageView imgAñadirCarrito = findViewById(R.id.img_shop);
         tvañadirCarrito.setPaintFlags(tvprecioProducto.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
@@ -128,6 +130,13 @@ public class lookAtProduct extends AppCompatActivity {
                     numeroProductos = numeroProductos-1;
                     tvNumeroProductos.setText(String.valueOf(numeroProductos));
                 }
+            }
+        });
+
+        btn_comprar_producto.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(lookAtProduct.this, "En construcción", Toast.LENGTH_SHORT).show();
             }
         });
     }

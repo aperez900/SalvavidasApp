@@ -7,6 +7,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -36,11 +38,12 @@ public class shoppingCart extends AppCompatActivity {
     RecyclerView listado;
     listShoppingCartAdapter ListShoppingCartAdapter;
     TextView titulo_carrito, subtitulo_carrito, total_carrito;
+    Button btn_comprar;
     FirebaseAuth mAuth;
     FirebaseUser currentUser;
     FirebaseDatabase database;
     DatabaseReference myRef, myRefProductos;
-    Double totalCarrito=0.0;
+    Double subTotalCarrito=0.0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,7 +52,8 @@ public class shoppingCart extends AppCompatActivity {
 
         titulo_carrito = findViewById(R.id.tv_titulo_carrito);
         subtitulo_carrito = findViewById(R.id.tv_subtitulo_carrito);
-        total_carrito = findViewById(R.id.tv_total_carrito);
+        total_carrito = findViewById(R.id.tv_subtotal_carrito);
+        btn_comprar = findViewById(R.id.btn_comprar_carrito);
 
         mAuth = FirebaseAuth.getInstance();
         currentUser = mAuth.getCurrentUser();
@@ -65,6 +69,13 @@ public class shoppingCart extends AppCompatActivity {
         listado.setAdapter(ListShoppingCartAdapter);
 
         crearListado();
+
+        btn_comprar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(shoppingCart.this, "En construcción", Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     public void crearListado() {
@@ -101,7 +112,7 @@ public class shoppingCart extends AppCompatActivity {
     }
 
     public void consultarDetalleProducto(String idProduct, String cantidad){
-        totalCarrito=0.0;
+        subTotalCarrito=0.0;
         myRefProductos.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -114,7 +125,7 @@ public class shoppingCart extends AppCompatActivity {
                                 listaDeDatos.add(new Productos(p.getIdProducto(), p.getNombreProducto(), p.getDescripcionProducto(),
                                         p.getCategoriaProducto(), p.getSubCategoriaProducto(), p.getPrecio(), p.getDescuento(), p.getDomicilio(), p.getEstadoProducto(),
                                         p.getfoto(), p.getFechaInicio(), p.getHoraInicio(), p.getFechaFin(), p.getHoraFin(), p.getNombreEmpresa(), p.getDireccion(), Integer.parseInt(cantidad)));
-                                totalCarrito = totalCarrito + (p.getPrecio()-p.getDescuento())*Integer.parseInt(cantidad);
+                                subTotalCarrito = subTotalCarrito + (p.getPrecio()-p.getDescuento())*Integer.parseInt(cantidad);
                             }
                         }
                     }
@@ -123,7 +134,7 @@ public class shoppingCart extends AppCompatActivity {
                 listado.setAdapter(ListShoppingCartAdapter);
                 String patron = "###,###.##";
                 DecimalFormat objDF = new DecimalFormat (patron);
-                total_carrito.setText("Total: $" + objDF.format(totalCarrito));
+                total_carrito.setText("Sub Total: $" + objDF.format(subTotalCarrito));
             }
 
             @Override

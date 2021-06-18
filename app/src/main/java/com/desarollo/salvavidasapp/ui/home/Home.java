@@ -177,6 +177,11 @@ public class Home extends AppCompatActivity {
             irAlCarrito();
         }
 
+        if (item.getItemId() == R.id.notification_seller) {
+            Toast.makeText(Home.this, "En construcción",
+                    Toast.LENGTH_SHORT).show();
+        }
+
         return super.onOptionsItemSelected(item);
     }
 

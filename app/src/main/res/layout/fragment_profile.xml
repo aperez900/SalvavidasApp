@@ -74,7 +74,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="50dp"
                     android:layout_marginStart="50dp"
-                    android:layout_marginTop="1dp"
+                    android:layout_marginTop="20dp"
                     android:layout_marginEnd="50dp"
                     android:fontFamily="@font/poppins_light"
                     android:hint="@string/nombre"
@@ -87,7 +87,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="50dp"
                     android:layout_marginStart="50dp"
-                    android:layout_marginTop="10dp"
+                    android:layout_marginTop="20dp"
                     android:layout_marginEnd="50dp"
                     android:fontFamily="@font/poppins_light"
                     android:hint="@string/apellidos"
@@ -100,7 +100,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="50dp"
                     android:layout_marginStart="50dp"
-                    android:layout_marginTop="10dp"
+                    android:layout_marginTop="20dp"
                     android:layout_marginEnd="50dp"
                     android:fontFamily="@font/poppins_light"
                     android:hint="@string/documento_identidad"
@@ -112,45 +112,30 @@
                     android:layout_width="match_parent"
                     android:layout_height="50dp"
                     android:layout_marginStart="50dp"
-                    android:layout_marginTop="10dp"
+                    android:layout_marginTop="20dp"
                     android:layout_marginEnd="50dp"
                     android:fontFamily="@font/poppins_light"
                     android:hint="@string/celular"
                     android:inputType="number"
                     app:layout_constraintTop_toBottomOf="@id/tv_identidad" />
 
-                <TextView
-                    android:id="@+id/lista_comidas"
-                    android:layout_width="match_parent"
-                    android:layout_height="50dp"
-                    android:layout_marginStart="50dp"
-                    android:layout_marginTop="10dp"
-                    android:layout_marginEnd="50dp"
-                    android:fontFamily="@font/poppins_light"
-                    android:gravity="center_vertical"
-                    android:text="@string/lista_comida"
-                    android:textSize="18sp"
-                    app:drawableTint="@color/red"
-                    app:layout_constraintTop_toBottomOf="@id/tv_celular"
-                    app:drawableStartCompat="@android:drawable/ic_input_add" />
-
                 <Button
                     android:id="@+id/btn_registrar_perfil"
                     android:layout_width="match_parent"
                     android:layout_height="50dp"
                     android:layout_marginStart="30dp"
-                    android:layout_marginTop="10dp"
+                    android:layout_marginTop="20dp"
                     android:layout_marginEnd="30dp"
                     android:fontFamily="@font/poppins_semibold"
                     android:text="@string/registrar2"
-                    app:layout_constraintTop_toBottomOf="@id/lista_comidas" />
+                    app:layout_constraintTop_toBottomOf="@id/tv_celular" />
 
                 <Button
                     android:id="@+id/btn_desactivar_usuario"
                     android:layout_width="match_parent"
                     android:layout_height="50dp"
                     android:layout_marginStart="30dp"
-                    android:layout_marginTop="10dp"
+                    android:layout_marginTop="20dp"
                     android:layout_marginEnd="30dp"
                     android:fontFamily="@font/poppins_semibold"
                     android:text="@string/desactivar_usuario"
@@ -164,6 +149,7 @@
                     android:text="@string/serVendedor"
                     android:textAlignment="center"
                     android:textSize="18sp"
+                    android:layout_marginTop="20dp"
                     android:textStyle="bold" />
 
             </LinearLayout>

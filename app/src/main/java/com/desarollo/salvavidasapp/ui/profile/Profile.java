@@ -55,7 +55,7 @@ public class Profile extends Fragment {
     ArrayList<ListDirecciones> listaDirecciones;
 
     //items seleccionados de comidas preferidas
-    Map <String,Object> selectedItems = new HashMap<>();
+    //Map <String,Object> selectedItems = new HashMap<>();
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -77,7 +77,7 @@ public class Profile extends Fragment {
         ImageView UserPhoto = view.findViewById(R.id.foto_perfil);
         EditText nombres = view.findViewById(R.id.tv_nombre);
         EditText apellidos = view.findViewById(R.id.tv_apellido);
-        TextView lista_comida = view.findViewById(R.id.lista_comidas);
+        //TextView lista_comida = view.findViewById(R.id.lista_comidas);
         EditText identificacion = view.findViewById(R.id.tv_identidad);
         EditText celular = view.findViewById(R.id.tv_celular);
         Button btn_reg = view.findViewById(R.id.btn_registrar_perfil);
@@ -146,12 +146,14 @@ public class Profile extends Fragment {
         });
 
         //Clic al boton de Lista de comidas preferidas
+        /*
         lista_comida.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 crearModalComidasPreferidas();
             }
         });
+         */
 
         return view;
     }
@@ -190,6 +192,7 @@ public class Profile extends Fragment {
                 });
 
         //consulta comidas preferidas del usuario
+        /*
         myRef.child(currentUser.getUid()).child("comidas_preferidas")
                 .addValueEventListener(new ValueEventListener() {
                     @Override
@@ -219,6 +222,7 @@ public class Profile extends Fragment {
                         Toast.makeText(getApplicationContext(), "Error consultando las comidas preferidas. Intente de nuevo mas tarde.", Toast.LENGTH_SHORT).show();
                     }
                 });
+         */
 
         //Consultando datos de las direcciones
         myRef.child(currentUser.getUid()).child("mis direcciones").addValueEventListener(new ValueEventListener() {
@@ -263,6 +267,7 @@ public class Profile extends Fragment {
         };
 
         //consulta comidas preferidas del usuario
+        /*
         myRef.child(currentUser.getUid()).child("comidas_preferidas")
                 .addValueEventListener(new ValueEventListener() {
                     @Override
@@ -326,6 +331,8 @@ public class Profile extends Fragment {
         });
         AlertDialog dialog = builder.create();
         dialog.show();
+
+         */
     }
 
     /*
@@ -358,6 +365,7 @@ public class Profile extends Fragment {
                     }
                 });
         //guarda los datos de las comidas elegidas
+        /*
         myRef.child(currentUser.getUid()).child("comidas_preferidas").setValue(selectedItems)
                 .addOnSuccessListener(new OnSuccessListener<Void>(){
                     @Override
@@ -365,6 +373,8 @@ public class Profile extends Fragment {
 
                     }
                 });
+
+         */
 
         //Guardando datos de las direcciones
         for (int i=0; i<listaDirecciones.size();i++){
@@ -469,11 +479,12 @@ public class Profile extends Fragment {
             celular.setError("El celular debe tener 10 digitos");
             campoLleno=false;
         }
-        if(selectedItems.isEmpty()){
+        /*if(selectedItems.isEmpty()){
             crearModalComidasPreferidas();
             campoLleno=false;
             Toast.makeText(getContext(), "Seleccione sus comidas preferidas primero", Toast.LENGTH_LONG).show();
         }
+         */
         return campoLleno;
     }
 }
