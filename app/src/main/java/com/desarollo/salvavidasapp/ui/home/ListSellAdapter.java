@@ -12,6 +12,7 @@ import android.location.LocationManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -83,6 +84,8 @@ public class ListSellAdapter extends RecyclerView.Adapter<ListSellAdapter.viewHo
         //double aleatorio = Math.random()*5;
         String direccion = listaDeDatos.get(position).getDireccion();
         String Distancia = df.format(convertirDireccion(direccion));
+        //Double precioDomicilio = listaDeDatos.get(position).getPrecioDomicilio();
+
         holder.nombre_producto.setText(nombre_producto);
         String patron = "###,###.##";
         DecimalFormat objDF = new DecimalFormat (patron);
@@ -92,6 +95,8 @@ public class ListSellAdapter extends RecyclerView.Adapter<ListSellAdapter.viewHo
         holder.fechaInicio.setText(fechaInicio);
         holder.fechaFin.setText(fechaFin);
         holder.nombre_empresa.setText(nombreEstablecimiento);
+       // holder.precioDomicilio.setText(String.valueOf(precioDomicilio));
+
 
         holder.distancia.setText(Distancia + " KM");
 

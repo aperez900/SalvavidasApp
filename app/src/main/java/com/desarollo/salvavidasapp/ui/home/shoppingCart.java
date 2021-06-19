@@ -124,7 +124,7 @@ public class shoppingCart extends AppCompatActivity {
                             if(idProduct.equals(id)) {
                                 listaDeDatos.add(new Productos(p.getIdProducto(), p.getNombreProducto(), p.getDescripcionProducto(),
                                         p.getCategoriaProducto(), p.getSubCategoriaProducto(), p.getPrecio(), p.getDescuento(), p.getDomicilio(), p.getEstadoProducto(),
-                                        p.getfoto(), p.getFechaInicio(), p.getHoraInicio(), p.getFechaFin(), p.getHoraFin(), p.getNombreEmpresa(), p.getDireccion(), Integer.parseInt(cantidad)));
+                                        p.getfoto(), p.getFechaInicio(), p.getHoraInicio(), p.getFechaFin(), p.getHoraFin(), p.getNombreEmpresa(), p.getDireccion(), Integer.parseInt(cantidad),p.getPrecioDomicilio()));
                                 subTotalCarrito = subTotalCarrito + (p.getPrecio()-p.getDescuento())*Integer.parseInt(cantidad);
                             }
                         }

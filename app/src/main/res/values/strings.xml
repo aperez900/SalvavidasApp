@@ -62,6 +62,7 @@
     <string name="descripcionProducto">Describe lo que vas a vender</string>
     <string name="descripcionProducto2">Descripción producto</string>
     <string name="precioProducto">Precio</string>
+    <string name="precioDomicilio">Precio del domicilio</string>
     <string name="descuentoProducto">Descuento</string>
     <string name="direccionVenta">Direccion de la venta</string>
     <string name="porcDescuentoProducto">% Dcto</string>

@@ -13,6 +13,7 @@ import android.location.Address;
 import android.location.LocationManager;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
@@ -37,6 +38,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.protobuf.Empty;
 
 
 import java.io.IOException;
@@ -93,6 +95,7 @@ public class addProduct extends AppCompatActivity {
         EditText descuentoProducto = findViewById(R.id.et_descuento);
         Button direccionVenta = findViewById(R.id.bt_direccion);
         EditText direccionProducto = findViewById(R.id.et_direccion);
+        EditText precioDomicilio = findViewById(R.id.et_precio_domicilio);
 
         String fotoConsulta = "";
         String ScategoriaProductos="";
@@ -121,6 +124,7 @@ public class addProduct extends AppCompatActivity {
             type = extras.getString("tipyEntry");
             fotoConsulta = extras.getString("urlFoto");
             direccionProducto.setText(extras.getString("direccionProducto"));
+            precioDomicilio.setText(extras.getString("precioDomicilio"));
 
             //direccionVenta.setText(direccionUsuario);
 
@@ -169,24 +173,31 @@ public class addProduct extends AppCompatActivity {
             domicilioProducto.setAdapter(adapterDomicilioProductos);
         }
 
+
+
+        domicilioProducto.setOnItemSelectedListener(
+                new AdapterView.OnItemSelectedListener() {
+                    public void onItemSelected(AdapterView<?> spn,
+                                               android.view.View v,
+                                               int posicion,
+                                               long id) {
+
+                        if(spn.getItemAtPosition(posicion).toString().equals("Sí")){
+                            precioDomicilio.setVisibility(View.VISIBLE);
+                        }else{
+                            precioDomicilio.setVisibility(View.INVISIBLE);
+                        }
+
+                    }
+                    public void onNothingSelected(AdapterView<?> spn) {
+                    }
+                });
+
+
+
         direccionVenta.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                /*
-                LocationManager lm = (LocationManager) getApplicationContext().getSystemService(Context.LOCATION_SERVICE);
-                boolean gpsActivo = lm.isProviderEnabled(LocationManager.GPS_PROVIDER);
-
-                if (gpsActivo != false){
-                    Intent h = new Intent(getApplicationContext(), productsMaps.class);
-                   // h.putExtra("tipo", "vendedor");
-                    startActivity(h);
-                   // finish();
-
-                }
-                else{
-                    Toast.makeText(addProduct.this,"activa el GPS para poder continuar...",Toast.LENGTH_SHORT).show();
-                }
-                 */
                 crearModalDirecciones(direccionProducto);
             }
         });
@@ -238,9 +249,9 @@ public class addProduct extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if(validarCamposVacios(nombreProducto, descripcionProducto, categoriaProducto, subCategoriaProducto, precioProducto, descuentoProducto,
-                        domicilioProducto, tvFechaInicio, tvFechaFin, tvHoraInicio, tvHoraFin,direccionProducto)) {
+                        domicilioProducto, tvFechaInicio, tvFechaFin, tvHoraInicio, tvHoraFin,direccionProducto,precioDomicilio)) {
                     registrar(nombreProducto, descripcionProducto, categoriaProducto, subCategoriaProducto, precioProducto, descuentoProducto,
-                            domicilioProducto, tvFechaInicio, tvFechaFin, tvHoraInicio, tvHoraFin, finalFotoConsulta,idProductoEdit,direccionProducto);
+                            domicilioProducto, tvFechaInicio, tvFechaFin, tvHoraInicio, tvHoraFin, finalFotoConsulta,idProductoEdit,direccionProducto,precioDomicilio);
                 }
             }
         });
@@ -278,11 +289,11 @@ public class addProduct extends AppCompatActivity {
 
     public void registrar(EditText et_nombre_producto, EditText et_descripcion_producto, Spinner sp_categoria_producto, Spinner sp_sub_categoria_producto,
                           EditText et_precio_producto, EditText et_descuento_producto, Spinner sp_domicilio_producto, TextView tv_fecha_inicio,
-                          TextView tv_fecha_fin, TextView tv_hora_inicio, TextView tv_hora_fin,String fotoConsulta, String idProductoEdit,EditText direccionProducto){
+                          TextView tv_fecha_fin, TextView tv_hora_inicio, TextView tv_hora_fin,String fotoConsulta, String idProductoEdit,EditText direccionProducto, EditText et_precio_Domicilio){
         try {
             String idProducto,descripcionProducto,nombreProducto,categoriaProducto, subCategoriaProducto, estadoProducto, domicilio,   fechaInicio, direccion,
                     horaInicio,  fechaFin,  horaFin;
-            double precio,descuento;
+            double precio,descuento,precioDomicilio_;
             String foto = fotoConsulta;
 
             if (idProductoEdit==""){
@@ -290,6 +301,12 @@ public class addProduct extends AppCompatActivity {
             }
             else{
                 idProducto = idProductoEdit;
+            }
+
+            if(et_precio_Domicilio.getText().toString().equals("")){
+                precioDomicilio_ = 0.0 ;
+            }else{
+                precioDomicilio_ = Double.parseDouble(et_precio_Domicilio.getText().toString());
             }
 
            // Toast.makeText(getApplicationContext(),idProducto,Toast.LENGTH_SHORT).show();
@@ -308,7 +325,7 @@ public class addProduct extends AppCompatActivity {
             direccion = direccionProducto.getText().toString();
 
             p = new Productos(idProducto  ,  nombreProducto,  descripcionProducto,  categoriaProducto,  subCategoriaProducto,
-                    precio,  descuento,  domicilio,  estadoProducto,  foto,  fechaInicio,  horaInicio,  fechaFin,  horaFin, nombreEstablecimiento,direccion,1 ){};
+                    precio,  descuento,  domicilio,  estadoProducto,  foto,  fechaInicio,  horaInicio,  fechaFin,  horaFin, nombreEstablecimiento,direccion,1 ,precioDomicilio_){};
 
             //guarda los datos del producto
             myRefProductos.child(currentUser.getUid()).child(p.getIdProducto()).setValue(p)
@@ -360,7 +377,7 @@ public class addProduct extends AppCompatActivity {
     public boolean validarCamposVacios(EditText et_nombre_producto, EditText et_descripcion_producto, Spinner sp_categoria_producto,
                                        Spinner sp_sub_categoria_producto, EditText et_precio_producto, EditText et_descuento_producto,
                                        Spinner sp_domicilio_producto, TextView tv_fecha_inicio, TextView tv_fecha_fin, TextView tv_hora_inicio,
-                                       TextView tv_hora_fin , EditText direccionProducto){
+                                       TextView tv_hora_fin , EditText direccionProducto,EditText et_precio_domicilio){
         boolean campoLleno = true;
 
         String nombreProducto = et_nombre_producto.getText().toString();
@@ -375,6 +392,7 @@ public class addProduct extends AppCompatActivity {
         String horaInicio = tv_hora_inicio.getText().toString();
         String horaFin = tv_hora_fin.getText().toString();
         String direccion = direccionProducto.getText().toString();
+        String precioDomicilio = et_precio_domicilio.getText().toString();
 
         if(nombreProducto.isEmpty()){
             et_nombre_producto.setError("Debe diligenciar un nombre para el producto");
@@ -391,9 +409,11 @@ public class addProduct extends AppCompatActivity {
         }if(nombreProducto.isEmpty()){
             et_nombre_producto.setError("Debe diligenciar un nombre para el producto");
             campoLleno=false;
-        }if(precioProducto.isEmpty()){
+        }if(precioProducto.isEmpty()) {
             et_precio_producto.setError("Debe diligenciar un precio para el producto");
-            campoLleno=false;
+            campoLleno = false;
+        }if(precioDomicilio.isEmpty()){
+            et_precio_domicilio.setError("Debe diligencia el precio del domicilio");
         }if(descuentoProducto.isEmpty()){
             et_descuento_producto.setError("Debe diligenciar un descuento para el producto. Si no tiene digite 0 (cero)");
             campoLleno=false;
