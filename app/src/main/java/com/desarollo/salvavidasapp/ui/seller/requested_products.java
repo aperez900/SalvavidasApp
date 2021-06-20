@@ -1,4 +1,4 @@
-package com.desarollo.salvavidasapp.ui.home;
+package com.desarollo.salvavidasapp.ui.seller;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -7,15 +7,14 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.StrictMode;
-import android.view.View;
-import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.desarollo.salvavidasapp.Models.Productos;
 import com.desarollo.salvavidasapp.R;
-import com.desarollo.salvavidasapp.ui.home.ListSellAdapter;
+import com.desarollo.salvavidasapp.ui.home.Home;
+import com.desarollo.salvavidasapp.ui.home.listShoppingCartAdapter;
+import com.desarollo.salvavidasapp.ui.home.shoppingCart;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -25,67 +24,45 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.text.DecimalFormat;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
-import java.util.Properties;
 
-import javax.mail.Authenticator;
-import javax.mail.PasswordAuthentication;
-import javax.mail.Session;
-import javax.mail.Transport;
-import javax.mail.internet.InternetAddress;
-import javax.mail.internet.MimeMessage;
+public class requested_products extends AppCompatActivity {
 
-import static com.facebook.FacebookSdk.getApplicationContext;
-
-public class shoppingCart extends AppCompatActivity {
-
-    ArrayList<Productos> listaDeDatos = new ArrayList<>();
-    RecyclerView listado;
-    listShoppingCartAdapter ListShoppingCartAdapter;
-    TextView titulo_carrito, subtitulo_carrito, total_carrito;
-    Button btn_comprar;
+    TextView titulo_productos_solicitados, subtitulo_productos_solicitados;
     FirebaseAuth mAuth;
     FirebaseUser currentUser;
     FirebaseDatabase database;
-    DatabaseReference myRef, myRefProductos;
+    DatabaseReference myRefVendedores, myRefProductos;
+    RecyclerView listado;
     Double subTotalCarrito=0.0;
 
+    listRequestedProductsAdapter ListRequestedProductsAdapter;
+    ArrayList<Productos> listaDeDatos = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_shopping_cart);
+        setContentView(R.layout.activity_requested_products);
 
-        titulo_carrito = findViewById(R.id.tv_titulo_carrito);
-        subtitulo_carrito = findViewById(R.id.tv_subtitulo_carrito);
-        total_carrito = findViewById(R.id.tv_subtotal_carrito);
-        btn_comprar = findViewById(R.id.btn_comprar_carrito);
+        titulo_productos_solicitados = findViewById(R.id.tv_titulo_productos_solicitados);
+        subtitulo_productos_solicitados = findViewById(R.id.tv_subtitulo_productos_solicitados);
 
         mAuth = FirebaseAuth.getInstance();
         currentUser = mAuth.getCurrentUser();
         database = FirebaseDatabase.getInstance();
-        myRef = database.getReference("usuarios");
+        myRefVendedores = database.getReference("vendedores");
         myRefProductos = database.getReference("productos");
 
-        listado = findViewById(R.id.listadoCarrito);
+        listado = findViewById(R.id.listado__productos_solicitados);
         LinearLayoutManager manager = new LinearLayoutManager(this);
         listado.setLayoutManager(manager);
 //        listado.setHasFixedSize(true);
-        ListShoppingCartAdapter = new listShoppingCartAdapter(this, listaDeDatos,this);
-        listado.setAdapter(ListShoppingCartAdapter);
+        ListRequestedProductsAdapter = new listRequestedProductsAdapter(this, listaDeDatos,this);
+        listado.setAdapter(ListRequestedProductsAdapter);
 
         crearListado();
-
-        btn_comprar.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Toast.makeText(shoppingCart.this, "En construcción", Toast.LENGTH_SHORT).show();
-            }
-        });
     }
 
     public void crearListado() {
@@ -93,30 +70,31 @@ public class shoppingCart extends AppCompatActivity {
         Calendar c = Calendar.getInstance();
         SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm");
 
-        myRef.child(currentUser.getUid()).child("carrito_compras").addValueEventListener(new ValueEventListener() {
+        myRefVendedores.child(currentUser.getUid()).child("productos_en_tramite").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 if(snapshot.exists()){
-                    subtitulo_carrito.setText("Los siguientes productos estan disponibles en el carrito hasta que se cumpla su fecha y hora de fin");
+                    subtitulo_productos_solicitados.setText("Los siguientes productos estan en trámite de aprobación o entrega");
                     listaDeDatos.clear();
-                    for(DataSnapshot objsnapshot : snapshot.getChildren()){
-                        String idProd = objsnapshot.child("idProducto").getValue().toString();
-                        String cantidad = objsnapshot.child("cantidadProducto").getValue().toString();
+                    for(DataSnapshot objsnapshot : snapshot.getChildren()){ //recorre los usuarios
+                        for(DataSnapshot objsnapshot2 : objsnapshot.getChildren()) { //recorre los productos
+                            String idProd = objsnapshot2.child("idProducto").getValue().toString();
+                            String cantidad = objsnapshot2.child("cantidadProducto").getValue().toString();
 
-                        consultarDetalleProducto(idProd,cantidad);
-
+                            consultarDetalleProducto(idProd, cantidad);
+                        }
                     }
                 }else{
-                    Intent intent = new Intent(shoppingCart.this , Home.class);
+                    Intent intent = new Intent(requested_products.this , Home.class);
                     startActivity(intent);
                     finish();
-                    Toast.makeText(shoppingCart.this, "Carrito de compras vacío", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(requested_products.this, "Aún no han solicitado tus productos. Intenta de nuevo mas tarde.", Toast.LENGTH_SHORT).show();
                 }
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
-                Toast.makeText(shoppingCart.this, "Error cargando los productos del carrito", Toast.LENGTH_SHORT).show();
+                Toast.makeText(requested_products.this, "Error cargando los productos del carrito", Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -141,11 +119,11 @@ public class shoppingCart extends AppCompatActivity {
                         }
                     }
                 }
-                ListShoppingCartAdapter = new listShoppingCartAdapter(shoppingCart.this, listaDeDatos, shoppingCart.this);
-                listado.setAdapter(ListShoppingCartAdapter);
+                ListRequestedProductsAdapter = new listRequestedProductsAdapter(requested_products.this, listaDeDatos, requested_products.this);
+                listado.setAdapter(ListRequestedProductsAdapter);
                 String patron = "###,###.##";
                 DecimalFormat objDF = new DecimalFormat (patron);
-                total_carrito.setText("Sub Total: $" + objDF.format(subTotalCarrito));
+                //total_carrito.setText("Sub Total: $" + objDF.format(subTotalCarrito));
             }
 
             @Override
@@ -154,6 +132,4 @@ public class shoppingCart extends AppCompatActivity {
             }
         });
     }
-
-
 }

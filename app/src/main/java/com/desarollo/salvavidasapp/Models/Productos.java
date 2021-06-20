@@ -26,6 +26,7 @@ public class Productos {
     private String nombreEmpresa;
     private int cantidad;
     private double precioDomicilio;
+    private String IdVendedor;
 
 
     public Productos(){
@@ -35,7 +36,7 @@ public class Productos {
     public Productos(String idProducto, String nombreProducto, String descripcionProducto, String categoriaProducto,
                      String subCategoriaProducto, double precio, double descuento, String domicilio, String estadoProducto,
                      String foto, String fechaInicio, String horaInicio, String fechaFin, String horaFin, String nombreEmpresa,String direccion,
-                     int cantidad,double precioDomicilio) {
+                     int cantidad, double precioDomicilio, String IdVendedor) {
         this.idProducto = idProducto;
         this.nombreProducto = nombreProducto;
         this.descripcionProducto = descripcionProducto;
@@ -54,6 +55,8 @@ public class Productos {
         this.direccion = direccion;
         this.cantidad = cantidad;
         this.precioDomicilio = precioDomicilio;
+        this.IdVendedor = IdVendedor;
+
     }
 
 
@@ -199,5 +202,13 @@ public class Productos {
 
     public void setCantidad(int cantidad) {
         this.cantidad = cantidad;
+    }
+
+    public String getIdVendedor() {
+        return IdVendedor;
+    }
+
+    public void setIdVendedor(String IdVendedor) {
+        this.IdVendedor = IdVendedor;
     }
 }

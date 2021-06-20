@@ -102,6 +102,9 @@
     <string name="cantidad">Cantidad</string>
     <string name="comprar">Comprar</string>
 
+    <string name="tituloProductosSolicitados">Productos solicitados</string>
+    <string name="subtituloProductosSolicitados">No hay productos solicitados actualmente</string>
+
     <string name="facebook_app_id">1541603559379639</string>
     <string name="fb_login_protocol_scheme">fb1541603559379639</string>
 

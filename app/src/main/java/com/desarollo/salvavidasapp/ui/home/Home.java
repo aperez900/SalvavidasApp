@@ -12,6 +12,7 @@ import android.widget.Toast;
 
 import com.desarollo.salvavidasapp.Login.MainActivity;
 import com.desarollo.salvavidasapp.R;
+import com.desarollo.salvavidasapp.ui.seller.requested_products;
 import com.facebook.login.LoginManager;
 import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
@@ -48,12 +49,13 @@ public class Home extends AppCompatActivity {
     FirebaseAuth mAuth;
     FirebaseUser currentUser;
     FirebaseDatabase database;
-    DatabaseReference myRef;
+    DatabaseReference myRef, myRefVendedores;
 
-    MenuItem menuItem;
-    TextView badgeCounter;
-    ImageView imgCarrito;
+    MenuItem menuItemCarrito, menuItemProductosSolicitados;
+    TextView badgeCounter, badgeCounterSeller;
+    ImageView imgCarrito, imgProductos;
     int nroProductosCarrito = 0;
+    int nroProductosSolicitados = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,6 +68,7 @@ public class Home extends AppCompatActivity {
         currentUser = mAuth.getCurrentUser();
         database = FirebaseDatabase.getInstance();
         myRef = database.getReference("usuarios");
+        myRefVendedores = database.getReference("vendedores");
 
         //Botón flotante
         /*
@@ -114,10 +117,10 @@ public class Home extends AppCompatActivity {
 
         getMenuInflater().inflate(R.menu.home, menu);
 
-        menuItem = menu.findItem(R.id.shop);
+        menuItemCarrito = menu.findItem(R.id.shop);
 
         if(nroProductosCarrito == 0){
-            menuItem.setActionView(null);
+            menuItemCarrito.setActionView(null);
         }
 
         //Ver nroProductosCarrito
@@ -129,8 +132,8 @@ public class Home extends AppCompatActivity {
                     for(DataSnapshot objsnapshot : snapshot.getChildren()){
                         nroProductosCarrito = nroProductosCarrito + 1;
                     }
-                    menuItem.setActionView(R.layout.notification_badge);
-                    View view = menuItem.getActionView();
+                    menuItemCarrito.setActionView(R.layout.notification_badge);
+                    View view = menuItemCarrito.getActionView();
                     badgeCounter = view.findViewById(R.id.tv_nro_productos_carrito);
                     imgCarrito = view.findViewById(R.id.img_carrito_compras);
                     badgeCounter.setText(String.valueOf(nroProductosCarrito));
@@ -157,6 +160,51 @@ public class Home extends AppCompatActivity {
             }
         });
 
+        menuItemProductosSolicitados = menu.findItem(R.id.notification_seller);
+
+        if(nroProductosSolicitados == 0){
+            menuItemProductosSolicitados.setActionView(null);
+        }
+
+        //Ver nroProductosSolicitados
+        myRefVendedores.child(currentUser.getUid()).child("productos_en_tramite").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if(snapshot.exists()){
+                    nroProductosSolicitados=0;
+                    for(DataSnapshot objsnapshot : snapshot.getChildren()){
+                        for(DataSnapshot objsnapshot2 : objsnapshot.getChildren()) { //recorre los productos
+                            nroProductosSolicitados = nroProductosSolicitados + 1;
+                        }
+                    }
+                    menuItemProductosSolicitados.setActionView(R.layout.notification_badge_seller);
+                    View view = menuItemProductosSolicitados.getActionView();
+                    badgeCounterSeller = view.findViewById(R.id.tv_nro_productos_solicitados);
+                    imgProductos = view.findViewById(R.id.img_notificacion_productos);
+                    badgeCounterSeller.setText(String.valueOf(nroProductosSolicitados));
+                    //Toast.makeText(getApplicationContext(), "Hay " + nroProductosCarrito + " productos en el carrito" , Toast.LENGTH_LONG).show();
+                    imgProductos.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            irAProductosSolicitados();
+                        }
+                    });
+
+                    badgeCounterSeller.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            irAProductosSolicitados();
+                        }
+                    });
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                Toast.makeText(getApplicationContext(), "Error contando los productos solicitados", Toast.LENGTH_SHORT).show();
+            }
+        });
+
         return true;
     }
 
@@ -178,8 +226,7 @@ public class Home extends AppCompatActivity {
         }
 
         if (item.getItemId() == R.id.notification_seller) {
-            Toast.makeText(Home.this, "En construcción",
-                    Toast.LENGTH_SHORT).show();
+            irAProductosSolicitados();
         }
 
         return super.onOptionsItemSelected(item);
@@ -320,6 +367,12 @@ public class Home extends AppCompatActivity {
 
     public void irAlCarrito(){
         Intent intent = new Intent(this, shoppingCart.class);
+        startActivity(intent);
+        finish();
+    }
+
+    public void irAProductosSolicitados(){
+        Intent intent = new Intent(this, requested_products.class);
         startActivity(intent);
         finish();
     }

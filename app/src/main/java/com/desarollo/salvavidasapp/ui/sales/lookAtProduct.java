@@ -6,38 +6,63 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.graphics.Paint;
 import android.os.Bundle;
+import android.os.StrictMode;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.desarollo.salvavidasapp.Models.Productos;
 import com.desarollo.salvavidasapp.R;
+import com.desarollo.salvavidasapp.ui.home.ListSellAdapter;
+import com.desarollo.salvavidasapp.ui.seller.seller2;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.auth.UserInfo;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.text.ParseException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Date;
 import java.util.HashMap;
+import java.util.Objects;
+import java.util.Properties;
+
+import javax.mail.Authenticator;
+import javax.mail.PasswordAuthentication;
+import javax.mail.Session;
+import javax.mail.Transport;
+import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeMessage;
+
+import static com.facebook.FacebookSdk.getApplicationContext;
 
 public class lookAtProduct extends AppCompatActivity {
 
     FirebaseAuth mAuth;
     FirebaseUser currentUser;
     FirebaseDatabase database;
-    DatabaseReference myRef, myRefCarrito;
+    DatabaseReference myRef, myRefCarrito, myRefVendedor;
     String idProducto ="";
+    String idVendedor ="";
     String urlFoto="";
     int numeroProductos = 1;
     Double total;
     HashMap<String, String> producto = new HashMap<String, String>();
+    Session session;
+    String nombreComprador, nombreProducto;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,6 +74,7 @@ public class lookAtProduct extends AppCompatActivity {
         database = FirebaseDatabase.getInstance();
         myRef = database.getReference("productos");
         myRefCarrito = database.getReference("usuarios");
+        myRefVendedor = database.getReference("vendedores");
 
         ImageView imgProducto = findViewById(R.id.img_imagen_producto);
         TextView tvnombreProducto = findViewById(R.id.tv_nombre_producto);
@@ -72,7 +98,8 @@ public class lookAtProduct extends AppCompatActivity {
             Bundle extras = getIntent().getExtras();
 
             idProducto = extras.getString("idProducto");
-            tvnombreProducto.setText(extras.getString("nombreProducto"));
+            nombreProducto = extras.getString("nombreProducto");
+            tvnombreProducto.setText(nombreProducto);
             tvdescripcionProducto.setText(extras.getString("descripcionProducto"));
             tvprecioProducto.setText(String.valueOf(extras.getString("precio")));
             tvprecioProducto.setPaintFlags(tvprecioProducto.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
@@ -91,6 +118,7 @@ public class lookAtProduct extends AppCompatActivity {
             //tvHoraFin.setText(extras.getString("horaFin"));
             //type = extras.getString("tipyEntry");
             //fotoConsulta = extras.getString("getUrlFoto");
+            idVendedor = extras.getString("idVendedor");
         }
 
         consultarImagen(imgProducto);
@@ -136,9 +164,18 @@ public class lookAtProduct extends AppCompatActivity {
         btn_comprar_producto.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(lookAtProduct.this, "En construcción", Toast.LENGTH_SHORT).show();
+                registrarProductoSolicitado();
+                consultarDatosVendedor(idVendedor);
+                //Toast.makeText(lookAtProduct.this, "Id vendedor " + idVendedor, Toast.LENGTH_SHORT).show();
             }
         });
+
+        //Actualiza los datos del perfil logeado en el fragmenProfile
+        if (currentUser != null) {
+            for (UserInfo profile : currentUser.getProviderData()) {
+                nombreComprador = profile.getDisplayName();
+            }
+        }
     }
 
     public void consultarImagen(ImageView imgProducto){
@@ -184,6 +221,103 @@ public class lookAtProduct extends AppCompatActivity {
                     @Override
                     public void onFailure(@NonNull Exception e) {
                         Toast.makeText(lookAtProduct.this, "Error agregando producto al carrito. Intenta de nuevo mas tarde", Toast.LENGTH_SHORT).show();
+                    }
+                });
+    }
+
+    public void consultarDatosVendedor(String idVendedor) {
+        myRefCarrito.child(idVendedor).addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if(snapshot.exists()){
+                    String emailVendedor = snapshot.child("correo").getValue().toString();
+                    String nombreVendedor = snapshot.child("nombre").getValue().toString();
+                    enviar_email_vendedor(nombreComprador, emailVendedor, nombreVendedor);
+                }
+            }
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                Toast.makeText(lookAtProduct.this, "Error cargando los datos del vendedor", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    public void enviar_email_vendedor(String nombreComprador, String emailVendedor, String nombreVendedor){
+
+        //String correoEnvia = correo.getText().toString();
+        String correoEnvia = "ceo@salvavidas.app";
+        //String contraseñaCorreoEnvia = contraseña.getText().toString();
+        String contrasenaCorreoEnvia = "Great_Simplicity01945#";
+
+        String cuerpoCorreo = "<p style='text-align: justify'> Hola " + nombreVendedor +", <br><br>" +
+                "nuestro usuario <b>" + nombreComprador + "</b> desea comprar lo siguiente: <br><br>" +
+                "<u>Producto:</u> <b>" + nombreProducto + "</b><br>" +
+                "<u>Cantidad:</u> <b>" + numeroProductos + "</b><br><br>" +
+                "Ingresa a Salvavidas App para aceptar el pedido.<br></p>Cordialmente,<br> <b>Equipo de Salvavidas App</b><br>" +
+                "<p style='text-align: justify'><font size=1><i>Este mensaje y sus archivos adjuntos van dirigidos exclusivamente a su destinatario pudiendo contener información confidencial " +
+                "sometida a secreto profesional. No está permitida su reproducción o distribución sin la autorización expresa de SALVAVIDAS APP, Si usted no es el destinatario " +
+                "final por favor elimínelo e infórmenos por esta vía. Según la Ley Estatutaria 1581 de 2.012 de Protección de Datos y sus normas reglamentarias, " +
+                "el Titular presta su consentimiento para que sus datos, facilitados voluntariamente, pasen a formar parte de una base de datos, cuyo responsable " +
+                "es SALVAVIDAS APP, cuyas finalidades son: Gestión administrativa, Gestión de clientes, Prospección comercial, Fidelización de clientes, Marketing y " +
+                "el envío de comunicaciones comerciales sobre nuestros productos y/o servicios. Puede usted ejercer los derechos de acceso, corrección, supresión, " +
+                "revocación o reclamo por infracción sobre sus datos, mediante escrito dirigido a SALVAVIDAS APP a la dirección de correo electrónico " +
+                "ceo@salvavidas.app indicando en el asunto el derecho que desea ejercer, o mediante correo ordinario remitido a la Carrera XX # XX – XX Medellín, Antioquia." +
+                "</font></i></p>";
+        //String to_ = to.getText().toString();
+        String to_ = emailVendedor;
+        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+        StrictMode.setThreadPolicy(policy);
+        Properties properties = new Properties();
+        properties.put("mail.smtp.host","smtp.googlemail.com");
+        properties.put("mail.smtp.socketFactory.port","465");
+        properties.put("mail.smtp.socketFactory.class","javax.net.ssl.SSLSocketFactory");
+        properties.put("mail.smtp.auth","true");
+        properties.put("mail.smtp.port","587");
+
+        try {
+            session = Session.getDefaultInstance(properties, new Authenticator() {
+                @Override
+                protected PasswordAuthentication getPasswordAuthentication() {
+                    return new PasswordAuthentication(correoEnvia,contrasenaCorreoEnvia);
+                }
+            });
+            if(session!=null){
+                MimeMessage message = new MimeMessage(session);
+                message.setFrom(new InternetAddress(correoEnvia));
+                message.setSubject("Solicitud de compra - Salvavidas App");
+                message.setText(cuerpoCorreo, "ISO-8859-1","html");
+                message.setRecipients(MimeMessage.RecipientType.TO,InternetAddress.parse(to_));
+                //message.setContent("Hola mundo","txt/html; charset= utf-8");
+                Transport.send(message);
+
+                Toast.makeText(getApplicationContext(), "Hemos enviado una solicitud de compra al vendedor. Espera un momento hasta que la solicitud sea aceptada", Toast.LENGTH_LONG).show();
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+            //Toast.makeText(getApplicationContext(), "Error enviando la solicitud. " + e, Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    public void registrarProductoSolicitado(){
+
+        producto.clear();
+        producto.put("idProducto", idProducto);
+        producto.put("valorProducto",String.valueOf(total));
+        producto.put("cantidadProducto",String.valueOf(numeroProductos));
+        producto.put("usuarioSolicitud",currentUser.getUid());
+        producto.put("estado","Solicitado");
+
+        myRefVendedor.child(idVendedor).child("productos_en_tramite").child(currentUser.getUid()).child(idProducto).setValue(producto)
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        //Toast.makeText(lookAtProduct.this, "Producto solicitado", Toast.LENGTH_SHORT).show();
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Toast.makeText(lookAtProduct.this, "Error agregando solicitud del producto. Intenta de nuevo mas tarde", Toast.LENGTH_SHORT).show();
                     }
                 });
     }

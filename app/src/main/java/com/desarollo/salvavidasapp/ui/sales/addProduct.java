@@ -58,7 +58,7 @@ public class addProduct extends AppCompatActivity {
     FirebaseAuth mAuth;
     FirebaseUser currentUser;
     FirebaseDatabase database;
-    DatabaseReference myRefProductos, myRefVendedores;
+    DatabaseReference myRefProductos, myRefVendedores, myRefUsuarios;
     Productos p;
     String idProductoEdit ="";
     String nombreEstablecimiento;
@@ -76,6 +76,7 @@ public class addProduct extends AppCompatActivity {
         database = FirebaseDatabase.getInstance();
         myRefProductos = database.getReference("productos");
         myRefVendedores = database.getReference("vendedores");
+        myRefUsuarios = database.getReference("usuarios");
 
         Spinner categoriaProducto = findViewById(R.id.sp_categoria_producto);
         Spinner subCategoriaProducto = findViewById(R.id.sp_sub_categoria_producto);
@@ -325,7 +326,7 @@ public class addProduct extends AppCompatActivity {
             direccion = direccionProducto.getText().toString();
 
             p = new Productos(idProducto  ,  nombreProducto,  descripcionProducto,  categoriaProducto,  subCategoriaProducto,
-                    precio,  descuento,  domicilio,  estadoProducto,  foto,  fechaInicio,  horaInicio,  fechaFin,  horaFin, nombreEstablecimiento,direccion,1 ,precioDomicilio_){};
+                    precio,  descuento,  domicilio,  estadoProducto,  foto,  fechaInicio,  horaInicio,  fechaFin,  horaFin, nombreEstablecimiento,direccion,1 ,precioDomicilio_, currentUser.getUid()){};
 
             //guarda los datos del producto
             myRefProductos.child(currentUser.getUid()).child(p.getIdProducto()).setValue(p)
@@ -478,8 +479,8 @@ public class addProduct extends AppCompatActivity {
                 false, false, false, false, false
         };
 
-        //consulta las direcciones del vendedor
-        myRefVendedores.child(currentUser.getUid()).child("mis direcciones")
+        //consulta las direcciones del usuario
+        myRefUsuarios.child(currentUser.getUid()).child("mis direcciones")
                 .addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {

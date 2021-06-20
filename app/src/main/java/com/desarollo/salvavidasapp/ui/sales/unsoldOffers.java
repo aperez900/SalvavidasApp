@@ -94,7 +94,8 @@ public class unsoldOffers extends AppCompatActivity {
                             subtitulo_ofertados_no_vendidos.setText("Los siguientes productos ya no estan disponibles para la venta porque se cumplió su fecha y hora de fin");
                             listaDeDatos.add(new Productos(p.getIdProducto(), p.getNombreProducto(), p.getDescripcionProducto(),
                                     p.getCategoriaProducto(), p.getSubCategoriaProducto(), p.getPrecio(), p.getDescuento(), p.getDomicilio(), p.getEstadoProducto(),
-                                    p.getfoto(), p.getFechaInicio(), p.getHoraInicio(), p.getFechaFin(), p.getHoraFin(),p.getNombreEmpresa(),p.getDireccion(),1,p.getPrecioDomicilio()));
+                                    p.getfoto(), p.getFechaInicio(), p.getHoraInicio(), p.getFechaFin(), p.getHoraFin(),p.getNombreEmpresa(),p.getDireccion(),1,p.getPrecioDomicilio(),
+                                    p.getIdVendedor()));
                         }
                     }
                     listSaleAdapter = new ListSaleAdapter(unsoldOffers.this, listaDeDatos, unsoldOffers.this);

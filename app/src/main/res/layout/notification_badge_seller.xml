@@ -4,14 +4,14 @@
     android:layout_height="?attr/actionBarSize">
 
     <ImageView
-        android:id="@+id/img_carrito_compras"
+        android:id="@+id/img_notificacion_productos"
         android:layout_width="@dimen/notification_icon_size"
         android:layout_height="@dimen/notification_icon_size"
         android:src="@drawable/icono_notifications"
         android:layout_gravity="center" />
 
     <TextView
-        android:id="@+id/tv_nro_productos_carrito"
+        android:id="@+id/tv_nro_productos_solicitados"
         android:layout_width="@dimen/badge_size"
         android:layout_height="@dimen/badge_size"
         android:background="@drawable/badge"
