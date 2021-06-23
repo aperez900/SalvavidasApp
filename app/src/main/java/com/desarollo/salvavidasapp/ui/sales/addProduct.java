@@ -415,9 +415,12 @@ public class addProduct extends AppCompatActivity {
             campoLleno = false;
         }if(precioDomicilio.isEmpty()){
             et_precio_domicilio.setError("Debe diligencia el precio del domicilio");
-        }if(descuentoProducto.isEmpty()){
+        }if(descuentoProducto.isEmpty()) {
             et_descuento_producto.setError("Debe diligenciar un descuento para el producto. Si no tiene digite 0 (cero)");
-            campoLleno=false;
+            campoLleno = false;
+        }if(Double.parseDouble(descuentoProducto)>Double.parseDouble(precioProducto)){
+            et_descuento_producto.setError("El descuento debe ser menor al precio del producto");
+            campoLleno = false;
         }if(domicilioProducto.equals("✚ ¿Deseas ofrecer domicilio?")){
             Toast.makeText(this, "Seleccione si desea ofrecer domicilio", Toast.LENGTH_SHORT).show();
             campoLleno=false;

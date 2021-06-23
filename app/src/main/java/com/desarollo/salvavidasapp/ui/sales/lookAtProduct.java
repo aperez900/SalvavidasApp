@@ -2,7 +2,10 @@ package com.desarollo.salvavidasapp.ui.sales;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.NotificationCompat;
 
+import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.content.Intent;
 import android.graphics.Paint;
 import android.os.Bundle;
@@ -19,6 +22,7 @@ import android.widget.Toast;
 import com.bumptech.glide.Glide;
 import com.desarollo.salvavidasapp.Models.Productos;
 import com.desarollo.salvavidasapp.R;
+import com.desarollo.salvavidasapp.ui.home.Home;
 import com.desarollo.salvavidasapp.ui.home.ListSellAdapter;
 import com.desarollo.salvavidasapp.ui.seller.seller2;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -31,6 +35,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.messaging.FirebaseMessaging;
 
 import java.text.ParseException;
 import java.util.ArrayList;
@@ -46,6 +51,7 @@ import javax.mail.Session;
 import javax.mail.Transport;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
+
 
 import static com.facebook.FacebookSdk.getApplicationContext;
 
@@ -166,7 +172,39 @@ public class lookAtProduct extends AppCompatActivity {
             public void onClick(View v) {
                 registrarProductoSolicitado();
                 consultarDatosVendedor(idVendedor);
-                //Toast.makeText(lookAtProduct.this, "Id vendedor " + idVendedor, Toast.LENGTH_SHORT).show();
+
+             /*   // See documentation on defining a message payload.
+                                Message message = Message.builder()
+                                        .putData("score", "850")
+                                        .putData("time", "2:45")
+                                        .build();
+
+                // Send a message to the devices subscribed to the provided topic.
+                                String response = FirebaseMessaging.getInstance().send(message);
+                // Response is a message ID string.
+                                System.out.println("Successfully sent message: " + response);
+                //Toast.makeText(lookAtProduct.this, "Id vendedor " + idVendedor, Toast.LENGTH_SHORT).show();*/
+
+
+                NotificationCompat.Builder mBuilder;
+                NotificationManager mNotifyMgr =(NotificationManager) getApplicationContext().getSystemService(NOTIFICATION_SERVICE);
+
+                int icono = R.mipmap.ic_launcher;
+                Intent i=new Intent(lookAtProduct.this, Home.class);
+                PendingIntent pendingIntent = PendingIntent.getActivity(lookAtProduct.this, 0, i, 0);
+
+                mBuilder =new NotificationCompat.Builder(getApplicationContext())
+                        .setContentIntent(pendingIntent)
+                        .setSmallIcon(icono)
+                        .setContentTitle("Titulo")
+                        .setContentText("Hola que tal?")
+                        .setVibrate(new long[] {100, 250, 100, 500})
+                        .setAutoCancel(true);
+
+
+
+                mNotifyMgr.notify(1, mBuilder.build());
+
             }
         });
 
