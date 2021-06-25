@@ -11,6 +11,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.desarollo.salvavidasapp.Models.Productos;
+import com.desarollo.salvavidasapp.Models.ProductosEnTramite;
 import com.desarollo.salvavidasapp.R;
 import com.desarollo.salvavidasapp.ui.home.Home;
 import com.desarollo.salvavidasapp.ui.home.listShoppingCartAdapter;
@@ -34,12 +35,12 @@ public class requested_products extends AppCompatActivity {
     FirebaseAuth mAuth;
     FirebaseUser currentUser;
     FirebaseDatabase database;
-    DatabaseReference myRefVendedores, myRefProductos;
+    DatabaseReference myRefUsuarios, myRefVendedores, myRefProductos;
     RecyclerView listado;
-    Double subTotalCarrito=0.0;
+
 
     listRequestedProductsAdapter ListRequestedProductsAdapter;
-    ArrayList<Productos> listaDeDatos = new ArrayList<>();
+    ArrayList<ProductosEnTramite> listaDeDatos = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,12 +55,13 @@ public class requested_products extends AppCompatActivity {
         database = FirebaseDatabase.getInstance();
         myRefVendedores = database.getReference("vendedores");
         myRefProductos = database.getReference("productos");
+        myRefUsuarios = database.getReference("usuarios");
 
         listado = findViewById(R.id.listado__productos_solicitados);
         LinearLayoutManager manager = new LinearLayoutManager(this);
         listado.setLayoutManager(manager);
 //        listado.setHasFixedSize(true);
-        ListRequestedProductsAdapter = new listRequestedProductsAdapter(this, listaDeDatos,this);
+        ListRequestedProductsAdapter = new listRequestedProductsAdapter(this, listaDeDatos, this);
         listado.setAdapter(ListRequestedProductsAdapter);
 
         crearListado();
@@ -73,19 +75,20 @@ public class requested_products extends AppCompatActivity {
         myRefVendedores.child(currentUser.getUid()).child("productos_en_tramite").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                if(snapshot.exists()){
+                if (snapshot.exists()) {
                     subtitulo_productos_solicitados.setText("Los siguientes productos estan en trámite de aprobación o entrega");
                     listaDeDatos.clear();
-                    for(DataSnapshot objsnapshot : snapshot.getChildren()){ //recorre los usuarios
-                        for(DataSnapshot objsnapshot2 : objsnapshot.getChildren()) { //recorre los productos
+                    for (DataSnapshot objsnapshot : snapshot.getChildren()) { //recorre los usuarios
+                        for (DataSnapshot objsnapshot2 : objsnapshot.getChildren()) { //recorre los productos
                             String idProd = objsnapshot2.child("idProducto").getValue().toString();
                             String cantidad = objsnapshot2.child("cantidadProducto").getValue().toString();
-
-                            consultarDetalleProducto(idProd, cantidad);
+                            String idUsuarioSolicitud = objsnapshot2.child("usuarioSolicitud").getValue().toString();
+                            String estadoSolicitud = objsnapshot2.child("estado").getValue().toString();
+                            consultarDatosUsuario(idProd, cantidad, idUsuarioSolicitud, estadoSolicitud);
                         }
                     }
-                }else{
-                    Intent intent = new Intent(requested_products.this , Home.class);
+                } else {
+                    Intent intent = new Intent(requested_products.this, Home.class);
                     startActivity(intent);
                     finish();
                     Toast.makeText(requested_products.this, "Aún no han solicitado tus productos. Intenta de nuevo mas tarde.", Toast.LENGTH_SHORT).show();
@@ -99,31 +102,45 @@ public class requested_products extends AppCompatActivity {
         });
     }
 
-    public void consultarDetalleProducto(String idProduct, String cantidad){
-        subTotalCarrito=0.0;
+    public void consultarDatosUsuario(String idProd, String cantidad, String idUsuarioSolicitud, String estadoSolicitud) {
+
+        myRefUsuarios.child(idUsuarioSolicitud).addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if(snapshot.exists()){
+                    String nombreUsuario = snapshot.child("nombre").getValue().toString();
+                    String correoUsuario = snapshot.child("correo").getValue().toString();
+                    consultarDetalleProducto(idProd, cantidad, idUsuarioSolicitud, nombreUsuario, correoUsuario, estadoSolicitud);
+                }
+            }
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                Toast.makeText(getApplicationContext(), "Error cargando el nombre del usuario", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    public void consultarDetalleProducto(String idProduct, String cantidad, String idUsuarioSolicitud, String usuarioSolicitud, String correoUsuarioSolicitud, String estadoSolicitud){
+
         myRefProductos.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 if(snapshot.exists()){
                     for(DataSnapshot objsnapshot : snapshot.getChildren()){ //Recorre los usuarios
                         for(DataSnapshot objsnapshot2 : objsnapshot.getChildren()){ //recorre los productos
-                            Productos p = objsnapshot2.getValue(Productos.class);
+                            ProductosEnTramite p = objsnapshot2.getValue(ProductosEnTramite.class);
                             String id = p.getIdProducto();
                             if(idProduct.equals(id)) {
-                                listaDeDatos.add(new Productos(p.getIdProducto(), p.getNombreProducto(), p.getDescripcionProducto(),
+                                listaDeDatos.add(new ProductosEnTramite(p.getIdProducto(), p.getNombreProducto(), p.getDescripcionProducto(),
                                         p.getCategoriaProducto(), p.getSubCategoriaProducto(), p.getPrecio(), p.getDescuento(), p.getDomicilio(), p.getEstadoProducto(),
                                         p.getfoto(), p.getFechaInicio(), p.getHoraInicio(), p.getFechaFin(), p.getHoraFin(), p.getNombreEmpresa(), p.getDireccion(), Integer.parseInt(cantidad),p.getPrecioDomicilio(),
-                                        p.getIdVendedor()));
-                                subTotalCarrito = subTotalCarrito + (p.getPrecio()-p.getDescuento())*Integer.parseInt(cantidad);
+                                        p.getIdVendedor(), idUsuarioSolicitud, usuarioSolicitud, correoUsuarioSolicitud, estadoSolicitud));
                             }
                         }
                     }
                 }
                 ListRequestedProductsAdapter = new listRequestedProductsAdapter(requested_products.this, listaDeDatos, requested_products.this);
                 listado.setAdapter(ListRequestedProductsAdapter);
-                String patron = "###,###.##";
-                DecimalFormat objDF = new DecimalFormat (patron);
-                //total_carrito.setText("Sub Total: $" + objDF.format(subTotalCarrito));
             }
 
             @Override

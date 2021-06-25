@@ -1,12 +1,6 @@
 package com.desarollo.salvavidasapp.Models;
 
-
-import android.net.Uri;
-import android.text.format.Time;
-
-import java.util.Date;
-
-public class Productos {
+public class ProductosEnTramite {
 
     private String idProducto;
     private String nombreProducto;
@@ -27,15 +21,21 @@ public class Productos {
     private int cantidad;
     private double precioDomicilio;
     private String IdVendedor;
+    private String IdusuarioSolicitud;
+    private String usuarioSolicitud;
+    private String correoUsuarioSolicitud;
+    private String estadoSolicitud;
 
-    public Productos(){
+
+    public ProductosEnTramite(){
 
     }
 
-    public Productos(String idProducto, String nombreProducto, String descripcionProducto, String categoriaProducto,
+    public ProductosEnTramite(String idProducto, String nombreProducto, String descripcionProducto, String categoriaProducto,
                      String subCategoriaProducto, double precio, double descuento, String domicilio, String estadoProducto,
                      String foto, String fechaInicio, String horaInicio, String fechaFin, String horaFin, String nombreEmpresa,String direccion,
-                     int cantidad, double precioDomicilio, String IdVendedor) {
+                     int cantidad, double precioDomicilio, String IdVendedor, String IdusuarioSolicitud, String usuarioSolicitud, String correoUsuarioSolicitud,
+                     String estadoSolicitud) {
         this.idProducto = idProducto;
         this.nombreProducto = nombreProducto;
         this.descripcionProducto = descripcionProducto;
@@ -55,6 +55,10 @@ public class Productos {
         this.cantidad = cantidad;
         this.precioDomicilio = precioDomicilio;
         this.IdVendedor = IdVendedor;
+        this.IdusuarioSolicitud = IdusuarioSolicitud;
+        this.usuarioSolicitud = usuarioSolicitud;
+        this.correoUsuarioSolicitud = correoUsuarioSolicitud;
+        this.estadoSolicitud = estadoSolicitud;
     }
 
 
@@ -210,4 +214,35 @@ public class Productos {
         this.IdVendedor = IdVendedor;
     }
 
+    public String getIdusuarioSolicitud() {
+        return IdusuarioSolicitud;
+    }
+
+    public void setIdusuarioSolicitud(String idusuarioSolicitud) {
+        IdusuarioSolicitud = idusuarioSolicitud;
+    }
+
+    public String getUsuarioSolicitud() {
+        return usuarioSolicitud;
+    }
+
+    public void setUsuarioSolicitud(String usuarioSolicitud) {
+        this.usuarioSolicitud = usuarioSolicitud;
+    }
+
+    public String getCorreoUsuarioSolicitud() {
+        return correoUsuarioSolicitud;
+    }
+
+    public void setCorreoUsuarioSolicitud(String correoUsuarioSolicitud) {
+        this.correoUsuarioSolicitud = correoUsuarioSolicitud;
+    }
+
+    public String getEstadoSolicitud() {
+        return estadoSolicitud;
+    }
+
+    public void setEstadoSolicitud(String estadoSolicitud) {
+        this.estadoSolicitud = estadoSolicitud;
+    }
 }

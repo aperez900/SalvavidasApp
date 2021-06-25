@@ -126,11 +126,6 @@ public class cancelledSales extends AppCompatActivity {
                                 startActivity(intent);
                             });
                              */
-                        }else{
-                            //Valores por defecto
-                            listaDeDatos.add(new Productos("", "Nombre producto", "Descipción producto",
-                                    "Categoría producto", "Sub categoría producto",0, 0, "Domicilio Sí/No", "Estado producto",
-                                    "", "Fecha inicio", "Hora inicio", "Fecha fin", "Hora fin","Nombre empresa","No hay direccion",1,0,""));
                         }
                     }
 

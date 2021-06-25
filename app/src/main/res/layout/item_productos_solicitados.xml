@@ -23,6 +23,31 @@
             android:contentDescription="@string/descripcionImagen">
         </ImageView>
 
+        <ImageView
+            android:id="@+id/img_aceptar_producto"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_below="@id/img_imagen_producto"
+            android:layout_marginStart="15dp"
+            android:layout_marginEnd="1dp"
+            android:contentDescription="@string/descripcionImagen"
+            android:padding="5dp"
+            android:src="@drawable/icono_aceptar"
+            app:tint="@color/green" />
+
+        <ImageView
+            android:id="@+id/img_rechazar_producto"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_below="@id/img_imagen_producto"
+            android:layout_toEndOf="@id/img_aceptar_producto"
+            android:layout_marginStart="15dp"
+            android:layout_marginEnd="1dp"
+            android:contentDescription="@string/descripcionImagen"
+            android:padding="5dp"
+            android:src="@drawable/icono_cancel"
+            app:tint="@color/red" />
+
         <TextView
             android:id="@+id/tv_nombre_producto"
             android:layout_width="match_parent"
@@ -89,16 +114,37 @@
             android:layout_toEndOf="@id/tv_cantidad_producto"
             android:layout_marginStart="10dp">
         </TextView>
-        <ImageView
-            android:id="@+id/img_borrar_producto"
-            android:layout_width="35dp"
-            android:layout_height="35dp"
-            android:padding="5dp"
-            android:layout_marginEnd="1dp"
-            android:src="@drawable/icono_delete_black"
-            android:layout_below="@id/tv_nombre_producto"
-            android:layout_toEndOf="@id/tv_nombre_empresa"
-            android:contentDescription="@string/descripcionImagen" />
+        <TextView
+            android:id="@+id/tv_para"
+            android:layout_width="50dp"
+            android:layout_height="wrap_content"
+            android:text="@string/para"
+            android:textSize="18sp"
+            android:fontFamily="@font/poppins_light"
+            android:layout_below="@id/tv_cantidad_producto"
+            android:layout_toEndOf="@id/img_imagen_producto"
+            android:layout_marginStart="10dp">
+        </TextView>
+        <TextView
+            android:id="@+id/tv_nombre_usuario"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="18sp"
+            android:textAlignment="textStart"
+            android:fontFamily="@font/poppins_light"
+            android:layout_below="@id/tv_cantidad_producto2"
+            android:layout_toEndOf="@id/tv_para">
+        </TextView>
+        <TextView
+            android:id="@+id/tv_estado_solicitud"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="18sp"
+            android:textAlignment="textStart"
+            android:fontFamily="@font/poppins_light"
+            android:layout_below="@id/tv_nombre_usuario"
+            android:layout_toEndOf="@id/img_rechazar_producto">
+        </TextView>
 
     </RelativeLayout>
 
