@@ -92,7 +92,7 @@ public class Registro extends AppCompatActivity {
                 } else {
                     // If sign in fails, display a message to the user.
                     Log.w("TAG", "createUserWithEmail:failure", task.getException());
-                    Toast.makeText(Registro.this, "Error creando el usuario",
+                    Toast.makeText(Registro.this, "El usuario ya se encuenttra creado",
                             Toast.LENGTH_SHORT).show();
                     //updateUI(null);
                 }

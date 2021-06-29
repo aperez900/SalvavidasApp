@@ -14,11 +14,19 @@ public class Usuarios  {
     public String correo;
     public Boolean habilitado;
     public String[] comidas_preferidas ;
+    public String tokenId;
 
     public Usuarios(){
 
     }
 
+    public String getTokenId() {
+        return tokenId;
+    }
+
+    public void setTokenId(String tokenId) {
+        this.tokenId = tokenId;
+    }
     public Boolean getHabilitado() {
         return habilitado;
     }

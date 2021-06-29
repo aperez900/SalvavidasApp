@@ -24,9 +24,12 @@ import com.bumptech.glide.request.RequestOptions;
 import com.desarollo.salvavidasapp.Models.ListDirecciones;
 import com.desarollo.salvavidasapp.Models.Usuarios;
 import com.desarollo.salvavidasapp.R;
+import com.desarollo.salvavidasapp.ui.sales.lookAtProduct;
 import com.desarollo.salvavidasapp.ui.seller.seller2;
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.UserInfo;
@@ -35,6 +38,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.messaging.FirebaseMessaging;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -53,6 +57,7 @@ public class Profile extends Fragment {
     Usuarios u;
     ListDirecciones d;
     ArrayList<ListDirecciones> listaDirecciones;
+    String token ="";
 
     //items seleccionados de comidas preferidas
     //Map <String,Object> selectedItems = new HashMap<>();
@@ -64,6 +69,7 @@ public class Profile extends Fragment {
         currentUser = mAuth.getCurrentUser();
         database = FirebaseDatabase.getInstance();
         myRef = database.getReference("usuarios");
+
     }
 
     //Infla el fragment de perfil
@@ -72,6 +78,7 @@ public class Profile extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         //return super.onCreateView(inflater, container, savedInstanceState);
         View view = inflater.inflate(R.layout.fragment_profile,container,false);
+
         TextView UserName = view.findViewById(R.id.nombre_perfil);
         TextView UserMail = view.findViewById(R.id.correo_perfil);
         ImageView UserPhoto = view.findViewById(R.id.foto_perfil);
@@ -126,6 +133,7 @@ public class Profile extends Fragment {
             public void onClick(View view) {
                 if(validarCamposVacios(UserMail, nombres, apellidos, identificacion, celular)) {
                     registrar(UserMail, nombres, apellidos, identificacion, celular);
+                    registrar_token();
                 }
             }
         });
@@ -140,6 +148,7 @@ public class Profile extends Fragment {
                 if (btn_desactivar_usuario.getText().toString().equals("Activar Usuario")){
                     if(validarCamposVacios(UserMail, nombres, apellidos, identificacion, celular)) {
                         registrar(UserMail, nombres, apellidos, identificacion, celular);
+
                     }
                 }
             }
@@ -388,6 +397,38 @@ public class Profile extends Fragment {
                         }
                     });
         }
+    }
+
+
+    private void registrar_token() {
+
+        FirebaseMessaging.getInstance().getToken()
+                .addOnCompleteListener(new OnCompleteListener<String>() {
+                    @Override
+                    public void onComplete(@NonNull Task<String> task) {
+                        if (!task.isSuccessful()) {
+                            Toast.makeText(getApplicationContext(),"Fetching FCM registration token failed" +task.getException(), Toast.LENGTH_SHORT).show();
+                            return;
+                        }
+                        // Get new FCM registration token
+                        token = task.getResult();
+                    }
+                });
+
+
+        //guarda los datos del usuario
+        myRef.child(currentUser.getUid()).child("tokenId").setValue(token)
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                       }
+                });
+
     }
 
 

@@ -4,12 +4,18 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.NotificationCompat;
 
+import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Paint;
+import android.media.RingtoneManager;
+import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.StrictMode;
+import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -25,10 +31,12 @@ import com.desarollo.salvavidasapp.R;
 import com.desarollo.salvavidasapp.ui.home.Home;
 import com.desarollo.salvavidasapp.ui.home.ListSellAdapter;
 import com.desarollo.salvavidasapp.ui.seller.seller2;
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
+
 import com.google.firebase.auth.UserInfo;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -36,6 +44,8 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.messaging.FirebaseMessaging;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.messaging.RemoteMessage;
 
 import java.text.ParseException;
 import java.util.ArrayList;
@@ -54,6 +64,7 @@ import javax.mail.internet.MimeMessage;
 
 
 import static com.facebook.FacebookSdk.getApplicationContext;
+import static com.google.firebase.messaging.Constants.MessagePayloadKeys.SENDER_ID;
 
 public class lookAtProduct extends AppCompatActivity {
 
@@ -77,6 +88,7 @@ public class lookAtProduct extends AppCompatActivity {
 
         mAuth = FirebaseAuth.getInstance();
         currentUser = mAuth.getCurrentUser();
+
         database = FirebaseDatabase.getInstance();
         myRef = database.getReference("productos");
         myRefCarrito = database.getReference("usuarios");
@@ -172,39 +184,6 @@ public class lookAtProduct extends AppCompatActivity {
             public void onClick(View v) {
                 registrarProductoSolicitado();
                 consultarDatosVendedor(idVendedor);
-
-             /*   // See documentation on defining a message payload.
-                                Message message = Message.builder()
-                                        .putData("score", "850")
-                                        .putData("time", "2:45")
-                                        .build();
-
-                // Send a message to the devices subscribed to the provided topic.
-                                String response = FirebaseMessaging.getInstance().send(message);
-                // Response is a message ID string.
-                                System.out.println("Successfully sent message: " + response);
-                //Toast.makeText(lookAtProduct.this, "Id vendedor " + idVendedor, Toast.LENGTH_SHORT).show();*/
-
-
-                NotificationCompat.Builder mBuilder;
-                NotificationManager mNotifyMgr =(NotificationManager) getApplicationContext().getSystemService(NOTIFICATION_SERVICE);
-
-                int icono = R.mipmap.ic_launcher;
-                Intent i=new Intent(lookAtProduct.this, Home.class);
-                PendingIntent pendingIntent = PendingIntent.getActivity(lookAtProduct.this, 0, i, 0);
-
-                mBuilder =new NotificationCompat.Builder(getApplicationContext())
-                        .setContentIntent(pendingIntent)
-                        .setSmallIcon(icono)
-                        .setContentTitle("Titulo")
-                        .setContentText("Hola que tal?")
-                        .setVibrate(new long[] {100, 250, 100, 500})
-                        .setAutoCancel(true);
-
-
-
-                mNotifyMgr.notify(1, mBuilder.build());
-
             }
         });
 
@@ -214,6 +193,25 @@ public class lookAtProduct extends AppCompatActivity {
                 nombreComprador = profile.getDisplayName();
             }
         }
+    }
+
+
+    String token;
+    public String consultarToken() {
+        myRefVendedor.child(idVendedor).addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if(snapshot.exists()){
+                    token = snapshot.child("tokenId").getValue().toString();
+                }
+            }
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                Toast.makeText(lookAtProduct.this, "Error cargando los datos del vendedor", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        return token;
     }
 
     public void consultarImagen(ImageView imgProducto){
@@ -271,6 +269,7 @@ public class lookAtProduct extends AppCompatActivity {
                     String emailVendedor = snapshot.child("correo").getValue().toString();
                     String nombreVendedor = snapshot.child("nombre").getValue().toString();
                     enviar_email_vendedor(nombreComprador, emailVendedor, nombreVendedor);
+                    enviar_notificacion_push(nombreComprador, emailVendedor, nombreVendedor);
                 }
             }
             @Override
@@ -331,6 +330,57 @@ public class lookAtProduct extends AppCompatActivity {
                 Toast.makeText(getApplicationContext(), "Hemos enviado una solicitud de compra al vendedor. Espera un momento hasta que la solicitud sea aceptada", Toast.LENGTH_LONG).show();
             }
         }catch (Exception e){
+            e.printStackTrace();
+            //Toast.makeText(getApplicationContext(), "Error enviando la solicitud. " + e, Toast.LENGTH_SHORT).show();
+        }
+    }
+
+
+    public void enviar_notificacion_push(String nombreComprador, String emailVendedor, String nombreVendedor){
+
+        try {
+            Intent intent = new Intent(getApplicationContext(), lookAtProduct.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            PendingIntent pendingIntent = PendingIntent.getActivity(getApplicationContext(), 0 /* Request code */, intent,
+                    PendingIntent.FLAG_ONE_SHOT);
+
+            String channelId = consultarToken();
+
+            if (channelId.equals("")){
+                Toast.makeText(lookAtProduct.this, "Para enviar notificaciones push el vendedor debera actualizar su perfil", Toast.LENGTH_SHORT).show();
+
+            }
+            else{
+            Uri defaultSoundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
+            NotificationCompat.Builder notificationBuilder =
+                    new NotificationCompat.Builder(getApplicationContext(), channelId)
+                            .setSmallIcon(R.drawable.logoprincipal)
+                            .setContentTitle("Solicitud de compra - Salvavidas App")
+                            .setContentText(" Hola " + nombreVendedor +"," +
+                                    " nuestro usuario " + nombreComprador + " desea comprar lo siguiente:" +
+                                    " Producto: " + nombreProducto  +
+                                    " Cantidad: " + numeroProductos +
+                                    " Ingresa a Salvavidas App para aceptar el pedido.")
+                            .setAutoCancel(true)
+                            .setSound(defaultSoundUri)
+                            .setContentIntent(pendingIntent);
+
+            NotificationManager notificationManager =
+                    (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+
+            // Since android Oreo notification channel is needed.
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                NotificationChannel channel = new NotificationChannel(channelId,
+                        "Channel human readable title",
+                        NotificationManager.IMPORTANCE_DEFAULT);
+                notificationManager.createNotificationChannel(channel);
+            }
+
+            notificationManager.notify(0 /* ID of notification */, notificationBuilder.build());
+
+        }
+        }
+        catch (Exception e){
             e.printStackTrace();
             //Toast.makeText(getApplicationContext(), "Error enviando la solicitud. " + e, Toast.LENGTH_SHORT).show();
         }

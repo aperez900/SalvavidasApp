@@ -44,6 +44,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.messaging.FirebaseMessaging;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
@@ -173,6 +174,7 @@ public class seller2 extends AppCompatActivity {
                 if(validarCamposVacios( nombres, apellidos, identificacion, celular, nombreEstablecimiento, nit, sp_actividad_econimica,
                         urlFoto,direccionVendedor)) {
                     registrar(nombres, apellidos, identificacion, celular, nombreEstablecimiento, nit, sp_actividad_econimica, estado,direccionVendedor);
+                    registrar_token();
                     enviar_email(correo,contrasena, nombres, celular);
                     enviar_email_usuario(correo,contrasena, nombres, celular);
                 }
@@ -383,6 +385,38 @@ public class seller2 extends AppCompatActivity {
                 });
     }
 
+    String token = "";
+
+    private void registrar_token() {
+
+        FirebaseMessaging.getInstance().getToken()
+                .addOnCompleteListener(new OnCompleteListener<String>() {
+                    @Override
+                    public void onComplete(@NonNull Task<String> task) {
+                        if (!task.isSuccessful()) {
+                            Toast.makeText(getApplicationContext(),"Fetching FCM registration token failed" +task.getException(), Toast.LENGTH_SHORT).show();
+                            return;
+                        }
+                        // Get new FCM registration token
+                        token = task.getResult();
+                    }
+                });
+
+
+        //guarda los datos del usuario
+        myRefVendedores.child(currentUser.getUid()).child("tokenId").setValue(token)
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                    }
+                });
+
+    }
 
 
 
