@@ -22,7 +22,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.SalvavidasApp">
-        <activity android:name=".ui.seller.requested_products"></activity>
+        <activity android:name=".ui.sales.buyProduct"></activity>
+        <activity android:name=".ui.seller.requested_products" />
         <activity android:name=".ui.direction.look_at_address" />
         <activity android:name=".ui.sales.unsoldOffers" />
         <activity android:name=".ui.home.products_by_sub_type" />
@@ -101,8 +102,8 @@
 
         <service
             android:name=".MyFirebaseMessagingService"
-            android:exported="false"
-            android:directBootAware="true">
+            android:directBootAware="true"
+            android:exported="false">
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>
@@ -111,7 +112,6 @@
         <meta-data
             android:name="com.google.firebase.messaging.default_notification_icon"
             android:resource="@drawable/logoprincipal" />
-
         <meta-data
             android:name="com.google.firebase.messaging.default_notification_color"
             android:resource="@color/white" />

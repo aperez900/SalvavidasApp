@@ -7,6 +7,7 @@ import androidx.core.app.NotificationCompat;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Paint;
@@ -76,10 +77,11 @@ public class lookAtProduct extends AppCompatActivity {
     String idVendedor ="";
     String urlFoto="";
     int numeroProductos = 1;
-    Double total;
+    Double total, precioDomicilio;
     HashMap<String, String> producto = new HashMap<String, String>();
     Session session;
     String nombreComprador, nombreProducto;
+    ProgressDialog cargando;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -88,6 +90,8 @@ public class lookAtProduct extends AppCompatActivity {
 
         mAuth = FirebaseAuth.getInstance();
         currentUser = mAuth.getCurrentUser();
+
+        cargando = new ProgressDialog(this);
 
         database = FirebaseDatabase.getInstance();
         myRef = database.getReference("productos");
@@ -123,6 +127,7 @@ public class lookAtProduct extends AppCompatActivity {
             tvprecioProducto.setPaintFlags(tvprecioProducto.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
             Double precio = Double.parseDouble(extras.getString("precio"));
             Double descuento = Double.parseDouble(extras.getString("descuento"));
+            precioDomicilio = Double.parseDouble(extras.getString("precioDomicilio"));
             tvdescuentoProducto.setText(String.valueOf(descuento));
             long porcDescuento = Math.round(descuento/precio*100);
             tvporcDescuento.setText(String.valueOf(-porcDescuento));
@@ -182,8 +187,12 @@ public class lookAtProduct extends AppCompatActivity {
         btn_comprar_producto.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                cargando.setTitle("Cargando");
+                cargando.setMessage("Un momento por favor...");
+                cargando.show();
                 registrarProductoSolicitado();
                 consultarDatosVendedor(idVendedor);
+                cargando.dismiss();
             }
         });
 
@@ -244,6 +253,7 @@ public class lookAtProduct extends AppCompatActivity {
         producto.put("idProducto", idProducto);
         producto.put("valorProducto",String.valueOf(total));
         producto.put("cantidadProducto",String.valueOf(numeroProductos));
+        producto.put("precioDomicilio",String.valueOf(precioDomicilio));
         
         //guarda los datos del carrito de compras
         myRefCarrito.child(currentUser.getUid()).child("carrito_compras").child(idProducto).setValue(producto)
@@ -270,6 +280,17 @@ public class lookAtProduct extends AppCompatActivity {
                     String nombreVendedor = snapshot.child("nombre").getValue().toString();
                     enviar_email_vendedor(nombreComprador, emailVendedor, nombreVendedor);
                     enviar_notificacion_push(nombreComprador, emailVendedor, nombreVendedor);
+
+                    Intent intent = new Intent(lookAtProduct.this , buyProduct.class);
+                    intent.putExtra("idProducto" , idProducto);
+                    intent.putExtra("nombreProducto", nombreProducto);
+                    intent.putExtra("totalProducto", String.valueOf(total));
+                    intent.putExtra("precioDomicilio", String.valueOf(precioDomicilio));
+                    intent.putExtra("nroProductos", String.valueOf(numeroProductos));
+                    intent.putExtra("idVendedor" , idVendedor);
+
+                    startActivity(intent);
+                    finish();
                 }
             }
             @Override
@@ -393,6 +414,7 @@ public class lookAtProduct extends AppCompatActivity {
         producto.put("valorProducto",String.valueOf(total));
         producto.put("cantidadProducto",String.valueOf(numeroProductos));
         producto.put("usuarioSolicitud",currentUser.getUid());
+        producto.put("precioDomicilio",String.valueOf(precioDomicilio));
         producto.put("estado","Solicitado");
 
         myRefVendedor.child(idVendedor).child("productos_en_tramite").child(currentUser.getUid()).child(idProducto).setValue(producto)

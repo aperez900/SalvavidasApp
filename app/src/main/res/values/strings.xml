@@ -102,6 +102,12 @@
     <string name="cantidad">Cantidad</string>
     <string name="comprar">Comprar</string>
 
+    <string name="estado">Estado</string>
+    <string name="solicitado">Solicitado</string>
+    <string name="precioProducto2">Precio Producto</string>
+    <string name="precioDomicilio2">Precio Domicilio</string>
+    <string name="valorComision">Valor comisión</string>
+
     <string name="tituloProductosSolicitados">Productos solicitados</string>
     <string name="subtituloProductosSolicitados">No hay productos solicitados actualmente</string>
     <string name="aceptar">Aceptar</string>

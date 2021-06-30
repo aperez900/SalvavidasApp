@@ -84,7 +84,7 @@ public class ListSellAdapter extends RecyclerView.Adapter<ListSellAdapter.viewHo
         //double aleatorio = Math.random()*5;
         String direccion = listaDeDatos.get(position).getDireccion();
         String Distancia = df.format(convertirDireccion(direccion));
-        //Double precioDomicilio = listaDeDatos.get(position).getPrecioDomicilio();
+        Double precioDomicilio = listaDeDatos.get(position).getPrecioDomicilio();
 
         holder.nombre_producto.setText(nombre_producto);
         String patron = "###,###.##";
@@ -119,6 +119,7 @@ public class ListSellAdapter extends RecyclerView.Adapter<ListSellAdapter.viewHo
                 intent.putExtra("descripcionProducto" , listaDeDatos.get(position).getDescripcionProducto());
                 intent.putExtra("precio" , String.valueOf(listaDeDatos.get(position).getPrecio()));
                 intent.putExtra("descuento" , String.valueOf(listaDeDatos.get(position).getDescuento()));
+                intent.putExtra("precioDomicilio" , String.valueOf(listaDeDatos.get(position).getPrecioDomicilio()));
                 intent.putExtra("fechaInicio", listaDeDatos.get(position).getFechaInicio());
                 intent.putExtra("horaInicio", listaDeDatos.get(position).getHoraInicio());
                 intent.putExtra("fechaFin", listaDeDatos.get(position).getFechaFin());
