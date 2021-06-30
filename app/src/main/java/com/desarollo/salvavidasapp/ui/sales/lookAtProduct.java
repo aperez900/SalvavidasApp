@@ -192,7 +192,7 @@ public class lookAtProduct extends AppCompatActivity {
                 cargando.show();
                 registrarProductoSolicitado();
                 consultarDatosVendedor(idVendedor);
-                cargando.dismiss();
+
             }
         });
 
@@ -254,7 +254,7 @@ public class lookAtProduct extends AppCompatActivity {
         producto.put("valorProducto",String.valueOf(total));
         producto.put("cantidadProducto",String.valueOf(numeroProductos));
         producto.put("precioDomicilio",String.valueOf(precioDomicilio));
-        
+
         //guarda los datos del carrito de compras
         myRefCarrito.child(currentUser.getUid()).child("carrito_compras").child(idProducto).setValue(producto)
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
@@ -280,7 +280,7 @@ public class lookAtProduct extends AppCompatActivity {
                     String nombreVendedor = snapshot.child("nombre").getValue().toString();
                     enviar_email_vendedor(nombreComprador, emailVendedor, nombreVendedor);
                     enviar_notificacion_push(nombreComprador, emailVendedor, nombreVendedor);
-
+                    cargando.dismiss();
                     Intent intent = new Intent(lookAtProduct.this , buyProduct.class);
                     intent.putExtra("idProducto" , idProducto);
                     intent.putExtra("nombreProducto", nombreProducto);

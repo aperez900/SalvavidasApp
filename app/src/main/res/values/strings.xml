@@ -99,11 +99,15 @@
     <string name="subtituloCarrito">No hay productos en el carrito</string>
     <string name="totalCarrito">Total</string>
     <string name="subTotalCarrito">Sub Total</string>
-    <string name="cantidad">Cantidad</string>
+    <string name="cantidad">Cant.</string>
     <string name="comprar">Comprar</string>
+    <string name="valor">Valor</string>
+    <string name="uno">1</string>
+    <string name="divisor">*******************************</string>
 
     <string name="estado">Estado</string>
     <string name="solicitado">Solicitado</string>
+    <string name="articulo">Articulo</string>
     <string name="precioProducto2">Precio Producto</string>
     <string name="precioDomicilio2">Precio Domicilio</string>
     <string name="valorComision">Valor comisión</string>

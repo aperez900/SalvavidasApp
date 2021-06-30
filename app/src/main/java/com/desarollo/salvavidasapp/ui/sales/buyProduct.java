@@ -36,7 +36,8 @@ public class buyProduct extends AppCompatActivity {
     Double precioProducto, precioDomicilio;
     int nroProductos;
     TextView tvPrecioProducto, tvPrecioDomicilio, tvValorComision, tvTotal, tvNombreProducto,
-                tvCantidadProducto, tvEstadoProducto;
+                tvCantidadProducto, tvEstadoProducto, tvSubTotalProducto, tvSubTotalProducto1,
+                tvSignoMonedaSubTotal;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,6 +56,9 @@ public class buyProduct extends AppCompatActivity {
         tvNombreProducto = findViewById(R.id.tv_nombre_producto);
         tvCantidadProducto = findViewById(R.id.tv_cantidad_producto);
         tvEstadoProducto = findViewById(R.id.tv_estado_Producto);
+        tvSubTotalProducto = findViewById(R.id.tv_subTotal);
+        tvSubTotalProducto1 = findViewById(R.id.tv_subTotal1);
+        tvSignoMonedaSubTotal = findViewById(R.id.tv_signo_moneda1);
 
         Intent intent = getIntent();
         if (intent.getExtras() != null){
@@ -75,6 +79,10 @@ public class buyProduct extends AppCompatActivity {
             tvTotal.setText(String.valueOf(precioProducto*nroProductos + precioDomicilio + valorComision));
             tvNombreProducto.setText(nombreProducto);
             tvCantidadProducto.setText(String.valueOf(nroProductos));
+            tvSubTotalProducto.setText(String.valueOf(precioProducto*nroProductos));
+            tvSubTotalProducto.setPaintFlags(tvSubTotalProducto.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
+            tvSubTotalProducto1.setPaintFlags(tvSubTotalProducto1.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
+            tvSignoMonedaSubTotal.setPaintFlags(tvSignoMonedaSubTotal.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
         }
         consultarEstadoProductoEnTramite(idProducto);
     }
