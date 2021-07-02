@@ -254,6 +254,7 @@ public class lookAtProduct extends AppCompatActivity {
         producto.put("valorProducto",String.valueOf(total));
         producto.put("cantidadProducto",String.valueOf(numeroProductos));
         producto.put("precioDomicilio",String.valueOf(precioDomicilio));
+       // producto.put("nombreProducto",nombreProducto);
 
         //guarda los datos del carrito de compras
         myRefCarrito.child(currentUser.getUid()).child("carrito_compras").child(idProducto).setValue(producto)

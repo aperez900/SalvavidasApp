@@ -498,6 +498,39 @@ public class addProduct extends AppCompatActivity {
                                     i=i+1;
                                 }
                             }
+
+                            final List<String> foodList = Arrays.asList(direcciones);
+
+                            builder.setMultiChoiceItems(direcciones, checkItems, new DialogInterface.OnMultiChoiceClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialogInterface, int i, boolean b) {
+                                    checkItems[i] = b; //verificar si existe un item seleccionado
+                                    String currentItems = foodList.get(i); //Obtener el valor seleccionado
+                                }
+                            });
+
+                            builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialogInterface, int i) {
+                                    selectedItems.clear();
+                                    //recorre los items y valida cuales fueron checkeados
+                                    for(int x=0;x<checkItems.length;x++){
+                                        boolean checked = checkItems[x];
+                                        if(checked){
+                                            selectedItems.put(foodList.get(x),checked);
+                                            et_direccion_producto.setText(foodList.get(x));
+                                        }
+                                    }
+                                }
+                            });
+                            builder.setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialogInterface, int i) {
+                                    dialogInterface.cancel();
+                                }
+                            });
+                            AlertDialog dialog = builder.create();
+                            dialog.show();
                         }
                     }
 
@@ -507,36 +540,5 @@ public class addProduct extends AppCompatActivity {
                     }
                 });
 
-        final List<String> foodList = Arrays.asList(direcciones);
-
-        builder.setMultiChoiceItems(direcciones, checkItems, new DialogInterface.OnMultiChoiceClickListener() {
-            @Override
-            public void onClick(DialogInterface dialogInterface, int i, boolean b) {
-                checkItems[i] = b; //verificar si existe un item seleccionado
-                String currentItems = foodList.get(i); //Obtener el valor seleccionado
-            }
-        });
-        builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialogInterface, int i) {
-                selectedItems.clear();
-                //recorre los items y valida cuales fueron checkeados
-                for(int x=0;x<checkItems.length;x++){
-                    boolean checked = checkItems[x];
-                    if(checked){
-                        selectedItems.put(foodList.get(x),checked);
-                        et_direccion_producto.setText(foodList.get(x));
-                    }
-                }
-            }
-        });
-        builder.setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialogInterface, int i) {
-                dialogInterface.cancel();
-            }
-        });
-        AlertDialog dialog = builder.create();
-        dialog.show();
     }
 }

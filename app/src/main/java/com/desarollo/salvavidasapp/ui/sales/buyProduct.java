@@ -33,7 +33,7 @@ public class buyProduct extends AppCompatActivity {
     String idProducto ="";
     String idVendedor ="";
     String nombreProducto;
-    Double precioProducto, precioDomicilio;
+    Double precioProducto = 0.0, precioDomicilio = 0.0;
     int nroProductos;
     TextView tvPrecioProducto, tvPrecioDomicilio, tvValorComision, tvTotal, tvNombreProducto,
                 tvCantidadProducto, tvEstadoProducto, tvSubTotalProducto, tvSubTotalProducto1,
@@ -66,8 +66,8 @@ public class buyProduct extends AppCompatActivity {
 
             idProducto = extras.getString("idProducto");
             nombreProducto = extras.getString("nombreProducto");
-            precioProducto = Double.parseDouble(extras.getString("totalProducto"));
-            precioDomicilio = Double.parseDouble(extras.getString("precioDomicilio"));
+            precioProducto = extras.getDouble("totalProducto");
+            precioDomicilio = extras.getDouble("precioDomicilio");
             nroProductos = Integer.parseInt(extras.getString("nroProductos"));
             idVendedor = extras.getString("idVendedor");
 

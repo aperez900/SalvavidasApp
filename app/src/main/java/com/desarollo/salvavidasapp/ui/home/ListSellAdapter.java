@@ -12,6 +12,7 @@ import android.location.LocationManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -23,6 +24,7 @@ import androidx.core.app.ActivityCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.desarollo.salvavidasapp.Models.ListDirecciones;
 import com.desarollo.salvavidasapp.Models.Productos;
 import com.desarollo.salvavidasapp.R;
 import com.desarollo.salvavidasapp.ui.direction.Maps;
@@ -30,8 +32,11 @@ import com.desarollo.salvavidasapp.ui.sales.lookAtProduct;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.io.IOException;
 import java.text.DecimalFormat;
@@ -48,6 +53,12 @@ public class ListSellAdapter extends RecyclerView.Adapter<ListSellAdapter.viewHo
     LayoutInflater inflater;
     private View.OnClickListener listener;
     Activity  activity;
+    FirebaseUser currentUser;
+    FirebaseDatabase database;
+    DatabaseReference myRef;
+    FirebaseAuth mAuth;
+    ListDirecciones d;
+
 
     public ListSellAdapter(Context context, ArrayList<Productos> listaDeDatos, Activity activity) {
         this.inflater = LayoutInflater.from(context);
@@ -61,6 +72,7 @@ public class ListSellAdapter extends RecyclerView.Adapter<ListSellAdapter.viewHo
         View view = inflater.inflate(R.layout.item_de_lista,null,false);
         view.setOnClickListener(this);
         return new viewHolder(view);
+
     }
 
     public void setOnClickListener(View.OnClickListener listener){
@@ -70,6 +82,7 @@ public class ListSellAdapter extends RecyclerView.Adapter<ListSellAdapter.viewHo
     @Override
 
     public void onBindViewHolder(@NonNull ListSellAdapter.viewHolder holder, int position) {
+
         String id_producto = listaDeDatos.get(position).getIdProducto();
         String tipo_producto = listaDeDatos.get(position).getCategoriaProducto();
         String nombre_producto = listaDeDatos.get(position).getNombreProducto();
@@ -83,7 +96,9 @@ public class ListSellAdapter extends RecyclerView.Adapter<ListSellAdapter.viewHo
         DecimalFormat df = new DecimalFormat("#.00");
         //double aleatorio = Math.random()*5;
         String direccion = listaDeDatos.get(position).getDireccion();
-        String Distancia = df.format(convertirDireccion(direccion));
+        String direccion_usuario = consultarDireccionUsuario();
+
+        String Distancia = df.format(convertirDireccion(direccion,direccion_usuario));
         Double precioDomicilio = listaDeDatos.get(position).getPrecioDomicilio();
 
         holder.nombre_producto.setText(nombre_producto);
@@ -134,7 +149,7 @@ public class ListSellAdapter extends RecyclerView.Adapter<ListSellAdapter.viewHo
         });
     }
 
-    private  double convertirDireccion(String direccion){
+    private  double convertirDireccion(String direccion, String direccion_usuario){
         Geocoder geocoder =  new Geocoder(getApplicationContext(), Locale.getDefault());
         Location location = new Location("localizacion 1");
         Location location2 = new Location("localizacion 2");
@@ -142,12 +157,19 @@ public class ListSellAdapter extends RecyclerView.Adapter<ListSellAdapter.viewHo
 
         try {
             List<Address> addresses = geocoder.getFromLocationName(direccion,1);
+            List<Address> addresses_buy = geocoder.getFromLocationName(direccion_usuario,1);
+
             double latitud = addresses.get(0).getLatitude();
             double longitud = addresses.get(0).getLongitude();
+
+            double latitud_usuario = addresses_buy.get(0).getLatitude();
+            double longitud_usuario = addresses_buy.get(0).getLongitude();
+
             location.setLatitude(latitud);
             location.setLongitude(longitud);
-            location2.setLatitude(6.243834294982797);
-            location2.setLongitude(-75.5751187321564);
+            location2.setLatitude(latitud_usuario);
+            location2.setLongitude(longitud_usuario);
+
             distance = location.distanceTo(location2)/1000;
 
         } catch (IOException e) {
@@ -171,6 +193,42 @@ public class ListSellAdapter extends RecyclerView.Adapter<ListSellAdapter.viewHo
         }
         return a;
     }
+
+
+    //Consultando datos de las direcciones
+     String direccionUsuario = "CRA 77B 48 09";
+    public String consultarDireccionUsuario(){
+
+        mAuth = FirebaseAuth.getInstance();
+        currentUser = mAuth.getCurrentUser();
+        database = FirebaseDatabase.getInstance();
+        myRef = database.getReference("usuarios");
+
+        myRef.child(currentUser.getUid()).child("mis direcciones").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if(snapshot.exists()){
+                    for(DataSnapshot objsnapshot : snapshot.getChildren()){
+                        d = new ListDirecciones();
+                        d = objsnapshot.getValue(ListDirecciones.class);
+                        if(d.getSeleccion().equals("true")){
+                            direccionUsuario = d.direccionUsuario;
+                        }
+
+                    }
+
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                Toast.makeText(getApplicationContext(), "Error consultando las direcciones. Intente de nuevo mas tarde.", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        return direccionUsuario;
+    }
+
 
 
     @Override

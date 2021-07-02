@@ -119,7 +119,7 @@ public class shoppingCart extends AppCompatActivity {
                     producto.put("estado","Solicitado");
 
                     registrarProductoSolicitado(listaDeDatos.get(x).getIdVendedor(), listaDeDatos.get(x).getIdProducto(), producto);
-                    consultarDatosVendedor(listaDeDatos.get(x).getIdVendedor(), listaDeDatos.get(x).getIdProducto(), String.valueOf(listaDeDatos.get(x).getCantidad()));
+                    consultarDatosVendedor(listaDeDatos.get(x).getIdVendedor(), listaDeDatos.get(x).getIdProducto(), String.valueOf(listaDeDatos.get(x).getCantidad()),listaDeDatos.get(x).getNombreProducto());
                 }
 
             }
@@ -147,6 +147,7 @@ public class shoppingCart extends AppCompatActivity {
                     for(DataSnapshot objsnapshot : snapshot.getChildren()){
                         String idProd = objsnapshot.child("idProducto").getValue().toString();
                         String cantidad = objsnapshot.child("cantidadProducto").getValue().toString();
+                        //String nombreProducto = objsnapshot.child("nombreProducto").getValue().toString();
 
                         consultarDetalleProducto(idProd,cantidad);
 
@@ -219,23 +220,34 @@ public class shoppingCart extends AppCompatActivity {
                 });
     }
 
-    public void consultarDatosVendedor(String idVendedor, String idProducto, String nroProductos) {
+    public void consultarDatosVendedor(String idVendedor, String idProducto, String nroProductos,String NombreProducto ) {
         myRef.child(idVendedor).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 if(snapshot.exists()){
                     String emailVendedor = snapshot.child("correo").getValue().toString();
                     String nombreVendedor = snapshot.child("nombre").getValue().toString();
-                    enviar_email_vendedor(nombreComprador, emailVendedor, nombreVendedor, idProducto, nroProductos);
-                    //enviar_notificacion_push(nombreComprador, emailVendedor, nombreVendedor);
+                    enviar_email_vendedor(nombreComprador, emailVendedor, nombreVendedor, idProducto, nroProductos,NombreProducto);
+
+                    enviar_notificacion_push(nombreComprador, emailVendedor, nombreVendedor,idVendedor);
                     cargando.dismiss();
+
+                    double sumaProductos = 0.0;
+                    double sumaDomicilios = 0.0;
+                    int cantidad_productos = 0;
+                    for(int x=0;x<listaDeDatos.size();x++) {
+                        sumaProductos = sumaProductos + (listaDeDatos.get(x).getPrecio() - listaDeDatos.get(x).getDescuento());
+                        sumaDomicilios = sumaDomicilios + listaDeDatos.get(x).getPrecioDomicilio();
+                        cantidad_productos =  cantidad_productos + listaDeDatos.get(x).getCantidad();
+
+                    }
 
                     Intent intent = new Intent(shoppingCart.this , buyProduct.class);
 
                     intent.putExtra("idProducto" , idProducto);
-                    intent.putExtra("nombreProducto", "nombreProducto");
-                    intent.putExtra("totalProducto", "10");
-                    intent.putExtra("precioDomicilio", "1");
+                    intent.putExtra("nombreProducto", NombreProducto);
+                    intent.putExtra("totalProducto", sumaProductos);
+                    intent.putExtra("precioDomicilio", sumaDomicilios);
                     intent.putExtra("nroProductos", String.valueOf(nroProductos));
                     intent.putExtra("idVendedor" , idVendedor);
 
@@ -251,7 +263,7 @@ public class shoppingCart extends AppCompatActivity {
         });
     }
 
-    public void enviar_email_vendedor(String nombreComprador, String emailVendedor, String nombreVendedor, String idProducto, String nroProductos){
+    public void enviar_email_vendedor(String nombreComprador, String emailVendedor, String nombreVendedor, String idProducto, String nroProductos, String NombreProducto){
 
         //String correoEnvia = correo.getText().toString();
         String correoEnvia = "ceo@salvavidas.app";
@@ -260,7 +272,7 @@ public class shoppingCart extends AppCompatActivity {
 
         String cuerpoCorreo = "<p style='text-align: justify'> Hola " + nombreVendedor +", <br><br>" +
                 "nuestro usuario <b>" + nombreComprador + "</b> desea comprar lo siguiente: <br><br>" +
-                "<u>Producto:</u> <b>" + idProducto + "</b><br>" +
+                "<u>Producto:</u> <b>" + NombreProducto + "</b><br>" +
                 "<u>Cantidad:</u> <b>" + nroProductos + "</b><br><br>" +
                 "Ingresa a Salvavidas App para aceptar el pedido.<br></p>Cordialmente,<br> <b>Equipo de Salvavidas App</b><br>" +
                 "<p style='text-align: justify'><font size=1><i>Este mensaje y sus archivos adjuntos van dirigidos exclusivamente a su destinatario pudiendo contener información confidencial " +
@@ -307,6 +319,73 @@ public class shoppingCart extends AppCompatActivity {
         }
     }
 
+
+    public void enviar_notificacion_push(String nombreComprador, String emailVendedor, String nombreVendedor,String idVendedor){
+
+        try {
+            Intent intent = new Intent(getApplicationContext(), lookAtProduct.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            PendingIntent pendingIntent = PendingIntent.getActivity(getApplicationContext(), 0 /* Request code */, intent,
+                    PendingIntent.FLAG_ONE_SHOT);
+
+            String channelId = consultarToken(idVendedor);
+
+            if (channelId.equals("")){
+                Toast.makeText(shoppingCart.this, "Para enviar notificaciones push el vendedor debera actualizar su perfil", Toast.LENGTH_SHORT).show();
+
+            }
+            else{
+                Uri defaultSoundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
+                NotificationCompat.Builder notificationBuilder =
+                        new NotificationCompat.Builder(getApplicationContext(), channelId)
+                                .setSmallIcon(R.drawable.logoprincipal)
+                                .setContentTitle("Solicitud de compra - Salvavidas App")
+                                .setContentText(" Hola " + nombreVendedor +"," +
+                                        " nuestro usuario " + nombreComprador + " desea comprar lo siguiente:" +
+                                        " Ingresa a Salvavidas App para aceptar el pedido.")
+                                .setAutoCancel(true)
+                                .setSound(defaultSoundUri)
+                                .setContentIntent(pendingIntent);
+
+                NotificationManager notificationManager =
+                        (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+
+                // Since android Oreo notification channel is needed.
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                    NotificationChannel channel = new NotificationChannel(channelId,
+                            "Channel human readable title",
+                            NotificationManager.IMPORTANCE_DEFAULT);
+                    notificationManager.createNotificationChannel(channel);
+                }
+
+                notificationManager.notify(0 /* ID of notification */, notificationBuilder.build());
+
+            }
+        }
+        catch (Exception e){
+            e.printStackTrace();
+            //Toast.makeText(getApplicationContext(), "Error enviando la solicitud. " + e, Toast.LENGTH_SHORT).show();
+        }
+    }
+
+
+    String token;
+    public String consultarToken(String idVendedor) {
+        myRefVendedor.child(idVendedor).addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if(snapshot.exists()){
+                    token = snapshot.child("tokenId").getValue().toString();
+                }
+            }
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                Toast.makeText(shoppingCart.this, "Error cargando los datos del vendedor", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        return token;
+    }
 
 
 

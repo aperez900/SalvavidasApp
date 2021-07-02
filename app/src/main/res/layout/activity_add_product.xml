@@ -28,7 +28,6 @@
                     android:fontFamily="@font/poppins_bold"
                     android:text="@string/agregarProducto"
                     android:textAlignment="center"
-                    android:textColor="@color/black"
                     android:textSize="24sp"
                     android:textStyle="bold" />
 
@@ -43,6 +42,7 @@
                     android:hint="@string/nombreProducto"
                     android:importantForAutofill="no"
                     android:inputType="textPersonName"
+                    android:textSize="18sp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent" />
 
@@ -57,6 +57,7 @@
                     android:hint="@string/descripcionProducto"
                     android:importantForAutofill="no"
                     android:inputType="textPersonName"
+                    android:textSize="18sp"
                     app:layout_constraintTop_toBottomOf="@id/et_nombre_producto" />
 
                 <Spinner
@@ -68,6 +69,8 @@
                     android:layout_marginTop="10dp"
                     android:background="#FFFFFF"
                     android:fontFamily="@font/poppins_light"
+                    android:gravity="start"
+                    android:textSize="18sp"
                     android:hint="@string/categoriaProducto"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/et_descripcion_producto" />
@@ -81,6 +84,8 @@
                     android:layout_marginTop="10dp"
                     android:background="#FFFFFF"
                     android:fontFamily="@font/poppins_light"
+                    android:gravity="start"
+                    android:textSize="18sp"
                     android:hint="@string/categoriaProducto"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/sp_categoria_producto" />
@@ -94,6 +99,7 @@
                     android:layout_marginEnd="50dp"
                     android:fontFamily="@font/poppins_light"
                     android:hint="@string/precioProducto"
+                    android:textSize="18sp"
                     android:importantForAutofill="no"
                     app:layout_constraintTop_toBottomOf="@id/sp_sub_categoria_producto"
                     android:inputType="number" />
@@ -107,6 +113,7 @@
                     android:layout_marginEnd="50dp"
                     android:fontFamily="@font/poppins_light"
                     android:hint="@string/descuentoProducto"
+                    android:textSize="18sp"
                     android:importantForAutofill="no"
                     app:layout_constraintTop_toBottomOf="@id/et_precio"
                     android:inputType="number" />
@@ -125,6 +132,7 @@
                     android:layout_marginEnd="10dp"
                     android:fontFamily="@font/poppins_light"
                     android:hint="@string/direccionVenta"
+                    android:textSize="18sp"
                     android:importantForAutofill="no"
                     app:layout_constraintTop_toBottomOf="@id/et_descuento"
                      />
@@ -149,6 +157,7 @@
                     android:background="#FFFFFF"
                     android:fontFamily="@font/poppins_light"
                     android:hint="@string/domicilioProducto"
+                    android:textSize="18sp"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/et_descuento" />
 
@@ -163,6 +172,7 @@
                     android:hint="@string/precioDomicilio"
                     android:importantForAutofill="no"
                     android:inputType="number"
+                    android:textSize="18sp"
                     app:layout_constraintTop_toBottomOf="@id/et_descuento"
                     tools:visibility="invisible" />
 
@@ -174,12 +184,15 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="50dp"
+                        android:layout_marginStart="80dp"
                         android:layout_marginTop="10dp"
                         android:layout_marginEnd="20dp"
                         android:fontFamily="@font/poppins_light"
+                        android:gravity="center"
                         android:text="@string/disponibilidadProducto"
-                        android:textSize="18sp" />
+                        android:textAlignment="center"
+                        android:textSize="18sp"
+                        android:textStyle="bold" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -194,6 +207,7 @@
                         android:layout_marginTop="10dp"
                         android:fontFamily="@font/poppins_light"
                         android:text="@string/desdeProducto"
+                        android:textStyle="bold"
                         android:textSize="18sp" />
 
                     <TextView
@@ -252,6 +266,7 @@
                         android:layout_marginTop="10dp"
                         android:fontFamily="@font/poppins_light"
                         android:text="@string/hastaProducto"
+                        android:textStyle="bold"
                         android:textSize="18sp" />
 
                     <TextView
