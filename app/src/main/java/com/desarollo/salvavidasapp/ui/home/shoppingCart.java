@@ -27,8 +27,10 @@ import com.desarollo.salvavidasapp.R;
 import com.desarollo.salvavidasapp.ui.home.ListSellAdapter;
 import com.desarollo.salvavidasapp.ui.sales.buyProduct;
 import com.desarollo.salvavidasapp.ui.sales.lookAtProduct;
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.UserInfo;
@@ -227,9 +229,9 @@ public class shoppingCart extends AppCompatActivity {
                 if(snapshot.exists()){
                     String emailVendedor = snapshot.child("correo").getValue().toString();
                     String nombreVendedor = snapshot.child("nombre").getValue().toString();
+                    String token = snapshot.child("tokenId").getValue().toString();
                     enviar_email_vendedor(nombreComprador, emailVendedor, nombreVendedor, idProducto, nroProductos,NombreProducto);
-
-                    enviar_notificacion_push(nombreComprador, emailVendedor, nombreVendedor,idVendedor);
+                    enviar_notificacion_push(nombreComprador, emailVendedor, nombreVendedor,idVendedor,token);
                     cargando.dismiss();
 
                     double sumaProductos = 0.0;
@@ -320,7 +322,7 @@ public class shoppingCart extends AppCompatActivity {
     }
 
 
-    public void enviar_notificacion_push(String nombreComprador, String emailVendedor, String nombreVendedor,String idVendedor){
+    public void enviar_notificacion_push(String nombreComprador, String emailVendedor, String nombreVendedor,String idVendedor,String token){
 
         try {
             Intent intent = new Intent(getApplicationContext(), lookAtProduct.class);
@@ -328,9 +330,9 @@ public class shoppingCart extends AppCompatActivity {
             PendingIntent pendingIntent = PendingIntent.getActivity(getApplicationContext(), 0 /* Request code */, intent,
                     PendingIntent.FLAG_ONE_SHOT);
 
-            String channelId = consultarToken(idVendedor);
+            String channelId = token;
 
-            if (channelId.equals("")){
+            if (channelId.isEmpty()){
                 Toast.makeText(shoppingCart.this, "Para enviar notificaciones push el vendedor debera actualizar su perfil", Toast.LENGTH_SHORT).show();
 
             }
@@ -364,29 +366,8 @@ public class shoppingCart extends AppCompatActivity {
         }
         catch (Exception e){
             e.printStackTrace();
-            //Toast.makeText(getApplicationContext(), "Error enviando la solicitud. " + e, Toast.LENGTH_SHORT).show();
+            Toast.makeText(getApplicationContext(), "Error enviando la solicitud. " + e, Toast.LENGTH_SHORT).show();
         }
     }
-
-
-    String token;
-    public String consultarToken(String idVendedor) {
-        myRefVendedor.child(idVendedor).addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                if(snapshot.exists()){
-                    token = snapshot.child("tokenId").getValue().toString();
-                }
-            }
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-                Toast.makeText(shoppingCart.this, "Error cargando los datos del vendedor", Toast.LENGTH_SHORT).show();
-            }
-        });
-
-        return token;
-    }
-
-
 
 }
