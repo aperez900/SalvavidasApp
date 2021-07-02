@@ -10,13 +10,12 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/estado"
-        android:layout_marginTop="10dp"
-        android:textAlignment="center"
+        android:layout_marginTop="50dp"
         android:fontFamily="@font/poppins_bold"
-        android:textStyle="bold"
-        android:textSize="24sp">
-    </TextView>
+        android:text="@string/estado"
+        android:textAlignment="center"
+        android:textSize="24sp"
+        android:textStyle="bold"></TextView>
 
     <TextView
         android:id="@+id/tv_estado_Producto"
@@ -25,13 +24,14 @@
         android:text="@string/solicitado"
         android:textAlignment="center"
         android:fontFamily="@font/poppins_semibold"
-        android:textSize="24sp">
+        android:textSize="20sp">
     </TextView>
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/divisor"
+        android:layout_marginTop="50dp"
         android:textAlignment="center"
         android:fontFamily="@font/poppins_semibold"
         android:textSize="24sp">
@@ -128,6 +128,7 @@
         android:layout_height="wrap_content"
         android:text="@string/divisor"
         android:textAlignment="center"
+        android:layout_marginTop="10dp"
         android:fontFamily="@font/poppins_semibold"
         android:textSize="24sp">
     </TextView>
@@ -135,7 +136,7 @@
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="30dp"
+        android:layout_marginTop="50dp"
         android:layout_marginStart="20dp"
         android:layout_marginBottom="0dp"
         android:orientation="horizontal">

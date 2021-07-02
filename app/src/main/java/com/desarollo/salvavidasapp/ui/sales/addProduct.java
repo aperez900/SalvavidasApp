@@ -148,7 +148,8 @@ public class addProduct extends AppCompatActivity {
             ArrayAdapter<String> adapterCategoriaProductos = new ArrayAdapter<String>(this, R.layout.spinner_item_modified, listCategoriaProductos);
             categoriaProducto.setAdapter(adapterCategoriaProductos);
 
-            String[] ArraySubCategorias = new String[]{SsubCategoriaProductos, "✚ Seleccione una sub categoría", "Verduras", "Frutas", "Hamburguesas"};
+            String[] ArraySubCategorias = new String[]{SsubCategoriaProductos, "✚ Seleccione una sub categoría", "aceites", "aderezos", "carnes rojas", "condimentos", "flores", "frutas",
+                    "frutos secos", "granos", "hortalizas", "legumbres", "pescado", "pollo","verduras"};
             ArrayList<String> listSubCategoriaProductos = new ArrayList(Arrays.asList(ArraySubCategorias));
             ArrayAdapter<String> adapterSubCategoriaProductos = new ArrayAdapter<String>(this, R.layout.spinner_item_modified, listSubCategoriaProductos);
             subCategoriaProducto.setAdapter(adapterSubCategoriaProductos);
@@ -163,7 +164,8 @@ public class addProduct extends AppCompatActivity {
             ArrayAdapter<String> adapterCategoriaProductos = new ArrayAdapter<String>(this, R.layout.spinner_item_modified, listCategoriaProductos);
             categoriaProducto.setAdapter(adapterCategoriaProductos);
 
-            String[] ArraySubCategorias = new String[]{"✚ Seleccione una sub categoría", "Verduras", "Frutas", "Hamburguesas"};
+            String[] ArraySubCategorias = new String[]{"✚ Seleccione una sub categoría", "aceites", "aderezos", "carnes rojas", "condimentos", "flores", "frutas",
+                    "frutos secos", "granos", "hortalizas", "legumbres", "pescado", "pollo","verduras"};
             ArrayList<String> listSubCategoriaProductos = new ArrayList(Arrays.asList(ArraySubCategorias));
             ArrayAdapter<String> adapterSubCategoriaProductos = new ArrayAdapter<String>(this, R.layout.spinner_item_modified, listSubCategoriaProductos);
             subCategoriaProducto.setAdapter(adapterSubCategoriaProductos);

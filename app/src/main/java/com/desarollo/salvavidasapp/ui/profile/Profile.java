@@ -132,8 +132,10 @@ public class Profile extends Fragment {
             @Override
             public void onClick(View view) {
                 if(validarCamposVacios(UserMail, nombres, apellidos, identificacion, celular)) {
+
                     registrar(UserMail, nombres, apellidos, identificacion, celular);
                     registrar_token();
+
                 }
             }
         });
@@ -267,7 +269,8 @@ public class Profile extends Fragment {
         builder.setCancelable(false);
 
         String[] comidas = new String[]{
-                "Todas","Verduras", "Frutas","Hamburguesas", "Otros"
+                "aceites", "aderezos", "carnes rojas", "condimentos", "flores", "frutas",
+                "frutos secos", "granos", "hortalizas", "legumbres", "pescado", "pollo","verduras"
         };
 
         //array booleano para marcar casillas por defecto
@@ -415,21 +418,22 @@ public class Profile extends Fragment {
                     }
                 });
 
-
         //guarda los datos del usuario
         myRef.child(currentUser.getUid()).child("tokenId").setValue(token)
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void aVoid) {
-                        }
+
+                    }
                 })
                 .addOnFailureListener(new OnFailureListener() {
                     @Override
                     public void onFailure(@NonNull Exception e) {
-                       }
+
+                    }
                 });
 
-    }
+        }
 
 
     /*
