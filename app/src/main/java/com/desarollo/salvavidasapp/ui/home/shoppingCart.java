@@ -241,17 +241,17 @@ public class shoppingCart extends AppCompatActivity {
                         sumaProductos = sumaProductos + (listaDeDatos.get(x).getPrecio() - listaDeDatos.get(x).getDescuento());
                         sumaDomicilios = sumaDomicilios + listaDeDatos.get(x).getPrecioDomicilio();
                         cantidad_productos =  cantidad_productos + listaDeDatos.get(x).getCantidad();
-
                     }
 
                     Intent intent = new Intent(shoppingCart.this , buyProduct.class);
 
                     intent.putExtra("idProducto" , idProducto);
                     intent.putExtra("nombreProducto", NombreProducto);
-                    intent.putExtra("totalProducto", sumaProductos);
-                    intent.putExtra("precioDomicilio", sumaDomicilios);
+                    intent.putExtra("totalProducto", String.valueOf(sumaProductos));
+                    intent.putExtra("precioDomicilio", String.valueOf(sumaDomicilios));
                     intent.putExtra("nroProductos", String.valueOf(nroProductos));
                     intent.putExtra("idVendedor" , idVendedor);
+                    intent.putExtra("origen" , "carritoCompras");
 
                     startActivity(intent);
                     finish();

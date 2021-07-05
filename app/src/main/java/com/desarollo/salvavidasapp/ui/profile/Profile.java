@@ -57,7 +57,6 @@ public class Profile extends Fragment {
     Usuarios u;
     ListDirecciones d;
     ArrayList<ListDirecciones> listaDirecciones;
-    String token ="";
 
     //items seleccionados de comidas preferidas
     //Map <String,Object> selectedItems = new HashMap<>();
@@ -134,7 +133,6 @@ public class Profile extends Fragment {
                 if(validarCamposVacios(UserMail, nombres, apellidos, identificacion, celular)) {
 
                     registrar(UserMail, nombres, apellidos, identificacion, celular);
-                    registrar_token();
 
                 }
             }
@@ -363,6 +361,88 @@ public class Profile extends Fragment {
         u.habilitado = true;
 
         //guarda los datos del usuario
+        myRef.child(currentUser.getUid()).child("apellido").setValue(u.getApellido())
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        //Toast.makeText(getApplicationContext(), "Usuario actualizado correctamente", Toast.LENGTH_SHORT).show();
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        //Toast.makeText(getApplicationContext(), "Error actualizando el usuario", Toast.LENGTH_SHORT).show();
+                    }
+                });
+        myRef.child(currentUser.getUid()).child("celular").setValue(u.getCelular())
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        //Toast.makeText(getApplicationContext(), "Usuario actualizado correctamente", Toast.LENGTH_SHORT).show();
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        //Toast.makeText(getApplicationContext(), "Error actualizando el usuario", Toast.LENGTH_SHORT).show();
+                    }
+                });
+
+        myRef.child(currentUser.getUid()).child("correo").setValue(u.getCorreo())
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        //Toast.makeText(getApplicationContext(), "Usuario actualizado correctamente", Toast.LENGTH_SHORT).show();
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        //Toast.makeText(getApplicationContext(), "Error actualizando el usuario", Toast.LENGTH_SHORT).show();
+                    }
+                });
+        myRef.child(currentUser.getUid()).child("habilitado").setValue(u.getHabilitado())
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        //Toast.makeText(getApplicationContext(), "Usuario actualizado correctamente", Toast.LENGTH_SHORT).show();
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        //Toast.makeText(getApplicationContext(), "Error actualizando el usuario", Toast.LENGTH_SHORT).show();
+                    }
+                });
+
+        myRef.child(currentUser.getUid()).child("identificacion").setValue(u.getIdentificacion())
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        //Toast.makeText(getApplicationContext(), "Usuario actualizado correctamente", Toast.LENGTH_SHORT).show();
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        //Toast.makeText(getApplicationContext(), "Error actualizando el usuario", Toast.LENGTH_SHORT).show();
+                    }
+                });
+
+        myRef.child(currentUser.getUid()).child("nombre").setValue(u.getNombre())
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        //Toast.makeText(getApplicationContext(), "Usuario actualizado correctamente", Toast.LENGTH_SHORT).show();
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        //Toast.makeText(getApplicationContext(), "Error actualizando el usuario", Toast.LENGTH_SHORT).show();
+                    }
+                });
+        /*
         myRef.child(currentUser.getUid()).setValue(u)
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
@@ -376,6 +456,7 @@ public class Profile extends Fragment {
                         Toast.makeText(getApplicationContext(), "Error actualizando el usuario", Toast.LENGTH_SHORT).show();
                     }
                 });
+         */
         //guarda los datos de las comidas elegidas
         /*
         myRef.child(currentUser.getUid()).child("comidas_preferidas").setValue(selectedItems)
@@ -400,6 +481,7 @@ public class Profile extends Fragment {
                         }
                     });
         }
+        registrar_token();
     }
 
 
@@ -407,6 +489,7 @@ public class Profile extends Fragment {
 
         FirebaseMessaging.getInstance().getToken()
                 .addOnCompleteListener(new OnCompleteListener<String>() {
+                    String token ="";
                     @Override
                     public void onComplete(@NonNull Task<String> task) {
                         if (!task.isSuccessful()) {
@@ -415,24 +498,21 @@ public class Profile extends Fragment {
                         }
                         // Get new FCM registration token
                         token = task.getResult();
+                        myRef.child(currentUser.getUid()).child("tokenId").setValue(token)
+                                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                    @Override
+                                    public void onSuccess(Void aVoid) {
+
+                                    }
+                                })
+                                .addOnFailureListener(new OnFailureListener() {
+                                    @Override
+                                    public void onFailure(@NonNull Exception e) {
+
+                                    }
+                                });
                     }
                 });
-
-        //guarda los datos del usuario
-        myRef.child(currentUser.getUid()).child("tokenId").setValue(token)
-                .addOnSuccessListener(new OnSuccessListener<Void>() {
-                    @Override
-                    public void onSuccess(Void aVoid) {
-
-                    }
-                })
-                .addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-
-                    }
-                });
-
         }
 
 

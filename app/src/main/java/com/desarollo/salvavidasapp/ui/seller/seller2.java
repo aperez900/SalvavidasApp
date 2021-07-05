@@ -147,7 +147,6 @@ public class seller2 extends AppCompatActivity {
             }
         }
 
-
         Intent intent = getIntent();
         if (intent.getExtras()  != null){
             Bundle extras = getIntent().getExtras();
@@ -174,7 +173,7 @@ public class seller2 extends AppCompatActivity {
                 if(validarCamposVacios( nombres, apellidos, identificacion, celular, nombreEstablecimiento, nit, sp_actividad_econimica,
                         urlFoto,direccionVendedor)) {
                     registrar(nombres, apellidos, identificacion, celular, nombreEstablecimiento, nit, sp_actividad_econimica, estado,direccionVendedor);
-                    registrar_token();
+
                     enviar_email(correo,contrasena, nombres, celular);
                     enviar_email_usuario(correo,contrasena, nombres, celular);
                 }
@@ -385,12 +384,13 @@ public class seller2 extends AppCompatActivity {
                 });
     }
 
-    String token = "";
+
 
     private void registrar_token() {
 
         FirebaseMessaging.getInstance().getToken()
                 .addOnCompleteListener(new OnCompleteListener<String>() {
+                    String token = "";
                     @Override
                     public void onComplete(@NonNull Task<String> task) {
                         if (!task.isSuccessful()) {
@@ -399,23 +399,20 @@ public class seller2 extends AppCompatActivity {
                         }
                         // Get new FCM registration token
                         token = task.getResult();
+                        //guarda los datos del usuario
+                        myRefVendedores.child(currentUser.getUid()).child("tokenId").setValue(token)
+                                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                    @Override
+                                    public void onSuccess(Void aVoid) {
+                                    }
+                                })
+                                .addOnFailureListener(new OnFailureListener() {
+                                    @Override
+                                    public void onFailure(@NonNull Exception e) {
+                                    }
+                                });
                     }
                 });
-
-
-        //guarda los datos del usuario
-        myRefVendedores.child(currentUser.getUid()).child("tokenId").setValue(token)
-                .addOnSuccessListener(new OnSuccessListener<Void>() {
-                    @Override
-                    public void onSuccess(Void aVoid) {
-                    }
-                })
-                .addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                    }
-                });
-
     }
 
 
@@ -438,6 +435,7 @@ public class seller2 extends AppCompatActivity {
         v.setDireccion(direccionVendedor.getText().toString());
 
         //guarda los datos del vendedor
+        /*
         myRefVendedores.child(currentUser.getUid()).setValue(v)
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
@@ -451,6 +449,128 @@ public class seller2 extends AppCompatActivity {
                         //Toast.makeText(getApplicationContext(), "Error registrando la solicitud. Intenta de nuevo mas tarde", Toast.LENGTH_SHORT).show();
                     }
                 });
+         */
+
+        myRefVendedores.child(currentUser.getUid()).child("actividad_economica").setValue(v.getActividad_economica())
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                    }
+                });
+
+        myRefVendedores.child(currentUser.getUid()).child("apellido").setValue(v.getApellido())
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                    }
+                });
+
+        myRefVendedores.child(currentUser.getUid()).child("celular").setValue(v.getCelular())
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                    }
+                });
+
+        myRefVendedores.child(currentUser.getUid()).child("direccion").setValue(v.getDireccion())
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                    }
+                });
+
+        myRefVendedores.child(currentUser.getUid()).child("estado").setValue(v.getEstado())
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                    }
+                });
+
+        myRefVendedores.child(currentUser.getUid()).child("identificacion").setValue(v.getIdentificacion())
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                    }
+                });
+
+        myRefVendedores.child(currentUser.getUid()).child("nit").setValue(v.getNit())
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                    }
+                });
+
+        myRefVendedores.child(currentUser.getUid()).child("nombre").setValue(v.getNombre())
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                    }
+                });
+
+        myRefVendedores.child(currentUser.getUid()).child("nombre_establecimiento").setValue(v.getNombre_establecimiento())
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                    }
+                });
+
+        myRefVendedores.child(currentUser.getUid()).child("url_logo").setValue(v.getUrl_logo())
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                    }
+                });
+        registrar_token();
     }
 
     public void enviar_email( String correo, String contrasena, TextView nombres, TextView celular){
