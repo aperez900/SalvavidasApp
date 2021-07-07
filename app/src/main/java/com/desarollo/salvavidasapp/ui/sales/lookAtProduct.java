@@ -280,7 +280,8 @@ public class lookAtProduct extends AppCompatActivity {
                     String emailVendedor = snapshot.child("correo").getValue().toString();
                     String nombreVendedor = snapshot.child("nombre").getValue().toString();
                     enviar_email_vendedor(nombreComprador, emailVendedor, nombreVendedor);
-                    enviar_notificacion_push(nombreComprador, emailVendedor, nombreVendedor);
+                    String token = snapshot.child("tokenId").getValue().toString();
+                    enviar_notificacion_push(nombreComprador, emailVendedor, nombreVendedor, token);
                     cargando.dismiss();
                     Intent intent = new Intent(lookAtProduct.this , buyProduct.class);
                     intent.putExtra("idProducto" , idProducto);
@@ -289,6 +290,7 @@ public class lookAtProduct extends AppCompatActivity {
                     intent.putExtra("precioDomicilio", String.valueOf(precioDomicilio));
                     intent.putExtra("nroProductos", String.valueOf(numeroProductos));
                     intent.putExtra("idVendedor" , idVendedor);
+                    intent.putExtra("origen" , "LookAtProduct");
 
                     startActivity(intent);
                     finish();
@@ -358,7 +360,7 @@ public class lookAtProduct extends AppCompatActivity {
     }
 
 
-    public void enviar_notificacion_push(String nombreComprador, String emailVendedor, String nombreVendedor){
+    public void enviar_notificacion_push(String nombreComprador, String emailVendedor, String nombreVendedor, String token){
 
         try {
             Intent intent = new Intent(getApplicationContext(), lookAtProduct.class);
@@ -366,7 +368,8 @@ public class lookAtProduct extends AppCompatActivity {
             PendingIntent pendingIntent = PendingIntent.getActivity(getApplicationContext(), 0 /* Request code */, intent,
                     PendingIntent.FLAG_ONE_SHOT);
 
-            String channelId = consultarToken();
+            //String channelId = consultarToken();
+            String channelId = token;
 
             if (channelId.equals("")){
                 Toast.makeText(lookAtProduct.this, "Para enviar notificaciones push el vendedor debera actualizar su perfil", Toast.LENGTH_SHORT).show();
