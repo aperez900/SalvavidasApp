@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/backgroundColor"
     tools:context=".ui.profile.SubMenuProfile">
 
     <androidx.gridlayout.widget.GridLayout
@@ -52,10 +53,10 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_gravity="center_horizontal"
+                    android:fontFamily="@font/poppins_semibold"
                     android:text="@string/perfilComprador"
                     android:textAlignment="center"
                     android:textColor="@color/black"
-                    android:fontFamily="@font/poppins_semibold"
                     android:textSize="16sp"
                     android:textStyle="bold" />
             </LinearLayout>

@@ -4,8 +4,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.sales.unsoldOffers"
-    android:orientation="vertical">
+    android:background="@color/backgroundColor"
+    android:orientation="vertical"
+    tools:context=".ui.sales.unsoldOffers">
 
     <TextView
         android:id="@+id/tv_titulo_ofertados_no_vendidos"
@@ -13,24 +14,24 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
         android:fontFamily="@font/poppins_bold"
-        android:textStyle="bold"
-        android:textSize="16sp"
         android:text="@string/noProductosOfertados"
-        android:textAlignment="center"/>
+        android:textAlignment="center"
+        android:textSize="16sp"
+        android:textStyle="bold" />
 
     <TextView
         android:id="@+id/tv_subtitulo_ofertados_no_vendidos"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:fontFamily="@font/poppins_semibold"
-        android:textSize="14sp"
         android:text="@string/descripcionNoOfertadosNoVendidos"
-        android:textAlignment="center"/>
+        android:textAlignment="center"
+        android:textSize="14sp" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/listadoOfertadosNoVendidos"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />

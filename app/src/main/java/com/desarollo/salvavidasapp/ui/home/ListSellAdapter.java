@@ -53,11 +53,6 @@ public class ListSellAdapter extends RecyclerView.Adapter<ListSellAdapter.viewHo
     LayoutInflater inflater;
     private View.OnClickListener listener;
     Activity  activity;
-    FirebaseUser currentUser;
-    FirebaseDatabase database;
-    DatabaseReference myRef;
-    FirebaseAuth mAuth;
-    ListDirecciones d;
 
 
     public ListSellAdapter(Context context, ArrayList<Productos> listaDeDatos, Activity activity) {
@@ -96,7 +91,7 @@ public class ListSellAdapter extends RecyclerView.Adapter<ListSellAdapter.viewHo
         DecimalFormat df = new DecimalFormat("#.00");
         //double aleatorio = Math.random()*5;
         String direccion = listaDeDatos.get(position).getDireccion();
-        String direccion_usuario = consultarDireccionUsuario();
+        String direccion_usuario = direccionUsuario;
 
         String Distancia = df.format(convertirDireccion(direccion,direccion_usuario));
         Double precioDomicilio = listaDeDatos.get(position).getPrecioDomicilio();
@@ -197,38 +192,6 @@ public class ListSellAdapter extends RecyclerView.Adapter<ListSellAdapter.viewHo
 
     //Consultando datos de las direcciones
      String direccionUsuario = "CRA 77B 48 09";
-    public String consultarDireccionUsuario(){
-
-        mAuth = FirebaseAuth.getInstance();
-        currentUser = mAuth.getCurrentUser();
-        database = FirebaseDatabase.getInstance();
-        myRef = database.getReference("usuarios");
-
-        myRef.child(currentUser.getUid()).child("mis direcciones").addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                if(snapshot.exists()){
-                    for(DataSnapshot objsnapshot : snapshot.getChildren()){
-                        d = new ListDirecciones();
-                        d = objsnapshot.getValue(ListDirecciones.class);
-                        if(d.getSeleccion().equals("true")){
-                            direccionUsuario = d.direccionUsuario;
-                        }
-
-                    }
-
-                }
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-                Toast.makeText(getApplicationContext(), "Error consultando las direcciones. Intente de nuevo mas tarde.", Toast.LENGTH_SHORT).show();
-            }
-        });
-
-        return direccionUsuario;
-    }
-
 
 
     @Override

@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#EDFAF8F8"
+    android:background="@color/backgroundColor"
     tools:context=".ui.direction.FrmAddress">
 
     <TextView
@@ -26,6 +26,7 @@
         android:layout_width="383dp"
         android:layout_height="488dp"
         android:layout_marginTop="120dp"
+        android:background="@color/white"
         app:cardCornerRadius="20dp"
         app:cardElevation="4dp"
         app:cardUseCompatPadding="true"

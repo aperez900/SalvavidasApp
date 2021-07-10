@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    app:cardBackgroundColor="#FFFFFF"
+    app:cardBackgroundColor="@color/white"
     app:cardCornerRadius="20dp"
     app:cardElevation="4dp"
     app:cardUseCompatPadding="true"
@@ -103,8 +103,8 @@
             android:fontFamily="@font/poppins_light"
             android:padding="5dp"
             android:text=""
-            android:textSize="14sp"
-            android:textAlignment="textEnd" />
+            android:textAlignment="textEnd"
+            android:textSize="14sp" />
 
         <TextView
             android:id="@+id/tv_descuento_producto1"
@@ -146,10 +146,10 @@
             android:layout_width="35dp"
             android:layout_height="25dp"
             android:layout_below="@id/tv_tipo_producto"
+            android:layout_marginTop="3dp"
             android:background="@color/red"
             android:fontFamily="@font/poppins_bold"
             android:padding="5dp"
-            android:layout_marginTop="3dp"
             android:textAlignment="textEnd"
             android:textColor="@color/white"
             android:textSize="12sp"
@@ -205,9 +205,9 @@
             android:fontFamily="@font/poppins_bold"
             android:padding="5dp"
             android:text=""
+            android:textAlignment="textEnd"
             android:textSize="14sp"
-            android:textStyle="bold"
-            android:textAlignment="textEnd"/>
+            android:textStyle="bold" />
 
         <TextView
             android:id="@+id/tv_fecha_inicio_producto"
@@ -247,13 +247,13 @@
                 android:layout_height="match_parent"
                 android:layout_marginStart="15dp"
                 android:background="#F7F8F8"
+                android:contentDescription="@string/descripcionImagen"
                 android:fontFamily="@font/poppins_semibold"
                 android:padding="5dp"
                 android:src="@drawable/search_light"
                 android:textColor="@color/black"
                 android:textSize="16sp"
-                android:textStyle="bold"
-                android:contentDescription="@string/descripcionImagen" />
+                android:textStyle="bold" />
 
             <ImageView
                 android:id="@+id/img_editar_producto"
@@ -261,13 +261,13 @@
                 android:layout_height="match_parent"
                 android:layout_marginStart="5dp"
                 android:background="#F7F8F8"
+                android:contentDescription="@string/descripcionImagen"
                 android:fontFamily="@font/poppins_semibold"
                 android:padding="7dp"
                 android:src="@drawable/edit_light"
                 android:textColor="@color/black"
                 android:textSize="16sp"
-                android:textStyle="bold"
-                android:contentDescription="@string/descripcionImagen" />
+                android:textStyle="bold" />
 
             <ImageView
                 android:id="@+id/img_cancelar_producto"
@@ -277,13 +277,13 @@
                 android:layout_marginTop="0dp"
                 android:layout_marginEnd="5dp"
                 android:background="#F7F8F8"
+                android:contentDescription="@string/descripcionImagen"
                 android:fontFamily="@font/poppins_semibold"
                 android:padding="5dp"
                 android:src="@drawable/cancel_light"
                 android:textColor="@color/black"
                 android:textSize="16sp"
-                android:textStyle="bold"
-                android:contentDescription="@string/descripcionImagen" />
+                android:textStyle="bold" />
         </LinearLayout>
     </RelativeLayout>
 

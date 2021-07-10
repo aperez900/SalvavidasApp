@@ -2,10 +2,12 @@
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/cv"
-    android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:animateLayoutChanges="true"
+    android:background="@color/white"
+    android:orientation="vertical"
+    app:cardBackgroundColor="@color/white"
     app:cardCornerRadius="3dp"
     app:cardElevation="3dp"
     app:cardUseCompatPadding="true">
@@ -13,53 +15,52 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="10dp" >
+        android:padding="10dp">
 
 
         <ImageView
             android:id="@+id/Imagen_direccion"
             android:layout_width="50dp"
             android:layout_height="50dp"
-            android:src="@drawable/marker"
-            android:layout_marginTop="20dp"></ImageView>
+            android:layout_marginTop="20dp"
+            android:src="@drawable/marker"></ImageView>
 
         <TextView
             android:id="@+id/NombreDireccion"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_marginLeft="10dp"
+            android:layout_toEndOf="@id/Imagen_direccion"
+            android:layout_toRightOf="@id/Imagen_direccion"
+            android:fontFamily="@font/poppins_semibold"
             android:text="Mi casa"
             android:textSize="20sp"
-            android:textStyle="bold"
-            android:fontFamily="@font/poppins_semibold"
-            android:layout_toRightOf="@id/Imagen_direccion"
-            android:layout_toEndOf="@id/Imagen_direccion"
-            android:layout_marginLeft="10dp"
-            android:layout_marginStart="10dp">
-        </TextView>
+            android:textStyle="bold"></TextView>
+
         <TextView
             android:id="@+id/Direccion"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Avenida Siempre viva"
-            android:textSize="18sp"
-            android:fontFamily="@font/poppins_light"
             android:layout_below="@id/NombreDireccion"
-            android:layout_toEndOf="@id/Imagen_direccion"
+            android:layout_marginStart="10dp"
             android:layout_marginLeft="10dp"
-            android:layout_marginStart="10dp">
-        </TextView>
+            android:layout_toEndOf="@id/Imagen_direccion"
+            android:fontFamily="@font/poppins_light"
+            android:text="Avenida Siempre viva"
+            android:textSize="18sp"></TextView>
+
         <TextView
             android:id="@+id/municipioDireccion"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Medellín/Antioquia"
-            android:textSize="18sp"
-            android:fontFamily="@font/poppins_light"
             android:layout_below="@id/Direccion"
-            android:layout_toEndOf="@id/Imagen_direccion"
+            android:layout_marginStart="10dp"
             android:layout_marginLeft="10dp"
-            android:layout_marginStart="10dp">
-        </TextView>
+            android:layout_toEndOf="@id/Imagen_direccion"
+            android:fontFamily="@font/poppins_light"
+            android:text="Medellín/Antioquia"
+            android:textSize="18sp"></TextView>
 
 
         <RadioButton

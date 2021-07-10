@@ -24,7 +24,7 @@
         android:layout_width="223dp"
         android:layout_height="55dp"
         android:layout_gravity="center"
-        android:fontFamily="@font/poppins_semibold"
+        android:fontFamily="@font/poppins_light"
         android:text="@string/Bienvenido"
         android:textAlignment="center"
         android:textColor="#FFFFFF"
@@ -154,25 +154,28 @@
 
     <com.facebook.login.widget.LoginButton
         android:id="@+id/login_button"
-        android:layout_width="220dp"
-        android:layout_height="94dp"
+        style="@style/FacebookLoginButton"
+        android:layout_width="230dp"
+        android:layout_height="57dp"
         android:layout_gravity="center_horizontal"
-        android:layout_marginTop="12dp"
+        android:layout_marginTop="24dp"
+        android:paddingTop="10dp"
+        android:paddingBottom="10dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.507"
+        app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/linearLayout2" />
 
     <com.google.android.gms.common.SignInButton
         android:id="@+id/signInButton"
-        android:layout_width="231dp"
-        android:layout_height="36dp"
+        android:layout_width="240dp"
+        android:layout_height="46dp"
         android:layout_gravity="center_horizontal"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/login_button"
-        app:layout_constraintVertical_bias="0.193" />
+        app:layout_constraintVertical_bias="0.093" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

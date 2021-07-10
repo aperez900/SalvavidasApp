@@ -22,7 +22,11 @@
         <item name="windowNoTitle">true</item>
     </style>
 
-    <style name="Theme.SalvavidasApp.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+    <style name="FacebookLoginButton">
+        <item name="android:textSize">12dp</item>
+        <item name="android:layout_height">96dp</item>
+    </style>
 
+    <style name="Theme.SalvavidasApp.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
     <style name="Theme.SalvavidasApp.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 </resources>

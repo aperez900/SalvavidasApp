@@ -2,20 +2,38 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/backgroundColor"
+    android:orientation="vertical"
     tools:context=".ui.home.HomeFragment">
+
+    <TextView
+        android:id="@+id/principal_address"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="start"
+        android:background="#FAFFEAEA"
+        android:drawableLeft="@drawable/ic_icono_address"
+        android:fontFamily="@font/poppins_light"
+        android:paddingStart="10dp"
+        android:paddingTop="10dp"
+        android:paddingBottom="10dp"
+        android:textSize="14dp"
+        app:drawableTint="#FB0808" />
+
 
     <TextView
         android:id="@+id/tv_saludo_home"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="25dp"
+        android:paddingStart="10dp"
         android:fontFamily="@font/poppins_light"
-        android:gravity="center"
-        android:layout_marginTop="20dp"
+        android:gravity="start"
         android:text="@string/queVasAPedirHoy"
-        android:textAlignment="center"
+        android:textAlignment="textStart"
+        android:textColor="@color/red"
         android:textSize="20sp"
         android:textStyle="bold" />
 
@@ -23,7 +41,6 @@
         android:id="@+id/tipo_comidas"
         android:layout_width="match_parent"
         android:layout_height="150dp"
-        android:layout_marginTop="10dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
@@ -33,18 +50,19 @@
         android:id="@+id/tv_recomendaciones"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="5dp"
+        android:layout_marginTop="15dp"
+        android:paddingStart="10dp"
         android:fontFamily="@font/poppins_light"
         android:text="@string/tenemosEstoParaTi"
+        android:textAlignment="textStart"
+        android:textColor="@color/red"
         android:textSize="20sp"
-        android:textStyle="bold"
-        android:textColor="@color/red" />
+        android:textStyle="bold" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/listado"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
+        android:layout_height="match_parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />

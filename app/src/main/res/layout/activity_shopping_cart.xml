@@ -4,8 +4,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.home.shoppingCart"
-    android:orientation="vertical">
+    android:background="@color/backgroundColor"
+    android:orientation="vertical"
+    tools:context=".ui.home.shoppingCart">
 
     <TextView
         android:id="@+id/tv_titulo_carrito"
@@ -13,19 +14,19 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
         android:fontFamily="@font/poppins_bold"
-        android:textStyle="bold"
-        android:textSize="22sp"
         android:text="@string/tituloCarrito"
-        android:textAlignment="center"/>
+        android:textAlignment="center"
+        android:textSize="22sp"
+        android:textStyle="bold" />
 
     <TextView
         android:id="@+id/tv_subtitulo_carrito"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:fontFamily="@font/poppins_semibold"
-        android:textSize="14sp"
         android:text="@string/subtituloCarrito"
-        android:textAlignment="center"/>
+        android:textAlignment="center"
+        android:textSize="14sp" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/listadoCarrito"
@@ -34,37 +35,41 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="@color/backgroundColor"
         tools:layout_editor_absoluteX="0dp"
         tools:layout_editor_absoluteY="-71dp">
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
-        <TextView
-            android:id="@+id/tv_subtotal_carrito"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:fontFamily="@font/poppins_bold"
-            android:textSize="22sp"
-            android:text="@string/subTotalCarrito"
-            android:textStyle="bold"
-            android:textAlignment="center"
-            android:background="@color/red"
-            android:textColor="@color/white"/>
 
-        <Button
-            android:id="@+id/btn_comprar_carrito"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="30dp"
-            android:layout_marginTop="20dp"
-            android:layout_marginEnd="30dp"
-            android:fontFamily="@font/poppins_bold"
-            android:textStyle="bold"
-            android:text="@string/comprar" />
+            <TextView
+                android:id="@+id/tv_subtotal_carrito"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/red"
+                android:fontFamily="@font/poppins_bold"
+                android:text="@string/subTotalCarrito"
+                android:textAlignment="center"
+                android:textColor="@color/white"
+                android:textSize="22sp"
+                android:textStyle="bold" />
+
+            <Button
+                android:id="@+id/btn_comprar_carrito"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="30dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginEnd="30dp"
+                android:fontFamily="@font/poppins_bold"
+                android:text="@string/comprar"
+                android:textStyle="bold" />
         </LinearLayout>
     </ScrollView>
 

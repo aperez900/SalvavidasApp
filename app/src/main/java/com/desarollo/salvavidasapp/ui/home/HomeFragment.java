@@ -25,8 +25,10 @@ import com.desarollo.salvavidasapp.Models.ListDirecciones;
 import com.desarollo.salvavidasapp.Models.Productos;
 import com.desarollo.salvavidasapp.Models.TipoComidas;
 import com.desarollo.salvavidasapp.R;
+import com.desarollo.salvavidasapp.ui.direction.ListAddress;
 import com.desarollo.salvavidasapp.ui.direction.ListAddressAdapter;
 import com.desarollo.salvavidasapp.ui.sales.addProduct;
+import com.desarollo.salvavidasapp.ui.sales.lookAtProduct;
 import com.desarollo.salvavidasapp.ui.sales.sales;
 import com.desarollo.salvavidasapp.ui.seller.seller2;
 import com.google.firebase.auth.FirebaseAuth;
@@ -64,6 +66,8 @@ public class HomeFragment extends Fragment {
     FirebaseUser currentUser;
     FirebaseDatabase database;
     DatabaseReference myRefTypeFood,myRef,myRefVendedores,myRefUsuarios;
+    ListDirecciones d;
+    TextView tv_principal_address;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -77,6 +81,8 @@ public class HomeFragment extends Fragment {
         myRefUsuarios = database.getReference("usuarios");
         myRefVendedores = database.getReference("vendedores");
         TextView tv_saludo = view.findViewById(R.id.tv_saludo_home);
+        tv_principal_address  = view.findViewById(R.id.principal_address);
+
         cargando = new ProgressDialog(getActivity());
 
         listado_comidas = view.findViewById(R.id.listado);
@@ -93,9 +99,18 @@ public class HomeFragment extends Fragment {
 
         listado_comidas.setAdapter(listSellAdapter);
 
+        consultarDireccionUsuario();
         actualizarNombreUsuario(tv_saludo);
         crearListadoTipo();
         crearListado();
+
+
+        tv_principal_address.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
 
         return view;
     }
@@ -188,5 +203,36 @@ public class HomeFragment extends Fragment {
                 Toast.makeText(getApplicationContext(), "Error cargando los productos", Toast.LENGTH_SHORT).show();
             }
         });
+    }
+
+    public void consultarDireccionUsuario(){
+
+        mAuth = FirebaseAuth.getInstance();
+        currentUser = mAuth.getCurrentUser();
+        database = FirebaseDatabase.getInstance();
+        myRef = database.getReference("usuarios");
+
+        myRef.child(currentUser.getUid()).child("mis direcciones").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if(snapshot.exists()){
+                    for(DataSnapshot objsnapshot : snapshot.getChildren()){
+                        d = new ListDirecciones();
+                        d = objsnapshot.getValue(ListDirecciones.class);
+                        if(d.getSeleccion().equals("true")){
+                            tv_principal_address.setText(d.direccionUsuario);
+                        }
+
+                    }
+
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                Toast.makeText(getApplicationContext(), "Error consultando las direcciones. Intente de nuevo mas tarde.", Toast.LENGTH_SHORT).show();
+            }
+        });
+
     }
 }
