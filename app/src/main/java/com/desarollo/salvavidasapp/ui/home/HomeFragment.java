@@ -95,7 +95,7 @@ public class HomeFragment extends Fragment {
         LinearLayoutManager manager = new LinearLayoutManager(getContext());
         listado_comidas.setLayoutManager(manager);
         //listado.setHasFixedSize(true);
-        listSellAdapter = new ListSellAdapter(getContext(),listaDeDatos, getActivity());
+        listSellAdapter = new ListSellAdapter(getApplicationContext(),listaDeDatos, getActivity());
 
         listado_comidas.setAdapter(listSellAdapter);
 
@@ -164,7 +164,6 @@ public class HomeFragment extends Fragment {
                     for(DataSnapshot objsnapshot : snapshot.getChildren()){ //Recorre los usuarios
                         for(DataSnapshot objsnapshot2 : objsnapshot.getChildren()){ //recorre los productos
                             Productos p = objsnapshot2.getValue(Productos.class);
-
                             String estado="";
                             String subCategoria="";
                             Date fechaInicio = null;
@@ -190,7 +189,7 @@ public class HomeFragment extends Fragment {
                             }
                         }
                     }
-                    listSellAdapter = new ListSellAdapter(getContext(),listaDeDatos, getActivity());
+                    listSellAdapter = new ListSellAdapter(getApplicationContext(),listaDeDatos, getActivity());
                     listado_comidas.setAdapter(listSellAdapter);
                     cargando.dismiss();
                 }else{
@@ -207,12 +206,8 @@ public class HomeFragment extends Fragment {
 
     public void consultarDireccionUsuario(){
 
-        mAuth = FirebaseAuth.getInstance();
-        currentUser = mAuth.getCurrentUser();
-        database = FirebaseDatabase.getInstance();
-        myRef = database.getReference("usuarios");
 
-        myRef.child(currentUser.getUid()).child("mis direcciones").addValueEventListener(new ValueEventListener() {
+        myRefUsuarios.child(currentUser.getUid()).child("mis direcciones").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 if(snapshot.exists()){
