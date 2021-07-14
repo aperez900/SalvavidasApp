@@ -6,10 +6,12 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.app.ActionBar;
 import android.content.Intent;
 import android.graphics.Paint;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -34,6 +36,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
+import java.util.UUID;
 
 public class buyProduct extends AppCompatActivity {
 
@@ -47,6 +50,8 @@ public class buyProduct extends AppCompatActivity {
     String nombreProducto, origen;
     Double precioProducto = 0.0, precioDomicilio = 0.0;
     int nroProductos;
+    Button btn_pago;
+    Double valorComision;
     TextView tvPrecioProducto, tvPrecioDomicilio, tvValorComision, tvTotal, tvNombreProducto,
                 tvCantidadProducto, tvEstadoProducto, tvSubTotalProducto, tvSubTotalProducto1,
                 tvSignoMonedaSubTotal;
@@ -77,6 +82,17 @@ public class buyProduct extends AppCompatActivity {
         linearLayoutBP = findViewById(R.id.LinearLayoutBuyProducto);
         linearLayoutBP1 = findViewById(R.id.LinearLayout1);
         linearLayoutBP2 = findViewById(R.id.LinearLayout2);
+        btn_pago = findViewById(R.id.btn_pago);
+
+
+        btn_pago.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Uri uri = Uri.parse("https://checkout.wompi.co/p/?public-key=pub_test_KY4VrC344hkv91RHAfu9XRajobfm0ROe&currency=COP&amount-in-cents=10000&reference="+UUID.randomUUID().toString()+"&redirect-url=http%3A%2F%2Flocalhost%2FsalvavidasWeb%2F");
+                Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+                startActivity(intent);
+            }
+        });
 
         Intent intent = getIntent();
         if (intent.getExtras() != null){
@@ -90,7 +106,7 @@ public class buyProduct extends AppCompatActivity {
             idVendedor = extras.getString("idVendedor");
             origen = extras.getString("origen");
 
-            Double valorComision = precioProducto * nroProductos * 0.06;
+            valorComision = precioProducto * nroProductos * 0.06;
 
             tvPrecioProducto.setText(String.valueOf(precioProducto*nroProductos));
             tvPrecioDomicilio.setText(String.valueOf(precioDomicilio));
@@ -104,9 +120,9 @@ public class buyProduct extends AppCompatActivity {
             }
             tvCantidadProducto.setText(String.valueOf(nroProductos));
             tvSubTotalProducto.setText(String.valueOf(precioProducto*nroProductos));
-            tvSubTotalProducto.setPaintFlags(tvSubTotalProducto.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
-            tvSubTotalProducto1.setPaintFlags(tvSubTotalProducto1.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
-            tvSignoMonedaSubTotal.setPaintFlags(tvSignoMonedaSubTotal.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
+            tvSubTotalProducto.setPaintFlags(tvSubTotalProducto.getPaintFlags());
+            tvSubTotalProducto1.setPaintFlags(tvSubTotalProducto1.getPaintFlags());
+            tvSignoMonedaSubTotal.setPaintFlags(tvSignoMonedaSubTotal.getPaintFlags());
         }
         consultarEstadoProductoEnTramite(idProducto);
     }

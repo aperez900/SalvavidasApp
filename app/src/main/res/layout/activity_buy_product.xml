@@ -14,7 +14,7 @@
         android:fontFamily="@font/poppins_bold"
         android:text="@string/estado"
         android:textAlignment="center"
-        android:textSize="24sp"
+        android:textSize="22sp"
         android:textStyle="bold">
     </TextView>
 
@@ -31,17 +31,17 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/divisor"
-        android:layout_marginTop="50dp"
-        android:textAlignment="center"
+        android:layout_marginTop="40dp"
+        android:layout_marginBottom="15dp"
         android:fontFamily="@font/poppins_semibold"
-        android:textSize="24sp">
-    </TextView>
+        android:text="@string/divisor"
+        android:textAlignment="center"
+        android:textSize="20sp"></TextView>
 
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="5dp"
+        android:layout_marginStart="25dp"
         android:layout_marginBottom="0dp"
         android:orientation="horizontal">
 
@@ -49,24 +49,22 @@
             android:id="@+id/tv_cantidad"
             android:layout_width="70dp"
             android:layout_height="wrap_content"
+            android:fontFamily="@font/poppins_bold"
             android:text="@string/cantidad"
             android:textAlignment="textStart"
-            android:textStyle="bold"
-            android:fontFamily="@font/poppins_bold"
-            android:textSize="24sp">
-        </TextView>
+            android:textSize="20sp"
+            android:textStyle="bold"></TextView>
 
         <TextView
             android:id="@+id/tv_articulo"
-            android:layout_width="220dp"
+            android:layout_width="182dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="5dp"
+            android:fontFamily="@font/poppins_bold"
             android:text="@string/articulo"
             android:textAlignment="textStart"
-            android:textStyle="bold"
-            android:fontFamily="@font/poppins_bold"
-            android:textSize="24sp">
-        </TextView>
+            android:textSize="20sp"
+            android:textStyle="bold"></TextView>
 
         <TextView
             android:id="@+id/tv_valor"
@@ -78,7 +76,7 @@
             android:textAlignment="textStart"
             android:textStyle="bold"
             android:fontFamily="@font/poppins_bold"
-            android:textSize="24sp">
+            android:textSize="20sp">
         </TextView>
 
     </LinearLayout>
@@ -98,7 +96,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
-                android:layout_marginStart="5dp"
+                android:layout_marginStart="25dp"
                 android:layout_marginBottom="0dp"
                 android:orientation="horizontal"
                 android:id="@+id/LinearLayout1">
@@ -110,18 +108,17 @@
                     android:fontFamily="@font/poppins_semibold"
                     android:text="@string/uno"
                     android:textAlignment="center"
-                    android:textSize="22sp" />
+                    android:textSize="18sp" />
 
                 <TextView
                     android:id="@+id/tv_nombre_producto"
-                    android:layout_width="220dp"
+                    android:layout_width="183dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="5dp"
+                    android:fontFamily="@font/poppins_semibold"
                     android:text="@string/nombreProducto2"
                     android:textAlignment="textStart"
-                    android:fontFamily="@font/poppins_semibold"
-                    android:textSize="24sp">
-                </TextView>
+                    android:textSize="18sp"></TextView>
 
                 <TextView
                     android:id="@+id/tv_precio_producto"
@@ -132,7 +129,7 @@
                     android:fontFamily="@font/poppins_semibold"
                     android:text=""
                     android:textAlignment="textStart"
-                    android:textSize="22sp" />
+                    android:textSize="18sp" />
             </LinearLayout>
 
             <LinearLayout
@@ -151,18 +148,17 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:fontFamily="@font/poppins_semibold"
         android:text="@string/divisor"
         android:textAlignment="center"
-        android:layout_marginTop="10dp"
-        android:fontFamily="@font/poppins_semibold"
-        android:textSize="24sp">
-    </TextView>
+        android:textSize="20sp"></TextView>
 
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="50dp"
-        android:layout_marginStart="20dp"
+        android:layout_marginStart="25dp"
         android:layout_marginBottom="0dp"
         android:orientation="horizontal">
 
@@ -172,7 +168,7 @@
             android:layout_height="wrap_content"
             android:fontFamily="@font/poppins_semibold"
             android:text="@string/subTotalCarrito"
-            android:textSize="22sp" />
+            android:textSize="18sp" />
 
         <TextView
             android:id="@+id/tv_signo_moneda1"
@@ -181,7 +177,7 @@
             android:layout_marginStart="10dp"
             android:fontFamily="@font/poppins_bold"
             android:text="@string/signoMoneda"
-            android:textSize="22sp" />
+            android:textSize="20sp" />
 
         <TextView
             android:id="@+id/tv_subTotal"
@@ -190,25 +186,25 @@
             android:fontFamily="@font/poppins_semibold"
             android:text=""
             android:textAlignment="textEnd"
-            android:textSize="22sp" />
+            android:textSize="18sp" />
 
     </LinearLayout>
 
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:layout_marginStart="20dp"
+        android:layout_marginTop="0dp"
+        android:layout_marginStart="25dp"
         android:layout_marginBottom="0dp"
         android:orientation="horizontal">
 
         <TextView
             android:id="@+id/tv_precio_domicilio1"
-            android:layout_width="wrap_content"
+            android:layout_width="169dp"
             android:layout_height="wrap_content"
             android:fontFamily="@font/poppins_semibold"
             android:text="@string/precioDomicilio2"
-            android:textSize="22sp" />
+            android:textSize="18sp" />
 
         <TextView
             android:id="@+id/tv_signo_moneda2"
@@ -217,24 +213,24 @@
             android:layout_marginStart="10dp"
             android:fontFamily="@font/poppins_bold"
             android:text="@string/signoMoneda"
-            android:textSize="22sp" />
+            android:textSize="20sp" />
 
         <TextView
             android:id="@+id/tv_precio_domicilio"
-            android:layout_width="100dp"
+            android:layout_width="103dp"
             android:layout_height="wrap_content"
             android:fontFamily="@font/poppins_semibold"
             android:text=""
             android:textAlignment="textEnd"
-            android:textSize="22sp" />
+            android:textSize="18sp" />
 
     </LinearLayout>
 
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:layout_marginStart="20dp"
+        android:layout_marginTop="0dp"
+        android:layout_marginStart="25dp"
         android:layout_marginBottom="0dp"
         android:orientation="horizontal">
 
@@ -244,7 +240,7 @@
             android:layout_height="wrap_content"
             android:fontFamily="@font/poppins_semibold"
             android:text="@string/valorComision"
-            android:textSize="22sp" />
+            android:textSize="18sp" />
 
         <TextView
             android:id="@+id/tv_signo_moneda3"
@@ -253,7 +249,7 @@
             android:layout_marginStart="10dp"
             android:fontFamily="@font/poppins_bold"
             android:text="@string/signoMoneda"
-            android:textSize="22sp" />
+            android:textSize="20sp" />
 
         <TextView
             android:id="@+id/tv_valor_comision"
@@ -262,7 +258,7 @@
             android:fontFamily="@font/poppins_semibold"
             android:text=""
             android:textAlignment="textEnd"
-            android:textSize="22sp" />
+            android:textSize="18sp" />
 
     </LinearLayout>
 
@@ -270,7 +266,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
-        android:layout_marginStart="20dp"
+        android:layout_marginStart="25dp"
         android:layout_marginBottom="0dp"
         android:orientation="horizontal">
 
@@ -281,7 +277,7 @@
             android:fontFamily="@font/poppins_semibold"
             android:text="@string/totalProducto"
             android:textStyle="bold"
-            android:textSize="22sp" />
+            android:textSize="20sp" />
 
         <TextView
             android:id="@+id/tv_signo_moneda4"
@@ -291,7 +287,7 @@
             android:fontFamily="@font/poppins_bold"
             android:text="@string/signoMoneda"
             android:textStyle="bold"
-            android:textSize="22sp" />
+            android:textSize="20sp" />
 
         <TextView
             android:id="@+id/tv_total_producto"
@@ -301,7 +297,28 @@
             android:text=""
             android:textStyle="bold"
             android:textAlignment="textEnd"
-            android:textSize="22sp" />
+            android:textSize="20sp" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="40dp"
+        android:layout_marginBottom="0dp"
+        android:gravity="center|center_horizontal"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/btn_pago"
+            android:layout_width="350dp"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/poppins_light"
+            android:text="Pagar"
+            android:textAlignment="center"
+            android:textSize="18sp"
+            android:textStyle="bold" />
 
     </LinearLayout>
 
