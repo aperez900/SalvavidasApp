@@ -4,8 +4,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.sales.buyProduct"
-    android:orientation="vertical">
+    android:background="@color/backgroundColor"
+    android:orientation="vertical"
+    tools:context=".ui.sales.buyProduct">
 
     <TextView
         android:layout_width="match_parent"
@@ -15,91 +16,94 @@
         android:text="@string/estado"
         android:textAlignment="center"
         android:textSize="22sp"
-        android:textStyle="bold">
-    </TextView>
+        android:textStyle="bold"></TextView>
+
 
     <TextView
         android:id="@+id/tv_estado_Producto"
-        android:layout_width="match_parent"
+        android:layout_width="137dp"
         android:layout_height="wrap_content"
+        android:layout_marginStart="140dp"
+        android:drawableEnd="@drawable/ok"
+        android:fontFamily="@font/poppins_semibold"
         android:text="@string/solicitado"
-        android:textAlignment="center"
-        android:fontFamily="@font/poppins_semibold"
-        android:textSize="20sp">
-    </TextView>
-
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="40dp"
-        android:layout_marginBottom="15dp"
-        android:fontFamily="@font/poppins_semibold"
-        android:text="@string/divisor"
-        android:textAlignment="center"
+        android:textAlignment="textStart"
         android:textSize="20sp"></TextView>
 
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="25dp"
-        android:layout_marginBottom="0dp"
-        android:orientation="horizontal">
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cardView"
+        android:layout_width="380dp"
+        android:layout_height="200dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="30dp"
+        android:background="@color/white"
+        app:cardCornerRadius="20dp"
+        app:cardElevation="4dp"
+        app:cardUseCompatPadding="true"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.428"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
-        <TextView
-            android:id="@+id/tv_cantidad"
-            android:layout_width="70dp"
-            android:layout_height="wrap_content"
-            android:fontFamily="@font/poppins_bold"
-            android:text="@string/cantidad"
-            android:textAlignment="textStart"
-            android:textSize="20sp"
-            android:textStyle="bold"></TextView>
 
-        <TextView
-            android:id="@+id/tv_articulo"
-            android:layout_width="182dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="5dp"
-            android:fontFamily="@font/poppins_bold"
-            android:text="@string/articulo"
-            android:textAlignment="textStart"
-            android:textSize="20sp"
-            android:textStyle="bold"></TextView>
-
-        <TextView
-            android:id="@+id/tv_valor"
-            android:layout_width="100dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="10dp"
-            android:layout_marginEnd="5dp"
-            android:text="@string/valor"
-            android:textAlignment="textStart"
-            android:textStyle="bold"
-            android:fontFamily="@font/poppins_bold"
-            android:textSize="20sp">
-        </TextView>
-
-    </LinearLayout>
-
-    <ScrollView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        tools:layout_editor_absoluteX="0dp"
-        tools:layout_editor_absoluteY="-71dp">
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:id="@+id/LinearLayoutBuyProducto">
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginBottom="0dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/tv_cantidad"
+                android:layout_width="70dp"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/poppins_bold"
+                android:text="@string/cantidad"
+                android:textAlignment="center"
+                android:textSize="18sp"
+                android:textStyle="bold"></TextView>
+
+            <TextView
+                android:id="@+id/tv_articulo"
+                android:layout_width="175dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="5dp"
+                android:fontFamily="@font/poppins_bold"
+                android:text="@string/articulo"
+                android:textAlignment="center"
+                android:textSize="18sp"
+                android:textStyle="bold"></TextView>
+
+            <TextView
+                android:id="@+id/tv_valor"
+                android:layout_width="88dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="5dp"
+                android:layout_marginEnd="5dp"
+                android:fontFamily="@font/poppins_bold"
+                android:text="@string/valor"
+                android:textAlignment="center"
+                android:textSize="18sp"
+                android:textStyle="bold"></TextView>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/LinearLayoutBuyProducto"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="42dp"
+            android:orientation="vertical">
 
             <LinearLayout
+                android:id="@+id/LinearLayout1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
                 android:layout_marginTop="10dp"
-                android:layout_marginStart="25dp"
                 android:layout_marginBottom="0dp"
-                android:orientation="horizontal"
-                android:id="@+id/LinearLayout1">
+                android:orientation="horizontal">
 
                 <TextView
                     android:id="@+id/tv_cantidad_producto"
@@ -112,19 +116,19 @@
 
                 <TextView
                     android:id="@+id/tv_nombre_producto"
-                    android:layout_width="183dp"
+                    android:layout_width="175dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="5dp"
                     android:fontFamily="@font/poppins_semibold"
                     android:text="@string/nombreProducto2"
-                    android:textAlignment="textStart"
+                    android:textAlignment="center"
                     android:textSize="18sp"></TextView>
 
                 <TextView
                     android:id="@+id/tv_precio_producto"
-                    android:layout_width="95dp"
+                    android:layout_width="89dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="10dp"
+                    android:layout_marginStart="5dp"
                     android:layout_marginEnd="5dp"
                     android:fontFamily="@font/poppins_semibold"
                     android:text=""
@@ -133,32 +137,24 @@
             </LinearLayout>
 
             <LinearLayout
+                android:id="@+id/LinearLayout2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
                 android:layout_marginStart="5dp"
+                android:layout_marginTop="10dp"
                 android:layout_marginBottom="0dp"
-                android:orientation="horizontal"
-                android:id="@+id/LinearLayout2">
+                android:orientation="horizontal">
 
             </LinearLayout>
         </LinearLayout>
-    </ScrollView>
+    </androidx.cardview.widget.CardView>
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="15dp"
-        android:fontFamily="@font/poppins_semibold"
-        android:text="@string/divisor"
-        android:textAlignment="center"
-        android:textSize="20sp"></TextView>
 
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="50dp"
         android:layout_marginStart="25dp"
+        android:layout_marginTop="40dp"
         android:layout_marginBottom="0dp"
         android:orientation="horizontal">
 
@@ -193,8 +189,8 @@
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="0dp"
         android:layout_marginStart="25dp"
+        android:layout_marginTop="0dp"
         android:layout_marginBottom="0dp"
         android:orientation="horizontal">
 
@@ -229,8 +225,8 @@
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="0dp"
         android:layout_marginStart="25dp"
+        android:layout_marginTop="0dp"
         android:layout_marginBottom="0dp"
         android:orientation="horizontal">
 
@@ -265,8 +261,8 @@
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
         android:layout_marginStart="25dp"
+        android:layout_marginTop="10dp"
         android:layout_marginBottom="0dp"
         android:orientation="horizontal">
 
@@ -276,8 +272,8 @@
             android:layout_height="wrap_content"
             android:fontFamily="@font/poppins_semibold"
             android:text="@string/totalProducto"
-            android:textStyle="bold"
-            android:textSize="20sp" />
+            android:textSize="20sp"
+            android:textStyle="bold" />
 
         <TextView
             android:id="@+id/tv_signo_moneda4"
@@ -286,8 +282,8 @@
             android:layout_marginStart="10dp"
             android:fontFamily="@font/poppins_bold"
             android:text="@string/signoMoneda"
-            android:textStyle="bold"
-            android:textSize="20sp" />
+            android:textSize="20sp"
+            android:textStyle="bold" />
 
         <TextView
             android:id="@+id/tv_total_producto"
@@ -295,16 +291,16 @@
             android:layout_height="wrap_content"
             android:fontFamily="@font/poppins_semibold"
             android:text=""
-            android:textStyle="bold"
             android:textAlignment="textEnd"
-            android:textSize="20sp" />
+            android:textSize="20sp"
+            android:textStyle="bold" />
 
     </LinearLayout>
 
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="20dp"
+        android:layout_marginStart="30dp"
         android:layout_marginTop="40dp"
         android:layout_marginBottom="0dp"
         android:gravity="center|center_horizontal"

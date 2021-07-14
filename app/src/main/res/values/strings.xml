@@ -103,7 +103,7 @@
     <string name="comprar">Comprar</string>
     <string name="valor">Valor</string>
     <string name="uno">1</string>
-    <string name="divisor">---------------------------------</string>
+    <string name="divisor">----------------------------------</string>
 
     <string name="estado">Estado</string>
     <string name="solicitado">Solicitado</string>
