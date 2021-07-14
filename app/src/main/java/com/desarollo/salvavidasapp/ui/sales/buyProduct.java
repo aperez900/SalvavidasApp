@@ -91,12 +91,14 @@ public class buyProduct extends AppCompatActivity {
                 Uri uri = Uri.parse("https://checkout.wompi.co/p/?public-key=pub_test_KY4VrC344hkv91RHAfu9XRajobfm0ROe&currency=COP&amount-in-cents=1000000&reference="+UUID.randomUUID().toString()+"&redirect-url=http%3A%2F%2Flocalhost%2FsalvavidasWeb%2F");
                 Intent intent = new Intent(Intent.ACTION_VIEW, uri);
                 startActivity(intent);
+
             }
         });
 
         Intent intent = getIntent();
         if (intent.getExtras() != null){
             Bundle extras = getIntent().getExtras();
+
 
             idProducto = extras.getString("idProducto");
             nombreProducto = extras.getString("nombreProducto");
