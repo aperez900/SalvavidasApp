@@ -6,7 +6,7 @@
         android:id="@+id/notification_seller"
         android:orderInCategory="100"
         android:title=""
-        app:showAsAction="always"
+        app:showAsAction="ifRoom"
         android:fontFamily="@font/poppins_semibold"
         android:icon="@drawable/icono_notifications"
         android:actionLayout="@layout/notification_badge_seller"/>

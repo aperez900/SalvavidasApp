@@ -104,7 +104,6 @@ public class addProduct extends AppCompatActivity {
         String SdomicilioProducto="";
         String type="";
 
-
         Intent intent = getIntent();
 
         if (intent.getExtras() != null){
@@ -176,8 +175,6 @@ public class addProduct extends AppCompatActivity {
             domicilioProducto.setAdapter(adapterDomicilioProductos);
         }
 
-
-
         domicilioProducto.setOnItemSelectedListener(
                 new AdapterView.OnItemSelectedListener() {
                     public void onItemSelected(AdapterView<?> spn,
@@ -195,8 +192,6 @@ public class addProduct extends AppCompatActivity {
                     public void onNothingSelected(AdapterView<?> spn) {
                     }
                 });
-
-
 
         direccionVenta.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -297,13 +292,15 @@ public class addProduct extends AppCompatActivity {
             String idProducto,descripcionProducto,nombreProducto,categoriaProducto, subCategoriaProducto, estadoProducto, domicilio,   fechaInicio, direccion,
                     horaInicio,  fechaFin,  horaFin;
             double precio,descuento,precioDomicilio_;
-            String foto = fotoConsulta;
+            String foto;
 
             if (idProductoEdit==""){
                 idProducto = UUID.randomUUID().toString();
+                foto = "https://firebasestorage.googleapis.com/v0/b/salvavidasapp-450aa.appspot.com/o/salvavidas%2FLogoSalvavidasSinFondo.png?alt=media&token=2b68b6bd-208e-48dd-88f2-059d68c7621e";
             }
             else{
                 idProducto = idProductoEdit;
+                foto = fotoConsulta;
             }
 
             if(et_precio_Domicilio.getText().toString().equals("")){
@@ -421,7 +418,7 @@ public class addProduct extends AppCompatActivity {
         }if(descuentoProducto.isEmpty()) {
             et_descuento_producto.setError("Debe diligenciar un descuento para el producto. Si no tiene digite 0 (cero)");
             campoLleno = false;
-        }if(Double.parseDouble(descuentoProducto)>Double.parseDouble(precioProducto)){
+        }else if(Double.parseDouble(descuentoProducto)>Double.parseDouble(precioProducto)){
             et_descuento_producto.setError("El descuento debe ser menor al precio del producto");
             campoLleno = false;
         }if(domicilioProducto.equals("✚ ¿Deseas ofrecer domicilio?")){

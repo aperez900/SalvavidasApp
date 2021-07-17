@@ -64,7 +64,7 @@ public class shoppingCart extends AppCompatActivity {
     RecyclerView listado;
     listShoppingCartAdapter ListShoppingCartAdapter;
     TextView titulo_carrito, subtitulo_carrito, total_carrito;
-    Button btn_comprar;
+    //Button btn_comprar;
     FirebaseAuth mAuth;
     FirebaseUser currentUser;
     FirebaseDatabase database;
@@ -85,7 +85,7 @@ public class shoppingCart extends AppCompatActivity {
         titulo_carrito = findViewById(R.id.tv_titulo_carrito);
         subtitulo_carrito = findViewById(R.id.tv_subtitulo_carrito);
         total_carrito = findViewById(R.id.tv_subtotal_carrito);
-        btn_comprar = findViewById(R.id.btn_comprar_carrito);
+        //btn_comprar = findViewById(R.id.btn_comprar_carrito);
 
         mAuth = FirebaseAuth.getInstance();
         currentUser = mAuth.getCurrentUser();
@@ -103,6 +103,7 @@ public class shoppingCart extends AppCompatActivity {
 
         crearListado();
 
+        /*
         btn_comprar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -126,6 +127,7 @@ public class shoppingCart extends AppCompatActivity {
 
             }
         });
+         */
 
         //Actualiza los datos del perfil logeado en el fragmenProfile
         if (currentUser != null) {
@@ -186,7 +188,6 @@ public class shoppingCart extends AppCompatActivity {
                                         p.getfoto(), p.getFechaInicio(), p.getHoraInicio(), p.getFechaFin(), p.getHoraFin(), p.getNombreEmpresa(), p.getDireccion(), Integer.parseInt(cantidad),p.getPrecioDomicilio(),
                                         p.getIdVendedor()));
                                 subTotalCarrito = subTotalCarrito + (p.getPrecio()-p.getDescuento())*Integer.parseInt(cantidad);
-
                             }
                         }
                     }

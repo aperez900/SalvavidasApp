@@ -104,7 +104,6 @@ public class HomeFragment extends Fragment {
         crearListadoTipo();
         crearListado();
 
-
         tv_principal_address.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -192,8 +191,6 @@ public class HomeFragment extends Fragment {
                     listSellAdapter = new ListSellAdapter(getApplicationContext(),listaDeDatos, getActivity());
                     listado_comidas.setAdapter(listSellAdapter);
                     cargando.dismiss();
-                }else{
-
                 }
             }
 

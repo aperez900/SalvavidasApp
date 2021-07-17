@@ -111,8 +111,7 @@ public class sales extends Fragment {
         card4.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(getContext(), "Click card 4",
-                        Toast.LENGTH_SHORT).show();
+                //Toast.makeText(getContext(), "Click card 4", Toast.LENGTH_SHORT).show();
             }
         });
 

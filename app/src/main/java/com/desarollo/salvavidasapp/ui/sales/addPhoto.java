@@ -157,7 +157,10 @@ public class addPhoto extends AppCompatActivity {
 
                                 Toast.makeText(getApplicationContext(), "Imagen cargada con éxito",
                                         Toast.LENGTH_SHORT).show();
-                                crearAlertDialog();
+                                //crearAlertDialog();
+                                Intent intent = new Intent(addPhoto.this, Home.class);
+                                startActivity(intent);
+                                finish();
                             }
                         });
                     } // fin OnClick
@@ -166,6 +169,7 @@ public class addPhoto extends AppCompatActivity {
         }
     }
 
+    /*
     public void crearAlertDialog(){
         AlertDialog.Builder confirmacion = new AlertDialog.Builder(addPhoto.this);
         confirmacion.setMessage("¿Deseas agregar más fotos?")
@@ -177,7 +181,8 @@ public class addPhoto extends AppCompatActivity {
                         Intent intent = new Intent(getApplicationContext(), addMorePhoto.class);
                         startActivity(intent);
                         finish();
-                         */
+
+
                     }
                 })
                 .setNegativeButton("No", new DialogInterface.OnClickListener() {
@@ -193,4 +198,5 @@ public class addPhoto extends AppCompatActivity {
         titulo.setTitle("Agregar mas fotos");
         titulo.show();
     }
+    */
 }

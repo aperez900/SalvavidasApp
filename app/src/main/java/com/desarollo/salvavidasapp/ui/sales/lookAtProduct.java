@@ -107,13 +107,13 @@ public class lookAtProduct extends AppCompatActivity {
         TextView tvtotalProducto = findViewById(R.id.tv_total_producto);
         TextView tvinicioProducto = findViewById(R.id.tv_fecha_inicio_producto);
         TextView tvfinProducto = findViewById(R.id.tv_fecha_fin_producto);
-        TextView tvañadirCarrito = findViewById(R.id.tv_añadir_carrito);
+        TextView tvanadirCarrito = findViewById(R.id.tv_añadir_carrito);
         Button btnMas = findViewById(R.id.btn_mas);
         Button btnMenos = findViewById(R.id.btn_menos);
         Button btn_comprar_producto = findViewById(R.id.btn_comprar_producto);
         TextView tvNumeroProductos = findViewById(R.id.tv_numero_productos);
-        ImageView imgAñadirCarrito = findViewById(R.id.img_shop);
-        tvañadirCarrito.setPaintFlags(tvprecioProducto.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
+        ImageView imgAnadirCarrito = findViewById(R.id.img_shop);
+        tvanadirCarrito.setPaintFlags(tvprecioProducto.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
 
         Intent intent = getIntent();
         if (intent.getExtras() != null){
@@ -146,7 +146,7 @@ public class lookAtProduct extends AppCompatActivity {
 
         consultarImagen(imgProducto);
 
-        tvañadirCarrito.setOnClickListener(new View.OnClickListener() {
+        tvanadirCarrito.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 agregarCarrito();
@@ -154,7 +154,7 @@ public class lookAtProduct extends AppCompatActivity {
             }
         });
 
-        imgAñadirCarrito.setOnClickListener(new View.OnClickListener() {
+        imgAnadirCarrito.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 agregarCarrito();

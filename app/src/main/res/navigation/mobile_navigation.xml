@@ -58,6 +58,11 @@
         android:name="com.desarollo.salvavidasapp.ui.settings.Settings"
         android:label="@string/configuraciones"
         tools:layout="@layout/fragment_settings" />
+    <fragment
+        android:id="@+id/nav_purchases"
+        android:name="com.desarollo.salvavidasapp.ui.purchases.nav_misCompras"
+        android:label="@string/misCompras"
+        tools:layout="@layout/fragment_nav_mis_compras" />
 
 
 </navigation>

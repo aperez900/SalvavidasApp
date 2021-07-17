@@ -60,16 +60,6 @@
                 android:textSize="22sp"
                 android:textStyle="bold" />
 
-            <Button
-                android:id="@+id/btn_comprar_carrito"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="30dp"
-                android:layout_marginTop="20dp"
-                android:layout_marginEnd="30dp"
-                android:fontFamily="@font/poppins_bold"
-                android:text="@string/comprar"
-                android:textStyle="bold" />
         </LinearLayout>
     </ScrollView>
 

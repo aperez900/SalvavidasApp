@@ -20,7 +20,7 @@
             android:title="@string/miPerfil"
             android:fontFamily="@font/poppins_bold" />
         <item
-            android:id="@+id/nav_misCompras"
+            android:id="@+id/nav_purchases"
             android:icon="@drawable/icono_shop_24_white"
             android:title="@string/misCompras"
             android:fontFamily="@font/poppins_bold" />

@@ -87,13 +87,12 @@ public class buyProduct extends AppCompatActivity {
         linearLayoutBP2 = findViewById(R.id.LinearLayout2);
         btn_pago = findViewById(R.id.btn_pago);
 
-
-
-
         Intent intent = getIntent();
         if (intent.getExtras() != null){
             Bundle extras = getIntent().getExtras();
 
+            String patron = "###,###.##";
+            DecimalFormat objDF = new DecimalFormat (patron);
 
             idProducto = extras.getString("idProducto");
             nombreProducto = extras.getString("nombreProducto");
@@ -105,10 +104,11 @@ public class buyProduct extends AppCompatActivity {
 
             valorComision = precioProducto * nroProductos * 0.06;
 
-            tvPrecioProducto.setText(String.valueOf(precioProducto*nroProductos));
-            tvPrecioDomicilio.setText(String.valueOf(precioDomicilio));
-            tvValorComision.setText(String.valueOf(valorComision));
-            tvTotal.setText(String.valueOf(precioProducto*nroProductos + precioDomicilio + valorComision));
+            tvPrecioProducto.setText(objDF.format(precioProducto*nroProductos));
+            tvPrecioDomicilio.setText(objDF.format(precioDomicilio));
+            tvValorComision.setText(objDF.format(valorComision));
+
+            tvTotal.setText(objDF.format(precioProducto*nroProductos + precioDomicilio + valorComision));
 
             if(origen.equals("carritoCompras")){
                 consultarProductosCarrito();
@@ -116,14 +116,12 @@ public class buyProduct extends AppCompatActivity {
                 tvNombreProducto.setText(nombreProducto);
             }
             tvCantidadProducto.setText(String.valueOf(nroProductos));
-            tvSubTotalProducto.setText(String.valueOf(precioProducto*nroProductos));
+            tvSubTotalProducto.setText(objDF.format(precioProducto*nroProductos));
             tvSubTotalProducto.setPaintFlags(tvSubTotalProducto.getPaintFlags());
             tvSubTotalProducto1.setPaintFlags(tvSubTotalProducto1.getPaintFlags());
             tvSignoMonedaSubTotal.setPaintFlags(tvSignoMonedaSubTotal.getPaintFlags());
         }
         consultarEstadoProductoEnTramite(idProducto);
-
-
 
         btn_pago.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -148,7 +146,6 @@ public class buyProduct extends AppCompatActivity {
             }
         });
     }
-
 
     public void registrarCompra(String vt_, String transaction, HashMap producto){
 

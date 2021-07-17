@@ -124,7 +124,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="50dp"
                     android:layout_marginStart="30dp"
-                    android:layout_marginTop="20dp"
+                    android:layout_marginTop="10dp"
                     android:layout_marginEnd="30dp"
                     android:fontFamily="@font/poppins_semibold"
                     android:text="@string/registrar2"
@@ -135,7 +135,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="50dp"
                     android:layout_marginStart="30dp"
-                    android:layout_marginTop="20dp"
+                    android:layout_marginTop="10dp"
                     android:layout_marginEnd="30dp"
                     android:fontFamily="@font/poppins_semibold"
                     android:text="@string/desactivar_usuario"
@@ -149,7 +149,7 @@
                     android:text="@string/serVendedor"
                     android:textAlignment="center"
                     android:textSize="18sp"
-                    android:layout_marginTop="20dp"
+                    android:layout_marginTop="10dp"
                     android:textStyle="bold" />
 
             </LinearLayout>

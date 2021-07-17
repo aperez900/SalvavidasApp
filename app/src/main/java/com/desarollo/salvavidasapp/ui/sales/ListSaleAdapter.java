@@ -85,7 +85,6 @@ public class ListSaleAdapter extends RecyclerView.Adapter<ListSaleAdapter.viewHo
                 .load(getUrlFoto)
                 .into(holder.imagenProducto);
 
-
         //Acción del botón ver mas
         holder.imgVer.setOnClickListener(new View.OnClickListener() {
             @Override
