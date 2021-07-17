@@ -22,6 +22,8 @@ import com.desarollo.salvavidasapp.ui.home.Home;
 import com.desarollo.salvavidasapp.ui.home.listShoppingCartAdapter;
 import com.desarollo.salvavidasapp.ui.home.shoppingCart;
 import com.desarollo.salvavidasapp.ui.seller.requested_products;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -42,6 +44,7 @@ public class buyProduct extends AppCompatActivity {
 
     FirebaseAuth mAuth;
     FirebaseUser currentUser;
+    HashMap<String, String> producto = new HashMap<String, String>();
     FirebaseDatabase database;
     DatabaseReference myRefVendedores, myRefProductos, myRef;
     ArrayList<Productos> listaDeDatos = new ArrayList<>();
@@ -85,15 +88,7 @@ public class buyProduct extends AppCompatActivity {
         btn_pago = findViewById(R.id.btn_pago);
 
 
-        btn_pago.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Uri uri = Uri.parse("https://checkout.wompi.co/p/?public-key=pub_test_KY4VrC344hkv91RHAfu9XRajobfm0ROe&currency=COP&amount-in-cents=1000000&reference="+UUID.randomUUID().toString()+"&redirect-url=http%3A%2F%2Flocalhost%2FsalvavidasWeb%2F");
-                Intent intent = new Intent(Intent.ACTION_VIEW, uri);
-                startActivity(intent);
 
-            }
-        });
 
         Intent intent = getIntent();
         if (intent.getExtras() != null){
@@ -127,6 +122,53 @@ public class buyProduct extends AppCompatActivity {
             tvSignoMonedaSubTotal.setPaintFlags(tvSignoMonedaSubTotal.getPaintFlags());
         }
         consultarEstadoProductoEnTramite(idProducto);
+
+
+
+        btn_pago.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                producto.clear();
+
+                double valorTotal_ = precioProducto*nroProductos + precioDomicilio + valorComision ;
+                int vt = (int) valorTotal_*100;
+                String vt_ = Integer.toString(vt);
+                String transaction = UUID.randomUUID().toString();
+
+                producto.put("idProducto", idProducto);
+                producto.put("valorProducto",vt_);
+                producto.put("cantidadProducto",String.valueOf(nroProductos));
+                producto.put("usuarioSolicitud",currentUser.getUid());
+                producto.put("precioDomicilio",String.valueOf(precioDomicilio));
+                producto.put("idVendedor",idVendedor);
+                producto.put("estado","Pendiente");
+                registrarCompra(vt_,transaction, producto);
+
+            }
+        });
+    }
+
+
+    public void registrarCompra(String vt_, String transaction, HashMap producto){
+
+        myRef.child(currentUser.getUid()).child("compra").child(transaction).setValue(producto)
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        //Toast.makeText(shoppingCart.this, "Producto registrado", Toast.LENGTH_SHORT).show();
+                        Uri uri = Uri.parse("https://checkout.wompi.co/p/?public-key=pub_test_KY4VrC344hkv91RHAfu9XRajobfm0ROe&currency=COP&amount-in-cents="+vt_+"&reference="+transaction+"&redirect-url=https://www.salvavidas.app/");
+                        Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+                        startActivity(intent);
+                        finish();
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Toast.makeText(buyProduct.this, "Error agregando la compra en la base de datos. Intenta de nuevo mas tarde", Toast.LENGTH_SHORT).show();
+                    }
+                });
     }
 
     public void consultarEstadoProductoEnTramite(String idProducto) {
@@ -137,6 +179,13 @@ public class buyProduct extends AppCompatActivity {
                 if (snapshot.exists()) {
                     String estadoSolicitud = snapshot.child("estado").getValue().toString();
                     tvEstadoProducto.setText(estadoSolicitud);
+                    if(estadoSolicitud.equals("Solicitado")){
+                        tvEstadoProducto.setCompoundDrawablesWithIntrinsicBounds(R.drawable.clock, 0, 0, 0);
+                        btn_pago.setVisibility(View.INVISIBLE);
+                    }else{
+                        tvEstadoProducto.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ok, 0, 0, 0);
+                        btn_pago.setVisibility(View.VISIBLE);
+                    }
                 }
             }
 
