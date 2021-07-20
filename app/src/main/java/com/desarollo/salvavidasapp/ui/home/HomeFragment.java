@@ -17,6 +17,7 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -68,6 +69,7 @@ public class HomeFragment extends Fragment {
     DatabaseReference myRefTypeFood,myRef,myRefVendedores,myRefUsuarios;
     ListDirecciones d;
     TextView tv_principal_address;
+    Button btnShopping;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -82,6 +84,7 @@ public class HomeFragment extends Fragment {
         myRefVendedores = database.getReference("vendedores");
         TextView tv_saludo = view.findViewById(R.id.tv_saludo_home);
         tv_principal_address  = view.findViewById(R.id.principal_address);
+        btnShopping = view.findViewById(R.id.btnShopping);
 
         cargando = new ProgressDialog(getActivity());
 
@@ -103,13 +106,10 @@ public class HomeFragment extends Fragment {
         actualizarNombreUsuario(tv_saludo);
         crearListadoTipo();
         crearListado();
+        cantidadCarrito();
 
-        tv_principal_address.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+        tv_principal_address.setOnClickListener(Navigation.createNavigateOnClickListener(R.id.action_nav_home_to_nav_address));
 
-            }
-        });
 
         return view;
     }
@@ -145,6 +145,8 @@ public class HomeFragment extends Fragment {
         });
 
     }
+
+
 
     private void crearListado() {
         Calendar c = Calendar.getInstance();
@@ -200,6 +202,38 @@ public class HomeFragment extends Fragment {
             }
         });
     }
+
+    int nroProductosCarrito;
+    public void cantidadCarrito(){
+        //Ver nroProductosCarrito
+        myRefUsuarios.child(currentUser.getUid()).child("carrito_compras").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if(snapshot.exists()){
+                    nroProductosCarrito=0;
+                    for(DataSnapshot objsnapshot : snapshot.getChildren()){
+                        nroProductosCarrito = nroProductosCarrito + 1;
+                    }
+
+
+                }
+
+                if (nroProductosCarrito == 0){
+                    btnShopping.setVisibility(View.INVISIBLE);
+
+                }else{
+                    btnShopping.setVisibility(View.VISIBLE);
+
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                Toast.makeText(getApplicationContext(), "Error contando los productos del carrito", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
 
     public void consultarDireccionUsuario(){
 

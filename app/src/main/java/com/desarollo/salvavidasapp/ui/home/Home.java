@@ -6,6 +6,7 @@ import android.view.KeyEvent;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.Menu;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -56,6 +57,7 @@ public class Home extends AppCompatActivity {
     ImageView imgCarrito, imgProductos;
     int nroProductosCarrito = 0;
     int nroProductosSolicitados = 0;
+    Button btnShopping;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,6 +71,7 @@ public class Home extends AppCompatActivity {
         database = FirebaseDatabase.getInstance();
         myRef = database.getReference("usuarios");
         myRefVendedores = database.getReference("vendedores");
+
 
         //Botón flotante
         /*
@@ -119,6 +122,8 @@ public class Home extends AppCompatActivity {
 
         menuItemCarrito = menu.findItem(R.id.shop);
 
+        btnShopping = findViewById(R.id.btnShopping);
+
         if(nroProductosCarrito == 0){
             menuItemCarrito.setActionView(null);
         }
@@ -164,6 +169,7 @@ public class Home extends AppCompatActivity {
 
         if(nroProductosSolicitados == 0){
             menuItemProductosSolicitados.setActionView(null);
+
         }
 
         //Ver nroProductosSolicitados

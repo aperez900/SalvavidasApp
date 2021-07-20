@@ -11,16 +11,17 @@
     <TextView
         android:id="@+id/principal_address"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="38dp"
         android:layout_gravity="start"
         android:background="#FAFFEAEA"
-        android:drawableLeft="@drawable/ic_icono_address"
+        android:drawableLeft="@drawable/marker_24"
+        android:drawableRight="@drawable/down_arrow"
+        android:drawablePadding="2dp"
         android:fontFamily="@font/poppins_light"
         android:paddingStart="10dp"
         android:paddingTop="10dp"
         android:paddingBottom="10dp"
-        android:textSize="14dp"
-        app:drawableTint="#FB0808" />
+        android:textSize="14dp" />
 
 
     <TextView
@@ -40,7 +41,7 @@
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/tipo_comidas"
         android:layout_width="match_parent"
-        android:layout_height="150dp"
+        android:layout_height="102dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
@@ -62,9 +63,19 @@
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/listado"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:layout_height="400dp"
+        app:layout_constraintStart_toStartOf="parent" />
+
+
+    <Button
+        android:id="@+id/btnShopping"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:drawableLeft="@drawable/shopping_cart"
+        android:fontFamily="@font/poppins_semibold"
+        android:text="Ver carrito"
+        android:textAlignment="center"
+        android:textSize="16sp"
+        android:visibility="invisible" />
 
 </LinearLayout>

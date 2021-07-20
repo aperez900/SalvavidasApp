@@ -32,12 +32,12 @@
             android:id="@+id/tv_nombre_fav_tipo"
             android:layout_width="wrap_content"
             android:layout_height="25dp"
-            android:layout_marginStart="4dp"
+            android:layout_marginStart="10dp"
             android:layout_toEndOf="@id/img_imagen_fav_producto"
             android:fontFamily="@font/poppins"
-            android:text="Comida Cruda"
+            android:text="Tipo de comida"
             android:textAlignment="viewStart"
-            android:textSize="20sp"
+            android:textSize="18sp"
             android:textStyle="bold"></TextView>
 
         <TextView
@@ -45,7 +45,7 @@
             android:layout_width="160dp"
             android:layout_height="wrap_content"
             android:layout_below="@id/tv_nombre_fav_tipo"
-            android:layout_marginStart="4dp"
+            android:layout_marginStart="10dp"
             android:layout_marginTop="4dp"
             android:layout_toEndOf="@id/img_imagen_fav_producto"
             android:fontFamily="@font/poppins_light"

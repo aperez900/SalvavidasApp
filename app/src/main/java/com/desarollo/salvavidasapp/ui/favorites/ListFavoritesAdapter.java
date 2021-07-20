@@ -51,6 +51,7 @@ public class ListFavoritesAdapter extends RecyclerView.Adapter<ListFavoritesAdap
     FirebaseUser currentUser;
     FirebaseDatabase database;
     DatabaseReference myRef;
+    ArrayList<Favoritos> listaFav;
 
     //listener
     private View.OnClickListener listener;
@@ -78,6 +79,7 @@ public class ListFavoritesAdapter extends RecyclerView.Adapter<ListFavoritesAdap
         String subTipo = model.get(position).getSubTipoComida();
         String imagen = model.get(position).getFoto();
 
+
         holder.subTipo.setText(subTipo);
 
         Glide.with(activity)
@@ -90,10 +92,12 @@ public class ListFavoritesAdapter extends RecyclerView.Adapter<ListFavoritesAdap
            @Override
            public void onClick(View v) {
                if (((CheckBox)v).isChecked()) {
-                   agregarFavoritos(subTipo);
+
+                   agregarFavoritos(subTipo,((CheckBox)v).isChecked());
 
                }else{
-                   eliminarFavoritos(subTipo);
+
+                   agregarFavoritos(subTipo,((CheckBox)v).isChecked());
 
                }
            }
@@ -103,12 +107,12 @@ public class ListFavoritesAdapter extends RecyclerView.Adapter<ListFavoritesAdap
     }
 
 
-    public void agregarFavoritos(String idProducto){
+    public void agregarFavoritos(String idProducto, Boolean estado){
         mAuth = FirebaseAuth.getInstance();
         currentUser = mAuth.getCurrentUser();
         database = FirebaseDatabase.getInstance();
         myRef = database.getReference("usuarios").child(currentUser.getUid()).child("comidas_preferidas").child(idProducto);
-        myRef.setValue(true).addOnSuccessListener(new OnSuccessListener<Void>() {
+        myRef.setValue(estado).addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
             public void onSuccess(Void aVoid) {
             }

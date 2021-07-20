@@ -65,11 +65,12 @@ public class favorites extends Fragment {
     ListFavoritesAdapter listFavoritesAdapter;
     RecyclerView recyclerViewFavorites;
     ArrayList<Favoritos> listaSubTipo;
-
     FirebaseAuth mAuth;
     FirebaseUser currentUser;
     FirebaseDatabase database;
+
     DatabaseReference myRef;
+    DatabaseReference myRefTipoC;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -77,7 +78,8 @@ public class favorites extends Fragment {
         mAuth = FirebaseAuth.getInstance();
         currentUser = mAuth.getCurrentUser();
         database = FirebaseDatabase.getInstance();
-        myRef = database.getReference("tipo_comidas");
+        myRefTipoC = database.getReference("tipo_comidas");
+        myRef = database.getReference("usuarios");
 
     }
 
@@ -110,6 +112,7 @@ public class favorites extends Fragment {
 
         //cargar la lista
         cargarLista();
+        consultarComidas();
 
         return view;
     }
@@ -117,24 +120,19 @@ public class favorites extends Fragment {
 
 
     public void cargarLista() {
-
-        myRef.child("comida cruda").child("subTipo").addValueEventListener(new ValueEventListener() {
+        myRefTipoC.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 if (snapshot.exists()) {
                     listaSubTipo.clear();
                     for (DataSnapshot objsnapshot : snapshot.getChildren()) {
-                        Favoritos d = objsnapshot.getValue(Favoritos.class);
 
-                        listaSubTipo.add(new Favoritos(d.getSubTipoComida(), d.getFoto(), false));
+                        for(DataSnapshot objsnapshot2 : objsnapshot.child("subTipo").getChildren()) {
+                            Favoritos d = objsnapshot2.getValue(Favoritos.class);
+                            listaSubTipo.add(new Favoritos(d.getSubTipoComida(), d.getFoto(), false));
+                        }
 
                     }
-
-                    listFavoritesAdapter = new ListFavoritesAdapter(getApplicationContext(), listaSubTipo, getActivity());
-                    recyclerViewFavorites.setAdapter(listFavoritesAdapter);
-
-                } else {
-
                 }
             }
 
@@ -145,36 +143,38 @@ public class favorites extends Fragment {
         });
 
     }
+
     Boolean estado;
-    public Boolean consultar(String tipo) {
+    public void consultarComidas() {
 
-
-        myRef.child(currentUser.getUid()).child("comidas_preferidas").child(tipo)
+        myRef.child(currentUser.getUid()).child("comidas_preferidas")
                 .addValueEventListener(new ValueEventListener() {
-
                     @Override
-                    public void onDataChange(@NonNull DataSnapshot snapshot2) {
-                        if (snapshot2.exists()) {
-                            String estado_ = snapshot2.getValue().toString();
-                            estado = Boolean.parseBoolean(estado_);
-                        } else {
-                            estado = false;
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        if (snapshot.exists()) {
+                            for (DataSnapshot objsnapshot : snapshot.getChildren()) {
+                                for(int i = 0; i <= listaSubTipo.size(); i++){
+                                    String tipo = objsnapshot.getKey().toString();
+                                    String estado_ = objsnapshot.getValue().toString();
+                                    estado = Boolean.parseBoolean(estado_);
+                                    Favoritos fav = new Favoritos(tipo,listaSubTipo.get(i).getFoto(),estado);
+
+                                    if (tipo.equals(listaSubTipo.get(i).getSubTipoComida())){
+                                        listaSubTipo.set(i,fav);
+                                        break;
+                                    }
+                                }
+                            }
+
+                            listFavoritesAdapter = new ListFavoritesAdapter(getApplicationContext(), listaSubTipo, getActivity());
+                            recyclerViewFavorites.setAdapter(listFavoritesAdapter);
                         }
                     }
-
 
                     @Override
                     public void onCancelled(@NonNull DatabaseError error) {
                     }
-
-
-
                 });
-
-        if (estado.equals(null)){
-            estado = false;
-        }
-        return estado;
 
     }
 }
