@@ -137,6 +137,8 @@ public class Maps extends FragmentActivity implements GoogleMap.OnMarkerDragList
         googleMap.setOnMarkerDragListener(this);
     }
 
+
+
     public static boolean isGPSProvider(Context context) {
         LocationManager lm = (LocationManager)context.getSystemService(Context.LOCATION_SERVICE);
         return lm.isProviderEnabled(LocationManager.GPS_PROVIDER);

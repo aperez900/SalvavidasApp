@@ -2,6 +2,7 @@ package com.desarollo.salvavidasapp.ui.sales;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.cardview.widget.CardView;
 
 import android.app.ActionBar;
 import android.content.Intent;
@@ -59,6 +60,7 @@ public class buyProduct extends AppCompatActivity {
                 tvCantidadProducto, tvEstadoProducto, tvSubTotalProducto, tvSubTotalProducto1,
                 tvSignoMonedaSubTotal;
     LinearLayout linearLayoutBP, linearLayoutBP1, linearLayoutBP2;
+    CardView card;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -86,6 +88,7 @@ public class buyProduct extends AppCompatActivity {
         linearLayoutBP1 = findViewById(R.id.LinearLayout1);
         linearLayoutBP2 = findViewById(R.id.LinearLayout2);
         btn_pago = findViewById(R.id.btn_pago);
+        card = findViewById(R.id.cardView_);
 
         Intent intent = getIntent();
         if (intent.getExtras() != null){
@@ -179,9 +182,11 @@ public class buyProduct extends AppCompatActivity {
                     if(estadoSolicitud.equals("Solicitado")){
                         tvEstadoProducto.setCompoundDrawablesWithIntrinsicBounds(R.drawable.clock, 0, 0, 0);
                         btn_pago.setVisibility(View.INVISIBLE);
+                        card.setVisibility(View.VISIBLE);
                     }else{
                         tvEstadoProducto.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ok, 0, 0, 0);
                         btn_pago.setVisibility(View.VISIBLE);
+                        card.setVisibility(View.INVISIBLE);
                     }
                 }
             }

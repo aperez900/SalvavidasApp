@@ -22,6 +22,8 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.desarollo.salvavidasapp.Login.Splash;
+import com.desarollo.salvavidasapp.Login.error;
 import com.desarollo.salvavidasapp.Models.ListDirecciones;
 import com.desarollo.salvavidasapp.Models.Productos;
 import com.desarollo.salvavidasapp.Models.TipoComidas;
@@ -109,6 +111,17 @@ public class HomeFragment extends Fragment {
         cantidadCarrito();
 
         tv_principal_address.setOnClickListener(Navigation.createNavigateOnClickListener(R.id.action_nav_home_to_nav_address));
+
+
+        btnShopping.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getApplicationContext(), shoppingCart.class);
+                startActivity(intent);
+
+            }
+        });
+
 
 
         return view;
