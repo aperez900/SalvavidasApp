@@ -139,9 +139,6 @@ public class shoppingCart extends AppCompatActivity {
 
     public void crearListado() {
 
-        Calendar c = Calendar.getInstance();
-        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm");
-
         myRef.child(currentUser.getUid()).child("carrito_compras").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -172,6 +169,8 @@ public class shoppingCart extends AppCompatActivity {
     }
 
     public void consultarDetalleProducto(String idProduct, String cantidad){
+        Calendar c = Calendar.getInstance();
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm");
         subTotalCarrito=0.0;
         myRefProductos.addValueEventListener(new ValueEventListener() {
             @Override
@@ -182,12 +181,28 @@ public class shoppingCart extends AppCompatActivity {
                         for(DataSnapshot objsnapshot2 : objsnapshot.getChildren()){ //recorre los productos
                             Productos p = objsnapshot2.getValue(Productos.class);
                             String id = p.getIdProducto();
+
+                            Date fechaInicio = null;
+                            Date fechaFin = null;
+                            Date getCurrentDateTime = null;
+
                             if(idProduct.equals(id)) {
-                                listaDeDatos.add(new Productos(p.getIdProducto(), p.getNombreProducto(), p.getDescripcionProducto(),
-                                        p.getCategoriaProducto(), p.getSubCategoriaProducto(), p.getPrecio(), p.getDescuento(), p.getDomicilio(), p.getEstadoProducto(),
-                                        p.getfoto(), p.getFechaInicio(), p.getHoraInicio(), p.getFechaFin(), p.getHoraFin(), p.getNombreEmpresa(), p.getDireccion(), Integer.parseInt(cantidad),p.getPrecioDomicilio(),
-                                        p.getIdVendedor()));
-                                subTotalCarrito = subTotalCarrito + (p.getPrecio()-p.getDescuento())*Integer.parseInt(cantidad);
+                                String estado = p.getEstadoProducto();
+                                try {
+                                    fechaInicio = sdf.parse(p.getFechaInicio() + " " + p.getHoraInicio());
+                                    fechaFin = sdf.parse(p.getFechaFin() + " " + p.getHoraFin());
+                                    getCurrentDateTime = c.getTime();
+                                } catch (ParseException e) {
+                                    e.printStackTrace();
+                                }
+                                if (getCurrentDateTime.compareTo(fechaInicio) > 0 && getCurrentDateTime.compareTo(fechaFin) < 0
+                                        && !estado.equals("Cancelado")) {
+                                    listaDeDatos.add(new Productos(p.getIdProducto(), p.getNombreProducto(), p.getDescripcionProducto(),
+                                            p.getCategoriaProducto(), p.getSubCategoriaProducto(), p.getPrecio(), p.getDescuento(), p.getDomicilio(), p.getEstadoProducto(),
+                                            p.getfoto(), p.getFechaInicio(), p.getHoraInicio(), p.getFechaFin(), p.getHoraFin(), p.getNombreEmpresa(), p.getDireccion(), Integer.parseInt(cantidad), p.getPrecioDomicilio(),
+                                            p.getIdVendedor()));
+                                    subTotalCarrito = subTotalCarrito + (p.getPrecio() - p.getDescuento()) * Integer.parseInt(cantidad);
+                                }
                             }
                         }
                     }

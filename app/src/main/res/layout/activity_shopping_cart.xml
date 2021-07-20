@@ -31,22 +31,18 @@
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/listadoCarrito"
         android:layout_width="match_parent"
-        android:layout_height="500dp"
+        android:layout_height="570dp"
+        android:layout_marginBottom="1dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <ScrollView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@color/backgroundColor"
-        tools:layout_editor_absoluteX="0dp"
-        tools:layout_editor_absoluteY="-71dp">
-
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:layout_marginBottom="1dp"
+            android:layout_marginTop="1dp">
 
             <TextView
                 android:id="@+id/tv_subtotal_carrito"
@@ -61,6 +57,5 @@
                 android:textStyle="bold" />
 
         </LinearLayout>
-    </ScrollView>
 
 </LinearLayout>

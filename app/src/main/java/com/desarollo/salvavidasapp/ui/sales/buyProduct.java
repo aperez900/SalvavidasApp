@@ -138,12 +138,12 @@ public class buyProduct extends AppCompatActivity {
                 String transaction = UUID.randomUUID().toString();
 
                 producto.put("idProducto", idProducto);
-                producto.put("valorProducto",vt_);
+                producto.put("valorCompra",String.valueOf(valorTotal_));
                 producto.put("cantidadProducto",String.valueOf(nroProductos));
                 producto.put("usuarioSolicitud",currentUser.getUid());
                 producto.put("precioDomicilio",String.valueOf(precioDomicilio));
                 producto.put("idVendedor",idVendedor);
-                producto.put("estado","Pendiente");
+                producto.put("estado","Procesando pago");
                 registrarCompra(vt_,transaction, producto);
 
             }
@@ -152,7 +152,7 @@ public class buyProduct extends AppCompatActivity {
 
     public void registrarCompra(String vt_, String transaction, HashMap producto){
 
-        myRef.child(currentUser.getUid()).child("compra").child(transaction).setValue(producto)
+        myRef.child(currentUser.getUid()).child("compras").child(transaction).setValue(producto)
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void aVoid) {

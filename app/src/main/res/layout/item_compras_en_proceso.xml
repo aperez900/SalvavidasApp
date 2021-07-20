@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/cv"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:animateLayoutChanges="true"
+    android:background="@color/white"
+    android:orientation="vertical"
+    app:cardBackgroundColor="@color/white"
+    app:cardCornerRadius="3dp"
+    app:cardElevation="3dp"
+    app:cardUseCompatPadding="true">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="10dp">
+
+        <ImageView
+            android:id="@+id/img_imagen_producto"
+            android:layout_width="150dp"
+            android:layout_height="110dp"
+            android:contentDescription="@string/descripcionImagen"
+            android:src="@drawable/icono_fastfood" />
+
+
+        <TextView
+            android:id="@+id/tv_nombre_producto"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_toEndOf="@id/img_imagen_producto"
+            android:fontFamily="@font/poppins_bold"
+            android:text="@string/nombreProducto2"
+            android:textSize="20sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/tv_nombre_empresa"
+            android:layout_width="160dp"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/tv_nombre_producto"
+            android:layout_marginStart="10dp"
+            android:layout_toEndOf="@id/img_imagen_producto"
+            android:fontFamily="@font/poppins_light"
+            android:text="@string/nombre"
+            android:textSize="18sp" />
+
+        <TextView
+            android:id="@+id/tv_total_producto"
+            android:layout_width="60dp"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/tv_nombre_empresa"
+            android:layout_marginStart="10dp"
+            android:layout_toEndOf="@id/img_imagen_producto"
+            android:fontFamily="@font/poppins_light"
+            android:text="@string/totalProducto"
+            android:textSize="18sp" />
+
+        <TextView
+            android:id="@+id/tv_total_producto2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/tv_nombre_empresa"
+            android:layout_marginStart="10dp"
+            android:layout_toEndOf="@id/tv_total_producto"
+            android:fontFamily="@font/poppins_light"
+            android:textAlignment="textStart"
+            android:textSize="18sp" />
+
+        <TextView
+            android:id="@+id/tv_cantidad_producto"
+            android:layout_width="90dp"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/tv_total_producto"
+            android:layout_marginStart="10dp"
+            android:layout_toEndOf="@id/img_imagen_producto"
+            android:fontFamily="@font/poppins_light"
+            android:text="@string/cantidad"
+            android:textSize="18sp" />
+
+        <TextView
+            android:id="@+id/tv_cantidad_producto2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/tv_total_producto"
+            android:layout_marginStart="10dp"
+            android:layout_toEndOf="@id/tv_cantidad_producto"
+            android:fontFamily="@font/poppins_light"
+            android:textAlignment="textStart"
+            android:textSize="18sp" />
+
+        <TextView
+            android:id="@+id/tv_estado_solicitud"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/img_imagen_producto"
+            android:fontFamily="@font/poppins_bold"
+            android:textAlignment="center"
+            android:layout_marginTop="10dp"
+            android:textSize="18sp"
+            android:text="@string/estado"
+            android:textColor="@color/white"
+            android:background="@color/red"
+            android:textStyle="bold"/>
+
+    </RelativeLayout>
+
+</androidx.cardview.widget.CardView>

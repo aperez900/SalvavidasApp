@@ -38,7 +38,6 @@ public class requested_products extends AppCompatActivity {
     DatabaseReference myRefUsuarios, myRefVendedores, myRefProductos;
     RecyclerView listado;
 
-
     listRequestedProductsAdapter ListRequestedProductsAdapter;
     ArrayList<ProductosEnTramite> listaDeDatos = new ArrayList<>();
 

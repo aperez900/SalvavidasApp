@@ -249,8 +249,6 @@ public class HomeFragment extends Fragment {
 
 
     public void consultarDireccionUsuario(){
-
-
         myRefUsuarios.child(currentUser.getUid()).child("mis direcciones").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {

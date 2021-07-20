@@ -57,6 +57,12 @@
     <string name="ventasCanceladas">Ventas canceladas</string>
     <string name="ofertasNoVendidas">Ofertas no vendidas</string>
 
+    <string name="comprasEnProceso">Compras en proceso</string>
+    <string name="subTituloComprasEnProceso">No hay compras en proceso actualmente</string>
+    <string name="comprasRealizadas">Compras realizadas</string>
+    <string name="comprasCanceladas">Compras canceladas</string>
+    <string name="comprasAnuladas">Compras anuladas</string>
+
     <string name="nombreProducto">¿Qué deseas vender?</string>
     <string name="nombreProducto2">Nombre producto</string>
     <string name="descripcionProducto">Describe lo que vas a vender</string>
