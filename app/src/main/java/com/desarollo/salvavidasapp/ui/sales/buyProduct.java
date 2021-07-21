@@ -129,30 +129,19 @@ public class buyProduct extends AppCompatActivity {
         btn_pago.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-                producto.clear();
-
                 double valorTotal_ = precioProducto*nroProductos + precioDomicilio + valorComision ;
                 int vt = (int) valorTotal_*100;
                 String vt_ = Integer.toString(vt);
                 String transaction = UUID.randomUUID().toString();
-
-                producto.put("idProducto", idProducto);
-                producto.put("valorCompra",String.valueOf(valorTotal_));
-                producto.put("cantidadProducto",String.valueOf(nroProductos));
-                producto.put("usuarioSolicitud",currentUser.getUid());
-                producto.put("precioDomicilio",String.valueOf(precioDomicilio));
-                producto.put("idVendedor",idVendedor);
-                producto.put("estado","Procesando pago");
-                registrarCompra(vt_,transaction, producto);
+                registrarCompra(vt_,transaction, idProducto,idVendedor);
 
             }
         });
     }
 
-    public void registrarCompra(String vt_, String transaction, HashMap producto){
+    public void registrarCompra(String vt_, String transaction, String idProducto,String idVendedor){
 
-        myRef.child(currentUser.getUid()).child("compras").child(transaction).setValue(producto)
+        myRefVendedores.child(idVendedor).child("productos_en_tramite").child(currentUser.getUid()).child(idProducto).child("estado").setValue("Procesando pago")
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void aVoid) {
@@ -180,11 +169,11 @@ public class buyProduct extends AppCompatActivity {
                     String estadoSolicitud = snapshot.child("estado").getValue().toString();
                     tvEstadoProducto.setText(estadoSolicitud);
                     if(estadoSolicitud.equals("Solicitado")){
-                        tvEstadoProducto.setCompoundDrawablesWithIntrinsicBounds(R.drawable.clock, 0, 0, 0);
+                        tvEstadoProducto.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.clock, 0);
                         btn_pago.setVisibility(View.INVISIBLE);
                         card.setVisibility(View.VISIBLE);
                     }else{
-                        tvEstadoProducto.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ok, 0, 0, 0);
+                        tvEstadoProducto.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ok, 0);
                         btn_pago.setVisibility(View.VISIBLE);
                         card.setVisibility(View.INVISIBLE);
                     }

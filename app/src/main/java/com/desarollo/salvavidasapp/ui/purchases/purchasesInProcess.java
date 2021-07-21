@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.desarollo.salvavidasapp.Models.Favoritos;
 import com.desarollo.salvavidasapp.Models.ProductosEnTramite;
 import com.desarollo.salvavidasapp.R;
 import com.desarollo.salvavidasapp.ui.home.Home;
@@ -69,7 +70,7 @@ public class purchasesInProcess extends AppCompatActivity {
         Calendar c = Calendar.getInstance();
         SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm");
 
-        myRefUsuarios.child(currentUser.getUid()).child("compras").addValueEventListener(new ValueEventListener() {
+        myRefVendedores.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 if (snapshot.exists()) {
@@ -77,15 +78,25 @@ public class purchasesInProcess extends AppCompatActivity {
                     listaDeDatos.clear();
                     for (DataSnapshot objsnapshot : snapshot.getChildren()) { //recorre los productos
 
-                        String idProd = objsnapshot.child("idProducto").getValue().toString();
-                        String cantidad = objsnapshot.child("cantidadProducto").getValue().toString();
-                        String idUsuarioSolicitud = objsnapshot.child("usuarioSolicitud").getValue().toString();
-                        String estadoSolicitud = objsnapshot.child("estado").getValue().toString();
-                        String valorCompra = objsnapshot.child("valorCompra").getValue().toString();
-                        //consultarDatosUsuario(idProd, cantidad, idUsuarioSolicitud, estadoSolicitud);
-                        consultarDetalleProducto(idProd, cantidad, idUsuarioSolicitud, estadoSolicitud, Double.parseDouble(valorCompra));
+                        for(DataSnapshot objsnapshot2 : objsnapshot.child("productos_en_tramite").getChildren()) {
+                                String test = objsnapshot2.getKey();
+                            if (test.equals(currentUser.getUid())){
+                                for(DataSnapshot objsnapshot3 : objsnapshot2.getChildren()){
+
+                                String idProd = objsnapshot3.child("idProducto").getValue().toString();
+                                String cantidad = objsnapshot3.child("cantidadProducto").getValue().toString();
+                                String idUsuarioSolicitud = objsnapshot3.child("usuarioSolicitud").getValue().toString();
+                                String estadoSolicitud = objsnapshot3.child("estado").getValue().toString();
+                                String valorCompra = objsnapshot3.child("valorProducto").getValue().toString();
+                                //consultarDatosUsuario(idProd, cantidad, idUsuarioSolicitud, estadoSolicitud);
+
+                                consultarDetalleProducto(idProd, cantidad, idUsuarioSolicitud, estadoSolicitud, Double.parseDouble(valorCompra));
+                                }
+                            }
+                         }
                     }
-                } else {
+                }
+                else {
                     Intent intent = new Intent(purchasesInProcess.this, Home.class);
                     startActivity(intent);
                     finish();
