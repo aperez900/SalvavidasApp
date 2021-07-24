@@ -2,6 +2,7 @@ package com.desarollo.salvavidasapp.ui.purchases;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.StrictMode;
 import android.view.LayoutInflater;
@@ -12,14 +13,17 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.desarollo.salvavidasapp.Models.ProductosEnTramite;
 import com.desarollo.salvavidasapp.R;
+import com.desarollo.salvavidasapp.ui.sales.buyProduct;
 import com.desarollo.salvavidasapp.ui.sales.lookAtProduct;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
@@ -45,6 +49,11 @@ public class listPurchasesInProcessAdapter extends RecyclerView.Adapter<listPurc
     Activity  activity;
     String id_producto;
 
+    FirebaseAuth mAuth;
+    FirebaseUser currentUser;
+    FirebaseDatabase database;
+    DatabaseReference myRef;
+
     public listPurchasesInProcessAdapter(Context context, ArrayList<ProductosEnTramite> listaDeDatos, Activity activity) {
         this.inflater = LayoutInflater.from(context);
         this.listaDeDatos = listaDeDatos;
@@ -66,7 +75,7 @@ public class listPurchasesInProcessAdapter extends RecyclerView.Adapter<listPurc
 
     @Override
     public void onBindViewHolder(@NonNull listPurchasesInProcessAdapter.viewHolder holder, int position) {
-        id_producto = listaDeDatos.get(position).getIdProducto();
+        String producto = listaDeDatos.get(position).getIdProducto();
 
         String nombre_producto = listaDeDatos.get(position).getNombreProducto();
         String descripcion_producto = listaDeDatos.get(position).getDescripcionProducto();
@@ -79,6 +88,7 @@ public class listPurchasesInProcessAdapter extends RecyclerView.Adapter<listPurc
         DecimalFormat df = new DecimalFormat("#.00");
         //double aleatorio = Math.random()*5;
         String direccion = listaDeDatos.get(position).getDireccion();
+        String idVendedor = listaDeDatos.get(position).getIdVendedor();
 
         holder.nombre_producto.setText(nombre_producto);
         String patron = "###,###.##";
@@ -97,7 +107,70 @@ public class listPurchasesInProcessAdapter extends RecyclerView.Adapter<listPurc
                 .load(getUrlFoto)
                 .into(holder.imagenProducto);
 
+
+
+        //Acción del botón ver mas
+        holder.imgVer.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                //Intent intent = new Intent(activity , addProduct.class);
+                Intent intent = new Intent(activity , buyProduct.class);
+                //intent.putExtra("nombreProducto", listaDeDatos.get(position).getNombreProducto());
+
+                activity.startActivity(intent);
+            }
+        });
+
+        //Acción del botón Cancelar
+        holder.imgCancelar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                crearAlertDialog(idVendedor, producto);
+            }
+        });
+
     }
+
+    public void crearAlertDialog(String idVendedor, String producto){
+        AlertDialog.Builder confirmacion = new AlertDialog.Builder(activity);
+        confirmacion.setMessage("¿Esta seguro que desea cancelar el producto?. Éste dejará de estar disponible para su compra.")
+                .setCancelable(false)
+                .setPositiveButton("Sí", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        mAuth = FirebaseAuth.getInstance();
+                        currentUser = mAuth.getCurrentUser();
+                        database = FirebaseDatabase.getInstance();
+                        myRef = database.getReference("vendedores");
+
+                        myRef.child(idVendedor).child("productos_en_tramite").child(currentUser.getUid()).child(producto).child("estado").setValue("Cancelado")
+                                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                    @Override
+                                    public void onSuccess(Void aVoid) {
+                                        Toast.makeText(activity, "Producto cancelado con éxito", Toast.LENGTH_SHORT).show();
+                                    }
+                                })
+                                .addOnFailureListener(new OnFailureListener() {
+                                    @Override
+                                    public void onFailure(@NonNull Exception e) {
+                                        Toast.makeText(activity, "Error cancelando el producto", Toast.LENGTH_SHORT).show();
+                                    }
+                                });
+                    }
+                })
+                .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.cancel();
+                    }
+                });
+        AlertDialog titulo = confirmacion.create();
+        titulo.setTitle("Cancelar producto");
+        titulo.show();
+    }
+
+
 
     @Override
     public int getItemCount() {
@@ -122,7 +195,7 @@ public class listPurchasesInProcessAdapter extends RecyclerView.Adapter<listPurc
 
     public class viewHolder extends RecyclerView.ViewHolder {
         TextView nombre_producto, precio, nombre_empresa, tvcantidad, tvNombreUsuario, tvEstadSolicitud;
-        ImageView imagenProducto;
+        ImageView imagenProducto,imgCancelar,imgVer;
 
         public viewHolder(@NonNull View itemView) {
             super(itemView);
@@ -133,6 +206,8 @@ public class listPurchasesInProcessAdapter extends RecyclerView.Adapter<listPurc
             imagenProducto = itemView.findViewById(R.id.img_imagen_producto);
             precio = itemView.findViewById(R.id.tv_total_producto2);
             tvEstadSolicitud = itemView.findViewById(R.id.tv_estado_solicitud);
+            imgCancelar = itemView.findViewById(R.id.img_cancelar_producto);
+            imgVer = itemView.findViewById(R.id.img_ver_mas_producto);
         }
     }
 }

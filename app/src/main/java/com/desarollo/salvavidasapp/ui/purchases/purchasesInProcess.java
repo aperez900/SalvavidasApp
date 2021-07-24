@@ -82,15 +82,17 @@ public class purchasesInProcess extends AppCompatActivity {
                                 String test = objsnapshot2.getKey();
                             if (test.equals(currentUser.getUid())){
                                 for(DataSnapshot objsnapshot3 : objsnapshot2.getChildren()){
+                                    String idProd = objsnapshot3.child("idProducto").getValue().toString();
+                                    String cantidad = objsnapshot3.child("cantidadProducto").getValue().toString();
+                                    String idUsuarioSolicitud = objsnapshot3.child("usuarioSolicitud").getValue().toString();
+                                    String estadoSolicitud = objsnapshot3.child("estado").getValue().toString();
+                                    String valorCompra = objsnapshot3.child("valorProducto").getValue().toString();
+                                    //consultarDatosUsuario(idProd, cantidad, idUsuarioSolicitud, estadoSolicitud);
+                                    if (estadoSolicitud.equals("Cancelado")|| estadoSolicitud.equals("Realizado") || estadoSolicitud.equals("Anulado")) {
+                                    }else{
+                                        consultarDetalleProducto(idProd, cantidad, idUsuarioSolicitud, estadoSolicitud, Double.parseDouble(valorCompra));
+                                    }
 
-                                String idProd = objsnapshot3.child("idProducto").getValue().toString();
-                                String cantidad = objsnapshot3.child("cantidadProducto").getValue().toString();
-                                String idUsuarioSolicitud = objsnapshot3.child("usuarioSolicitud").getValue().toString();
-                                String estadoSolicitud = objsnapshot3.child("estado").getValue().toString();
-                                String valorCompra = objsnapshot3.child("valorProducto").getValue().toString();
-                                //consultarDatosUsuario(idProd, cantidad, idUsuarioSolicitud, estadoSolicitud);
-
-                                consultarDetalleProducto(idProd, cantidad, idUsuarioSolicitud, estadoSolicitud, Double.parseDouble(valorCompra));
                                 }
                             }
                          }
