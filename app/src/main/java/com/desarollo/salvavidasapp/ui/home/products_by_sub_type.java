@@ -98,7 +98,7 @@ public class products_by_sub_type extends AppCompatActivity {
                                 subCategoria = p.getSubCategoriaProducto();
 
                                 if (getCurrentDateTime.compareTo(fechaInicio) > 0 && getCurrentDateTime.compareTo(fechaFin) < 0
-                                        && !estado.equals("Cancelado")){
+                                        && !estado.equals("Cancelado por el vendedor")){
 
                                     listaDeDatos.add(new Productos(p.getIdProducto(), p.getNombreProducto(), p.getDescripcionProducto(),
                                             p.getCategoriaProducto(), p.getSubCategoriaProducto(), p.getPrecio(), p.getDescuento(), p.getDomicilio(), p.getEstadoProducto(),

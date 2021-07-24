@@ -90,7 +90,7 @@ salesOffered extends AppCompatActivity {
                         }
                         estado = p.getEstadoProducto();
 
-                        if (getCurrentDateTime.compareTo(fechaInicio) > 0 && getCurrentDateTime.compareTo(fechaFin) < 0 && !estado.equals("Cancelado")){
+                        if (getCurrentDateTime.compareTo(fechaInicio) > 0 && getCurrentDateTime.compareTo(fechaFin) < 0 && !estado.equals("Cancelado por el vendedor")){
 
                            // Toast.makeText(salesOffered.this, getCurrentDateTime + " - " + fecha + " - " + getCurrentDateTime.compareTo(fecha) , Toast.LENGTH_SHORT).show();
                             titulo_ofertados.setText("Productos ofertados");

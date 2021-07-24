@@ -22,7 +22,7 @@
             android:layout_width="150dp"
             android:layout_height="110dp"
             android:contentDescription="@string/descripcionImagen"
-            android:src="@drawable/icono_fastfood"></ImageView>
+            android:src="@drawable/icono_fastfood" />
 
         <ImageView
             android:id="@+id/img_aceptar_producto"
@@ -58,7 +58,7 @@
             android:fontFamily="@font/poppins_bold"
             android:text="@string/nombreProducto2"
             android:textSize="20sp"
-            android:textStyle="bold"></TextView>
+            android:textStyle="bold" />
 
         <TextView
             android:id="@+id/tv_nombre_empresa"
@@ -69,7 +69,7 @@
             android:layout_toEndOf="@id/img_imagen_producto"
             android:fontFamily="@font/poppins_light"
             android:text="@string/nombre"
-            android:textSize="18sp"></TextView>
+            android:textSize="18sp" />
 
         <TextView
             android:id="@+id/tv_total_producto"
@@ -80,7 +80,7 @@
             android:layout_toEndOf="@id/img_imagen_producto"
             android:fontFamily="@font/poppins_light"
             android:text="@string/totalProducto"
-            android:textSize="18sp"></TextView>
+            android:textSize="18sp" />
 
         <TextView
             android:id="@+id/tv_total_producto2"
@@ -91,7 +91,7 @@
             android:layout_toEndOf="@id/tv_total_producto"
             android:fontFamily="@font/poppins_light"
             android:textAlignment="textStart"
-            android:textSize="18sp"></TextView>
+            android:textSize="18sp" />
 
         <TextView
             android:id="@+id/tv_cantidad_producto"
@@ -102,7 +102,7 @@
             android:layout_toEndOf="@id/img_imagen_producto"
             android:fontFamily="@font/poppins_light"
             android:text="@string/cantidad"
-            android:textSize="18sp"></TextView>
+            android:textSize="18sp" />
 
         <TextView
             android:id="@+id/tv_cantidad_producto2"
@@ -113,7 +113,7 @@
             android:layout_toEndOf="@id/tv_cantidad_producto"
             android:fontFamily="@font/poppins_light"
             android:textAlignment="textStart"
-            android:textSize="18sp"></TextView>
+            android:textSize="18sp" />
 
         <TextView
             android:id="@+id/tv_para"
@@ -124,7 +124,7 @@
             android:layout_toEndOf="@id/img_imagen_producto"
             android:fontFamily="@font/poppins_light"
             android:text="@string/para"
-            android:textSize="18sp"></TextView>
+            android:textSize="18sp" />
 
         <TextView
             android:id="@+id/tv_nombre_usuario"
@@ -134,7 +134,7 @@
             android:layout_toEndOf="@id/tv_para"
             android:fontFamily="@font/poppins_light"
             android:textAlignment="textStart"
-            android:textSize="18sp"></TextView>
+            android:textSize="18sp" />
 
         <TextView
             android:id="@+id/tv_estado_solicitud"
@@ -144,7 +144,7 @@
             android:layout_toEndOf="@id/img_rechazar_producto"
             android:fontFamily="@font/poppins_light"
             android:textAlignment="textStart"
-            android:textSize="18sp"></TextView>
+            android:textSize="18sp" />
 
     </RelativeLayout>
 

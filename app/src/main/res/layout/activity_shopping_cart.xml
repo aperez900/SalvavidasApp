@@ -28,34 +28,30 @@
         android:textAlignment="center"
         android:textSize="14sp" />
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/listadoCarrito"
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="570dp"
-        android:layout_marginBottom="1dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:layout_height="wrap_content">
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/listadoCarrito"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginBottom="1dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
-        <LinearLayout
+        <TextView
+            android:id="@+id/tv_subtotal_carrito"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:layout_marginBottom="1dp"
-            android:layout_marginTop="1dp">
-
-            <TextView
-                android:id="@+id/tv_subtotal_carrito"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@color/red"
-                android:fontFamily="@font/poppins_bold"
-                android:text="@string/subTotalCarrito"
-                android:textAlignment="center"
-                android:textColor="@color/white"
-                android:textSize="22sp"
-                android:textStyle="bold" />
-
-        </LinearLayout>
-
+            android:layout_alignParentBottom="true"
+            android:layout_marginBottom="632dp"
+            android:background="@color/red"
+            android:fontFamily="@font/poppins_bold"
+            android:text="@string/subTotalCarrito"
+            android:textAlignment="center"
+            android:textColor="@color/white"
+            android:textSize="22sp"
+            android:textStyle="bold" />
+    </RelativeLayout>
 </LinearLayout>

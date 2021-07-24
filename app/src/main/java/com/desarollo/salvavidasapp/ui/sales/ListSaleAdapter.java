@@ -160,7 +160,7 @@ public class ListSaleAdapter extends RecyclerView.Adapter<ListSaleAdapter.viewHo
                         database = FirebaseDatabase.getInstance();
                         myRef = database.getReference("productos");
 
-                        myRef.child(currentUser.getUid()).child(id_producto).child("estadoProducto").setValue("Cancelado")
+                        myRef.child(currentUser.getUid()).child(id_producto).child("estadoProducto").setValue("Cancelado por el vendedor")
                                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                                     @Override
                                     public void onSuccess(Void aVoid) {

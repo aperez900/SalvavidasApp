@@ -88,7 +88,7 @@ public class purchasesInProcess extends AppCompatActivity {
                                     String estadoSolicitud = objsnapshot3.child("estado").getValue().toString();
                                     String valorCompra = objsnapshot3.child("valorProducto").getValue().toString();
                                     //consultarDatosUsuario(idProd, cantidad, idUsuarioSolicitud, estadoSolicitud);
-                                    if (estadoSolicitud.equals("Cancelado")|| estadoSolicitud.equals("Realizado") || estadoSolicitud.equals("Anulado")) {
+                                    if (estadoSolicitud.equals("Cancelado por el comprador")|| estadoSolicitud.equals("Realizado") || estadoSolicitud.equals("Anulado")) {
                                     }else{
                                         consultarDetalleProducto(idProd, cantidad, idUsuarioSolicitud, estadoSolicitud, Double.parseDouble(valorCompra));
                                     }

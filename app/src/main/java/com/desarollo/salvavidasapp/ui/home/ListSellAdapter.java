@@ -91,6 +91,8 @@ public class ListSellAdapter extends RecyclerView.Adapter<ListSellAdapter.viewHo
         DecimalFormat df = new DecimalFormat("#.00");
         //double aleatorio = Math.random()*5;
         String direccion = listaDeDatos.get(position).getDireccion();
+        //Consultando datos de las direcciones
+        String direccionUsuario = "CRA 77B 48 09, Medellin, Antioquia, Colombia";
         String direccion_usuario = direccionUsuario;
 
         String Distancia = df.format(convertirDireccion(direccion,direccion_usuario));
@@ -188,10 +190,6 @@ public class ListSellAdapter extends RecyclerView.Adapter<ListSellAdapter.viewHo
         }
         return a;
     }
-
-
-    //Consultando datos de las direcciones
-     String direccionUsuario = "CRA 77B 48 09";
 
 
     @Override

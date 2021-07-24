@@ -87,7 +87,7 @@ public class unsoldOffers extends AppCompatActivity {
                         }
                         estado = p.getEstadoProducto();
 
-                        if (getCurrentDateTime.compareTo(fechaFin) > 0 && !estado.equals("Cancelado")){
+                        if (getCurrentDateTime.compareTo(fechaFin) > 0 && !estado.equals("Cancelado por el vendedor")){
 
                             // Toast.makeText(salesOffered.this, getCurrentDateTime + " - " + fecha + " - " + getCurrentDateTime.compareTo(fecha) , Toast.LENGTH_SHORT).show();
                             titulo_ofertados_no_vendidos.setText("Productos ofertados no vendidos");

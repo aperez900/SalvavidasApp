@@ -38,7 +38,6 @@ public class cancelledSales extends AppCompatActivity {
     DatabaseReference myRef;
     TextView titulo_cancelados, subtitulo_cancelados;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -85,7 +84,7 @@ public class cancelledSales extends AppCompatActivity {
                                 } catch (ParseException e) {
                                     e.printStackTrace();
                                 }
-                                if (estado.equals("Cancelado")){
+                                if (estado.equals("Cancelado por el vendedor")){
                                     // Toast.makeText(getContext(), p.getFechaInicio(), Toast.LENGTH_SHORT).show();
                                     titulo_cancelados.setText("Productos cancelados");
                                     subtitulo_cancelados.setText("Los siguientes productos ya no estan disponibles para la venta");

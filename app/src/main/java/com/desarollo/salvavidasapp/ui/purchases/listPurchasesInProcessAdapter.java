@@ -143,7 +143,7 @@ public class listPurchasesInProcessAdapter extends RecyclerView.Adapter<listPurc
 
     public void crearAlertDialog(String idVendedor, String producto){
         AlertDialog.Builder confirmacion = new AlertDialog.Builder(activity);
-        confirmacion.setMessage("¿Esta seguro que desea cancelar el producto?. Éste dejará de estar disponible para su compra.")
+        confirmacion.setMessage("¿Esta seguro que desea cancelar el pedido?. Notificaremos al vendedor.")
                 .setCancelable(false)
                 .setPositiveButton("Sí", new DialogInterface.OnClickListener() {
                     @Override
@@ -153,7 +153,7 @@ public class listPurchasesInProcessAdapter extends RecyclerView.Adapter<listPurc
                         database = FirebaseDatabase.getInstance();
                         myRef = database.getReference("vendedores");
 
-                        myRef.child(idVendedor).child("productos_en_tramite").child(currentUser.getUid()).child(producto).child("estado").setValue("Cancelado")
+                        myRef.child(idVendedor).child("productos_en_tramite").child(currentUser.getUid()).child(producto).child("estado").setValue("Cancelado por el comprador")
                                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                                     @Override
                                     public void onSuccess(Void aVoid) {

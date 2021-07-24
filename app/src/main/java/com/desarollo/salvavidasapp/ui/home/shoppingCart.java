@@ -196,7 +196,7 @@ public class shoppingCart extends AppCompatActivity {
                                     e.printStackTrace();
                                 }
                                 if (getCurrentDateTime.compareTo(fechaInicio) > 0 && getCurrentDateTime.compareTo(fechaFin) < 0
-                                        && !estado.equals("Cancelado")) {
+                                        && !estado.equals("Cancelado por el vendedor")) {
                                     listaDeDatos.add(new Productos(p.getIdProducto(), p.getNombreProducto(), p.getDescripcionProducto(),
                                             p.getCategoriaProducto(), p.getSubCategoriaProducto(), p.getPrecio(), p.getDescuento(), p.getDomicilio(), p.getEstadoProducto(),
                                             p.getfoto(), p.getFechaInicio(), p.getHoraInicio(), p.getFechaFin(), p.getHoraFin(), p.getNombreEmpresa(), p.getDireccion(), Integer.parseInt(cantidad), p.getPrecioDomicilio(),

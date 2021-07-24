@@ -139,7 +139,7 @@ public class listRequestedProductsAdapter extends RecyclerView.Adapter<listReque
                 enviar_email_aceptacion_comprador(listaDeDatos.get(position).getUsuarioSolicitud(), listaDeDatos.get(position).getCorreoUsuarioSolicitud(),
                         listaDeDatos.get(position).getNombreProducto(), listaDeDatos.get(position).getCantidad());
                 actualizarEstadoProducto(listaDeDatos.get(position).getIdVendedor(), listaDeDatos.get(position).getIdusuarioSolicitud(),
-                        listaDeDatos.get(position).getIdProducto(),"Aprobado");
+                        listaDeDatos.get(position).getIdProducto(),"Aprobado por el vendedor");
             }
         });
 
@@ -149,7 +149,7 @@ public class listRequestedProductsAdapter extends RecyclerView.Adapter<listReque
                 enviar_email_rechazo_comprador(listaDeDatos.get(position).getUsuarioSolicitud(), listaDeDatos.get(position).getCorreoUsuarioSolicitud(),
                         listaDeDatos.get(position).getNombreProducto(), listaDeDatos.get(position).getCantidad());
                 actualizarEstadoProducto(listaDeDatos.get(position).getIdVendedor(), listaDeDatos.get(position).getIdusuarioSolicitud(),
-                        listaDeDatos.get(position).getIdProducto(),"Rechazado");
+                        listaDeDatos.get(position).getIdProducto(),"Rechazado por el vendedor");
             }
         });
     }
