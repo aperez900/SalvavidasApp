@@ -104,9 +104,7 @@ public class buyProduct extends AppCompatActivity {
             nroProductos = Integer.parseInt(extras.getString("nroProductos"));
             idVendedor = extras.getString("idVendedor");
             origen = extras.getString("origen");
-
             valorComision = precioProducto * nroProductos * 0.06;
-
             tvPrecioProducto.setText(objDF.format(precioProducto*nroProductos));
             tvPrecioDomicilio.setText(objDF.format(precioDomicilio));
             tvValorComision.setText(objDF.format(valorComision));
@@ -172,6 +170,12 @@ public class buyProduct extends AppCompatActivity {
                         tvEstadoProducto.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.clock, 0);
                         btn_pago.setVisibility(View.INVISIBLE);
                         card.setVisibility(View.VISIBLE);
+                    }else if (estadoSolicitud.equals("Cancelado")||estadoSolicitud.equals("Anulado")||estadoSolicitud.equals("Realizado")) {
+
+                        tvEstadoProducto.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.cancel, 0);
+                        btn_pago.setVisibility(View.INVISIBLE);
+                        card.setVisibility(View.VISIBLE);
+
                     }else{
                         tvEstadoProducto.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ok, 0);
                         btn_pago.setVisibility(View.VISIBLE);

@@ -47,11 +47,21 @@ public class nav_misCompras extends Fragment {
         View view = inflater.inflate(R.layout.fragment_nav_mis_compras, container, false);
 
         CardView cardPurchasesInProcess = view.findViewById(R.id.cardPurchasesInProcess);
+        CardView cardCancelledPurchases = view.findViewById(R.id.cardCancelledPurchases);
 
         cardPurchasesInProcess.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(nav_misCompras.this.getContext(), purchasesInProcess.class);
+                startActivity(intent);
+            }
+        });
+
+
+        cardCancelledPurchases.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(nav_misCompras.this.getContext(), cancelled_purchases.class);
                 startActivity(intent);
             }
         });

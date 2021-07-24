@@ -80,6 +80,7 @@ public class listPurchasesInProcessAdapter extends RecyclerView.Adapter<listPurc
         String nombre_producto = listaDeDatos.get(position).getNombreProducto();
         String descripcion_producto = listaDeDatos.get(position).getDescripcionProducto();
         Double totalCompra = listaDeDatos.get(position).getPrecio();
+        Double precioDomicilio = listaDeDatos.get(position).getPrecioDomicilio();
         Double descuento = listaDeDatos.get(position).getDescuento();
         //long porcDescuento = Math.round(descuento/precio*100);
         String fechaInicio = listaDeDatos.get(position).getFechaInicio();
@@ -117,6 +118,14 @@ public class listPurchasesInProcessAdapter extends RecyclerView.Adapter<listPurc
                 //Intent intent = new Intent(activity , addProduct.class);
                 Intent intent = new Intent(activity , buyProduct.class);
                 //intent.putExtra("nombreProducto", listaDeDatos.get(position).getNombreProducto());
+
+                intent.putExtra("idProducto" , producto);
+                intent.putExtra("nombreProducto", nombre_producto);
+                intent.putExtra("totalProducto", String.valueOf(totalCompra));
+                intent.putExtra("precioDomicilio", String.valueOf(precioDomicilio));
+                intent.putExtra("nroProductos", String.valueOf(cantidad));
+                intent.putExtra("idVendedor" , idVendedor);
+                intent.putExtra("origen" , "LookAtProduct");
 
                 activity.startActivity(intent);
             }
