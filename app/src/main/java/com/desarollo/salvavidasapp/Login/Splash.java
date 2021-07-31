@@ -61,7 +61,7 @@ public class Splash extends AppCompatActivity {
             tiempo.schedule(inicio,4000);
         } else {
 
-            Toast.makeText(Splash.this, "Revisar tu conexion a internet", Toast.LENGTH_SHORT).show();
+            Toast.makeText(Splash.this, "Revisa tú conexion a internet", Toast.LENGTH_SHORT).show();
             tiempo.schedule(finish,4000);
 
         }

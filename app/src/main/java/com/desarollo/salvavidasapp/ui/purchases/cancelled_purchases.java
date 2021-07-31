@@ -72,7 +72,7 @@ public class cancelled_purchases extends AppCompatActivity {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 if (snapshot.exists()) {
-                    subtitulo_compras_canceladas.setText("Los siguientes productos estan en proceso de compra");
+                    subtitulo_compras_canceladas.setText("Los siguientes productos fueron cancelados");
                     listaDeDatos.clear();
                     for (DataSnapshot objsnapshot : snapshot.getChildren()) { //recorre los productos
 

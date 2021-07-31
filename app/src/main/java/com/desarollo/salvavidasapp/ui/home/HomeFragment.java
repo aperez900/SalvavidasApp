@@ -166,7 +166,7 @@ public class HomeFragment extends Fragment {
         SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm");
 
         cargando.setTitle("Cargando");
-        cargando.setMessage("Un momento por favor... Si esto lleva demasiado tiempo revisa tu conexión a internet");
+        cargando.setMessage("Un momento por favor...");
         cargando.show();
 
         //Menú ppal

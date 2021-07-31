@@ -36,10 +36,11 @@ public class requested_products extends AppCompatActivity {
     FirebaseUser currentUser;
     FirebaseDatabase database;
     DatabaseReference myRefUsuarios, myRefVendedores, myRefProductos;
-    RecyclerView listado;
+    RecyclerView listado, listadoHistorial;
 
     listRequestedProductsAdapter ListRequestedProductsAdapter;
     ArrayList<ProductosEnTramite> listaDeDatos = new ArrayList<>();
+    ArrayList<ProductosEnTramite> listaDeDatosHistorial = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,10 +59,18 @@ public class requested_products extends AppCompatActivity {
 
         listado = findViewById(R.id.listado__productos_solicitados);
         LinearLayoutManager manager = new LinearLayoutManager(this);
+        LinearLayoutManager manager2 = new LinearLayoutManager(this);
         listado.setLayoutManager(manager);
-//        listado.setHasFixedSize(true);
         ListRequestedProductsAdapter = new listRequestedProductsAdapter(this, listaDeDatos, this);
+        //listado.setHasFixedSize(true);
         listado.setAdapter(ListRequestedProductsAdapter);
+
+        listadoHistorial = findViewById(R.id.listado_productos_solicitados_historial);
+
+        listadoHistorial.setLayoutManager(manager2);
+        ListRequestedProductsAdapter = new listRequestedProductsAdapter(this, listaDeDatosHistorial, this);
+        listadoHistorial.setAdapter(ListRequestedProductsAdapter);
+
 
         crearListado();
     }
@@ -130,16 +139,26 @@ public class requested_products extends AppCompatActivity {
                             ProductosEnTramite p = objsnapshot2.getValue(ProductosEnTramite.class);
                             String id = p.getIdProducto();
                             if(idProduct.equals(id)) {
-                                listaDeDatos.add(new ProductosEnTramite(p.getIdProducto(), p.getNombreProducto(), p.getDescripcionProducto(),
-                                        p.getCategoriaProducto(), p.getSubCategoriaProducto(), p.getPrecio(), p.getDescuento(), p.getDomicilio(), p.getEstadoProducto(),
-                                        p.getfoto(), p.getFechaInicio(), p.getHoraInicio(), p.getFechaFin(), p.getHoraFin(), p.getNombreEmpresa(), p.getDireccion(), Integer.parseInt(cantidad),p.getPrecioDomicilio(),
-                                        p.getIdVendedor(), idUsuarioSolicitud, usuarioSolicitud, correoUsuarioSolicitud, estadoSolicitud));
+                                if(estadoSolicitud.equals("Solicitado")) {
+                                    listaDeDatos.add(new ProductosEnTramite(p.getIdProducto(), p.getNombreProducto(), p.getDescripcionProducto(),
+                                            p.getCategoriaProducto(), p.getSubCategoriaProducto(), p.getPrecio(), p.getDescuento(), p.getDomicilio(), p.getEstadoProducto(),
+                                            p.getfoto(), p.getFechaInicio(), p.getHoraInicio(), p.getFechaFin(), p.getHoraFin(), p.getNombreEmpresa(), p.getDireccion(), Integer.parseInt(cantidad), p.getPrecioDomicilio(),
+                                            p.getIdVendedor(), idUsuarioSolicitud, usuarioSolicitud, correoUsuarioSolicitud, estadoSolicitud));
+                                }else{
+                                    listaDeDatosHistorial.add(new ProductosEnTramite(p.getIdProducto(), p.getNombreProducto(), p.getDescripcionProducto(),
+                                            p.getCategoriaProducto(), p.getSubCategoriaProducto(), p.getPrecio(), p.getDescuento(), p.getDomicilio(), p.getEstadoProducto(),
+                                            p.getfoto(), p.getFechaInicio(), p.getHoraInicio(), p.getFechaFin(), p.getHoraFin(), p.getNombreEmpresa(), p.getDireccion(), Integer.parseInt(cantidad), p.getPrecioDomicilio(),
+                                            p.getIdVendedor(), idUsuarioSolicitud, usuarioSolicitud, correoUsuarioSolicitud, estadoSolicitud));
+                                }
                             }
                         }
                     }
                 }
                 ListRequestedProductsAdapter = new listRequestedProductsAdapter(requested_products.this, listaDeDatos, requested_products.this);
                 listado.setAdapter(ListRequestedProductsAdapter);
+
+                ListRequestedProductsAdapter = new listRequestedProductsAdapter(requested_products.this, listaDeDatosHistorial, requested_products.this);
+                listadoHistorial.setAdapter(ListRequestedProductsAdapter);
             }
 
             @Override

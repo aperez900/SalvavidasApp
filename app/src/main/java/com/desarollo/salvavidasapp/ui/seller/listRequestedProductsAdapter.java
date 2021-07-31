@@ -1,6 +1,7 @@
 package com.desarollo.salvavidasapp.ui.seller;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.StrictMode;
@@ -45,17 +46,14 @@ public class listRequestedProductsAdapter extends RecyclerView.Adapter<listReque
     LayoutInflater inflater;
     private View.OnClickListener listener;
     Activity  activity;
-    String id_producto;
+    ProgressDialog cargando;
     Session session;
-    FirebaseUser currentUser;
-    FirebaseDatabase database;
-    DatabaseReference myRefVendedor;
-
 
     public listRequestedProductsAdapter(Context context, ArrayList<ProductosEnTramite> listaDeDatos, Activity activity) {
         this.inflater = LayoutInflater.from(context);
         this.listaDeDatos = listaDeDatos;
         this.activity = activity;
+
     }
 
     @NonNull
@@ -63,6 +61,7 @@ public class listRequestedProductsAdapter extends RecyclerView.Adapter<listReque
     public listRequestedProductsAdapter.viewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = inflater.inflate(R.layout.item_productos_solicitados,null,false);
         view.setOnClickListener(this);
+        cargando = new ProgressDialog(activity);
         return new listRequestedProductsAdapter.viewHolder(view);
     }
 
@@ -73,7 +72,7 @@ public class listRequestedProductsAdapter extends RecyclerView.Adapter<listReque
 
     @Override
     public void onBindViewHolder(@NonNull listRequestedProductsAdapter.viewHolder holder, int position) {
-        id_producto = listaDeDatos.get(position).getIdProducto();
+        String id_producto = listaDeDatos.get(position).getIdProducto();
 
         String nombre_producto = listaDeDatos.get(position).getNombreProducto();
         String descripcion_producto = listaDeDatos.get(position).getDescripcionProducto();
@@ -86,6 +85,12 @@ public class listRequestedProductsAdapter extends RecyclerView.Adapter<listReque
         DecimalFormat df = new DecimalFormat("#.00");
         //double aleatorio = Math.random()*5;
         String direccion = listaDeDatos.get(position).getDireccion();
+        String idVendedor = listaDeDatos.get(position).getIdVendedor();
+        String idUsuarioSolicitud = listaDeDatos.get(position).getIdusuarioSolicitud();
+        String categoriaProducto = listaDeDatos.get(position).getCategoriaProducto();
+        String domicilio = listaDeDatos.get(position).getDomicilio();
+        String horaInicio = listaDeDatos.get(position).getHoraInicio();
+        String horaFin = listaDeDatos.get(position).getHoraFin();
 
         holder.nombre_producto.setText(nombre_producto);
         String patron = "###,###.##";
@@ -112,23 +117,22 @@ public class listRequestedProductsAdapter extends RecyclerView.Adapter<listReque
 
                 //Intent intent = new Intent(activity , addProduct.class);
                 Intent intent = new Intent(activity , lookAtProduct.class);
-                intent.putExtra("nombreProducto", listaDeDatos.get(position).getNombreProducto());
-                intent.putExtra("idProducto" , listaDeDatos.get(position).getIdProducto());
-                intent.putExtra("tipoProducto" , listaDeDatos.get(position).getCategoriaProducto());
-                intent.putExtra("domicilioProducto" , listaDeDatos.get(position).getDomicilio());
-                intent.putExtra("descripcionProducto" , listaDeDatos.get(position).getDescripcionProducto());
-                intent.putExtra("precio" , String.valueOf(listaDeDatos.get(position).getPrecio()));
-                intent.putExtra("descuento" , String.valueOf(listaDeDatos.get(position).getDescuento()));
-                intent.putExtra("fechaInicio", listaDeDatos.get(position).getFechaInicio());
-                intent.putExtra("horaInicio", listaDeDatos.get(position).getHoraInicio());
-                intent.putExtra("fechaFin", listaDeDatos.get(position).getFechaFin());
-                intent.putExtra("horaFin", listaDeDatos.get(position).getHoraFin());
-                intent.putExtra("getUrlFoto" , listaDeDatos.get(position).getfoto());
+                intent.putExtra("nombreProducto", nombre_producto);
+                intent.putExtra("idProducto" , id_producto);
+                intent.putExtra("tipoProducto" , categoriaProducto);
+                intent.putExtra("domicilioProducto" , domicilio);
+                intent.putExtra("descripcionProducto" , descripcion_producto);
+                intent.putExtra("precio" , String.valueOf(precio));
+                intent.putExtra("descuento" , String.valueOf(descuento));
+                intent.putExtra("fechaInicio", fechaInicio);
+                intent.putExtra("horaInicio", horaInicio);
+                intent.putExtra("fechaFin", fechaFin);
+                intent.putExtra("horaFin", horaFin);
+                intent.putExtra("getUrlFoto" , getUrlFoto);
 
                 intent.putExtra("tipyEntry" , "Consultar");
 
                 activity.startActivity(intent);
-
 
             }
         });
@@ -136,20 +140,36 @@ public class listRequestedProductsAdapter extends RecyclerView.Adapter<listReque
         holder.imgAceptarProducto.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                enviar_email_aceptacion_comprador(listaDeDatos.get(position).getUsuarioSolicitud(), listaDeDatos.get(position).getCorreoUsuarioSolicitud(),
-                        listaDeDatos.get(position).getNombreProducto(), listaDeDatos.get(position).getCantidad());
-                actualizarEstadoProducto(listaDeDatos.get(position).getIdVendedor(), listaDeDatos.get(position).getIdusuarioSolicitud(),
-                        listaDeDatos.get(position).getIdProducto(),"Aprobado por el vendedor");
+                if(estadoSolicitud.equals("Solicitado")){
+                    cargando.setTitle("Cargando");
+                    cargando.setMessage("Un momento por favor...");
+                    cargando.show();
+                    enviar_email_aceptacion_comprador(nombreUsuario, correoUsuarioSolicitud,
+                            nombre_producto, cantidad);
+                    actualizarEstadoProducto(idVendedor, idUsuarioSolicitud,
+                            id_producto,"Aprobado por el vendedor");
+                }else{
+                    Toast.makeText(activity, "El producto ya no se puede aceptar", Toast.LENGTH_SHORT).show();
+                }
+                cargando.dismiss();
             }
         });
 
         holder.img_rechazar_producto.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                enviar_email_rechazo_comprador(listaDeDatos.get(position).getUsuarioSolicitud(), listaDeDatos.get(position).getCorreoUsuarioSolicitud(),
-                        listaDeDatos.get(position).getNombreProducto(), listaDeDatos.get(position).getCantidad());
-                actualizarEstadoProducto(listaDeDatos.get(position).getIdVendedor(), listaDeDatos.get(position).getIdusuarioSolicitud(),
-                        listaDeDatos.get(position).getIdProducto(),"Rechazado por el vendedor");
+                if(estadoSolicitud.equals("Solicitado")) {
+                    cargando.setTitle("Cargando");
+                    cargando.setMessage("Un momento por favor...");
+                    cargando.show();
+                    enviar_email_rechazo_comprador(nombreUsuario, correoUsuarioSolicitud,
+                            nombre_producto, cantidad);
+                    actualizarEstadoProducto(idVendedor, idUsuarioSolicitud,
+                            id_producto, "Rechazado por el vendedor");
+                }else{
+                    Toast.makeText(activity, "El producto ya no se puede rechazar", Toast.LENGTH_SHORT).show();
+                }
+                cargando.dismiss();
             }
         });
     }
@@ -213,6 +233,8 @@ public class listRequestedProductsAdapter extends RecyclerView.Adapter<listReque
 
     public void actualizarEstadoProducto(String idVendedor, String idUsuarioSolicitud, String idProducto, String estado){
 
+        FirebaseDatabase database;
+        DatabaseReference myRefVendedor;
         database = FirebaseDatabase.getInstance();
         myRefVendedor = database.getReference("vendedores");
         myRefVendedor.child(idVendedor).child("productos_en_tramite").child(idUsuarioSolicitud).child(idProducto).child("estado").setValue(estado)
@@ -323,6 +345,7 @@ public class listRequestedProductsAdapter extends RecyclerView.Adapter<listReque
             img_rechazar_producto = itemView.findViewById(R.id.img_rechazar_producto);
             tvNombreUsuario = itemView.findViewById(R.id.tv_nombre_usuario);
             tvEstadSolicitud = itemView.findViewById(R.id.tv_estado_solicitud);
+
         }
     }
 }

@@ -180,7 +180,10 @@ public class Home extends AppCompatActivity {
                     nroProductosSolicitados=0;
                     for(DataSnapshot objsnapshot : snapshot.getChildren()){
                         for(DataSnapshot objsnapshot2 : objsnapshot.getChildren()) { //recorre los productos
-                            nroProductosSolicitados = nroProductosSolicitados + 1;
+                            String estado = objsnapshot2.child("estado").getValue().toString();
+                            if (estado.equals("Solicitado")){
+                                nroProductosSolicitados = nroProductosSolicitados + 1;
+                            }
                         }
                     }
                     menuItemProductosSolicitados.setActionView(R.layout.notification_badge_seller);
