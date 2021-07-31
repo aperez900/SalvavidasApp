@@ -150,7 +150,7 @@
         </androidx.cardview.widget.CardView>
 
         <androidx.cardview.widget.CardView
-            android:id="@+id/cardPurchasesAborted"
+            android:id="@+id/cardAnulledPurchases"
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:layout_marginTop="50dp"

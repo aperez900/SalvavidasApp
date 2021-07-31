@@ -135,7 +135,8 @@ public class listPurchasesInProcessAdapter extends RecyclerView.Adapter<listPurc
         holder.imgCancelar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(estadoSolicitud.equals("Cancelado por el comprador") || estadoSolicitud.equals("Cancelado por el vendedor")){
+                if(estadoSolicitud.equals("Cancelado por el comprador") || estadoSolicitud.equals("Cancelado por el vendedor")||estadoSolicitud.equals("Realizado")||estadoSolicitud.equals("Anulado")){
+
                     Toast.makeText(activity, "el producto ya se encuentra cancelado", Toast.LENGTH_SHORT).show();
                 }else{
                     crearAlertDialog(idVendedor, producto);

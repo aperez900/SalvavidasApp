@@ -170,16 +170,25 @@ public class buyProduct extends AppCompatActivity {
                         tvEstadoProducto.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.clock, 0);
                         btn_pago.setVisibility(View.INVISIBLE);
                         card.setVisibility(View.VISIBLE);
-                    }else if (estadoSolicitud.equals("Cancelado")||estadoSolicitud.equals("Anulado")||estadoSolicitud.equals("Realizado")) {
+                    }else if (estadoSolicitud.equals("Procesando pago")||estadoSolicitud.equals("Cancelado por el comprador")||estadoSolicitud.equals("Cancelado por el vendedor")||estadoSolicitud.equals("Anulado")) {
 
                         tvEstadoProducto.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.cancel, 0);
                         btn_pago.setVisibility(View.INVISIBLE);
                         card.setVisibility(View.VISIBLE);
 
-                    }else{
+                    }else if (estadoSolicitud.equals("Aprobado por el vendedor")){
                         tvEstadoProducto.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ok, 0);
-                        btn_pago.setVisibility(View.VISIBLE);
+                        btn_pago.setVisibility(View.INVISIBLE);
                         card.setVisibility(View.INVISIBLE);
+                    }else if (estadoSolicitud.equals("Realizado")){
+                        tvEstadoProducto.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ok, 0);
+                        btn_pago.setVisibility(View.INVISIBLE);
+                        card.setVisibility(View.INVISIBLE);
+                    }
+                    else{
+                        btn_pago.setVisibility(View.INVISIBLE);
+                        card.setVisibility(View.VISIBLE);
+
                     }
                 }
             }
