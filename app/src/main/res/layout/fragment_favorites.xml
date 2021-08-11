@@ -43,29 +43,33 @@
         android:textAlignment="center"
         android:textSize="14sp" />
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recycle_favoritos"
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="520dp"
-        android:layout_marginTop="25dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:layout_height="wrap_content">
 
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recycle_favoritos"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="25dp"
+            android:layout_marginBottom="1dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
-    <Button
-        android:id="@+id/btnAgregarFavoritos"
-        android:layout_width="350dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="15dp"
-        android:drawableEnd="@drawable/corazon"
-        android:fontFamily="@font/poppins_semibold"
-        android:text="@string/agregarFavoritos"
-        android:textAlignment="center"
-        android:textSize="16sp"
-        app:icon="@drawable/corazon"
-        app:iconPadding="5dp"
-        app:iconSize="30dp" />
-
+        <Button
+            android:id="@+id/btnAgregarFavoritos"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:drawableEnd="@drawable/corazon"
+            android:fontFamily="@font/poppins_semibold"
+            android:layout_alignParentBottom="true"
+            android:text="@string/agregarFavoritos"
+            android:textAlignment="center"
+            android:textSize="16sp"
+            app:icon="@drawable/corazon"
+            app:iconPadding="5dp"
+            app:iconSize="30dp" />
+    </RelativeLayout>
 
 </LinearLayout>
