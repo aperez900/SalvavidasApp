@@ -17,20 +17,15 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.StrictMode;
-import android.view.View;
-import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.desarollo.salvavidasapp.Models.Productos;
 import com.desarollo.salvavidasapp.R;
-import com.desarollo.salvavidasapp.ui.home.ListSellAdapter;
 import com.desarollo.salvavidasapp.ui.sales.buyProduct;
 import com.desarollo.salvavidasapp.ui.sales.lookAtProduct;
-import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.UserInfo;
@@ -56,15 +51,12 @@ import javax.mail.Transport;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 
-import static com.facebook.FacebookSdk.getApplicationContext;
-
 public class shoppingCart extends AppCompatActivity {
 
     ArrayList<Productos> listaDeDatos = new ArrayList<>();
     RecyclerView listado;
     listShoppingCartAdapter ListShoppingCartAdapter;
     TextView titulo_carrito, subtitulo_carrito, total_carrito;
-    //Button btn_comprar;
     FirebaseAuth mAuth;
     FirebaseUser currentUser;
     FirebaseDatabase database;
@@ -85,7 +77,6 @@ public class shoppingCart extends AppCompatActivity {
         titulo_carrito = findViewById(R.id.tv_titulo_carrito);
         subtitulo_carrito = findViewById(R.id.tv_subtitulo_carrito);
         total_carrito = findViewById(R.id.tv_subtotal_carrito);
-        //btn_comprar = findViewById(R.id.btn_comprar_carrito);
 
         mAuth = FirebaseAuth.getInstance();
         currentUser = mAuth.getCurrentUser();
@@ -148,10 +139,8 @@ public class shoppingCart extends AppCompatActivity {
                     for(DataSnapshot objsnapshot : snapshot.getChildren()){
                         String idProd = objsnapshot.child("idProducto").getValue().toString();
                         String cantidad = objsnapshot.child("cantidadProducto").getValue().toString();
-                        //String nombreProducto = objsnapshot.child("nombreProducto").getValue().toString();
 
                         consultarDetalleProducto(idProd,cantidad);
-
                     }
                 }else{
                     Intent intent = new Intent(shoppingCart.this , Home.class);
@@ -180,6 +169,7 @@ public class shoppingCart extends AppCompatActivity {
                     for(DataSnapshot objsnapshot : snapshot.getChildren()){ //Recorre los usuarios
                         for(DataSnapshot objsnapshot2 : objsnapshot.getChildren()){ //recorre los productos
                             Productos p = objsnapshot2.getValue(Productos.class);
+                            assert p != null;
                             String id = p.getIdProducto();
 
                             Date fechaInicio = null;

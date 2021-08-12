@@ -4,14 +4,9 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.EditText;
-import android.widget.ImageView;
-import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -21,19 +16,10 @@ import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.bumptech.glide.Glide;
-import com.desarollo.salvavidasapp.Login.Splash;
-import com.desarollo.salvavidasapp.Login.error;
 import com.desarollo.salvavidasapp.Models.ListDirecciones;
 import com.desarollo.salvavidasapp.Models.Productos;
 import com.desarollo.salvavidasapp.Models.TipoComidas;
 import com.desarollo.salvavidasapp.R;
-import com.desarollo.salvavidasapp.ui.direction.ListAddress;
-import com.desarollo.salvavidasapp.ui.direction.ListAddressAdapter;
-import com.desarollo.salvavidasapp.ui.sales.addProduct;
-import com.desarollo.salvavidasapp.ui.sales.lookAtProduct;
-import com.desarollo.salvavidasapp.ui.sales.sales;
-import com.desarollo.salvavidasapp.ui.seller.seller2;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -45,13 +31,8 @@ import com.google.firebase.database.ValueEventListener;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Map;
-import java.util.Objects;
 
 import static com.facebook.FacebookSdk.getApplicationContext;
 
@@ -108,21 +89,16 @@ public class HomeFragment extends Fragment {
         actualizarNombreUsuario(tv_saludo);
         crearListadoTipo();
         crearListado();
-        cantidadCarrito();
 
         tv_principal_address.setOnClickListener(Navigation.createNavigateOnClickListener(R.id.action_nav_home_to_nav_address));
-
 
         btnShopping.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getApplicationContext(), shoppingCart.class);
                 startActivity(intent);
-
             }
         });
-
-
 
         return view;
     }
@@ -144,7 +120,6 @@ public class HomeFragment extends Fragment {
                     for(DataSnapshot objsnapshot : snapshot.getChildren()){ //Recorre los usuarios
                             TipoComidas t = objsnapshot.getValue(TipoComidas.class);
                             listaDeDatosTipo.add(new TipoComidas(t.getTipoComida(),t.getFoto()));
-                           // Toast.makeText(getApplicationContext(), t.getTipoComida(), Toast.LENGTH_SHORT).show();
                         }
                     listTypeFood = new ListTypeFood(getContext(),listaDeDatosTipo, getActivity());
                     listado_tipo_comidas.setAdapter(listTypeFood);
@@ -158,8 +133,6 @@ public class HomeFragment extends Fragment {
         });
 
     }
-
-
 
     private void crearListado() {
         Calendar c = Calendar.getInstance();
@@ -215,38 +188,6 @@ public class HomeFragment extends Fragment {
             }
         });
     }
-
-    int nroProductosCarrito;
-    public void cantidadCarrito(){
-        //Ver nroProductosCarrito
-        myRefUsuarios.child(currentUser.getUid()).child("carrito_compras").addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                if(snapshot.exists()){
-                    nroProductosCarrito=0;
-                    for(DataSnapshot objsnapshot : snapshot.getChildren()){
-                        nroProductosCarrito = nroProductosCarrito + 1;
-                    }
-
-
-                }
-
-                if (nroProductosCarrito == 0){
-                    btnShopping.setVisibility(View.INVISIBLE);
-
-                }else{
-                    btnShopping.setVisibility(View.VISIBLE);
-
-                }
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-                Toast.makeText(getApplicationContext(), "Error contando los productos del carrito", Toast.LENGTH_SHORT).show();
-            }
-        });
-    }
-
 
     public void consultarDireccionUsuario(){
         myRefUsuarios.child(currentUser.getUid()).child("mis direcciones").addValueEventListener(new ValueEventListener() {

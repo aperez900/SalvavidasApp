@@ -20,6 +20,8 @@ import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.ResultCallback;
 import com.google.android.gms.common.api.Status;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 
@@ -40,7 +42,10 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
-import static com.facebook.FacebookSdk.getApplicationContext;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 
 public class Home extends AppCompatActivity {
 
@@ -50,7 +55,7 @@ public class Home extends AppCompatActivity {
     FirebaseAuth mAuth;
     FirebaseUser currentUser;
     FirebaseDatabase database;
-    DatabaseReference myRef, myRefVendedores;
+    DatabaseReference myRef, myRefVendedores, myRefCarrito;
 
     MenuItem menuItemCarrito, menuItemProductosSolicitados;
     TextView badgeCounter, badgeCounterSeller;
@@ -135,7 +140,39 @@ public class Home extends AppCompatActivity {
                 if(snapshot.exists()){
                     nroProductosCarrito=0;
                     for(DataSnapshot objsnapshot : snapshot.getChildren()){
-                        nroProductosCarrito = nroProductosCarrito + 1;
+                        Calendar c = Calendar.getInstance();
+                        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm");
+                        Date fechaFin = null;
+                        Date getCurrentDateTime = null;
+
+                        String fechaFinString = objsnapshot.child("fechaFin").getValue().toString();
+                        String horaFinString = objsnapshot.child("horaFin").getValue().toString();
+                        String idProducto = objsnapshot.child("idProducto").getValue().toString();
+
+                        try {
+                            fechaFin = sdf.parse(fechaFinString + " " + horaFinString);
+                            getCurrentDateTime = c.getTime();
+                        } catch (ParseException e) {
+                            e.printStackTrace();
+                        }
+
+                        if (getCurrentDateTime.compareTo(fechaFin) < 0){
+                            nroProductosCarrito = nroProductosCarrito + 1;
+                        }else{
+                            //Borrando productos vencidos del carrito
+                            myRefCarrito = database.getReference("usuarios").child(currentUser.getUid()).child("carrito_compras").child(idProducto);
+                            myRefCarrito.removeValue().addOnSuccessListener(new OnSuccessListener<Void>() {
+                                @Override
+                                public void onSuccess(Void aVoid) {
+                                    //Toast.makeText(getApplicationContext(), "Producto borrado del carrito", Toast.LENGTH_SHORT).show();
+                                }
+                            }).addOnFailureListener(new OnFailureListener() {
+                                @Override
+                                public void onFailure(@NonNull Exception e) {
+                                    //Toast.makeText(getApplicationContext(), "Error. Intenta de nuevo mas tarde", Toast.LENGTH_SHORT).show();
+                                }
+                            });
+                        }
                     }
                     menuItemCarrito.setActionView(R.layout.notification_badge);
                     View view = menuItemCarrito.getActionView();

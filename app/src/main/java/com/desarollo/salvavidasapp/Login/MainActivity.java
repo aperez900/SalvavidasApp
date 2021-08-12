@@ -6,7 +6,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.util.Patterns;
@@ -22,7 +21,6 @@ import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
-import com.facebook.login.LoginManager;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.common.SignInButton;
@@ -38,9 +36,6 @@ import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.firebase.auth.GoogleAuthProvider;
 import com.google.firebase.auth.UserInfo;
-
-import java.security.Provider;
-
 
 public class MainActivity extends AppCompatActivity {
 
@@ -193,8 +188,8 @@ public class MainActivity extends AppCompatActivity {
                 });
     }
 
-    //Al iniciar la activity de Login Valida si el usuario ya está logeado o no
-    // y lo re direcciona al home
+    /*Al iniciar la activity de Login Valida si el usuario ya está logeado o no
+     y lo re direcciona al home*/
     @Override
     protected void onStart() {
         super.onStart();
@@ -235,7 +230,7 @@ public class MainActivity extends AppCompatActivity {
 
     //Acceso por firebase con email and clave
     public void Iniciar(View view) {
-        FirebaseUser currentUser = mAuth.getCurrentUser();
+
         String correo = et_email.getText().toString();
         String clave = et_password.getText().toString();
 
@@ -244,7 +239,7 @@ public class MainActivity extends AppCompatActivity {
         SharedPreferences.Editor objEditor = preferencias.edit();
         objEditor.putString("email", correo);
         objEditor.putString("password", clave);
-        objEditor.commit();
+        objEditor.apply();
 
         if(validarCamposVacios()) {
             signInWithEmailAndPassword(correo, clave);

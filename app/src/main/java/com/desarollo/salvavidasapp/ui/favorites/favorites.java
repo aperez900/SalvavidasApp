@@ -1,9 +1,6 @@
 package com.desarollo.salvavidasapp.ui.favorites;
 
-import android.app.ProgressDialog;
-import android.content.Context;
 import android.content.Intent;
-import android.location.LocationManager;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -15,31 +12,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.desarollo.salvavidasapp.Models.Favoritos;
-import com.desarollo.salvavidasapp.Models.ListDirecciones;
-import com.desarollo.salvavidasapp.Models.Productos;
-import com.desarollo.salvavidasapp.Models.SubTipoComidas;
-import com.desarollo.salvavidasapp.Models.TipoComidas;
 import com.desarollo.salvavidasapp.R;
-import com.desarollo.salvavidasapp.ui.direction.FrmAddress;
-import com.desarollo.salvavidasapp.ui.direction.ListAddressAdapter;
-import com.desarollo.salvavidasapp.ui.direction.Maps;
 import com.desarollo.salvavidasapp.ui.home.Home;
-import com.desarollo.salvavidasapp.ui.home.HomeFragment;
-import com.desarollo.salvavidasapp.ui.home.HomeViewModel;
-import com.desarollo.salvavidasapp.ui.home.ListSellAdapter;
-import com.desarollo.salvavidasapp.ui.home.ListTypeFood;
-import com.desarollo.salvavidasapp.ui.home.listShoppingCartAdapter;
-import com.desarollo.salvavidasapp.ui.sales.addPhoto;
-import com.desarollo.salvavidasapp.ui.sales.addProduct;
-import com.desarollo.salvavidasapp.ui.seller.seller2;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -48,17 +25,9 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Objects;
 
 import static com.facebook.FacebookSdk.getApplicationContext;
-
 
 public class favorites extends Fragment {
 
@@ -92,7 +61,7 @@ public class favorites extends Fragment {
         recyclerViewFavorites = (RecyclerView) view.findViewById(R.id.recycle_favoritos);
         LinearLayoutManager manager = new LinearLayoutManager(getApplicationContext());
         recyclerViewFavorites.setLayoutManager(manager);
-        recyclerViewFavorites.setHasFixedSize(true);
+//        recyclerViewFavorites.setHasFixedSize(true);
         listFavoritesAdapter = new ListFavoritesAdapter(getApplicationContext(), listaSubTipo, getActivity());
         recyclerViewFavorites.setAdapter(listFavoritesAdapter);
 
@@ -139,7 +108,6 @@ public class favorites extends Fragment {
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
                 Toast.makeText(getApplicationContext(), "Error cargando las direcciones", Toast.LENGTH_SHORT).show();
-                //Toast.makeText(getApplicationContext(), "Error cargando las direcciones", Toast.LENGTH_SHORT).show();
             }
         });
 

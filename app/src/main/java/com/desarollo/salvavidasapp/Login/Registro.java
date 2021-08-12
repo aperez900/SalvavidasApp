@@ -9,7 +9,6 @@ import android.util.Log;
 import android.util.Patterns;
 import android.view.View;
 import android.widget.EditText;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.desarollo.salvavidasapp.R;
@@ -38,7 +37,6 @@ public class Registro extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
-        FirebaseUser currentUser = mAuth.getCurrentUser();
         //updateUI(currentUser);
     }
 
@@ -79,16 +77,6 @@ public class Registro extends AppCompatActivity {
                                 }
                             });
                     }
-                    /*
-                    Toast.makeText(Registro.this, "Usuario creado",
-                            Toast.LENGTH_SHORT).show();
-
-
-                    //updateUI(user);
-                    Intent a = new Intent(getApplicationContext(), MainActivity.class);
-                    startActivity(a);
-                    */
-
                 } else {
                     // If sign in fails, display a message to the user.
                     Log.w("TAG", "createUserWithEmail:failure", task.getException());
@@ -120,7 +108,7 @@ public class Registro extends AppCompatActivity {
             et_passwordR.setError("Debe diligenciar una clave");
             campoLleno=false;
         }else if(clave.length() < 6){
-            et_passwordR.setError("La clave debe ser de al menos 6 digitos");
+            et_passwordR.setError("La clave debe ser de al menos 7 digitos");
             campoLleno=false;
         }
         return campoLleno;

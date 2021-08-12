@@ -76,6 +76,8 @@ public class lookAtProduct extends AppCompatActivity {
     String idProducto ="";
     String idVendedor ="";
     String urlFoto="";
+    String fechaFin="";
+    String horaFin="";
     int numeroProductos = 1;
     Double total, precioDomicilio;
     HashMap<String, String> producto = new HashMap<String, String>();
@@ -134,8 +136,10 @@ public class lookAtProduct extends AppCompatActivity {
             tvtotalProducto.setText(String.valueOf(total));
             //ScategoriaProductos = extras.getString("tipoProducto");
             //SdomicilioProducto = extras.getString("domicilioProducto");
+            fechaFin = extras.getString("fechaFin");
+            horaFin =  extras.getString("horaFin");
             tvinicioProducto.setText(extras.getString("fechaInicio") + " " + extras.getString("horaInicio"));
-            tvfinProducto.setText(extras.getString("fechaFin") + " " + extras.getString("horaFin"));
+            tvfinProducto.setText(fechaFin + " " + horaFin);
             //tvHoraInicio.setText(extras.getString("horaInicio"));
             //tvHoraFin.setText(extras.getString("horaFin"));
             //type = extras.getString("tipyEntry");
@@ -253,6 +257,9 @@ public class lookAtProduct extends AppCompatActivity {
         producto.put("valorProducto",String.valueOf(total));
         producto.put("cantidadProducto",String.valueOf(numeroProductos));
         producto.put("precioDomicilio",String.valueOf(precioDomicilio));
+        producto.put("fechaFin",String.valueOf(fechaFin));
+        producto.put("horaFin",String.valueOf(horaFin));
+
        // producto.put("nombreProducto",nombreProducto);
 
         //guarda los datos del carrito de compras
