@@ -12,7 +12,7 @@
     app:layout_constraintTop_toTopOf="parent">
 
     <RelativeLayout
-        android:layout_width="100dp"
+        android:layout_width="110dp"
         android:layout_height="110dp">
 
         <ImageView
@@ -41,7 +41,7 @@
             android:fontFamily="@font/poppins"
             android:text="Tipo comida"
             android:textAlignment="center"
-            android:textSize="14sp" />
+            android:textSize="12sp" />
 
     </RelativeLayout>
 

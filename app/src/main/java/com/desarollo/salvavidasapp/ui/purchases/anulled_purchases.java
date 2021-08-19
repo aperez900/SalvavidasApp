@@ -86,7 +86,7 @@ public class anulled_purchases extends AppCompatActivity {
                                     String estadoSolicitud = objsnapshot3.child("estado").getValue().toString();
                                     String valorCompra = objsnapshot3.child("valorProducto").getValue().toString();
                                     //consultarDatosUsuario(idProd, cantidad, idUsuarioSolicitud, estadoSolicitud);
-                                    if (estadoSolicitud.equals("Anulado por el vendedor")) {
+                                    if (estadoSolicitud.equals("Anulado")) {
                                         consultarDetalleProducto(idProd, cantidad, idUsuarioSolicitud, estadoSolicitud, Double.parseDouble(valorCompra));
 
                                     }else{

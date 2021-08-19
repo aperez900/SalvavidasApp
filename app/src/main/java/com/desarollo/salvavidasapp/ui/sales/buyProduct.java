@@ -178,7 +178,7 @@ public class buyProduct extends AppCompatActivity {
 
                     }else if (estadoSolicitud.equals("Aprobado por el vendedor")){
                         tvEstadoProducto.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ok, 0);
-                        btn_pago.setVisibility(View.INVISIBLE);
+                        btn_pago.setVisibility(View.VISIBLE);
                         card.setVisibility(View.INVISIBLE);
                     }else if (estadoSolicitud.equals("Realizado")){
                         tvEstadoProducto.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ok, 0);

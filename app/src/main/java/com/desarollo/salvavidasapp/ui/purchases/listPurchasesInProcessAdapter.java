@@ -135,18 +135,23 @@ public class listPurchasesInProcessAdapter extends RecyclerView.Adapter<listPurc
         holder.imgCancelar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(estadoSolicitud.equals("Cancelado por el comprador") || estadoSolicitud.equals("Cancelado por el vendedor")||estadoSolicitud.equals("Realizado")||estadoSolicitud.equals("Anulado")){
+                if(estadoSolicitud.equals("Cancelado por el comprador") || estadoSolicitud.equals("Cancelado por el vendedor")||estadoSolicitud.equals("Anulado")){
 
                     Toast.makeText(activity, "el producto ya se encuentra cancelado", Toast.LENGTH_SHORT).show();
+
+                }else if(estadoSolicitud.equals("Realizado")){
+
+                    crearAlertDialog(idVendedor, producto,"Anulado");
                 }else{
-                    crearAlertDialog(idVendedor, producto);
+
+                    crearAlertDialog(idVendedor, producto, "Cancelado por el comprador");
                 }
             }
         });
 
     }
 
-    public void crearAlertDialog(String idVendedor, String producto){
+    public void crearAlertDialog(String idVendedor, String producto, String tipo){
         AlertDialog.Builder confirmacion = new AlertDialog.Builder(activity);
         confirmacion.setMessage("¿Esta seguro que desea cancelar el pedido?. Notificaremos al vendedor.")
                 .setCancelable(false)
@@ -158,17 +163,17 @@ public class listPurchasesInProcessAdapter extends RecyclerView.Adapter<listPurc
                         database = FirebaseDatabase.getInstance();
                         myRef = database.getReference("vendedores");
 
-                        myRef.child(idVendedor).child("productos_en_tramite").child(currentUser.getUid()).child(producto).child("estado").setValue("Cancelado por el comprador")
+                        myRef.child(idVendedor).child("productos_en_tramite").child(currentUser.getUid()).child(producto).child("estado").setValue(tipo)
                                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                                     @Override
                                     public void onSuccess(Void aVoid) {
-                                        Toast.makeText(activity, "Producto cancelado con éxito", Toast.LENGTH_SHORT).show();
+                                        Toast.makeText(activity, "Se realizo con éxito", Toast.LENGTH_SHORT).show();
                                     }
                                 })
                                 .addOnFailureListener(new OnFailureListener() {
                                     @Override
                                     public void onFailure(@NonNull Exception e) {
-                                        Toast.makeText(activity, "Error cancelando el producto", Toast.LENGTH_SHORT).show();
+                                        Toast.makeText(activity, "Se realizo con éxito", Toast.LENGTH_SHORT).show();
                                     }
                                 });
                     }
