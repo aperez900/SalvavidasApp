@@ -38,14 +38,12 @@ import static com.facebook.FacebookSdk.getApplicationContext;
 
 public class HomeFragment extends Fragment {
 
-    private HomeViewModel homeViewModel;
     ArrayList<Productos> listaDeDatos = new ArrayList<>();
     ArrayList<TipoComidas> listaDeDatosTipo = new ArrayList<>();
     RecyclerView listado_comidas,listado_tipo_comidas;
     ListSellAdapter listSellAdapter;
     ListTypeFood listTypeFood;
     ProgressDialog cargando;
-
     FirebaseAuth mAuth;
     FirebaseUser currentUser;
     FirebaseDatabase database;
@@ -68,12 +66,9 @@ public class HomeFragment extends Fragment {
         TextView tv_saludo = view.findViewById(R.id.tv_saludo_home);
         tv_principal_address  = view.findViewById(R.id.principal_address);
         btnShopping = view.findViewById(R.id.btnShopping);
-
         cargando = new ProgressDialog(getActivity());
-
         listado_comidas = view.findViewById(R.id.listado);
         listado_tipo_comidas = view.findViewById(R.id.tipo_comidas);
-
         listado_tipo_comidas.setLayoutManager(new LinearLayoutManager(getContext(),LinearLayoutManager.HORIZONTAL,false));
         listTypeFood = new ListTypeFood(getContext(),listaDeDatosTipo,getActivity());
         listado_tipo_comidas.setAdapter(listTypeFood);
@@ -82,28 +77,31 @@ public class HomeFragment extends Fragment {
         listado_comidas.setLayoutManager(manager);
         //listado.setHasFixedSize(true);
         listSellAdapter = new ListSellAdapter(getApplicationContext(),listaDeDatos, getActivity());
-
         listado_comidas.setAdapter(listSellAdapter);
 
         consultarDireccionUsuario();
         actualizarNombreUsuario(tv_saludo);
-        crearListadoTipo();
-        crearListado();
+        crearListadoTiposDeProductos();
+        crearListadoProductos();
 
         tv_principal_address.setOnClickListener(Navigation.createNavigateOnClickListener(R.id.action_nav_home_to_nav_address));
 
         btnShopping.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getApplicationContext(), shoppingCart.class);
-                startActivity(intent);
+                irAlCarritoDeCompras();
             }
         });
 
         return view;
     }
 
-    public void actualizarNombreUsuario(TextView tv_saludo){
+    private void irAlCarritoDeCompras(){
+        Intent intent = new Intent(getApplicationContext(), shoppingCart.class);
+        startActivity(intent);
+    }
+
+    private void actualizarNombreUsuario(TextView tv_saludo){
         if(currentUser != null) {
             String nombreCompleto = currentUser.getDisplayName();
             String  [] primerNombre = nombreCompleto.split(" ");
@@ -111,7 +109,7 @@ public class HomeFragment extends Fragment {
         }
     }
 
-    private void crearListadoTipo() {
+    private void crearListadoTiposDeProductos() {
         myRefTypeFood.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -119,7 +117,8 @@ public class HomeFragment extends Fragment {
                     listaDeDatosTipo.clear();
                     for(DataSnapshot objsnapshot : snapshot.getChildren()){ //Recorre los usuarios
                             TipoComidas t = objsnapshot.getValue(TipoComidas.class);
-                            listaDeDatosTipo.add(new TipoComidas(t.getTipoComida(),t.getFoto()));
+                        assert t != null;
+                        listaDeDatosTipo.add(new TipoComidas(t.getTipoComida(),t.getFoto()));
                         }
                     listTypeFood = new ListTypeFood(getContext(),listaDeDatosTipo, getActivity());
                     listado_tipo_comidas.setAdapter(listTypeFood);
@@ -131,10 +130,9 @@ public class HomeFragment extends Fragment {
                 Toast.makeText(getApplicationContext(), "Error cargando los productos", Toast.LENGTH_SHORT).show();
             }
         });
-
     }
 
-    private void crearListado() {
+    private void crearListadoProductos() {
         Calendar c = Calendar.getInstance();
         SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm");
 
@@ -142,7 +140,6 @@ public class HomeFragment extends Fragment {
         cargando.setMessage("Un momento por favor...");
         cargando.show();
 
-        //Menú ppal
         myRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -151,12 +148,12 @@ public class HomeFragment extends Fragment {
                     for(DataSnapshot objsnapshot : snapshot.getChildren()){ //Recorre los usuarios
                         for(DataSnapshot objsnapshot2 : objsnapshot.getChildren()){ //recorre los productos
                             Productos p = objsnapshot2.getValue(Productos.class);
-                            String estado="";
-                            String subCategoria="";
+                            String estado;
                             Date fechaInicio = null;
                             Date fechaFin = null;
                             Date getCurrentDateTime = null;
                             try {
+                                assert p != null;
                                 fechaInicio = sdf.parse(p.getFechaInicio() + " " + p.getHoraInicio());
                                 fechaFin = sdf.parse(p.getFechaFin() + " " + p.getHoraFin());
                                 getCurrentDateTime = c.getTime();
@@ -164,8 +161,7 @@ public class HomeFragment extends Fragment {
                                 e.printStackTrace();
                             }
                             estado = p.getEstadoProducto();
-                            subCategoria = p.getSubCategoriaProducto();
-
+                            assert getCurrentDateTime != null;
                             if (getCurrentDateTime.compareTo(fechaInicio) > 0 && getCurrentDateTime.compareTo(fechaFin) < 0
                                     && !estado.equals("Cancelado por el vendedor")){
 
@@ -200,9 +196,7 @@ public class HomeFragment extends Fragment {
                         if(d.getSeleccion().equals("true")){
                             tv_principal_address.setText(d.direccionUsuario);
                         }
-
                     }
-
                 }
             }
 
@@ -211,6 +205,5 @@ public class HomeFragment extends Fragment {
                 Toast.makeText(getApplicationContext(), "Error consultando las direcciones. Intente de nuevo mas tarde.", Toast.LENGTH_SHORT).show();
             }
         });
-
     }
 }

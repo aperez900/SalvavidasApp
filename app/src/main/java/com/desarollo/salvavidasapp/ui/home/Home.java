@@ -46,6 +46,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Objects;
 
 public class Home extends AppCompatActivity {
 
@@ -76,7 +77,6 @@ public class Home extends AppCompatActivity {
         database = FirebaseDatabase.getInstance();
         myRef = database.getReference("usuarios");
         myRefVendedores = database.getReference("vendedores");
-
 
         //Botón flotante
         /*
@@ -133,123 +133,15 @@ public class Home extends AppCompatActivity {
             menuItemCarrito.setActionView(null);
         }
 
-        //Ver nroProductosCarrito
-        myRef.child(currentUser.getUid()).child("carrito_compras").addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                if(snapshot.exists()){
-                    nroProductosCarrito=0;
-                    for(DataSnapshot objsnapshot : snapshot.getChildren()){
-                        Calendar c = Calendar.getInstance();
-                        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm");
-                        Date fechaFin = null;
-                        Date getCurrentDateTime = null;
-
-                        String fechaFinString = objsnapshot.child("fechaFin").getValue().toString();
-                        String horaFinString = objsnapshot.child("horaFin").getValue().toString();
-                        String idProducto = objsnapshot.child("idProducto").getValue().toString();
-
-                        try {
-                            fechaFin = sdf.parse(fechaFinString + " " + horaFinString);
-                            getCurrentDateTime = c.getTime();
-                        } catch (ParseException e) {
-                            e.printStackTrace();
-                        }
-
-                        if (getCurrentDateTime.compareTo(fechaFin) < 0){
-                            nroProductosCarrito = nroProductosCarrito + 1;
-                        }else{
-                            //Borrando productos vencidos del carrito
-                            myRefCarrito = database.getReference("usuarios").child(currentUser.getUid()).child("carrito_compras").child(idProducto);
-                            myRefCarrito.removeValue().addOnSuccessListener(new OnSuccessListener<Void>() {
-                                @Override
-                                public void onSuccess(Void aVoid) {
-                                    //Toast.makeText(getApplicationContext(), "Producto borrado del carrito", Toast.LENGTH_SHORT).show();
-                                }
-                            }).addOnFailureListener(new OnFailureListener() {
-                                @Override
-                                public void onFailure(@NonNull Exception e) {
-                                    //Toast.makeText(getApplicationContext(), "Error. Intenta de nuevo mas tarde", Toast.LENGTH_SHORT).show();
-                                }
-                            });
-                        }
-                    }
-                    menuItemCarrito.setActionView(R.layout.notification_badge);
-                    View view = menuItemCarrito.getActionView();
-                    badgeCounter = view.findViewById(R.id.tv_nro_productos_carrito);
-                    imgCarrito = view.findViewById(R.id.img_carrito_compras);
-                    badgeCounter.setText(String.valueOf(nroProductosCarrito));
-                    //Toast.makeText(getApplicationContext(), "Hay " + nroProductosCarrito + " productos en el carrito" , Toast.LENGTH_LONG).show();
-                    imgCarrito.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            irAlCarrito();
-                        }
-                    });
-
-                    badgeCounter.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            irAlCarrito();
-                        }
-                    });
-                }
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-                Toast.makeText(getApplicationContext(), "Error contando los productos del carrito", Toast.LENGTH_SHORT).show();
-            }
-        });
+        verNroProductosCarritoCompras();
 
         menuItemProductosSolicitados = menu.findItem(R.id.notification_seller);
 
         if(nroProductosSolicitados == 0){
             menuItemProductosSolicitados.setActionView(null);
-
         }
 
-        //Ver nroProductosSolicitados
-        myRefVendedores.child(currentUser.getUid()).child("productos_en_tramite").addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                if(snapshot.exists()){
-                    nroProductosSolicitados=0;
-                    for(DataSnapshot objsnapshot : snapshot.getChildren()){
-                        for(DataSnapshot objsnapshot2 : objsnapshot.getChildren()) { //recorre los productos
-                            String estado = objsnapshot2.child("estado").getValue().toString();
-                            if (estado.equals("Solicitado")){
-                                nroProductosSolicitados = nroProductosSolicitados + 1;
-                            }
-                        }
-                    }
-                    menuItemProductosSolicitados.setActionView(R.layout.notification_badge_seller);
-                    View view = menuItemProductosSolicitados.getActionView();
-                    badgeCounterSeller = view.findViewById(R.id.tv_nro_productos_solicitados);
-                    imgProductos = view.findViewById(R.id.img_notificacion_productos);
-                    badgeCounterSeller.setText(String.valueOf(nroProductosSolicitados));
-                    //Toast.makeText(getApplicationContext(), "Hay " + nroProductosCarrito + " productos en el carrito" , Toast.LENGTH_LONG).show();
-                    imgProductos.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            irAProductosSolicitados();
-                        }
-                    });
-
-                    badgeCounterSeller.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            irAProductosSolicitados();
-                        }
-                    });
-                }
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-                Toast.makeText(getApplicationContext(), "Error contando los productos solicitados", Toast.LENGTH_SHORT).show();
-            }
-        });
+        verNroProductosSolicitados();
 
         return true;
     }
@@ -265,16 +157,14 @@ public class Home extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         if (item.getItemId() == R.id.action_settings) {
-                CerrarSesion();
+            CerrarSesion();
         }
         if (item.getItemId() == R.id.shop) {
-            irAlCarrito();
+            irAlCarritoDeCompras();
         }
-
         if (item.getItemId() == R.id.notification_seller) {
             irAProductosSolicitados();
         }
-
         return super.onOptionsItemSelected(item);
     }
 
@@ -283,7 +173,7 @@ public class Home extends AppCompatActivity {
     autorizado*/
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
-        if (keyCode==event.KEYCODE_BACK){
+        if (keyCode== KeyEvent.KEYCODE_BACK){
             Intent intent = new Intent(this, Home.class);
             startActivity(intent);
             finish();
@@ -297,7 +187,7 @@ public class Home extends AppCompatActivity {
      * @Version: 02
      * Método para cerrar la sesión del usuario logeuado
      * */
-    public void CerrarSesion() {
+    private void CerrarSesion() {
         if(currentUser != null){
             for (UserInfo profile : currentUser.getProviderData()) {
                 // Id of the provider (ex: google.com)
@@ -342,7 +232,7 @@ public class Home extends AppCompatActivity {
         */
     }
 
-   public void logOut() {
+   private void logOut() {
         Auth.GoogleSignInApi.signOut(googleApiClient).setResultCallback(new ResultCallback<Status>() {
             @Override
             public void onResult(@NonNull Status status) {
@@ -368,7 +258,7 @@ public class Home extends AppCompatActivity {
      * Método para actualizar los datos del usuario logeado en el
      * navheader del menú
      * */
-    public void actualizarDatosPerfil(){
+    private void actualizarDatosPerfil(){
         NavigationView navigationView = findViewById(R.id.nav_view);
         View headerView = navigationView.getHeaderView(0);
         TextView navUserName = headerView.findViewById(R.id.id_nombre_perfil);
@@ -389,17 +279,80 @@ public class Home extends AppCompatActivity {
         }
     }
 
-    public int verNroProductosCarritoCompras(){
-        //Toast.makeText(getApplicationContext(), "Entró" , Toast.LENGTH_LONG).show();
+    private void irAlCarritoDeCompras(){
+        Intent intent = new Intent(this, shoppingCart.class);
+        startActivity(intent);
+        finish();
+    }
+
+    private void irAProductosSolicitados(){
+        Intent intent = new Intent(this, requested_products.class);
+        startActivity(intent);
+        finish();
+    }
+
+    private void verNroProductosCarritoCompras(){
+        //Ver nroProductosCarrito
         myRef.child(currentUser.getUid()).child("carrito_compras").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 if(snapshot.exists()){
+                    nroProductosCarrito=0;
                     for(DataSnapshot objsnapshot : snapshot.getChildren()){
-                        nroProductosCarrito = nroProductosCarrito + 1;
+                        Calendar c = Calendar.getInstance();
+                        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm");
+                        Date fechaFin = null;
+                        Date getCurrentDateTime = null;
+
+                        String fechaFinString = Objects.requireNonNull(objsnapshot.child("fechaFin").getValue()).toString();
+                        String horaFinString = Objects.requireNonNull(objsnapshot.child("horaFin").getValue()).toString();
+                        String idProducto = Objects.requireNonNull(objsnapshot.child("idProducto").getValue()).toString();
+
+                        try {
+                            fechaFin = sdf.parse(fechaFinString + " " + horaFinString);
+                            getCurrentDateTime = c.getTime();
+                        } catch (ParseException e) {
+                            e.printStackTrace();
+                        }
+
+                        assert getCurrentDateTime != null;
+                        if (getCurrentDateTime.compareTo(fechaFin) < 0){
+                            nroProductosCarrito = nroProductosCarrito + 1;
+                        }else{
+                            //Borrando productos vencidos del carrito
+                            myRefCarrito = database.getReference("usuarios").child(currentUser.getUid()).child("carrito_compras").child(idProducto);
+                            myRefCarrito.removeValue().addOnSuccessListener(new OnSuccessListener<Void>() {
+                                @Override
+                                public void onSuccess(Void aVoid) {
+                                    //Toast.makeText(getApplicationContext(), "Producto borrado del carrito", Toast.LENGTH_SHORT).show();
+                                }
+                            }).addOnFailureListener(new OnFailureListener() {
+                                @Override
+                                public void onFailure(@NonNull Exception e) {
+                                    //Toast.makeText(getApplicationContext(), "Error. Intenta de nuevo mas tarde", Toast.LENGTH_SHORT).show();
+                                }
+                            });
+                        }
                     }
-                    Toast.makeText(getApplicationContext(), "Hay " + nroProductosCarrito + " productos en el carrito" , Toast.LENGTH_LONG).show();
-                    //badgeCounter.setText(nroProductosCarrito);
+                    menuItemCarrito.setActionView(R.layout.notification_badge);
+                    View view = menuItemCarrito.getActionView();
+                    badgeCounter = view.findViewById(R.id.tv_nro_productos_carrito);
+                    imgCarrito = view.findViewById(R.id.img_carrito_compras);
+                    badgeCounter.setText(String.valueOf(nroProductosCarrito));
+                    //Toast.makeText(getApplicationContext(), "Hay " + nroProductosCarrito + " productos en el carrito" , Toast.LENGTH_LONG).show();
+                    imgCarrito.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            irAlCarritoDeCompras();
+                        }
+                    });
+
+                    badgeCounter.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            irAlCarritoDeCompras();
+                        }
+                    });
                 }
             }
 
@@ -408,18 +361,49 @@ public class Home extends AppCompatActivity {
                 Toast.makeText(getApplicationContext(), "Error contando los productos del carrito", Toast.LENGTH_SHORT).show();
             }
         });
-        return nroProductosCarrito;
     }
 
-    public void irAlCarrito(){
-        Intent intent = new Intent(this, shoppingCart.class);
-        startActivity(intent);
-        finish();
-    }
+    private void verNroProductosSolicitados(){
+        //Ver nroProductosSolicitados
+        myRefVendedores.child(currentUser.getUid()).child("productos_en_tramite").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if(snapshot.exists()){
+                    nroProductosSolicitados=0;
+                    for(DataSnapshot objsnapshot : snapshot.getChildren()){
+                        for(DataSnapshot objsnapshot2 : objsnapshot.getChildren()) { //recorre los productos
+                            String estado = Objects.requireNonNull(objsnapshot2.child("estado").getValue()).toString();
+                            if (estado.equals("Solicitado")){
+                                nroProductosSolicitados = nroProductosSolicitados + 1;
+                            }
+                        }
+                    }
+                    menuItemProductosSolicitados.setActionView(R.layout.notification_badge_seller);
+                    View view = menuItemProductosSolicitados.getActionView();
+                    badgeCounterSeller = view.findViewById(R.id.tv_nro_productos_solicitados);
+                    imgProductos = view.findViewById(R.id.img_notificacion_productos);
+                    badgeCounterSeller.setText(String.valueOf(nroProductosSolicitados));
+                    //Toast.makeText(getApplicationContext(), "Hay " + nroProductosCarrito + " productos en el carrito" , Toast.LENGTH_LONG).show();
+                    imgProductos.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            irAProductosSolicitados();
+                        }
+                    });
 
-    public void irAProductosSolicitados(){
-        Intent intent = new Intent(this, requested_products.class);
-        startActivity(intent);
-        finish();
+                    badgeCounterSeller.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            irAProductosSolicitados();
+                        }
+                    });
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                Toast.makeText(getApplicationContext(), "Error contando los productos solicitados", Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 }

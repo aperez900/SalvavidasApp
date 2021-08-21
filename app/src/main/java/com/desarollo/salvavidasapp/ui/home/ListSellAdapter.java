@@ -1,35 +1,27 @@
 package com.desarollo.salvavidasapp.ui.home;
 
-import android.Manifest;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
-import android.location.LocationManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 
 import androidx.annotation.NonNull;
-import androidx.core.app.ActivityCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.desarollo.salvavidasapp.Models.ListDirecciones;
 import com.desarollo.salvavidasapp.Models.Productos;
 import com.desarollo.salvavidasapp.R;
-import com.desarollo.salvavidasapp.ui.direction.Maps;
 import com.desarollo.salvavidasapp.ui.sales.lookAtProduct;
-import com.google.android.gms.maps.GoogleMap;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -40,7 +32,6 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.io.IOException;
 import java.text.DecimalFormat;
-import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
@@ -53,12 +44,21 @@ public class ListSellAdapter extends RecyclerView.Adapter<ListSellAdapter.viewHo
     LayoutInflater inflater;
     private View.OnClickListener listener;
     Activity  activity;
-
+    FirebaseAuth mAuth;
+    FirebaseUser currentUser;
+    FirebaseDatabase database;
+    DatabaseReference myRefUsuarios;
+    ListDirecciones d;
 
     public ListSellAdapter(Context context, ArrayList<Productos> listaDeDatos, Activity activity) {
         this.inflater = LayoutInflater.from(context);
         this.listaDeDatos = listaDeDatos;
         this.activity = activity;
+
+        mAuth = FirebaseAuth.getInstance();
+        currentUser = mAuth.getCurrentUser();
+        database = FirebaseDatabase.getInstance();
+        myRefUsuarios = database.getReference("usuarios");
     }
 
     @NonNull
@@ -67,7 +67,6 @@ public class ListSellAdapter extends RecyclerView.Adapter<ListSellAdapter.viewHo
         View view = inflater.inflate(R.layout.item_de_lista,null,false);
         view.setOnClickListener(this);
         return new viewHolder(view);
-
     }
 
     public void setOnClickListener(View.OnClickListener listener){
@@ -75,112 +74,127 @@ public class ListSellAdapter extends RecyclerView.Adapter<ListSellAdapter.viewHo
     }
 
     @Override
-
     public void onBindViewHolder(@NonNull ListSellAdapter.viewHolder holder, int position) {
 
-        String id_producto = listaDeDatos.get(position).getIdProducto();
-        String tipo_producto = listaDeDatos.get(position).getCategoriaProducto();
-        String nombre_producto = listaDeDatos.get(position).getNombreProducto();
-        String descripcion_producto = listaDeDatos.get(position).getDescripcionProducto();
-        Double precio = listaDeDatos.get(position).getPrecio();
-        Double descuento = listaDeDatos.get(position).getDescuento();
-        long porcDescuento = Math.round(descuento/precio*100);
+        String idProducto = listaDeDatos.get(position).getIdProducto();
+        String tipoProducto = listaDeDatos.get(position).getCategoriaProducto();
+        String nombreProducto = listaDeDatos.get(position).getNombreProducto();
+        String domicilioProducto = listaDeDatos.get(position).getDomicilio();
+        String descripcionProducto = listaDeDatos.get(position).getDescripcionProducto();
+        Double precioProducto = listaDeDatos.get(position).getPrecio();
+        Double descuentoProducto = listaDeDatos.get(position).getDescuento();
+        long porcDescuento = Math.round(descuentoProducto/precioProducto*100);
         String fechaInicio = listaDeDatos.get(position).getFechaInicio();
+        String horaInicio = listaDeDatos.get(position).getHoraInicio();
         String fechaFin = listaDeDatos.get(position).getFechaFin();
+        String horaFin = listaDeDatos.get(position).getHoraFin();
         String getUrlFoto = listaDeDatos.get(position).getfoto();
-        DecimalFormat df = new DecimalFormat("#.00");
-        //double aleatorio = Math.random()*5;
-        String direccion = listaDeDatos.get(position).getDireccion();
-        //Consultando datos de las direcciones
-        String direccionUsuario = "CRA 77B 48 09, Medellin, Antioquia, Colombia";
-        String direccion_usuario = direccionUsuario;
-
-        String Distancia = df.format(convertirDireccion(direccion,direccion_usuario));
+        String direccionProducto = listaDeDatos.get(position).getDireccion();
+        consultarDireccionUsuario(direccionProducto, holder);
         Double precioDomicilio = listaDeDatos.get(position).getPrecioDomicilio();
-
-        holder.nombre_producto.setText(nombre_producto);
         String patron = "###,###.##";
         DecimalFormat objDF = new DecimalFormat (patron);
         String nombreEstablecimiento = listaDeDatos.get(position).getNombreEmpresa();
-        holder.precio.setText(objDF.format(precio-descuento));
+        String idVendedor = listaDeDatos.get(position).getIdVendedor();
+
+        holder.nombre_producto.setText(nombreProducto);
+        holder.precio.setText(objDF.format(precioProducto-descuentoProducto));
         holder.porcentajeDescuento.setText(String.valueOf(-porcDescuento));
         holder.fechaInicio.setText(fechaInicio);
         holder.fechaFin.setText(fechaFin);
         holder.nombre_empresa.setText(nombreEstablecimiento);
-       // holder.precioDomicilio.setText(String.valueOf(precioDomicilio));
-
-
-        holder.distancia.setText(Distancia + " KM");
-
 
         Glide.with(activity)
                 .load(getUrlFoto)
                 .into(holder.imagenProducto);
 
-
         holder.imagenProducto.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-                //Intent intent = new Intent(activity , addProduct.class);
-                Intent intent = new Intent(activity , lookAtProduct.class);
-                intent.putExtra("nombreProducto", listaDeDatos.get(position).getNombreProducto());
-                intent.putExtra("idProducto" , listaDeDatos.get(position).getIdProducto());
-                intent.putExtra("tipoProducto" , listaDeDatos.get(position).getCategoriaProducto());
-                intent.putExtra("domicilioProducto" , listaDeDatos.get(position).getDomicilio());
-                intent.putExtra("descripcionProducto" , listaDeDatos.get(position).getDescripcionProducto());
-                intent.putExtra("precio" , String.valueOf(listaDeDatos.get(position).getPrecio()));
-                intent.putExtra("descuento" , String.valueOf(listaDeDatos.get(position).getDescuento()));
-                intent.putExtra("precioDomicilio" , String.valueOf(listaDeDatos.get(position).getPrecioDomicilio()));
-                intent.putExtra("fechaInicio", listaDeDatos.get(position).getFechaInicio());
-                intent.putExtra("horaInicio", listaDeDatos.get(position).getHoraInicio());
-                intent.putExtra("fechaFin", listaDeDatos.get(position).getFechaFin());
-                intent.putExtra("horaFin", listaDeDatos.get(position).getHoraFin());
-                intent.putExtra("getUrlFoto" , listaDeDatos.get(position).getfoto());
-                intent.putExtra("idVendedor" , listaDeDatos.get(position).getIdVendedor());
-
-                intent.putExtra("tipyEntry" , "Consultar");
-
-                activity.startActivity(intent);
+                irADetalleDeProducto(nombreProducto, idProducto, tipoProducto, domicilioProducto, descripcionProducto,
+                        precioProducto, descuentoProducto, precioDomicilio, fechaInicio, horaInicio, fechaFin, horaFin,
+                        getUrlFoto, idVendedor);
             }
         });
     }
 
-    private  double convertirDireccion(String direccion, String direccion_usuario){
+    private void irADetalleDeProducto(String nombreProducto, String idProducto, String tipoProducto, String domicilioProducto,
+                                      String descripcionProducto, Double precioProducto, Double descuentoProducto,
+                                      Double precioDomicilio, String fechaInicio, String horaInicio, String fechaFin,
+                                      String horaFin, String getUrlFoto, String idVendedor){
+        Intent intent = new Intent(activity , lookAtProduct.class);
+        intent.putExtra("nombreProducto", nombreProducto);
+        intent.putExtra("idProducto" , idProducto);
+        intent.putExtra("tipoProducto" , tipoProducto);
+        intent.putExtra("domicilioProducto" , domicilioProducto);
+        intent.putExtra("descripcionProducto" , descripcionProducto);
+        intent.putExtra("precio" , String.valueOf(precioProducto));
+        intent.putExtra("descuento" , String.valueOf(descuentoProducto));
+        intent.putExtra("precioDomicilio" , String.valueOf(precioDomicilio));
+        intent.putExtra("fechaInicio", fechaInicio);
+        intent.putExtra("horaInicio", horaInicio);
+        intent.putExtra("fechaFin", fechaFin);
+        intent.putExtra("horaFin", horaFin);
+        intent.putExtra("getUrlFoto" , getUrlFoto);
+        intent.putExtra("idVendedor" , idVendedor);
+        intent.putExtra("tipyEntry" , "Consultar");
+        activity.startActivity(intent);
+    }
+
+    private void consultarDireccionUsuario(String direccionProducto, viewHolder holder){
+        final String[] Distancia = {""};
+        myRefUsuarios.child(currentUser.getUid()).child("mis direcciones").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if(snapshot.exists()){
+                    for(DataSnapshot objsnapshot : snapshot.getChildren()){
+                        d = new ListDirecciones();
+                        d = objsnapshot.getValue(ListDirecciones.class);
+                        if(d.getSeleccion().equals("true")){
+                            DecimalFormat df = new DecimalFormat("0.00");
+                            Distancia[0] = df.format(calcularDistanciaEntreDirecciones(direccionProducto,d.direccionUsuario));
+                            holder.distancia.setText(Distancia[0] + " KM");
+                        }
+                    }
+                }else{
+                    Toast.makeText(getApplicationContext(), "Registre al menos una dirección para poder calcular la distancia.", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                Toast.makeText(getApplicationContext(), "Error consultando la dirección del usuario. Intente de nuevo mas tarde.", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    private double calcularDistanciaEntreDirecciones(String direccionProducto, String direccionUsuario){
         Geocoder geocoder =  new Geocoder(getApplicationContext(), Locale.getDefault());
         Location location = new Location("localizacion 1");
         Location location2 = new Location("localizacion 2");
         double distance = 0;
 
         try {
-            List<Address> addresses = geocoder.getFromLocationName(direccion,1);
-            List<Address> addresses_buy = geocoder.getFromLocationName(direccion_usuario,1);
-
+            List<Address> addresses = geocoder.getFromLocationName(direccionProducto,1);
+            List<Address> addresses_buy = geocoder.getFromLocationName(direccionUsuario,1);
             double latitud = addresses.get(0).getLatitude();
             double longitud = addresses.get(0).getLongitude();
-
             double latitud_usuario = addresses_buy.get(0).getLatitude();
             double longitud_usuario = addresses_buy.get(0).getLongitude();
-
             location.setLatitude(latitud);
             location.setLongitude(longitud);
             location2.setLatitude(latitud_usuario);
             location2.setLongitude(longitud_usuario);
-
             distance = location.distanceTo(location2)/1000;
-
         } catch (IOException e) {
             Toast.makeText(getApplicationContext(),"Error :" + e,Toast.LENGTH_SHORT).show();
             e.printStackTrace();
         }
         return distance;
     }
-    private GoogleMap mMap;
-
 
     @Override
     public int getItemCount() {
-
         int a ;
         if(listaDeDatos != null && !listaDeDatos.isEmpty()) {
             a = listaDeDatos.size();
@@ -191,7 +205,6 @@ public class ListSellAdapter extends RecyclerView.Adapter<ListSellAdapter.viewHo
         return a;
     }
 
-
     @Override
     public void onClick(View view) {
         if(listener != null){
@@ -200,13 +213,12 @@ public class ListSellAdapter extends RecyclerView.Adapter<ListSellAdapter.viewHo
     }
 
     public class viewHolder extends RecyclerView.ViewHolder {
-        TextView tipo_producto, nombre_producto, descripcion_producto, precio, fechaInicio, fechaFin,
+        TextView nombre_producto, precio, fechaInicio, fechaFin,
                 porcentajeDescuento, nombre_empresa, distancia;
         ImageView imagenProducto;
 
         public viewHolder(@NonNull View itemView) {
             super(itemView);
-
             nombre_producto = itemView.findViewById(R.id.tv_nombre_producto);
             imagenProducto = itemView.findViewById(R.id.img_imagen_producto);
             precio = itemView.findViewById(R.id.tv_total_producto);
@@ -216,7 +228,5 @@ public class ListSellAdapter extends RecyclerView.Adapter<ListSellAdapter.viewHo
             nombre_empresa = itemView.findViewById(R.id.tv_nombre_empresa);
             distancia = itemView.findViewById(R.id.tv_distancia);
         }
-
     }
-
 }

@@ -63,6 +63,7 @@ public class ListSaleAdapter extends RecyclerView.Adapter<ListSaleAdapter.viewHo
         String descripcion_producto = listaDeDatos.get(position).getDescripcionProducto();
         Double precio = listaDeDatos.get(position).getPrecio();
         Double descuento = listaDeDatos.get(position).getDescuento();
+        Double precioDomicilio = listaDeDatos.get(position).getPrecioDomicilio();
         long porcDescuento = Math.round(descuento/precio*100);
         String fechaInicio = listaDeDatos.get(position).getFechaInicio();
         String fechaFin = listaDeDatos.get(position).getFechaFin();
@@ -100,6 +101,7 @@ public class ListSaleAdapter extends RecyclerView.Adapter<ListSaleAdapter.viewHo
                 intent.putExtra("descripcionProducto" , listaDeDatos.get(position).getDescripcionProducto());
                 intent.putExtra("precio" , String.valueOf(listaDeDatos.get(position).getPrecio()));
                 intent.putExtra("descuento" , String.valueOf(listaDeDatos.get(position).getDescuento()));
+                intent.putExtra("precioDomicilio" , String.valueOf(precioDomicilio));
                 intent.putExtra("fechaInicio", listaDeDatos.get(position).getFechaInicio());
                 intent.putExtra("horaInicio", listaDeDatos.get(position).getHoraInicio());
                 intent.putExtra("fechaFin", listaDeDatos.get(position).getFechaFin());

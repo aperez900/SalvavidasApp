@@ -91,6 +91,7 @@ public class listRequestedProductsAdapter extends RecyclerView.Adapter<listReque
         String domicilio = listaDeDatos.get(position).getDomicilio();
         String horaInicio = listaDeDatos.get(position).getHoraInicio();
         String horaFin = listaDeDatos.get(position).getHoraFin();
+        Double precioDomicilio = listaDeDatos.get(position).getPrecioDomicilio();
 
         holder.nombre_producto.setText(nombre_producto);
         String patron = "###,###.##";
@@ -124,6 +125,7 @@ public class listRequestedProductsAdapter extends RecyclerView.Adapter<listReque
                 intent.putExtra("descripcionProducto" , descripcion_producto);
                 intent.putExtra("precio" , String.valueOf(precio));
                 intent.putExtra("descuento" , String.valueOf(descuento));
+                intent.putExtra("precioDomicilio" , String.valueOf(precioDomicilio));
                 intent.putExtra("fechaInicio", fechaInicio);
                 intent.putExtra("horaInicio", horaInicio);
                 intent.putExtra("fechaFin", fechaFin);

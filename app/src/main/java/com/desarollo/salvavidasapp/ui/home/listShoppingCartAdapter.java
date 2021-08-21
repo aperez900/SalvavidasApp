@@ -59,8 +59,7 @@ public class listShoppingCartAdapter extends RecyclerView.Adapter<listShoppingCa
     LayoutInflater inflater;
     private View.OnClickListener listener;
     Activity  activity;
-    String id_producto, nombreComprador;
-    int cantidad;
+    String nombreComprador;
     Session session;
     ProgressDialog cargando;
     HashMap<String, String> producto = new HashMap<String, String>();
@@ -80,13 +79,6 @@ public class listShoppingCartAdapter extends RecyclerView.Adapter<listShoppingCa
         myRefCarrito = database.getReference("usuarios");
         myRefVendedor = database.getReference("vendedores");
 
-        //Actualiza los datos del perfil logeado en el fragmenProfile
-        if (currentUser != null) {
-            for (UserInfo profile : currentUser.getProviderData()) {
-                nombreComprador = profile.getDisplayName();
-            }
-        }
-
         cargando = new ProgressDialog(activity);
     }
 
@@ -102,94 +94,78 @@ public class listShoppingCartAdapter extends RecyclerView.Adapter<listShoppingCa
         this.listener = listener;
     }
 
-
     @Override
     public void onBindViewHolder(@NonNull listShoppingCartAdapter.viewHolder holder, int position) {
 
-        id_producto = listaDeDatos.get(position).getIdProducto();
-
-        String nombre_producto = listaDeDatos.get(position).getNombreProducto();
-        String descripcion_producto = listaDeDatos.get(position).getDescripcionProducto();
-        Double precio = listaDeDatos.get(position).getPrecio();
-        Double descuento = listaDeDatos.get(position).getDescuento();
-        long porcDescuento = Math.round(descuento/precio*100);
+        String idProducto = listaDeDatos.get(position).getIdProducto();
+        String nombreProducto = listaDeDatos.get(position).getNombreProducto();
+        String descripcionProducto = listaDeDatos.get(position).getDescripcionProducto();
+        Double precioProducto = listaDeDatos.get(position).getPrecio();
+        Double descuentoProducto = listaDeDatos.get(position).getDescuento();
+        String domicilioProducto = listaDeDatos.get(position).getDomicilio();
+        String tipoProducto = listaDeDatos.get(position).getCategoriaProducto();
         String fechaInicio = listaDeDatos.get(position).getFechaInicio();
+        String horaInicio = listaDeDatos.get(position).getHoraInicio();
         String fechaFin = listaDeDatos.get(position).getFechaFin();
+        String horaFin = listaDeDatos.get(position).getHoraFin();
+        final int[] cantidad = {listaDeDatos.get(position).getCantidad()};
         String getUrlFoto = listaDeDatos.get(position).getfoto();
-        DecimalFormat df = new DecimalFormat("#.00");
-        //double aleatorio = Math.random()*5;
-        String direccion = listaDeDatos.get(position).getDireccion();
-
-        holder.nombre_producto.setText(nombre_producto);
-        String patron = "###,###.##";
-        DecimalFormat objDF = new DecimalFormat (patron);
+        Double precioDomicilio = listaDeDatos.get(position).getPrecioDomicilio();
         String nombreEstablecimiento = listaDeDatos.get(position).getNombreEmpresa();
-        holder.nombre_empresa.setText(nombreEstablecimiento);
-        holder.precio.setText("$" + objDF.format(precio-descuento));
-        cantidad = listaDeDatos.get(position).getCantidad();
-        holder.tvcantidad.setText(String.valueOf(cantidad));
+        final String[] idVendedor = {listaDeDatos.get(position).getIdVendedor()};
+
+        final String[] patron = {"###,###.##"};
+        DecimalFormat objDF = new DecimalFormat (patron[0]);
+
+        holder.tvNombreProducto.setText(nombreProducto);
+        holder.tvNombreEmpresa.setText(nombreEstablecimiento);
+        holder.tvPrecio.setText("$" + objDF.format(precioProducto-descuentoProducto));
+        holder.tvCantidad.setText(String.valueOf(cantidad[0]));
 
         Glide.with(activity)
                 .load(getUrlFoto)
                 .into(holder.imagenProducto);
 
-
         holder.imagenProducto.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-                //Intent intent = new Intent(activity , addProduct.class);
-                Intent intent = new Intent(activity , lookAtProduct.class);
-                intent.putExtra("nombreProducto", listaDeDatos.get(position).getNombreProducto());
-                intent.putExtra("idProducto" , listaDeDatos.get(position).getIdProducto());
-                intent.putExtra("tipoProducto" , listaDeDatos.get(position).getCategoriaProducto());
-                intent.putExtra("domicilioProducto" , listaDeDatos.get(position).getDomicilio());
-                intent.putExtra("descripcionProducto" , listaDeDatos.get(position).getDescripcionProducto());
-                intent.putExtra("precio" , String.valueOf(listaDeDatos.get(position).getPrecio()));
-                intent.putExtra("descuento" , String.valueOf(listaDeDatos.get(position).getDescuento()));
-                intent.putExtra("fechaInicio", listaDeDatos.get(position).getFechaInicio());
-                intent.putExtra("horaInicio", listaDeDatos.get(position).getHoraInicio());
-                intent.putExtra("fechaFin", listaDeDatos.get(position).getFechaFin());
-                intent.putExtra("horaFin", listaDeDatos.get(position).getHoraFin());
-                intent.putExtra("getUrlFoto" , listaDeDatos.get(position).getfoto());
-
-                intent.putExtra("tipyEntry" , "Consultar");
-
-                activity.startActivity(intent);
-
-
+                irADetalleDeProducto(nombreProducto, idProducto, tipoProducto, domicilioProducto, descripcionProducto,
+                        precioProducto, descuentoProducto, precioDomicilio, fechaInicio, horaInicio, fechaFin, horaFin,
+                        getUrlFoto, idVendedor[0]);
             }
         });
 
         holder.imgBorrarProducto.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                borrarProductoCarrito(listaDeDatos.get(position).getIdProducto());
+                borrarProductodelCarrito(idProducto);
             }
         });
 
         holder.btnMas.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String numeroActual = holder.tvcantidad.getText().toString();
-                cantidad = Integer.parseInt(numeroActual);
-                cantidad = cantidad + 1;
-                holder.tvcantidad.setText(String.valueOf(cantidad));
-                agregarCarrito(listaDeDatos.get(position).getIdProducto(), cantidad);
+                String numeroActual = holder.tvCantidad.getText().toString();
+
+                cantidad[0] = Integer.parseInt(numeroActual);
+                cantidad[0] = cantidad[0] + 1;
+                holder.tvCantidad.setText(String.valueOf(cantidad[0]));
+
+                actualizarCantidadEnCarritoCompras(idProducto, cantidad[0]);
             }
         });
 
         holder.btnMenos.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String numeroActual = holder.tvcantidad.getText().toString();
+                String numeroActual = holder.tvCantidad.getText().toString();
                 if (numeroActual.equals("1")) {
 
                 }else{
-                    cantidad = Integer.parseInt(numeroActual);
-                    cantidad = cantidad - 1;
-                    holder.tvcantidad.setText(String.valueOf(cantidad));
-                    agregarCarrito(listaDeDatos.get(position).getIdProducto(), cantidad);
+                    cantidad[0] = Integer.parseInt(numeroActual);
+                    cantidad[0] = cantidad[0] - 1;
+                    holder.tvCantidad.setText(String.valueOf(cantidad[0]));
+                    actualizarCantidadEnCarritoCompras(idProducto, cantidad[0]);
                 }
             }
         });
@@ -202,19 +178,39 @@ public class listShoppingCartAdapter extends RecyclerView.Adapter<listShoppingCa
                 cargando.setMessage("Un momento por favor...");
                 cargando.show();
 
-                double total = (listaDeDatos.get(position).getPrecio() - listaDeDatos.get(position).getDescuento());
+                double total = (precioProducto - descuentoProducto);
 
-                registrarProductoSolicitado(listaDeDatos.get(position).getIdProducto(), total, listaDeDatos.get(position).getCantidad(),
-                                            listaDeDatos.get(position).getPrecioDomicilio(), listaDeDatos.get(position).getIdVendedor());
-                consultarDatosVendedor(listaDeDatos.get(position).getIdVendedor(), listaDeDatos.get(position).getIdProducto(), listaDeDatos.get(position).getNombreProducto(),
-                                        total, listaDeDatos.get(position).getPrecioDomicilio(), listaDeDatos.get(position).getCantidad());
+                registrarProductoSolicitado(idProducto, total, cantidad[0], precioDomicilio, idVendedor[0]);
+                consultarDatosVendedor(idVendedor[0], idProducto, nombreProducto, total, precioDomicilio, cantidad[0]);
 
             }
         });
     }
 
-    public void registrarProductoSolicitado(String idProducto, double total, int numeroProductos, double precioDomicilio, String idVendedor){
+    private void irADetalleDeProducto(String nombreProducto, String idProducto, String tipoProducto, String domicilioProducto,
+                                      String descripcionProducto, Double precioProducto, Double descuentoProducto,
+                                      Double precioDomicilio, String fechaInicio, String horaInicio, String fechaFin,
+                                      String horaFin, String getUrlFoto, String idVendedor){
+        Intent intent = new Intent(activity , lookAtProduct.class);
+        intent.putExtra("nombreProducto", nombreProducto);
+        intent.putExtra("idProducto" , idProducto);
+        intent.putExtra("tipoProducto" , tipoProducto);
+        intent.putExtra("domicilioProducto" , domicilioProducto);
+        intent.putExtra("descripcionProducto" , descripcionProducto);
+        intent.putExtra("precio" , String.valueOf(precioProducto));
+        intent.putExtra("descuento" , String.valueOf(descuentoProducto));
+        intent.putExtra("precioDomicilio" , String.valueOf(precioDomicilio));
+        intent.putExtra("fechaInicio", fechaInicio);
+        intent.putExtra("horaInicio", horaInicio);
+        intent.putExtra("fechaFin", fechaFin);
+        intent.putExtra("horaFin", horaFin);
+        intent.putExtra("getUrlFoto" , getUrlFoto);
+        intent.putExtra("idVendedor" , idVendedor);
+        intent.putExtra("tipyEntry" , "Consultar");
+        activity.startActivity(intent);
+    }
 
+    public void registrarProductoSolicitado(String idProducto, double total, int numeroProductos, double precioDomicilio, String idVendedor){
         producto.clear();
         producto.put("idProducto", idProducto);
         producto.put("valorProducto",String.valueOf(total));
@@ -245,9 +241,9 @@ public class listShoppingCartAdapter extends RecyclerView.Adapter<listShoppingCa
                 if(snapshot.exists()){
                     String emailVendedor = snapshot.child("correo").getValue().toString();
                     String nombreVendedor = snapshot.child("nombre").getValue().toString();
-                    enviar_email_vendedor(nombreComprador, emailVendedor, nombreVendedor, nombreProducto, numeroProductos);
+                    enviarEmailVendedor(nombreComprador, emailVendedor, nombreVendedor, nombreProducto, numeroProductos);
                     String token = snapshot.child("tokenId").getValue().toString();
-                    enviar_notificacion_push(nombreComprador, emailVendedor, nombreVendedor, token, nombreProducto, numeroProductos);
+                    enviarNotificacionPush(nombreComprador, emailVendedor, nombreVendedor, token, nombreProducto, numeroProductos);
                     cargando.dismiss();
                     Intent intent = new Intent(getApplicationContext() , buyProduct.class);
                     intent.putExtra("idProducto" , idProducto);
@@ -257,9 +253,7 @@ public class listShoppingCartAdapter extends RecyclerView.Adapter<listShoppingCa
                     intent.putExtra("nroProductos", String.valueOf(numeroProductos));
                     intent.putExtra("idVendedor" , idVendedor);
                     intent.putExtra("origen" , "LookAtProduct");
-
                     activity.startActivity(intent);
-
                 }
             }
             @Override
@@ -269,7 +263,7 @@ public class listShoppingCartAdapter extends RecyclerView.Adapter<listShoppingCa
         });
     }
 
-    public void agregarCarrito(String idProducto, int cantidad){
+    public void actualizarCantidadEnCarritoCompras(String idProducto, int cantidad){
         //guarda los datos del carrito de compras
         myRefCarrito.child(currentUser.getUid()).child("carrito_compras").child(idProducto).child("cantidadProducto").setValue(cantidad)
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
@@ -286,7 +280,7 @@ public class listShoppingCartAdapter extends RecyclerView.Adapter<listShoppingCa
                 });
     }
 
-    public void borrarProductoCarrito(String idProducto){
+    public void borrarProductodelCarrito(String idProducto){
         FirebaseAuth mAuth;
         FirebaseUser currentUser;
         FirebaseDatabase database;
@@ -313,7 +307,7 @@ public class listShoppingCartAdapter extends RecyclerView.Adapter<listShoppingCa
          */
     }
 
-    public void enviar_email_vendedor(String nombreComprador, String emailVendedor, String nombreVendedor, String nombreProducto,
+    public void enviarEmailVendedor(String nombreComprador, String emailVendedor, String nombreVendedor, String nombreProducto,
                                       int numeroProductos){
 
         //String correoEnvia = correo.getText().toString();
@@ -370,7 +364,7 @@ public class listShoppingCartAdapter extends RecyclerView.Adapter<listShoppingCa
         }
     }
 
-    public void enviar_notificacion_push(String nombreComprador, String emailVendedor, String nombreVendedor, String token,
+    public void enviarNotificacionPush(String nombreComprador, String emailVendedor, String nombreVendedor, String token,
                                          String nombreProducto, int numeroProductos){
 
         try {
@@ -445,18 +439,18 @@ public class listShoppingCartAdapter extends RecyclerView.Adapter<listShoppingCa
     }
 
     public class viewHolder extends RecyclerView.ViewHolder {
-        TextView nombre_producto, precio, nombre_empresa, tvcantidad;
+        TextView tvNombreProducto, tvPrecio, tvNombreEmpresa, tvCantidad;
         ImageView imagenProducto, imgBorrarProducto;
         Button btnMas, btnMenos, btn_comprar;
 
         public viewHolder(@NonNull View itemView) {
             super(itemView);
 
-            nombre_producto = itemView.findViewById(R.id.tv_nombre_producto);
-            nombre_empresa = itemView.findViewById(R.id.tv_nombre_empresa);
-            tvcantidad = itemView.findViewById(R.id.tv_cantidad_producto2);
+            tvNombreProducto = itemView.findViewById(R.id.tv_nombre_producto);
+            tvNombreEmpresa = itemView.findViewById(R.id.tv_nombre_empresa);
+            tvCantidad = itemView.findViewById(R.id.tv_cantidad_producto2);
             imagenProducto = itemView.findViewById(R.id.img_imagen_producto);
-            precio = itemView.findViewById(R.id.tv_total_producto2);
+            tvPrecio = itemView.findViewById(R.id.tv_total_producto2);
             imgBorrarProducto = itemView.findViewById(R.id.img_borrar_producto);
             btnMenos = itemView.findViewById(R.id.btn_menos);
             btnMas = itemView.findViewById(R.id.btn_mas);
