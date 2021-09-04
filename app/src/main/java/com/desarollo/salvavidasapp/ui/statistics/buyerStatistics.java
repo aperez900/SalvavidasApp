@@ -63,7 +63,7 @@ public class buyerStatistics extends Fragment {
         barChart.getDescription().setText("Gráfico de ejemplo");
         barChart.animateY(2000);
 
-        //PieChart
+        //PieChartSeller
 
         PieChart pieChart = view.findViewById(R.id.pieChart);
 
