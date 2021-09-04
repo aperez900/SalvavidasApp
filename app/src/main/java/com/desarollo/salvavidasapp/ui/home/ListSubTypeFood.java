@@ -57,8 +57,11 @@ public class ListSubTypeFood extends RecyclerView.Adapter<ListSubTypeFood.viewHo
             public void onClick(View v) {
                 //Intent intent = new Intent(activity , addProduct.class);
                 String SubTipoComida = listaDeDatos.get(position).getSubTipoComida();
+                String TipoProducto = listaDeDatos.get(position).getTipo();
                 Intent intent = new Intent(activity , products_by_sub_type.class);
                 intent.putExtra("SubTipoComida", SubTipoComida);
+                intent.putExtra("TipoProducto", TipoProducto);
+
                 activity.startActivity(intent);
             }
         });

@@ -116,7 +116,7 @@ public class HomeFragment extends Fragment {
                 if(snapshot.exists()){
                     listaDeDatosTipo.clear();
                     for(DataSnapshot objsnapshot : snapshot.getChildren()){ //Recorre los usuarios
-                            TipoComidas t = objsnapshot.getValue(TipoComidas.class);
+                        TipoComidas t = objsnapshot.getValue(TipoComidas.class);
                         assert t != null;
                         listaDeDatosTipo.add(new TipoComidas(t.getTipoComida(),t.getFoto()));
                         }

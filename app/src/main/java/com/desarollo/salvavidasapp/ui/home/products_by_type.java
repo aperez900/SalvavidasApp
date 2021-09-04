@@ -8,6 +8,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.desarollo.salvavidasapp.Models.Productos;
@@ -48,7 +50,7 @@ products_by_type extends AppCompatActivity {
     ArrayList<SubTipoComidas> listaDeDatosSubTipo = new ArrayList<>();
     DatabaseReference myRefTypeFood;
     String tipoComida;
-
+    TextView titulo_subtipo;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,6 +62,7 @@ products_by_type extends AppCompatActivity {
         database = FirebaseDatabase.getInstance();
         myRef = database.getReference("productos");
         myRefTypeFood = database.getReference("tipo_comidas");
+        titulo_subtipo = findViewById(R.id.tv_titulo_subtipo);
 
 
         listado_subtipo_comidas = findViewById(R.id.sub_tipo_comidas);
@@ -99,13 +102,14 @@ products_by_type extends AppCompatActivity {
                     for(DataSnapshot objsnapshot : snapshot.getChildren()){ //Recorre los usuarios
                         SubTipoComidas st = objsnapshot.getValue(SubTipoComidas.class);
 
-                        listaDeDatosSubTipo.add(new SubTipoComidas(st.getSubTipoComida(),st.getFoto()));
+                        listaDeDatosSubTipo.add(new SubTipoComidas(st.getSubTipoComida(),st.getFoto(),tipoComida));
                         // Toast.makeText(getApplicationContext(), st.getSubTipoComida(), Toast.LENGTH_SHORT).show();
                     }
 
                     listSubTypeFood = new ListSubTypeFood(getApplicationContext(),listaDeDatosSubTipo, products_by_type.this);
                     listado_subtipo_comidas.setAdapter(listSubTypeFood);
                 }else{
+
 
                 }
             }
@@ -151,6 +155,7 @@ products_by_type extends AppCompatActivity {
                                 if (getCurrentDateTime.compareTo(fechaInicio) > 0 && getCurrentDateTime.compareTo(fechaFin) < 0
                                         && !estado.equals("Cancelado por el vendedor")){
 
+                                    titulo_subtipo.setVisibility(View.INVISIBLE);
                                     listaDeDatos.add(new Productos(p.getIdProducto(), p.getNombreProducto(), p.getDescripcionProducto(),
                                             p.getCategoriaProducto(), p.getSubCategoriaProducto(), p.getPrecio(), p.getDescuento(), p.getDomicilio(), p.getEstadoProducto(),
                                             p.getfoto(), p.getFechaInicio(), p.getHoraInicio(), p.getFechaFin(), p.getHoraFin(),p.getNombreEmpresa(),p.getDireccion(), 1,p.getPrecioDomicilio(),

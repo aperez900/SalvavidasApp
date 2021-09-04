@@ -37,6 +37,7 @@ public class products_by_sub_type extends AppCompatActivity {
     DatabaseReference myRef;
 
     String SubtipoComida;
+    String TipoProducto;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,10 +58,12 @@ public class products_by_sub_type extends AppCompatActivity {
         listado.setAdapter(listSellAdapter);
 
         SubtipoComida = "";
+        TipoProducto = "";
         Intent intent = getIntent();
         if (intent.getExtras()  != null){
             Bundle extras = getIntent().getExtras();
             SubtipoComida = extras.getString("SubTipoComida");
+            TipoProducto = extras.getString("TipoProducto");
 
         }
 
@@ -81,7 +84,7 @@ public class products_by_sub_type extends AppCompatActivity {
                         for (DataSnapshot objsnapshot2 : objsnapshot.getChildren()) { //recorre los productos
                             Productos p = objsnapshot2.getValue(Productos.class);
 
-                            if (p.getCategoriaProducto().equals(SubtipoComida)){
+                            if (p.getSubCategoriaProducto().equals(SubtipoComida)){
                                 String estado="";
                                 String subCategoria="";
                                 Date fechaInicio = null;
