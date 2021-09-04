@@ -182,13 +182,15 @@ public class buyProduct extends AppCompatActivity {
                     if(estadoSolicitud.equals("Solicitado")){
                         tvEstadoProducto.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.clock, 0);
                         btn_pago.setVisibility(View.VISIBLE);
-                    }else if (estadoSolicitud.equals("Procesando pago")||estadoSolicitud.equals("Cancelado por el comprador")||estadoSolicitud.equals("Cancelado por el vendedor")||estadoSolicitud.equals("Anulado")) {
+                    }else if (estadoSolicitud.equals("Procesando pago")
+                            ||estadoSolicitud.equals("Cancelado por el comprador")||estadoSolicitud.equals("Cancelado por el vendedor")
+                            ||estadoSolicitud.equals("Anulado por el comprador")) {
                         tvEstadoProducto.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.clock, 0);
                         btn_pago.setVisibility(View.INVISIBLE);
                     }else if (estadoSolicitud.equals("Aprobado por el vendedor")){
                         tvEstadoProducto.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ok, 0);
                         btn_pago.setVisibility(View.VISIBLE);
-                    }else if (estadoSolicitud.equals("Realizado")){
+                    }else if (estadoSolicitud.equals("Realizado") || estadoSolicitud.equals("Pagado")){
                         tvEstadoProducto.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ok, 0);
                         btn_pago.setVisibility(View.INVISIBLE);
                     }

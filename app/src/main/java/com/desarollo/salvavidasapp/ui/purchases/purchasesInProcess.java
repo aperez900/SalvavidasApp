@@ -70,32 +70,22 @@ public class purchasesInProcess extends AppCompatActivity {
         Calendar c = Calendar.getInstance();
         SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm");
 
-        myRefVendedores.addValueEventListener(new ValueEventListener() {
+        myRefUsuarios.child(currentUser.getUid()).child("mis_compras").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 if (snapshot.exists()) {
                     subtitulo_compras_en_proceso.setText("Los siguientes productos estan en proceso de compra");
                     listaDeDatos.clear();
                     for (DataSnapshot objsnapshot : snapshot.getChildren()) { //recorre los productos
-
-                        for(DataSnapshot objsnapshot2 : objsnapshot.child("productos_en_tramite").getChildren()) {
-                                String test = objsnapshot2.getKey();
-                            if (test.equals(currentUser.getUid())){
-                                for(DataSnapshot objsnapshot3 : objsnapshot2.getChildren()){
-                                    String idProd = objsnapshot3.child("idProducto").getValue().toString();
-                                    String cantidad = objsnapshot3.child("cantidadProducto").getValue().toString();
-                                    String idUsuarioSolicitud = objsnapshot3.child("usuarioSolicitud").getValue().toString();
-                                    String estadoSolicitud = objsnapshot3.child("estado").getValue().toString();
-                                    String valorCompra = objsnapshot3.child("valorProducto").getValue().toString();
-                                    //consultarDatosUsuario(idProd, cantidad, idUsuarioSolicitud, estadoSolicitud);
-                                    if (estadoSolicitud.equals("Cancelado por el comprador")|| estadoSolicitud.equals("Realizado") || estadoSolicitud.equals("Anulado")) {
-                                    }else{
-                                        consultarDetalleProducto(idProd, cantidad, idUsuarioSolicitud, estadoSolicitud, Double.parseDouble(valorCompra));
-                                    }
-
-                                }
-                            }
-                         }
+                        String estadoSolicitud = objsnapshot.child("estado").getValue().toString();
+                        if (estadoSolicitud.equals("Solicitado") || estadoSolicitud.equals("Procesando pago")
+                                || estadoSolicitud.equals("Aprobado por el vendedor")){
+                            String idProd = objsnapshot.child("idProducto").getValue().toString();
+                            String cantidad = objsnapshot.child("cantidadProducto").getValue().toString();
+                            String idUsuarioSolicitud = objsnapshot.child("usuarioSolicitud").getValue().toString();
+                            String valorCompra = objsnapshot.child("valorProducto").getValue().toString();
+                            consultarDetalleProducto(idProd, cantidad, idUsuarioSolicitud, estadoSolicitud, Double.parseDouble(valorCompra));
+                        }
                     }
                 }
                 else {

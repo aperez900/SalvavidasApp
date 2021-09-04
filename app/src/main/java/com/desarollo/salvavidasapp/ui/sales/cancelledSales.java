@@ -65,8 +65,7 @@ public class cancelledSales extends AppCompatActivity {
 
         DateFormat fechaHora = new SimpleDateFormat("dd/MM/yyyy");
 
-        myRef
-                .child(currentUser.getUid())
+        myRef.child(currentUser.getUid())
                 .addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -74,18 +73,9 @@ public class cancelledSales extends AppCompatActivity {
                             listaDeDatos.clear();
                             for(DataSnapshot objsnapshot : snapshot.getChildren()){
                                 Productos p = objsnapshot.getValue(Productos.class);
-                                Date fecha = null;
-                                Date hoy = new Date();
                                 String estado="";
-                                try {
-                                    fecha = fechaHora.parse(p.getFechaInicio());
-                                    estado = p.getEstadoProducto();
-                                    //Toast.makeText(getContext(), estado, Toast.LENGTH_SHORT).show();
-                                } catch (ParseException e) {
-                                    e.printStackTrace();
-                                }
+                                estado = p.getEstadoProducto();
                                 if (estado.equals("Cancelado por el vendedor")){
-                                    // Toast.makeText(getContext(), p.getFechaInicio(), Toast.LENGTH_SHORT).show();
                                     titulo_cancelados.setText("Productos cancelados");
                                     subtitulo_cancelados.setText("Los siguientes productos ya no estan disponibles para la venta");
                                     listaDeDatos.add(new Productos(p.getIdProducto(), p.getNombreProducto(), p.getDescripcionProducto(),

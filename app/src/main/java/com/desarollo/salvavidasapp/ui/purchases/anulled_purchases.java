@@ -68,30 +68,20 @@ public class anulled_purchases extends AppCompatActivity {
         Calendar c = Calendar.getInstance();
         SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm");
 
-        myRefVendedores.addValueEventListener(new ValueEventListener() {
+        myRefUsuarios.child(currentUser.getUid()).child("mis_compras").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 if (snapshot.exists()) {
                     subtitulo_compras_anuladas.setText("Los siguientes productos fueron anulados");
                     listaDeDatos.clear();
                     for (DataSnapshot objsnapshot : snapshot.getChildren()) { //recorre los productos
-                        for(DataSnapshot objsnapshot2 : objsnapshot.child("productos_en_tramite").getChildren()) {
-                            String test = objsnapshot2.getKey();
-                            if (test.equals(currentUser.getUid())){
-                                for(DataSnapshot objsnapshot3 : objsnapshot2.getChildren()){
-                                    String idProd = objsnapshot3.child("idProducto").getValue().toString();
-                                    String cantidad = objsnapshot3.child("cantidadProducto").getValue().toString();
-                                    String idUsuarioSolicitud = objsnapshot3.child("usuarioSolicitud").getValue().toString();
-                                    String estadoSolicitud = objsnapshot3.child("estado").getValue().toString();
-                                    String valorCompra = objsnapshot3.child("valorProducto").getValue().toString();
-                                    //consultarDatosUsuario(idProd, cantidad, idUsuarioSolicitud, estadoSolicitud);
-                                    if (estadoSolicitud.equals("Anulado")) {
-                                        consultarDetalleProducto(idProd, cantidad, idUsuarioSolicitud, estadoSolicitud, Double.parseDouble(valorCompra));
-
-                                    }else{
-                                    }
-                                }
-                            }
+                        String estadoSolicitud = objsnapshot.child("estado").getValue().toString();
+                        if (estadoSolicitud.equals("Anulado por el comprador")){
+                            String idProd = objsnapshot.child("idProducto").getValue().toString();
+                            String cantidad = objsnapshot.child("cantidadProducto").getValue().toString();
+                            String idUsuarioSolicitud = objsnapshot.child("usuarioSolicitud").getValue().toString();
+                            String valorCompra = objsnapshot.child("valorProducto").getValue().toString();
+                            consultarDetalleProducto(idProd, cantidad, idUsuarioSolicitud, estadoSolicitud, Double.parseDouble(valorCompra));
                         }
                     }
                 }

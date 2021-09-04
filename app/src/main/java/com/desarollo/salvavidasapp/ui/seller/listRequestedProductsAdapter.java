@@ -148,7 +148,9 @@ public class listRequestedProductsAdapter extends RecyclerView.Adapter<listReque
                     cargando.show();
                     enviar_email_aceptacion_comprador(nombreUsuario, correoUsuarioSolicitud,
                             nombre_producto, cantidad);
-                    actualizarEstadoProducto(idVendedor, idUsuarioSolicitud,
+                    actualizarEstadoProductoVendedor(idVendedor, idUsuarioSolicitud,
+                            id_producto,"Aprobado por el vendedor");
+                    actualizarEstadoProductoComprador(idUsuarioSolicitud,
                             id_producto,"Aprobado por el vendedor");
                 }else{
                     Toast.makeText(activity, "El producto ya no se puede aceptar", Toast.LENGTH_SHORT).show();
@@ -166,7 +168,9 @@ public class listRequestedProductsAdapter extends RecyclerView.Adapter<listReque
                     cargando.show();
                     enviar_email_rechazo_comprador(nombreUsuario, correoUsuarioSolicitud,
                             nombre_producto, cantidad);
-                    actualizarEstadoProducto(idVendedor, idUsuarioSolicitud,
+                    actualizarEstadoProductoVendedor(idVendedor, idUsuarioSolicitud,
+                            id_producto, "Rechazado por el vendedor");
+                    actualizarEstadoProductoComprador(idUsuarioSolicitud,
                             id_producto, "Rechazado por el vendedor");
                 }else{
                     Toast.makeText(activity, "El producto ya no se puede rechazar", Toast.LENGTH_SHORT).show();
@@ -233,13 +237,38 @@ public class listRequestedProductsAdapter extends RecyclerView.Adapter<listReque
         }
     }
 
-    public void actualizarEstadoProducto(String idVendedor, String idUsuarioSolicitud, String idProducto, String estado){
+    public void actualizarEstadoProductoVendedor(String idVendedor, String idUsuarioSolicitud, String idProducto, String estado){
 
         FirebaseDatabase database;
         DatabaseReference myRefVendedor;
         database = FirebaseDatabase.getInstance();
         myRefVendedor = database.getReference("vendedores");
         myRefVendedor.child(idVendedor).child("productos_en_tramite").child(idUsuarioSolicitud).child(idProducto).child("estado").setValue(estado)
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        //Toast.makeText(getApplicationContext(), "Estado actualizado", Toast.LENGTH_SHORT).show();
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Toast.makeText(getApplicationContext(), "Error guardando el estado de la solicitud. Intenta de nuevo mas tarde", Toast.LENGTH_SHORT).show();
+                    }
+                });
+    }
+
+    public void actualizarEstadoProductoComprador(String idUsuarioSolicitud, String idProducto, String estado){
+
+        FirebaseDatabase database;
+        DatabaseReference myRefusuario;
+        FirebaseAuth mAuth;
+        mAuth = FirebaseAuth.getInstance();
+        FirebaseUser currentUser;
+        currentUser = mAuth.getCurrentUser();
+        database = FirebaseDatabase.getInstance();
+        myRefusuario = database.getReference("usuarios");
+        myRefusuario.child(currentUser.getUid()).child("mis_compras").child(idProducto).child("estado").setValue(estado)
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void aVoid) {
