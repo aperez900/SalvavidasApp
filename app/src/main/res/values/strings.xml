@@ -120,11 +120,19 @@
     <string name="precioDomicilio2">Precio Domicilio</string>
     <string name="valorComision">Valor comisión</string>
 
+    <string name="estadisticasComprador">Estadísticas comprador</string>
+    <string name="estadisticasVendedor">Estadísticas vendedor</string>
+
     <string name="tituloProductosSolicitados">Productos solicitados</string>
     <string name="subtituloProductosSolicitados">No hay productos solicitados actualmente</string>
     <string name="aceptar">Aceptar</string>
     <string name="rechazar">Rechazar</string>
     <string name="para">Para: </string>
+
+    <string name="pagar">Pagar</string>
+
+    <string name="tituloVentasEfectuadas">Ventas efectuadas</string>
+    <string name="subtituloVentasEfectuadas">No hay ventas efectuadas actualmente</string>
 
     <string name="historial">Historial </string>
 

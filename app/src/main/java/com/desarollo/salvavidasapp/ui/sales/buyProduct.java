@@ -60,7 +60,6 @@ public class buyProduct extends AppCompatActivity {
                 tvCantidadProducto, tvEstadoProducto, tvSubTotalProducto, tvSubTotalProducto1,
                 tvSignoMonedaSubTotal;
     LinearLayout linearLayoutBP, linearLayoutBP1, linearLayoutBP2;
-    CardView card;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -88,7 +87,6 @@ public class buyProduct extends AppCompatActivity {
         linearLayoutBP1 = findViewById(R.id.LinearLayout1);
         linearLayoutBP2 = findViewById(R.id.LinearLayout2);
         btn_pago = findViewById(R.id.btn_pago);
-        card = findViewById(R.id.cardView_);
 
         Intent intent = getIntent();
         if (intent.getExtras() != null){
@@ -131,14 +129,13 @@ public class buyProduct extends AppCompatActivity {
                 int vt = (int) valorTotal_*100;
                 String vt_ = Integer.toString(vt);
                 String transaction = UUID.randomUUID().toString();
-                registrarCompra(vt_,transaction, idProducto,idVendedor);
-
+                registrarsolicitudVendedor(vt_,transaction, idProducto,idVendedor);
+                registrarCompraAlComprador(vt_,transaction, idProducto,idVendedor);
             }
         });
     }
 
-    public void registrarCompra(String vt_, String transaction, String idProducto,String idVendedor){
-
+    private void registrarsolicitudVendedor(String vt_, String transaction, String idProducto,String idVendedor){
         myRefVendedores.child(idVendedor).child("productos_en_tramite").child(currentUser.getUid()).child(idProducto).child("estado").setValue("Procesando pago")
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
@@ -148,6 +145,22 @@ public class buyProduct extends AppCompatActivity {
                         Intent intent = new Intent(Intent.ACTION_VIEW, uri);
                         startActivity(intent);
                         finish();
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Toast.makeText(buyProduct.this, "Error agregando la compra en la base de datos. Intenta de nuevo mas tarde", Toast.LENGTH_SHORT).show();
+                    }
+                });
+    }
+
+    private void registrarCompraAlComprador(String vt_, String transaction, String idProducto,String idVendedor){
+        myRef.child(currentUser.getUid()).child("mis_compras").child(idProducto).child("estado").setValue("Procesando pago")
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {
@@ -168,27 +181,19 @@ public class buyProduct extends AppCompatActivity {
                     tvEstadoProducto.setText(estadoSolicitud);
                     if(estadoSolicitud.equals("Solicitado")){
                         tvEstadoProducto.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.clock, 0);
-                        btn_pago.setVisibility(View.INVISIBLE);
-                        card.setVisibility(View.VISIBLE);
+                        btn_pago.setVisibility(View.VISIBLE);
                     }else if (estadoSolicitud.equals("Procesando pago")||estadoSolicitud.equals("Cancelado por el comprador")||estadoSolicitud.equals("Cancelado por el vendedor")||estadoSolicitud.equals("Anulado")) {
-
-                        tvEstadoProducto.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.cancel, 0);
+                        tvEstadoProducto.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.clock, 0);
                         btn_pago.setVisibility(View.INVISIBLE);
-                        card.setVisibility(View.VISIBLE);
-
                     }else if (estadoSolicitud.equals("Aprobado por el vendedor")){
                         tvEstadoProducto.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ok, 0);
                         btn_pago.setVisibility(View.VISIBLE);
-                        card.setVisibility(View.INVISIBLE);
                     }else if (estadoSolicitud.equals("Realizado")){
                         tvEstadoProducto.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ok, 0);
                         btn_pago.setVisibility(View.INVISIBLE);
-                        card.setVisibility(View.INVISIBLE);
                     }
                     else{
                         btn_pago.setVisibility(View.INVISIBLE);
-                        card.setVisibility(View.VISIBLE);
-
                     }
                 }
             }
@@ -212,7 +217,6 @@ public class buyProduct extends AppCompatActivity {
                         String cantidad = objsnapshot.child("cantidadProducto").getValue().toString();
 
                         consultarDetalleProducto(idProd,cantidad);
-
                     }
                 }
             }

@@ -74,7 +74,6 @@ public class purchases_made extends AppCompatActivity {
                     subtitulo_compras_realizadas.setText("Se realizo la compra de los siguientes productos");
                     listaDeDatos.clear();
                     for (DataSnapshot objsnapshot : snapshot.getChildren()) { //recorre los productos
-
                         for(DataSnapshot objsnapshot2 : objsnapshot.child("productos_en_tramite").getChildren()) {
                             String test = objsnapshot2.getKey();
                             if (test.equals(currentUser.getUid())){
@@ -87,7 +86,6 @@ public class purchases_made extends AppCompatActivity {
                                     //consultarDatosUsuario(idProd, cantidad, idUsuarioSolicitud, estadoSolicitud);
                                     if (estadoSolicitud.equals("Realizado")) {
                                         consultarDetalleProducto(idProd, cantidad, idUsuarioSolicitud, estadoSolicitud, Double.parseDouble(valorCompra));
-
                                     }else{
                                     }
 

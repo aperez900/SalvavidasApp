@@ -4,12 +4,10 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".ui.statistics.buyerStatistics"
-    android:padding="10dp"
-    android:orientation="vertical">
+    tools:context=".ui.statistics.sellerStatistics">
 
     <androidx.cardview.widget.CardView
-        android:id="@+id/cardBarChart"
+        android:id="@+id/cardBarChartSeller"
         android:layout_width="match_parent"
         android:layout_height="300dp"
         android:background="@color/white"
@@ -20,17 +18,17 @@
         app:layout_rowWeight="1">
 
         <com.github.mikephil.charting.charts.BarChart
-            android:id="@+id/barChart"
+            android:id="@+id/barChartSeller"
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
 
     </androidx.cardview.widget.CardView>
 
     <androidx.cardview.widget.CardView
-        android:id="@+id/cardPieChart"
+        android:id="@+id/cardPieChartSeller"
         android:layout_width="match_parent"
         android:layout_height="300dp"
-        android:layout_below="@+id/cardBarChart"
+        android:layout_below="@+id/cardBarChartSeller"
         android:layout_marginTop="10dp"
         android:background="@color/white"
         android:foreground="?selectableItemBackground"
@@ -40,12 +38,10 @@
         app:layout_rowWeight="1">
 
         <com.github.mikephil.charting.charts.PieChart
-            android:id="@+id/pieChart"
+            android:id="@+id/pieChartSeller"
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
 
     </androidx.cardview.widget.CardView>
-
-
 
 </RelativeLayout>

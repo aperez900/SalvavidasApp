@@ -95,8 +95,9 @@ public class Home extends AppCompatActivity {
         // Passing each menu ID as a set of Ids because each
         // menu should be considered as top level destinations.
         mAppBarConfiguration = new AppBarConfiguration.Builder(
-                R.id.nav_home, R.id.nav_statistics, R.id.nav_settings, R.id.nav_profile,
-                R.id.nav_address, R.id.subMenuProfile, R.id.nav_sales, R.id.nav_purchases)
+                R.id.nav_home, R.id.nav_settings, R.id.nav_profile,
+                R.id.nav_address, R.id.subMenuProfile, R.id.nav_sales, R.id.nav_purchases,
+                R.id.NavStatisticalMenu)
                 .setOpenableLayout(drawer)
                 .build();
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
@@ -282,13 +283,13 @@ public class Home extends AppCompatActivity {
     private void irAlCarritoDeCompras(){
         Intent intent = new Intent(this, shoppingCart.class);
         startActivity(intent);
-        finish();
+        //finish();
     }
 
     private void irAProductosSolicitados(){
         Intent intent = new Intent(this, requested_products.class);
         startActivity(intent);
-        finish();
+        //finish();
     }
 
     private void verNroProductosCarritoCompras(){

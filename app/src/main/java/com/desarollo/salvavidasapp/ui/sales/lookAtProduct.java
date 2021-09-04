@@ -49,8 +49,10 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.messaging.RemoteMessage;
 
 import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Objects;
@@ -72,7 +74,7 @@ public class lookAtProduct extends AppCompatActivity {
     FirebaseAuth mAuth;
     FirebaseUser currentUser;
     FirebaseDatabase database;
-    DatabaseReference myRef, myRefCarrito, myRefVendedor;
+    DatabaseReference myRef, myRefUsuarios, myRefVendedor;
     String idProducto ="";
     String idVendedor ="";
     String urlFoto="";
@@ -84,6 +86,8 @@ public class lookAtProduct extends AppCompatActivity {
     Session session;
     String nombreComprador, nombreProducto;
     ProgressDialog cargando;
+    Calendar c;
+    Date getCurrentDateTime;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -97,8 +101,11 @@ public class lookAtProduct extends AppCompatActivity {
 
         database = FirebaseDatabase.getInstance();
         myRef = database.getReference("productos");
-        myRefCarrito = database.getReference("usuarios");
+        myRefUsuarios = database.getReference("usuarios");
         myRefVendedor = database.getReference("vendedores");
+
+        c = Calendar.getInstance();
+        getCurrentDateTime = null;
 
         ImageView imgProducto = findViewById(R.id.img_imagen_producto);
         TextView tvnombreProducto = findViewById(R.id.tv_nombre_producto);
@@ -153,7 +160,6 @@ public class lookAtProduct extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 agregarCarrito();
-                //Toast.makeText(lookAtProduct.this, "En construcción", Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -193,9 +199,9 @@ public class lookAtProduct extends AppCompatActivity {
                 cargando.setTitle("Cargando");
                 cargando.setMessage("Un momento por favor...");
                 cargando.show();
-                registrarProductoSolicitado();
+                registrarProductoSolicitadoAlVendedor();
+                registrarProductoSolicitadoAlComprador();
                 consultarDatosVendedor(idVendedor);
-
             }
         });
 
@@ -263,7 +269,7 @@ public class lookAtProduct extends AppCompatActivity {
        // producto.put("nombreProducto",nombreProducto);
 
         //guarda los datos del carrito de compras
-        myRefCarrito.child(currentUser.getUid()).child("carrito_compras").child(idProducto).setValue(producto)
+        myRefUsuarios.child(currentUser.getUid()).child("carrito_compras").child(idProducto).setValue(producto)
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void aVoid) {
@@ -279,7 +285,7 @@ public class lookAtProduct extends AppCompatActivity {
     }
 
     public void consultarDatosVendedor(String idVendedor) {
-        myRefCarrito.child(idVendedor).addValueEventListener(new ValueEventListener() {
+        myRefUsuarios.child(idVendedor).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 if(snapshot.exists()){
@@ -417,7 +423,9 @@ public class lookAtProduct extends AppCompatActivity {
         }
     }
 
-    public void registrarProductoSolicitado(){
+    public void registrarProductoSolicitadoAlVendedor(){
+
+        getCurrentDateTime = c.getTime();
 
         producto.clear();
         producto.put("idProducto", idProducto);
@@ -425,9 +433,37 @@ public class lookAtProduct extends AppCompatActivity {
         producto.put("cantidadProducto",String.valueOf(numeroProductos));
         producto.put("usuarioSolicitud",currentUser.getUid());
         producto.put("precioDomicilio",String.valueOf(precioDomicilio));
+        producto.put("fecha", String.valueOf(getCurrentDateTime));
         producto.put("estado","Solicitado");
 
         myRefVendedor.child(idVendedor).child("productos_en_tramite").child(currentUser.getUid()).child(idProducto).setValue(producto)
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        //Toast.makeText(lookAtProduct.this, "Producto solicitado", Toast.LENGTH_SHORT).show();
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Toast.makeText(lookAtProduct.this, "Error agregando solicitud del producto. Intenta de nuevo mas tarde", Toast.LENGTH_SHORT).show();
+                    }
+                });
+    }
+
+    public void registrarProductoSolicitadoAlComprador(){
+        getCurrentDateTime = c.getTime();
+
+        producto.clear();
+        producto.put("idProducto", idProducto);
+        producto.put("valorProducto",String.valueOf(total));
+        producto.put("cantidadProducto",String.valueOf(numeroProductos));
+        producto.put("usuarioSolicitud",currentUser.getUid());
+        producto.put("precioDomicilio",String.valueOf(precioDomicilio));
+        producto.put("fecha", String.valueOf(getCurrentDateTime));
+        producto.put("estado","Solicitado");
+
+        myRefUsuarios.child(currentUser.getUid()).child("mis_compras").child(idProducto).setValue(producto)
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void aVoid) {

@@ -10,7 +10,7 @@
             android:title="@string/menu_home"
             android:fontFamily="@font/poppins_bold" />
         <item
-            android:id="@+id/nav_statistics"
+            android:id="@+id/NavStatisticalMenu"
             android:icon="@drawable/icono_estadisticas_24"
             android:title="@string/estadisticas"
             android:fontFamily="@font/poppins_bold" />

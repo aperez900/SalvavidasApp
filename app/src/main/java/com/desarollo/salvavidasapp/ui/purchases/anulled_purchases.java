@@ -75,7 +75,6 @@ public class anulled_purchases extends AppCompatActivity {
                     subtitulo_compras_anuladas.setText("Los siguientes productos fueron anulados");
                     listaDeDatos.clear();
                     for (DataSnapshot objsnapshot : snapshot.getChildren()) { //recorre los productos
-
                         for(DataSnapshot objsnapshot2 : objsnapshot.child("productos_en_tramite").getChildren()) {
                             String test = objsnapshot2.getKey();
                             if (test.equals(currentUser.getUid())){
@@ -91,7 +90,6 @@ public class anulled_purchases extends AppCompatActivity {
 
                                     }else{
                                     }
-
                                 }
                             }
                         }

@@ -85,7 +85,7 @@ public class scheduledSales extends AppCompatActivity {
                                 }
 
                                 estado = p.getEstadoProducto();
-                                if (getCurrentDateTime.compareTo(fecha) < 0 &&  !estado.equals("Cancelado por el vendedor")) {
+                                if (getCurrentDateTime.compareTo(fecha) < 0 && !estado.equals("Cancelado por el vendedor")) {
 
                                     //Toast.makeText(scheduledSales.this, getCurrentDateTime + " - " + fecha + " - " + getCurrentDateTime.compareTo(fecha) , Toast.LENGTH_SHORT).show();
                                     tv1.setText("Productos programados");

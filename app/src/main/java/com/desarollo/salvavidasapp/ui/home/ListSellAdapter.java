@@ -187,7 +187,7 @@ public class ListSellAdapter extends RecyclerView.Adapter<ListSellAdapter.viewHo
             location2.setLongitude(longitud_usuario);
             distance = location.distanceTo(location2)/1000;
         } catch (IOException e) {
-            Toast.makeText(getApplicationContext(),"Error :" + e,Toast.LENGTH_SHORT).show();
+            Toast.makeText(getApplicationContext(),"Error calculando la distancia del producto. Inténtalo mas tarde",Toast.LENGTH_SHORT).show();
             e.printStackTrace();
         }
         return distance;

@@ -40,7 +40,11 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.text.DecimalFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Properties;
 
@@ -66,7 +70,9 @@ public class listShoppingCartAdapter extends RecyclerView.Adapter<listShoppingCa
     FirebaseAuth mAuth;
     FirebaseDatabase database;
     FirebaseUser currentUser;
-    DatabaseReference myRefCarrito, myRefVendedor;
+    DatabaseReference myRefUsuario, myRefVendedor;
+    Calendar c;
+    Date getCurrentDateTime;
 
     public listShoppingCartAdapter(Context context, ArrayList<Productos> listaDeDatos, Activity activity) {
         this.inflater = LayoutInflater.from(context);
@@ -76,8 +82,17 @@ public class listShoppingCartAdapter extends RecyclerView.Adapter<listShoppingCa
         mAuth = FirebaseAuth.getInstance();
         currentUser = mAuth.getCurrentUser();
         database = FirebaseDatabase.getInstance();
-        myRefCarrito = database.getReference("usuarios");
+        myRefUsuario = database.getReference("usuarios");
         myRefVendedor = database.getReference("vendedores");
+
+        c = Calendar.getInstance();
+        getCurrentDateTime = null;
+
+        if (currentUser != null) {
+            for (UserInfo profile : currentUser.getProviderData()) {
+                nombreComprador = profile.getDisplayName();
+            }
+        }
 
         cargando = new ProgressDialog(activity);
     }
@@ -180,7 +195,8 @@ public class listShoppingCartAdapter extends RecyclerView.Adapter<listShoppingCa
 
                 double total = (precioProducto - descuentoProducto);
 
-                registrarProductoSolicitado(idProducto, total, cantidad[0], precioDomicilio, idVendedor[0]);
+                registrarProductoSolicitadoAlVendedor(idProducto, total, cantidad[0], precioDomicilio, idVendedor[0]);
+                registrarProductoSolicitadoAlComprador(idProducto, total, cantidad[0], precioDomicilio, idVendedor[0]);
                 consultarDatosVendedor(idVendedor[0], idProducto, nombreProducto, total, precioDomicilio, cantidad[0]);
 
             }
@@ -210,13 +226,15 @@ public class listShoppingCartAdapter extends RecyclerView.Adapter<listShoppingCa
         activity.startActivity(intent);
     }
 
-    public void registrarProductoSolicitado(String idProducto, double total, int numeroProductos, double precioDomicilio, String idVendedor){
+    private void registrarProductoSolicitadoAlVendedor(String idProducto, double total, int numeroProductos, double precioDomicilio, String idVendedor){
+        getCurrentDateTime = c.getTime();
         producto.clear();
         producto.put("idProducto", idProducto);
         producto.put("valorProducto",String.valueOf(total));
         producto.put("cantidadProducto",String.valueOf(numeroProductos));
         producto.put("usuarioSolicitud",currentUser.getUid());
         producto.put("precioDomicilio",String.valueOf(precioDomicilio));
+        producto.put("fecha", String.valueOf(getCurrentDateTime));
         producto.put("estado", "Solicitado");
 
         myRefVendedor.child(idVendedor).child("productos_en_tramite").child(currentUser.getUid()).child(idProducto).setValue(producto)
@@ -234,8 +252,35 @@ public class listShoppingCartAdapter extends RecyclerView.Adapter<listShoppingCa
                 });
     }
 
+    private void registrarProductoSolicitadoAlComprador(String idProducto, double total, int numeroProductos, double precioDomicilio, String idVendedor){
+        getCurrentDateTime = c.getTime();
+
+        producto.clear();
+        producto.put("idProducto", idProducto);
+        producto.put("valorProducto",String.valueOf(total));
+        producto.put("cantidadProducto",String.valueOf(numeroProductos));
+        producto.put("usuarioSolicitud",currentUser.getUid());
+        producto.put("precioDomicilio",String.valueOf(precioDomicilio));
+        producto.put("fecha", String.valueOf(getCurrentDateTime));
+        producto.put("estado", "Solicitado");
+
+        myRefUsuario.child(currentUser.getUid()).child("mis_compras").child(idProducto).setValue(producto)
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        //Toast.makeText(lookAtProduct.this, "Producto solicitado", Toast.LENGTH_SHORT).show();
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Toast.makeText(getApplicationContext(), "Error agregando solicitud del producto. Intenta de nuevo mas tarde", Toast.LENGTH_SHORT).show();
+                    }
+                });
+    }
+
     public void consultarDatosVendedor(String idVendedor, String idProducto, String nombreProducto, double total, double precioDomicilio, int numeroProductos) {
-        myRefCarrito.child(idVendedor).addValueEventListener(new ValueEventListener() {
+        myRefUsuario.child(idVendedor).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 if(snapshot.exists()){
@@ -265,7 +310,7 @@ public class listShoppingCartAdapter extends RecyclerView.Adapter<listShoppingCa
 
     public void actualizarCantidadEnCarritoCompras(String idProducto, int cantidad){
         //guarda los datos del carrito de compras
-        myRefCarrito.child(currentUser.getUid()).child("carrito_compras").child(idProducto).child("cantidadProducto").setValue(cantidad)
+        myRefUsuario.child(currentUser.getUid()).child("carrito_compras").child(idProducto).child("cantidadProducto").setValue(cantidad)
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void aVoid) {

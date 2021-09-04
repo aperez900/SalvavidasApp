@@ -49,8 +49,8 @@
         tools:layout="@layout/fragment_sales" />
     <fragment
         android:id="@+id/nav_statistics"
-        android:name="com.desarollo.salvavidasapp.ui.statistics.Statistics"
-        android:label="@string/estadisticas"
+        android:name="com.desarollo.salvavidasapp.ui.statistics.buyerStatistics"
+        android:label="@string/estadisticasComprador"
         tools:layout="@layout/fragment_statistics" />
     <fragment
         android:id="@+id/nav_favorites"
@@ -67,6 +67,23 @@
         android:name="com.desarollo.salvavidasapp.ui.purchases.nav_misCompras"
         android:label="@string/misCompras"
         tools:layout="@layout/fragment_nav_mis_compras" />
+    <fragment
+        android:id="@+id/NavStatisticalMenu"
+        android:name="com.desarollo.salvavidasapp.ui.statistics.statisticalMenu"
+        android:label="Menú estadísticas"
+        tools:layout="@layout/fragment_statistical_menu">
+        <action
+            android:id="@+id/action_statisticalMenu_to_nav_statistics"
+            app:destination="@id/nav_statistics" />
+        <action
+            android:id="@+id/action_NavStatisticalMenu_to_sellerStatistics"
+            app:destination="@id/sellerStatistics" />
+    </fragment>
+    <fragment
+        android:id="@+id/sellerStatistics"
+        android:name="com.desarollo.salvavidasapp.ui.statistics.sellerStatistics"
+        android:label="@string/estadisticasVendedor"
+        tools:layout="@layout/fragment_seller_statistics" />
 
 
 </navigation>

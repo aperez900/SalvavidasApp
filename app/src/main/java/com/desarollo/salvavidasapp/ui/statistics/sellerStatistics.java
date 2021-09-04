@@ -22,10 +22,9 @@ import com.github.mikephil.charting.utils.ColorTemplate;
 
 import java.util.ArrayList;
 
-public class Statistics extends Fragment {
+public class sellerStatistics extends Fragment {
 
-
-    public Statistics() {
+    public sellerStatistics() {
         // Required empty public constructor
     }
 
@@ -34,17 +33,16 @@ public class Statistics extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_statistics, container, false);
+        View view = inflater.inflate(R.layout.fragment_seller_statistics, container, false);
 
         //Barchart
-        BarChart barChart = view.findViewById(R.id.barChart);
+        BarChart barChart = view.findViewById(R.id.barChartSeller);
 
         ArrayList<BarEntry> ventas = new ArrayList<>();
         ventas.add(new BarEntry(2017,420));
@@ -67,7 +65,7 @@ public class Statistics extends Fragment {
 
         //PieChart
 
-        PieChart pieChart = view.findViewById(R.id.pieChart);
+        PieChart pieChart = view.findViewById(R.id.pieChartSeller);
 
         ArrayList<PieEntry> ventas2 = new ArrayList<>();
         ventas2.add(new PieEntry(500,"2017"));
