@@ -94,6 +94,8 @@
     <string name="descripcionNoOfertadosNoVendidos">No hay productos actualmente a los que se les haya terminado su fecha fin</string>
     <string name="noProductosCancelados">No hay productos cancelados</string>
     <string name="descripcionNoCancelados">vaya al producto y oprima el icono de la "X"</string>
+    <string name="noProductosAnulados">No hay productos anulados</string>
+    <string name="descripcionNoAnulados">vaya al producto y oprima el icono de la "X"</string>
     <string name="tenemosEstoParaTi">¡Tenemos esto para tí!</string>
     <string name="queVasAPedirHoy">Hola @nombre@ ¿Que vas a pedir hoy?</string>
     <string name="nroProductosPorDefecto">1</string>

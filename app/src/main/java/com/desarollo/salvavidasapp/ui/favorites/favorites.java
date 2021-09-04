@@ -99,6 +99,7 @@ public class favorites extends Fragment {
                         for(DataSnapshot objsnapshot2 : objsnapshot.child("subTipo").getChildren()) {
                             Favoritos d = objsnapshot2.getValue(Favoritos.class);
                             listaSubTipo.add(new Favoritos(d.getSubTipoComida(), d.getFoto(), false));
+
                         }
 
                     }
@@ -135,9 +136,10 @@ public class favorites extends Fragment {
                                 }
                             }
 
-                            listFavoritesAdapter = new ListFavoritesAdapter(getApplicationContext(), listaSubTipo, getActivity());
-                            recyclerViewFavorites.setAdapter(listFavoritesAdapter);
                         }
+
+                        listFavoritesAdapter = new ListFavoritesAdapter(getApplicationContext(), listaSubTipo, getActivity());
+                        recyclerViewFavorites.setAdapter(listFavoritesAdapter);
                     }
 
                     @Override

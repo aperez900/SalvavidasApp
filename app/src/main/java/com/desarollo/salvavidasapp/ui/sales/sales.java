@@ -55,7 +55,7 @@ public class sales extends Fragment {
         CardView cardAddProduct = view.findViewById(R.id.cardAddProduct);
         CardView cardScheduledSales = view.findViewById(R.id.cardScheduledSales);
         CardView cardSalesOffered = view.findViewById(R.id.cardSalesOffered);
-        CardView card4 = view.findViewById(R.id.card4);
+        CardView cardAnulledSales = view.findViewById(R.id.cardAnulledSales);
         CardView cardCancelledSales = view.findViewById(R.id.cardCancelledSales);
         CardView cardUnsoldOffers = view.findViewById(R.id.cardUnsoldOffers);
 
@@ -108,10 +108,11 @@ public class sales extends Fragment {
             }
         });
 
-        card4.setOnClickListener(new View.OnClickListener() {
+        cardAnulledSales.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //Toast.makeText(getContext(), "Click card 4", Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(sales.this.getContext(), unsoldOffers.class);
+                startActivity(intent);
             }
         });
 

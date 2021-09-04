@@ -22,7 +22,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.SalvavidasApp">
-        <activity android:name=".ui.purchases.anulled_purchases"></activity>
+        <activity android:name=".ui.sales.anulled_sales"></activity>
+        <activity android:name=".ui.purchases.anulled_purchases" />
         <activity android:name=".ui.purchases.purchases_made" />
         <activity android:name=".ui.purchases.cancelled_purchases" />
         <activity android:name=".ui.purchases.purchasesInProcess" />

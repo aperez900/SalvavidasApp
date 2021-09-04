@@ -62,6 +62,8 @@
             android:layout_marginTop="10dp"
             android:layout_marginEnd="45dp"
             android:layout_marginBottom="22dp"
+            android:buttonTint="#FF0000"
+            android:fontFamily="@font/poppins_light"
             android:text="" />
 
 
