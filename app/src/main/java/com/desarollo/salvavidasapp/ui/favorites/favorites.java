@@ -123,7 +123,7 @@ public class favorites extends Fragment {
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
                         if (snapshot.exists()) {
                             for (DataSnapshot objsnapshot : snapshot.getChildren()) {
-                                for(int i = 0; i <= listaSubTipo.size(); i++){
+                                for(int i = 0; i <= listaSubTipo.size()-1; i++){
                                     String tipo = objsnapshot.getKey().toString();
                                     String estado_ = objsnapshot.getValue().toString();
                                     estado = Boolean.parseBoolean(estado_);
@@ -136,15 +136,16 @@ public class favorites extends Fragment {
                                 }
                             }
 
+                            listFavoritesAdapter = new ListFavoritesAdapter(getApplicationContext(), listaSubTipo, getActivity());
+                            recyclerViewFavorites.setAdapter(listFavoritesAdapter);
                         }
-
-                        listFavoritesAdapter = new ListFavoritesAdapter(getApplicationContext(), listaSubTipo, getActivity());
-                        recyclerViewFavorites.setAdapter(listFavoritesAdapter);
                     }
 
                     @Override
                     public void onCancelled(@NonNull DatabaseError error) {
                     }
+
+
                 });
 
     }

@@ -96,6 +96,7 @@
     <string name="descripcionNoCancelados">vaya al producto y oprima el icono de la "X"</string>
     <string name="noProductosAnulados">No hay productos anulados</string>
     <string name="descripcionNoAnulados">vaya al producto y oprima el icono de la "X"</string>
+    <string name="noProductosSubtipo">No hay productos para esta clasificacion</string>
     <string name="tenemosEstoParaTi">¡Tenemos esto para tí!</string>
     <string name="queVasAPedirHoy">Hola @nombre@ ¿Que vas a pedir hoy?</string>
     <string name="nroProductosPorDefecto">1</string>
