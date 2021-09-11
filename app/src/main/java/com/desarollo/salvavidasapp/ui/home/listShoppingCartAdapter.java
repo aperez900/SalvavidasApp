@@ -40,8 +40,6 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.text.DecimalFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -185,7 +183,7 @@ public class listShoppingCartAdapter extends RecyclerView.Adapter<listShoppingCa
             }
         });
 
-        holder.btn_comprar.setOnClickListener(new View.OnClickListener() {
+        holder.btnComprar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
@@ -486,7 +484,7 @@ public class listShoppingCartAdapter extends RecyclerView.Adapter<listShoppingCa
     public class viewHolder extends RecyclerView.ViewHolder {
         TextView tvNombreProducto, tvPrecio, tvNombreEmpresa, tvCantidad;
         ImageView imagenProducto, imgBorrarProducto;
-        Button btnMas, btnMenos, btn_comprar;
+        Button btnMas, btnMenos, btnComprar;
 
         public viewHolder(@NonNull View itemView) {
             super(itemView);
@@ -499,7 +497,7 @@ public class listShoppingCartAdapter extends RecyclerView.Adapter<listShoppingCa
             imgBorrarProducto = itemView.findViewById(R.id.img_borrar_producto);
             btnMenos = itemView.findViewById(R.id.btn_menos);
             btnMas = itemView.findViewById(R.id.btn_mas);
-            btn_comprar = itemView.findViewById(R.id.btn_comprar_carrito);
+            btnComprar = itemView.findViewById(R.id.btn_comprar_carrito);
 
         }
     }

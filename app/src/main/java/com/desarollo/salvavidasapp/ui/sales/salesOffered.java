@@ -18,9 +18,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-import com.google.type.DateTime;
 
-import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -37,15 +35,15 @@ salesOffered extends AppCompatActivity {
     FirebaseUser currentUser;
     FirebaseDatabase database;
     DatabaseReference myRef;
-    TextView titulo_ofertados, subtitulo_ofertados;
+    TextView tituloOfertados, subtituloOfertados;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sales_offered);
 
-        titulo_ofertados = findViewById(R.id.tv_titulo_ofertados);
-        subtitulo_ofertados = findViewById(R.id.tv_subtitulo_ofertados);
+        tituloOfertados = findViewById(R.id.tv_titulo_ofertados);
+        subtituloOfertados = findViewById(R.id.tv_subtitulo_ofertados);
 
         mAuth = FirebaseAuth.getInstance();
         currentUser = mAuth.getCurrentUser();
@@ -92,8 +90,8 @@ salesOffered extends AppCompatActivity {
                         if (getCurrentDateTime.compareTo(fechaInicio) > 0 && getCurrentDateTime.compareTo(fechaFin) < 0 && !estado.equals("Cancelado por el vendedor")){
 
                            // Toast.makeText(salesOffered.this, getCurrentDateTime + " - " + fecha + " - " + getCurrentDateTime.compareTo(fecha) , Toast.LENGTH_SHORT).show();
-                            titulo_ofertados.setText("Productos ofertados");
-                            subtitulo_ofertados.setText("Los siguientes productos estan disponibles para la venta hasta que se cumpla su fecha y hora de fin");
+                            tituloOfertados.setText("Productos ofertados");
+                            subtituloOfertados.setText("Los siguientes productos estan disponibles para la venta hasta que se cumpla su fecha y hora de fin");
                             listaDeDatos.add(new Productos(p.getIdProducto(), p.getNombreProducto(), p.getDescripcionProducto(),
                                     p.getCategoriaProducto(), p.getSubCategoriaProducto(), p.getPrecio(), p.getDescuento(), p.getDomicilio(), p.getEstadoProducto(),
                                     p.getfoto(), p.getFechaInicio(), p.getHoraInicio(), p.getFechaFin(), p.getHoraFin(),p.getNombreEmpresa(),p.getDireccion(),1,p.getPrecioDomicilio(),

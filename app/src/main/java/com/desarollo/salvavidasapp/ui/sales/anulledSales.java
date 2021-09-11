@@ -26,7 +26,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 
-public class anulled_sales extends AppCompatActivity {
+public class anulledSales extends AppCompatActivity {
 
     ArrayList<Productos> listaDeDatos = new ArrayList<>();
     RecyclerView listado;
@@ -35,7 +35,7 @@ public class anulled_sales extends AppCompatActivity {
     FirebaseUser currentUser;
     FirebaseDatabase database;
     DatabaseReference myRef;
-    TextView titulo_anulados, subtitulo_anulados;
+    TextView tituloAnulados, subtituloAnulados;
 
 
     @Override
@@ -43,8 +43,8 @@ public class anulled_sales extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_anulled_sales);
 
-        titulo_anulados = findViewById(R.id.tv_titulo_anulado);
-        subtitulo_anulados = findViewById(R.id.tv_subtitulo_anulado);
+        tituloAnulados = findViewById(R.id.tv_titulo_anulado);
+        subtituloAnulados = findViewById(R.id.tv_subtitulo_anulado);
 
         mAuth = FirebaseAuth.getInstance();
         currentUser = mAuth.getCurrentUser();
@@ -55,7 +55,7 @@ public class anulled_sales extends AppCompatActivity {
         LinearLayoutManager manager = new LinearLayoutManager(this);
         listado.setLayoutManager(manager);
         listado.setHasFixedSize(true);
-        listSellAdapter = new ListSellAdapter(this,listaDeDatos, anulled_sales.this);
+        listSellAdapter = new ListSellAdapter(this,listaDeDatos, anulledSales.this);
         listado.setAdapter(listSellAdapter);
 
         crearListado();
@@ -86,15 +86,15 @@ public class anulled_sales extends AppCompatActivity {
                                 }
                                 if (estado.equals("Anulado")){
                                     // Toast.makeText(getContext(), p.getFechaInicio(), Toast.LENGTH_SHORT).show();
-                                    titulo_anulados.setText("Productos cancelados");
-                                    subtitulo_anulados.setText("Los siguientes productos ya no estan disponibles para la venta");
+                                    tituloAnulados.setText("Productos cancelados");
+                                    subtituloAnulados.setText("Los siguientes productos ya no estan disponibles para la venta");
                                     listaDeDatos.add(new Productos(p.getIdProducto(), p.getNombreProducto(), p.getDescripcionProducto(),
                                             p.getCategoriaProducto(), p.getSubCategoriaProducto(), Math.round(p.getPrecio()), Math.round(p.getDescuento()), p.getDomicilio(), p.getEstadoProducto(),
                                             p.getfoto(), p.getFechaInicio(), p.getHoraInicio(), p.getFechaFin(), p.getHoraFin(),p.getNombreEmpresa(),p.getDireccion(),1,p.getPrecioDomicilio(),
                                             p.getIdVendedor()));
                                 }
                             }
-                            listSellAdapter = new ListSellAdapter(anulled_sales.this,listaDeDatos, anulled_sales.this);
+                            listSellAdapter = new ListSellAdapter(anulledSales.this,listaDeDatos, anulledSales.this);
                             listado.setAdapter(listSellAdapter);
 
                         }
@@ -102,7 +102,7 @@ public class anulled_sales extends AppCompatActivity {
 
                     @Override
                     public void onCancelled(@NonNull DatabaseError error) {
-                        Toast.makeText(anulled_sales.this, "Error cargando los productos", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(anulledSales.this, "Error cargando los productos", Toast.LENGTH_SHORT).show();
                     }
                 });
     }

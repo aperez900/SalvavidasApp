@@ -25,7 +25,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 
-public class products_by_sub_type extends AppCompatActivity {
+public class productsBySubType extends AppCompatActivity {
 
     FirebaseAuth mAuth;
     FirebaseUser currentUser;
@@ -53,7 +53,7 @@ public class products_by_sub_type extends AppCompatActivity {
         LinearLayoutManager manager = new LinearLayoutManager(getApplicationContext());
         listado.setLayoutManager(manager);
         //listado.setHasFixedSize(true);
-        listSellAdapter = new ListSellAdapter(getApplicationContext(),listaDeDatos, products_by_sub_type.this);
+        listSellAdapter = new ListSellAdapter(getApplicationContext(),listaDeDatos, productsBySubType.this);
 
         listado.setAdapter(listSellAdapter);
 
@@ -115,7 +115,7 @@ public class products_by_sub_type extends AppCompatActivity {
                             }
                         }
                     }
-                    listSellAdapter = new ListSellAdapter(getApplicationContext(), listaDeDatos, products_by_sub_type.this);
+                    listSellAdapter = new ListSellAdapter(getApplicationContext(), listaDeDatos, productsBySubType.this);
                     listado.setAdapter(listSellAdapter);
                 } else {
 

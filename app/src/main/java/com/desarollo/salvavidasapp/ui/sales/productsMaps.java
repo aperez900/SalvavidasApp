@@ -48,10 +48,10 @@ public class productsMaps extends FragmentActivity implements GoogleMap.OnMarker
     private ProgressDialog mProgessDialog;
 
     private GoogleMap mMap;
-    EditText et_direccion;
-    EditText et_municipio;
-    EditText et_alias;
-    Button btn_reg;
+    EditText etDireccion;
+    EditText etMunicipio;
+    EditText etAlias;
+    Button btnReg;
 
     FirebaseAuth mAuth;
     FirebaseUser currentUser;
@@ -72,10 +72,10 @@ public class productsMaps extends FragmentActivity implements GoogleMap.OnMarker
         mapFragment.getMapAsync(this);
 
 
-        et_direccion = findViewById(R.id.et_direccion);
-        et_municipio = findViewById(R.id.et_municipio);
-        et_alias = findViewById(R.id.et_alias);
-        btn_reg = findViewById(R.id.btn_reg);
+        etDireccion = findViewById(R.id.et_direccion);
+        etMunicipio = findViewById(R.id.et_municipio);
+        etAlias = findViewById(R.id.et_alias);
+        btnReg = findViewById(R.id.btn_reg);
 
         if (ContextCompat.checkSelfPermission(productsMaps.this, Manifest.permission.ACCESS_FINE_LOCATION) !=
                 PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission
@@ -93,11 +93,11 @@ public class productsMaps extends FragmentActivity implements GoogleMap.OnMarker
         miUbicacion();
 
         //acciones del boton registrar
-        btn_reg.setOnClickListener(new View.OnClickListener() {
+        btnReg.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (validarCamposVacios(et_alias, et_direccion, et_municipio)) {
-                    registrar(et_alias, et_direccion, et_municipio);
+                if (validarCamposVacios(etAlias, etDireccion, etMunicipio)) {
+                    registrar(etAlias, etDireccion, etMunicipio);
                 }
             }
         });
@@ -190,8 +190,8 @@ public class productsMaps extends FragmentActivity implements GoogleMap.OnMarker
             List<Address> addresses = geocoder.getFromLocation(lat, lng, 1);
             String direccion = addresses.get(0).getAddressLine(0);
             String municipio = addresses.get(0).getLocality();
-            et_direccion.setText(direccion);
-            et_municipio.setText(municipio);
+            etDireccion.setText(direccion);
+            etMunicipio.setText(municipio);
         } catch (IOException e) {
             Toast.makeText(getApplicationContext(), "Error :" + e, Toast.LENGTH_SHORT).show();
             e.printStackTrace();

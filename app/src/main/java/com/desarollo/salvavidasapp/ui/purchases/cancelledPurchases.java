@@ -25,13 +25,14 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 
-public class purchases_made extends AppCompatActivity {
-    TextView titulo_compras_realizadas, subtitulo_compras_realizadas;
+public class cancelledPurchases extends AppCompatActivity {
+
+    TextView tituloComprasCanceladas, subtituloComprasCanceladas;
     FirebaseAuth mAuth;
     FirebaseUser currentUser;
     FirebaseDatabase database;
     DatabaseReference myRefUsuarios, myRefVendedores, myRefProductos;
-    RecyclerView listadoComprasRealizadas;
+    RecyclerView listadoComprasCanceladas;
 
     listPurchasesInProcessAdapter ListPurchasesInProcessAdapter;
     ArrayList<ProductosEnTramite> listaDeDatos = new ArrayList<>();
@@ -39,10 +40,10 @@ public class purchases_made extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_purchases_made);
+        setContentView(R.layout.activity_cancelled_purchases);
 
-        titulo_compras_realizadas = findViewById(R.id.tv_titulo_compras_realizadas);
-        subtitulo_compras_realizadas = findViewById(R.id.tv_subtitulo_compras_realizadas);
+        tituloComprasCanceladas = findViewById(R.id.tv_titulo_compras_canceladas);
+        subtituloComprasCanceladas = findViewById(R.id.tv_subtitulo_compras_canceladas);
 
         mAuth = FirebaseAuth.getInstance();
         currentUser = mAuth.getCurrentUser();
@@ -51,13 +52,13 @@ public class purchases_made extends AppCompatActivity {
         myRefProductos = database.getReference("productos");
         myRefUsuarios = database.getReference("usuarios");
 
-        listadoComprasRealizadas = findViewById(R.id.listado_compras_realizadas);
+        listadoComprasCanceladas = findViewById(R.id.listado_compras_canceladas);
         LinearLayoutManager manager = new LinearLayoutManager(this);
-        listadoComprasRealizadas.setLayoutManager(manager);
+        listadoComprasCanceladas.setLayoutManager(manager);
 //        listado.setHasFixedSize(true);
 
         ListPurchasesInProcessAdapter = new listPurchasesInProcessAdapter(this, listaDeDatos, this);
-        listadoComprasRealizadas.setAdapter(ListPurchasesInProcessAdapter);
+        listadoComprasCanceladas.setAdapter(ListPurchasesInProcessAdapter);
 
         crearListado();
     }
@@ -71,11 +72,12 @@ public class purchases_made extends AppCompatActivity {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 if (snapshot.exists()) {
-                    subtitulo_compras_realizadas.setText("Se realizo la compra de los siguientes productos");
+                    subtituloComprasCanceladas.setText("Los siguientes productos fueron cancelados");
                     listaDeDatos.clear();
                     for (DataSnapshot objsnapshot : snapshot.getChildren()) { //recorre los productos
                         String estadoSolicitud = objsnapshot.child("estado").getValue().toString();
-                        if (estadoSolicitud.equals("Realizado") || estadoSolicitud.equals("Pagado")){
+                        if (estadoSolicitud.equals("Cancelado por el comprador")
+                                || estadoSolicitud.equals("Cancelado por el vendedor")){
                             String idProd = objsnapshot.child("idProducto").getValue().toString();
                             String cantidad = objsnapshot.child("cantidadProducto").getValue().toString();
                             String idUsuarioSolicitud = objsnapshot.child("usuarioSolicitud").getValue().toString();
@@ -85,16 +87,16 @@ public class purchases_made extends AppCompatActivity {
                     }
                 }
                 else {
-                    Intent intent = new Intent(purchases_made.this, Home.class);
+                    Intent intent = new Intent(cancelledPurchases.this, Home.class);
                     startActivity(intent);
                     finish();
-                    Toast.makeText(purchases_made.this, "Aún no se ha realizado compras", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(cancelledPurchases.this, "Aún no tienes compras canceladas", Toast.LENGTH_SHORT).show();
                 }
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
-                Toast.makeText(purchases_made.this, "Error cargando los productos", Toast.LENGTH_SHORT).show();
+                Toast.makeText(cancelledPurchases.this, "Error cargando los productos", Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -119,8 +121,8 @@ public class purchases_made extends AppCompatActivity {
                         }
                     }
                 }
-                ListPurchasesInProcessAdapter = new listPurchasesInProcessAdapter(purchases_made.this, listaDeDatos, purchases_made.this);
-                listadoComprasRealizadas.setAdapter(ListPurchasesInProcessAdapter);
+                ListPurchasesInProcessAdapter = new listPurchasesInProcessAdapter(cancelledPurchases.this, listaDeDatos, cancelledPurchases.this);
+                listadoComprasCanceladas.setAdapter(ListPurchasesInProcessAdapter);
             }
 
             @Override

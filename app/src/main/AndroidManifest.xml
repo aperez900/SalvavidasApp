@@ -22,18 +22,18 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.SalvavidasApp">
-        <activity android:name=".ui.sales.anulled_sales" />
+        <activity android:name=".ui.sales.anulledSales" />
         <activity android:name=".ui.sales.salesMade" />
-        <activity android:name=".ui.purchases.anulled_purchases" />
-        <activity android:name=".ui.purchases.purchases_made" />
-        <activity android:name=".ui.purchases.cancelled_purchases" />
+        <activity android:name=".ui.purchases.anulledPurchases" />
+        <activity android:name=".ui.purchases.purchasesMade" />
+        <activity android:name=".ui.purchases.cancelledPurchases" />
         <activity android:name=".ui.purchases.purchasesInProcess" />
-        <activity android:name=".Login.error" />
+        <activity android:name=".Login.Error" />
         <activity android:name=".ui.sales.buyProduct" />
-        <activity android:name=".ui.seller.requested_products" />
-        <activity android:name=".ui.direction.look_at_address" />
+        <activity android:name=".ui.seller.requestedProducts" />
+        <activity android:name=".ui.direction.lookAtAddress" />
         <activity android:name=".ui.sales.unsoldOffers" />
-        <activity android:name=".ui.home.products_by_sub_type" />
+        <activity android:name=".ui.home.productsBySubType" />
         <!--
              The API key for Google Maps-based APIs is defined as a string resource.
              (See the file "res/values/google_maps_api.xml").
@@ -49,7 +49,7 @@
         <activity
             android:name=".ui.sales.productsMaps"
             android:label="@string/title_activity_products_maps" />
-        <activity android:name=".ui.home.products_by_type" />
+        <activity android:name=".ui.home.productsByType" />
         <activity android:name=".ui.seller.seller2" />
         <activity android:name=".ui.sales.lookAtProduct" />
         <activity android:name=".ui.sales.cancelledSales" />

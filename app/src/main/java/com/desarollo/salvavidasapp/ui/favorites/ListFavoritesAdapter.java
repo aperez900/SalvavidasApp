@@ -2,14 +2,11 @@ package com.desarollo.salvavidasapp.ui.favorites;
 
 import android.app.Activity;
 import android.content.Context;
-import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.ImageView;
-import android.widget.RadioButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -18,23 +15,15 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.desarollo.salvavidasapp.Models.Favoritos;
-import com.desarollo.salvavidasapp.Models.ListDirecciones;
-import com.desarollo.salvavidasapp.Models.SubTipoComidas;
 import com.desarollo.salvavidasapp.R;
-import com.desarollo.salvavidasapp.ui.direction.look_at_address;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
 
 import static com.facebook.FacebookSdk.getApplicationContext;
 
@@ -108,11 +97,11 @@ public class ListFavoritesAdapter extends RecyclerView.Adapter<ListFavoritesAdap
 
 
     public void agregarFavoritos(String idProducto, Boolean estado){
-        mAuth = FirebaseAuth.getInstance();
-        currentUser = mAuth.getCurrentUser();
-        database = FirebaseDatabase.getInstance();
-        myRef = database.getReference("usuarios").child(currentUser.getUid()).child("comidas_preferidas").child(idProducto);
-        myRef.setValue(estado).addOnSuccessListener(new OnSuccessListener<Void>() {
+            mAuth = FirebaseAuth.getInstance();
+            currentUser = mAuth.getCurrentUser();
+            database = FirebaseDatabase.getInstance();
+            myRef = database.getReference("usuarios").child(currentUser.getUid()).child("comidas_preferidas").child(idProducto);
+            myRef.setValue(estado).addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
             public void onSuccess(Void aVoid) {
             }

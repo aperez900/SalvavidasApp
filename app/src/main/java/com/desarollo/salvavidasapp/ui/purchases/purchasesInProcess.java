@@ -10,12 +10,9 @@ import android.os.Bundle;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.desarollo.salvavidasapp.Models.Favoritos;
 import com.desarollo.salvavidasapp.Models.ProductosEnTramite;
 import com.desarollo.salvavidasapp.R;
 import com.desarollo.salvavidasapp.ui.home.Home;
-import com.desarollo.salvavidasapp.ui.seller.listRequestedProductsAdapter;
-import com.desarollo.salvavidasapp.ui.seller.requested_products;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -30,7 +27,7 @@ import java.util.Calendar;
 
 public class purchasesInProcess extends AppCompatActivity {
 
-    TextView titulo_compras_en_proceso, subtitulo_compras_en_proceso;
+    TextView tituloComprasEnProceso, subtituloComprasEnProceso;
     FirebaseAuth mAuth;
     FirebaseUser currentUser;
     FirebaseDatabase database;
@@ -45,8 +42,8 @@ public class purchasesInProcess extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_purchases_in_process);
 
-        titulo_compras_en_proceso = findViewById(R.id.tv_titulo_compras_en_proceso);
-        subtitulo_compras_en_proceso = findViewById(R.id.tv_subtitulo_compras_en_proceso);
+        tituloComprasEnProceso = findViewById(R.id.tv_titulo_compras_en_proceso);
+        subtituloComprasEnProceso = findViewById(R.id.tv_subtitulo_compras_en_proceso);
 
         mAuth = FirebaseAuth.getInstance();
         currentUser = mAuth.getCurrentUser();
@@ -74,7 +71,7 @@ public class purchasesInProcess extends AppCompatActivity {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 if (snapshot.exists()) {
-                    subtitulo_compras_en_proceso.setText("Los siguientes productos estan en proceso de compra");
+                    subtituloComprasEnProceso.setText("Los siguientes productos estan en proceso de compra");
                     listaDeDatos.clear();
                     for (DataSnapshot objsnapshot : snapshot.getChildren()) { //recorre los productos
                         String estadoSolicitud = objsnapshot.child("estado").getValue().toString();

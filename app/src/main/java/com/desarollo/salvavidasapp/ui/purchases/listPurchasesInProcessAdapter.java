@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.os.StrictMode;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,7 +19,6 @@ import com.bumptech.glide.Glide;
 import com.desarollo.salvavidasapp.Models.ProductosEnTramite;
 import com.desarollo.salvavidasapp.R;
 import com.desarollo.salvavidasapp.ui.sales.buyProduct;
-import com.desarollo.salvavidasapp.ui.sales.lookAtProduct;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
@@ -30,16 +28,6 @@ import com.google.firebase.database.FirebaseDatabase;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
-import java.util.Properties;
-
-import javax.mail.Authenticator;
-import javax.mail.PasswordAuthentication;
-import javax.mail.Session;
-import javax.mail.Transport;
-import javax.mail.internet.InternetAddress;
-import javax.mail.internet.MimeMessage;
-
-import static com.facebook.FacebookSdk.getApplicationContext;
 
 public class listPurchasesInProcessAdapter extends RecyclerView.Adapter<listPurchasesInProcessAdapter.viewHolder> implements View.OnClickListener {
 
@@ -77,8 +65,8 @@ public class listPurchasesInProcessAdapter extends RecyclerView.Adapter<listPurc
     public void onBindViewHolder(@NonNull listPurchasesInProcessAdapter.viewHolder holder, int position) {
         String producto = listaDeDatos.get(position).getIdProducto();
 
-        String nombre_producto = listaDeDatos.get(position).getNombreProducto();
-        String descripcion_producto = listaDeDatos.get(position).getDescripcionProducto();
+        String nombreProducto = listaDeDatos.get(position).getNombreProducto();
+        String descripcionProducto = listaDeDatos.get(position).getDescripcionProducto();
         Double totalCompra = listaDeDatos.get(position).getPrecio();
         Double precioDomicilio = listaDeDatos.get(position).getPrecioDomicilio();
         Double descuento = listaDeDatos.get(position).getDescuento();
@@ -91,11 +79,11 @@ public class listPurchasesInProcessAdapter extends RecyclerView.Adapter<listPurc
         String direccion = listaDeDatos.get(position).getDireccion();
         String idVendedor = listaDeDatos.get(position).getIdVendedor();
 
-        holder.nombre_producto.setText(nombre_producto);
+        holder.nombreProducto.setText(nombreProducto);
         String patron = "###,###.##";
         DecimalFormat objDF = new DecimalFormat (patron);
         String nombreEstablecimiento = listaDeDatos.get(position).getNombreEmpresa();
-        holder.nombre_empresa.setText(nombreEstablecimiento);
+        holder.nombreEmpresa.setText(nombreEstablecimiento);
         holder.precio.setText("$" + objDF.format(totalCompra));
         int cantidad = listaDeDatos.get(position).getCantidad();
         holder.tvcantidad.setText(String.valueOf(cantidad));
@@ -120,7 +108,7 @@ public class listPurchasesInProcessAdapter extends RecyclerView.Adapter<listPurc
                 //intent.putExtra("nombreProducto", listaDeDatos.get(position).getNombreProducto());
 
                 intent.putExtra("idProducto" , producto);
-                intent.putExtra("nombreProducto", nombre_producto);
+                intent.putExtra("nombreProducto", nombreProducto);
                 intent.putExtra("totalProducto", String.valueOf(totalCompra));
                 intent.putExtra("precioDomicilio", String.valueOf(precioDomicilio));
                 intent.putExtra("nroProductos", String.valueOf(cantidad));
@@ -228,14 +216,14 @@ public class listPurchasesInProcessAdapter extends RecyclerView.Adapter<listPurc
     }
 
     public class viewHolder extends RecyclerView.ViewHolder {
-        TextView nombre_producto, precio, nombre_empresa, tvcantidad, tvNombreUsuario, tvEstadSolicitud;
+        TextView nombreProducto, precio, nombreEmpresa, tvcantidad, tvNombreUsuario, tvEstadSolicitud;
         ImageView imagenProducto,imgCancelar,imgVer;
 
         public viewHolder(@NonNull View itemView) {
             super(itemView);
 
-            nombre_producto = itemView.findViewById(R.id.tv_nombre_producto);
-            nombre_empresa = itemView.findViewById(R.id.tv_nombre_empresa);
+            nombreProducto = itemView.findViewById(R.id.tv_nombre_producto);
+            nombreEmpresa = itemView.findViewById(R.id.tv_nombre_empresa);
             tvcantidad = itemView.findViewById(R.id.tv_cantidad_producto2);
             imagenProducto = itemView.findViewById(R.id.img_imagen_producto);
             precio = itemView.findViewById(R.id.tv_total_producto2);

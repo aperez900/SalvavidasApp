@@ -56,7 +56,7 @@ public class shoppingCart extends AppCompatActivity {
     ArrayList<Productos> listaDeDatos = new ArrayList<>();
     RecyclerView listado;
     listShoppingCartAdapter ListShoppingCartAdapter;
-    TextView titulo_carrito, subtitulo_carrito, total_carrito;
+    TextView tituloCarrito, subtituloCarrito, totalCarrito;
     FirebaseAuth mAuth;
     FirebaseUser currentUser;
     FirebaseDatabase database;
@@ -74,9 +74,9 @@ public class shoppingCart extends AppCompatActivity {
 
         cargando = new ProgressDialog(this);
 
-        titulo_carrito = findViewById(R.id.tv_titulo_carrito);
-        subtitulo_carrito = findViewById(R.id.tv_subtitulo_carrito);
-        total_carrito = findViewById(R.id.tv_subtotal_carrito);
+        tituloCarrito = findViewById(R.id.tv_titulo_carrito);
+        subtituloCarrito = findViewById(R.id.tv_subtitulo_carrito);
+        totalCarrito = findViewById(R.id.tv_subtotal_carrito);
 
         mAuth = FirebaseAuth.getInstance();
         currentUser = mAuth.getCurrentUser();
@@ -134,7 +134,7 @@ public class shoppingCart extends AppCompatActivity {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 if(snapshot.exists()){
-                    subtitulo_carrito.setText("Los siguientes productos estan disponibles en el carrito hasta que se cumpla su fecha y hora de fin");
+                    subtituloCarrito.setText("Los siguientes productos estan disponibles en el carrito hasta que se cumpla su fecha y hora de fin");
                     listaDeDatos.clear();
                     for(DataSnapshot objsnapshot : snapshot.getChildren()){
                         String idProd = objsnapshot.child("idProducto").getValue().toString();
@@ -201,7 +201,7 @@ public class shoppingCart extends AppCompatActivity {
                 listado.setAdapter(ListShoppingCartAdapter);
                 String patron = "###,###.##";
                 DecimalFormat objDF = new DecimalFormat (patron);
-                total_carrito.setText("Sub Total: $" + objDF.format(subTotalCarrito));
+                totalCarrito.setText("Sub Total: $" + objDF.format(subTotalCarrito));
             }
 
             @Override

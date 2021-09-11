@@ -5,7 +5,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -22,10 +21,8 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.text.DateFormat;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 
 public class cancelledSales extends AppCompatActivity {
 
@@ -36,15 +33,15 @@ public class cancelledSales extends AppCompatActivity {
     FirebaseUser currentUser;
     FirebaseDatabase database;
     DatabaseReference myRef;
-    TextView titulo_cancelados, subtitulo_cancelados;
+    TextView tituloCancelados, subtituloCancelados;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_cancelled_sales);
 
-        titulo_cancelados = findViewById(R.id.tv_titulo_cancelados);
-        subtitulo_cancelados = findViewById(R.id.tv_subtitulo_cancelados);
+        tituloCancelados = findViewById(R.id.tv_titulo_cancelados);
+        subtituloCancelados = findViewById(R.id.tv_subtitulo_cancelados);
 
         mAuth = FirebaseAuth.getInstance();
         currentUser = mAuth.getCurrentUser();
@@ -76,8 +73,8 @@ public class cancelledSales extends AppCompatActivity {
                                 String estado="";
                                 estado = p.getEstadoProducto();
                                 if (estado.equals("Cancelado por el vendedor")){
-                                    titulo_cancelados.setText("Productos cancelados");
-                                    subtitulo_cancelados.setText("Los siguientes productos ya no estan disponibles para la venta");
+                                    tituloCancelados.setText("Productos cancelados");
+                                    subtituloCancelados.setText("Los siguientes productos ya no estan disponibles para la venta");
                                     listaDeDatos.add(new Productos(p.getIdProducto(), p.getNombreProducto(), p.getDescripcionProducto(),
                                             p.getCategoriaProducto(), p.getSubCategoriaProducto(), Math.round(p.getPrecio()), Math.round(p.getDescuento()), p.getDomicilio(), p.getEstadoProducto(),
                                             p.getfoto(), p.getFechaInicio(), p.getHoraInicio(), p.getFechaFin(), p.getHoraFin(),p.getNombreEmpresa(),p.getDireccion(),1,p.getPrecioDomicilio(),

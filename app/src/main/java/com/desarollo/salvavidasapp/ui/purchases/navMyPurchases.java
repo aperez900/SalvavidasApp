@@ -5,31 +5,23 @@ import android.os.Bundle;
 
 import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
 import com.desarollo.salvavidasapp.Models.ProductosEnTramite;
 import com.desarollo.salvavidasapp.R;
-import com.desarollo.salvavidasapp.ui.sales.addProduct;
-import com.desarollo.salvavidasapp.ui.sales.sales;
 import com.desarollo.salvavidasapp.ui.seller.listRequestedProductsAdapter;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.ArrayList;
 
-public class nav_misCompras extends Fragment {
+public class navMyPurchases extends Fragment {
 
     listRequestedProductsAdapter ListRequestedProductsAdapter;
     ArrayList<ProductosEnTramite> listaDeDatos = new ArrayList<>();
 
-    public nav_misCompras() {
+    public navMyPurchases() {
         // Required empty public constructor
     }
 
@@ -54,7 +46,7 @@ public class nav_misCompras extends Fragment {
         cardPurchasesInProcess.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(nav_misCompras.this.getContext(), purchasesInProcess.class);
+                Intent intent = new Intent(navMyPurchases.this.getContext(), purchasesInProcess.class);
                 startActivity(intent);
             }
         });
@@ -63,7 +55,7 @@ public class nav_misCompras extends Fragment {
         cardCancelledPurchases.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(nav_misCompras.this.getContext(), cancelled_purchases.class);
+                Intent intent = new Intent(navMyPurchases.this.getContext(), cancelledPurchases.class);
                 startActivity(intent);
             }
         });
@@ -71,7 +63,7 @@ public class nav_misCompras extends Fragment {
         cardAnulledPurchases.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(nav_misCompras.this.getContext(), anulled_purchases.class);
+                Intent intent = new Intent(navMyPurchases.this.getContext(), anulledPurchases.class);
                 startActivity(intent);
             }
         });
@@ -79,7 +71,7 @@ public class nav_misCompras extends Fragment {
         cardPurchasesMade.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(nav_misCompras.this.getContext(), purchases_made.class);
+                Intent intent = new Intent(navMyPurchases.this.getContext(), purchasesMade.class);
                 startActivity(intent);
             }
         });

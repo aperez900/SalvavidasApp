@@ -13,7 +13,7 @@ import android.widget.Toast;
 
 import com.desarollo.salvavidasapp.Login.MainActivity;
 import com.desarollo.salvavidasapp.R;
-import com.desarollo.salvavidasapp.ui.seller.requested_products;
+import com.desarollo.salvavidasapp.ui.seller.requestedProducts;
 import com.facebook.login.LoginManager;
 import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
@@ -287,7 +287,7 @@ public class Home extends AppCompatActivity {
     }
 
     private void irAProductosSolicitados(){
-        Intent intent = new Intent(this, requested_products.class);
+        Intent intent = new Intent(this, requestedProducts.class);
         startActivity(intent);
         //finish();
     }

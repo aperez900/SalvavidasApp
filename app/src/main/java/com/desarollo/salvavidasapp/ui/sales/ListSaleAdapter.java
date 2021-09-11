@@ -57,10 +57,10 @@ public class ListSaleAdapter extends RecyclerView.Adapter<ListSaleAdapter.viewHo
     @Override
     public void onBindViewHolder(@NonNull ListSaleAdapter.viewHolder holder, int position) {
 
-        String id_producto = listaDeDatos.get(position).getIdProducto();
-        String tipo_producto = listaDeDatos.get(position).getCategoriaProducto();
-        String nombre_producto = listaDeDatos.get(position).getNombreProducto();
-        String descripcion_producto = listaDeDatos.get(position).getDescripcionProducto();
+        String idProducto = listaDeDatos.get(position).getIdProducto();
+        String tipoProducto = listaDeDatos.get(position).getCategoriaProducto();
+        String nombreProducto = listaDeDatos.get(position).getNombreProducto();
+        String descripcionProducto = listaDeDatos.get(position).getDescripcionProducto();
         Double precio = listaDeDatos.get(position).getPrecio();
         Double descuento = listaDeDatos.get(position).getDescuento();
         Double precioDomicilio = listaDeDatos.get(position).getPrecioDomicilio();
@@ -70,9 +70,9 @@ public class ListSaleAdapter extends RecyclerView.Adapter<ListSaleAdapter.viewHo
         String getUrlFoto = listaDeDatos.get(position).getfoto();
         String direccionProducto = listaDeDatos.get(position).getDireccion();
 
-        holder.tipo_producto.setText(tipo_producto);
-        holder.nombre_producto.setText(nombre_producto);
-        holder.descripcion_producto.setText(descripcion_producto);
+        holder.tipo_producto.setText(tipoProducto);
+        holder.nombre_producto.setText(nombreProducto);
+        holder.descripcion_producto.setText(descripcionProducto);
         holder.precio.setText(String.valueOf(precio));
         holder.precio.setPaintFlags(holder.precio.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
         holder.porcentajeDescuento.setText(String.valueOf(-porcDescuento));
@@ -144,7 +144,7 @@ public class ListSaleAdapter extends RecyclerView.Adapter<ListSaleAdapter.viewHo
         holder.imgCancelar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                crearAlertDialog(id_producto);
+                crearAlertDialog(idProducto);
             }
         });
 

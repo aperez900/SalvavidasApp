@@ -15,8 +15,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.desarollo.salvavidasapp.Models.ListDirecciones;
 import com.desarollo.salvavidasapp.R;
-import com.desarollo.salvavidasapp.ui.sales.addProduct;
-import com.desarollo.salvavidasapp.ui.sales.lookAtProduct;
 
 import java.util.ArrayList;
 /*
@@ -88,7 +86,7 @@ public class ListAddressAdapter extends RecyclerView.Adapter<ListAddressAdapter.
             public void onClick(View v) {
 
                 //Intent intent = new Intent(activity , addProduct.class);
-                Intent intent = new Intent(activity , look_at_address.class);
+                Intent intent = new Intent(activity , lookAtAddress.class);
                 intent.putExtra("nombre", nombre);
                 intent.putExtra("direccion" , direccion);
                 intent.putExtra("municipio" , municipio);

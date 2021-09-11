@@ -2,7 +2,6 @@ package com.desarollo.salvavidasapp.Login;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.net.ConnectivityManager;
@@ -11,7 +10,6 @@ import android.os.Bundle;
 import android.widget.Toast;
 
 import com.desarollo.salvavidasapp.R;
-import com.desarollo.salvavidasapp.ui.sales.lookAtProduct;
 
 import java.util.Timer;
 import java.util.TimerTask;
@@ -39,7 +37,7 @@ public class Splash extends AppCompatActivity {
             @Override
             public void run() {
 
-                Intent intent = new Intent(Splash.this, error.class);
+                Intent intent = new Intent(Splash.this, Error.class);
                 startActivity(intent);
                 finish();
             }

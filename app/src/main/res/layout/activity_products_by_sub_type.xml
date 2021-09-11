@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:background="@color/backgroundColor"
     android:orientation="vertical"
-    tools:context=".ui.home.products_by_sub_type">
+    tools:context=".ui.home.productsBySubType">
 
 
     <androidx.recyclerview.widget.RecyclerView

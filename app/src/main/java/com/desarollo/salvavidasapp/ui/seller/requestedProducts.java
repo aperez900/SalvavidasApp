@@ -10,12 +10,9 @@ import android.os.Bundle;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.desarollo.salvavidasapp.Models.Productos;
 import com.desarollo.salvavidasapp.Models.ProductosEnTramite;
 import com.desarollo.salvavidasapp.R;
 import com.desarollo.salvavidasapp.ui.home.Home;
-import com.desarollo.salvavidasapp.ui.home.listShoppingCartAdapter;
-import com.desarollo.salvavidasapp.ui.home.shoppingCart;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -24,12 +21,11 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
-import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 
-public class requested_products extends AppCompatActivity {
+public class requestedProducts extends AppCompatActivity {
 
     TextView titulo_productos_solicitados, subtitulo_productos_solicitados;
     FirebaseAuth mAuth;
@@ -96,16 +92,16 @@ public class requested_products extends AppCompatActivity {
                         }
                     }
                 } else {
-                    Intent intent = new Intent(requested_products.this, Home.class);
+                    Intent intent = new Intent(requestedProducts.this, Home.class);
                     startActivity(intent);
                     finish();
-                    Toast.makeText(requested_products.this, "Aún no han solicitado tus productos. Intenta de nuevo mas tarde.", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(requestedProducts.this, "Aún no han solicitado tus productos. Intenta de nuevo mas tarde.", Toast.LENGTH_SHORT).show();
                 }
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
-                Toast.makeText(requested_products.this, "Error cargando los productos del carrito", Toast.LENGTH_SHORT).show();
+                Toast.makeText(requestedProducts.this, "Error cargando los productos del carrito", Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -154,10 +150,10 @@ public class requested_products extends AppCompatActivity {
                         }
                     }
                 }
-                ListRequestedProductsAdapter = new listRequestedProductsAdapter(requested_products.this, listaDeDatos, requested_products.this);
+                ListRequestedProductsAdapter = new listRequestedProductsAdapter(requestedProducts.this, listaDeDatos, requestedProducts.this);
                 listado.setAdapter(ListRequestedProductsAdapter);
 
-                ListRequestedProductsAdapter = new listRequestedProductsAdapter(requested_products.this, listaDeDatosHistorial, requested_products.this);
+                ListRequestedProductsAdapter = new listRequestedProductsAdapter(requestedProducts.this, listaDeDatosHistorial, requestedProducts.this);
                 listadoHistorial.setAdapter(ListRequestedProductsAdapter);
             }
 

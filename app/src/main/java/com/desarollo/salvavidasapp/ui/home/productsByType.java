@@ -5,7 +5,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -13,8 +12,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.desarollo.salvavidasapp.Models.Productos;
-import com.desarollo.salvavidasapp.Models.SubTipoComidas;
-import com.desarollo.salvavidasapp.Models.TipoComidas;
+import com.desarollo.salvavidasapp.Models.SubTipoProductos;
 import com.desarollo.salvavidasapp.R;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -29,12 +27,9 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.Objects;
-
-import static com.facebook.FacebookSdk.getApplicationContext;
 
 public class
-products_by_type extends AppCompatActivity {
+productsByType extends AppCompatActivity {
 
     FirebaseAuth mAuth;
     FirebaseUser currentUser;
@@ -46,11 +41,11 @@ products_by_type extends AppCompatActivity {
     DatabaseReference myRef;
 
     ListSubTypeFood listSubTypeFood;
-    RecyclerView listado_subtipo_comidas;
-    ArrayList<SubTipoComidas> listaDeDatosSubTipo = new ArrayList<>();
+    RecyclerView listadoSubtipoProductos;
+    ArrayList<SubTipoProductos> listaDeDatosSubTipo = new ArrayList<>();
     DatabaseReference myRefTypeFood;
-    String tipoComida;
-    TextView titulo_subtipo;
+    String tipoProducto;
+    TextView tituloSubTipo;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,29 +57,29 @@ products_by_type extends AppCompatActivity {
         database = FirebaseDatabase.getInstance();
         myRef = database.getReference("productos");
         myRefTypeFood = database.getReference("tipo_comidas");
-        titulo_subtipo = findViewById(R.id.tv_titulo_subtipo);
+        tituloSubTipo = findViewById(R.id.tv_titulo_subtipo);
 
 
-        listado_subtipo_comidas = findViewById(R.id.sub_tipo_comidas);
-        listado_subtipo_comidas.setLayoutManager(new LinearLayoutManager(getApplicationContext(),LinearLayoutManager.HORIZONTAL,false));
-        listSubTypeFood = new ListSubTypeFood(getApplicationContext(),listaDeDatosSubTipo,products_by_type.this);
-        listado_subtipo_comidas.setAdapter(listSubTypeFood);
+        listadoSubtipoProductos = findViewById(R.id.sub_tipo_comidas);
+        listadoSubtipoProductos.setLayoutManager(new LinearLayoutManager(getApplicationContext(),LinearLayoutManager.HORIZONTAL,false));
+        listSubTypeFood = new ListSubTypeFood(getApplicationContext(),listaDeDatosSubTipo, productsByType.this);
+        listadoSubtipoProductos.setAdapter(listSubTypeFood);
 
 
         listado = findViewById(R.id.listado);
         LinearLayoutManager manager = new LinearLayoutManager(getApplicationContext());
         listado.setLayoutManager(manager);
         //listado.setHasFixedSize(true);
-        listSellAdapter = new ListSellAdapter(getApplicationContext(),listaDeDatos, products_by_type.this);
+        listSellAdapter = new ListSellAdapter(getApplicationContext(),listaDeDatos, productsByType.this);
 
         listado.setAdapter(listSellAdapter);
 
-        tipoComida = "";
+        tipoProducto = "";
 
         Intent intent = getIntent();
         if (intent.getExtras()  != null){
             Bundle extras = getIntent().getExtras();
-            tipoComida = extras.getString("TipoComida");
+            tipoProducto = extras.getString("TipoComida");
 
         }
 
@@ -94,20 +89,20 @@ products_by_type extends AppCompatActivity {
 
 
     private void crearListadoSubTipo() {
-        myRefTypeFood.child(tipoComida).child("subTipo").addValueEventListener(new ValueEventListener() {
+        myRefTypeFood.child(tipoProducto).child("subTipo").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 if(snapshot.exists()){
                     listaDeDatosSubTipo.clear();
                     for(DataSnapshot objsnapshot : snapshot.getChildren()){ //Recorre los usuarios
-                        SubTipoComidas st = objsnapshot.getValue(SubTipoComidas.class);
+                        SubTipoProductos st = objsnapshot.getValue(SubTipoProductos.class);
 
-                        listaDeDatosSubTipo.add(new SubTipoComidas(st.getSubTipoComida(),st.getFoto(),tipoComida));
+                        listaDeDatosSubTipo.add(new SubTipoProductos(st.getSubTipoComida(),st.getFoto(), tipoProducto));
                         // Toast.makeText(getApplicationContext(), st.getSubTipoComida(), Toast.LENGTH_SHORT).show();
                     }
 
-                    listSubTypeFood = new ListSubTypeFood(getApplicationContext(),listaDeDatosSubTipo, products_by_type.this);
-                    listado_subtipo_comidas.setAdapter(listSubTypeFood);
+                    listSubTypeFood = new ListSubTypeFood(getApplicationContext(),listaDeDatosSubTipo, productsByType.this);
+                    listadoSubtipoProductos.setAdapter(listSubTypeFood);
                 }else{
 
 
@@ -136,7 +131,7 @@ products_by_type extends AppCompatActivity {
                         for (DataSnapshot objsnapshot2 : objsnapshot.getChildren()) { //recorre los productos
                             Productos p = objsnapshot2.getValue(Productos.class);
 
-                            if (p.getCategoriaProducto().equals(tipoComida)){
+                            if (p.getCategoriaProducto().equals(tipoProducto)){
                                 String estado="";
                                 String subCategoria="";
                                 Date fechaInicio = null;
@@ -155,7 +150,7 @@ products_by_type extends AppCompatActivity {
                                 if (getCurrentDateTime.compareTo(fechaInicio) > 0 && getCurrentDateTime.compareTo(fechaFin) < 0
                                         && !estado.equals("Cancelado por el vendedor")){
 
-                                    titulo_subtipo.setVisibility(View.INVISIBLE);
+                                    tituloSubTipo.setVisibility(View.INVISIBLE);
                                     listaDeDatos.add(new Productos(p.getIdProducto(), p.getNombreProducto(), p.getDescripcionProducto(),
                                             p.getCategoriaProducto(), p.getSubCategoriaProducto(), p.getPrecio(), p.getDescuento(), p.getDomicilio(), p.getEstadoProducto(),
                                             p.getfoto(), p.getFechaInicio(), p.getHoraInicio(), p.getFechaFin(), p.getHoraFin(),p.getNombreEmpresa(),p.getDireccion(), 1,p.getPrecioDomicilio(),
@@ -168,7 +163,7 @@ products_by_type extends AppCompatActivity {
                         }
                     }
 
-                    listSellAdapter = new ListSellAdapter(getApplicationContext(), listaDeDatos, products_by_type.this);
+                    listSellAdapter = new ListSellAdapter(getApplicationContext(), listaDeDatos, productsByType.this);
                     listado.setAdapter(listSellAdapter);
                 } else {
 

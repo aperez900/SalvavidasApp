@@ -13,26 +13,20 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
-import com.desarollo.salvavidasapp.Models.Productos;
-import com.desarollo.salvavidasapp.Models.TipoComidas;
+import com.desarollo.salvavidasapp.Models.TipoProductos;
 import com.desarollo.salvavidasapp.R;
-import com.desarollo.salvavidasapp.ui.sales.lookAtProduct;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.ArrayList;
 
 public class ListTypeFood  extends RecyclerView.Adapter<ListTypeFood.viewHolder> implements View.OnClickListener{
-    ArrayList<TipoComidas> listaDeDatos;
+    ArrayList<TipoProductos> listaDeDatos;
     LayoutInflater inflater;
 
     private View.OnClickListener listener;
     Activity activity;
 
 
-    public ListTypeFood(Context context, ArrayList<TipoComidas> listaDeDatos, Activity activity) {
+    public ListTypeFood(Context context, ArrayList<TipoProductos> listaDeDatos, Activity activity) {
         this.inflater = LayoutInflater.from(context);
         this.listaDeDatos = listaDeDatos;
         this.activity = activity;
@@ -63,7 +57,7 @@ public class ListTypeFood  extends RecyclerView.Adapter<ListTypeFood.viewHolder>
             public void onClick(View v) {
 
                 //Intent intent = new Intent(activity , addProduct.class);
-                Intent intent = new Intent(activity , products_by_type.class);
+                Intent intent = new Intent(activity , productsByType.class);
                 intent.putExtra("TipoComida", listaDeDatos.get(position).getTipoComida());
                 intent.putExtra("foto" , listaDeDatos.get(position).getFoto());
 

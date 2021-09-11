@@ -22,7 +22,7 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
-public class look_at_address extends AppCompatActivity {
+public class lookAtAddress extends AppCompatActivity {
 
     FirebaseAuth mAuth;
     FirebaseUser currentUser;

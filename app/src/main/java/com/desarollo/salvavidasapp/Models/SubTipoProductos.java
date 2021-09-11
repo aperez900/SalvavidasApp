@@ -1,15 +1,15 @@
 package com.desarollo.salvavidasapp.Models;
 
-public class SubTipoComidas {
+public class SubTipoProductos {
 
     public String descripcion;
     public String foto;
     public String tipo;
 
 
-    public SubTipoComidas(){ }
+    public SubTipoProductos(){ }
 
-    public SubTipoComidas(String descripcion, String foto,String tipo) {
+    public SubTipoProductos(String descripcion, String foto, String tipo) {
         this.descripcion = descripcion;
         this.foto = foto;
         this.tipo = tipo;

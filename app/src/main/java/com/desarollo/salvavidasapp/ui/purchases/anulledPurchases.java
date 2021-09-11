@@ -25,9 +25,9 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 
-public class anulled_purchases extends AppCompatActivity {
+public class anulledPurchases extends AppCompatActivity {
 
-    TextView titulo_compras_anuladas, subtitulo_compras_anuladas;
+    TextView tituloComprasAnuladas, subtituloComprasAnuladas;
     FirebaseAuth mAuth;
     FirebaseUser currentUser;
     FirebaseDatabase database;
@@ -42,8 +42,8 @@ public class anulled_purchases extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_anulled_purchases);
 
-        titulo_compras_anuladas = findViewById(R.id.tv_titulo_compras_anuladas);
-        subtitulo_compras_anuladas = findViewById(R.id.tv_subtitulo_compras_anuladas);
+        tituloComprasAnuladas = findViewById(R.id.tv_titulo_compras_anuladas);
+        subtituloComprasAnuladas = findViewById(R.id.tv_subtitulo_compras_anuladas);
 
         mAuth = FirebaseAuth.getInstance();
         currentUser = mAuth.getCurrentUser();
@@ -72,7 +72,7 @@ public class anulled_purchases extends AppCompatActivity {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 if (snapshot.exists()) {
-                    subtitulo_compras_anuladas.setText("Los siguientes productos fueron anulados");
+                    subtituloComprasAnuladas.setText("Los siguientes productos fueron anulados");
                     listaDeDatos.clear();
                     for (DataSnapshot objsnapshot : snapshot.getChildren()) { //recorre los productos
                         String estadoSolicitud = objsnapshot.child("estado").getValue().toString();
@@ -86,16 +86,16 @@ public class anulled_purchases extends AppCompatActivity {
                     }
                 }
                 else {
-                    Intent intent = new Intent(anulled_purchases.this, Home.class);
+                    Intent intent = new Intent(anulledPurchases.this, Home.class);
                     startActivity(intent);
                     finish();
-                    Toast.makeText(anulled_purchases.this, "Aún no se han anulado compras", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(anulledPurchases.this, "Aún no se han anulado compras", Toast.LENGTH_SHORT).show();
                 }
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
-                Toast.makeText(anulled_purchases.this, "Error cargando los productos", Toast.LENGTH_SHORT).show();
+                Toast.makeText(anulledPurchases.this, "Error cargando los productos", Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -120,7 +120,7 @@ public class anulled_purchases extends AppCompatActivity {
                         }
                     }
                 }
-                ListPurchasesAnulledAdapter = new listPurchasesInProcessAdapter(anulled_purchases.this, listaDeDatos, anulled_purchases.this);
+                ListPurchasesAnulledAdapter = new listPurchasesInProcessAdapter(anulledPurchases.this, listaDeDatos, anulledPurchases.this);
                 listadoComprasAnuladas.setAdapter(ListPurchasesAnulledAdapter);
             }
 

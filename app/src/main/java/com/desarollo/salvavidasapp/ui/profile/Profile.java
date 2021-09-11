@@ -86,9 +86,9 @@ public class Profile extends Fragment {
         //TextView lista_comida = view.findViewById(R.id.lista_comidas);
         EditText identificacion = view.findViewById(R.id.tv_identidad);
         EditText celular = view.findViewById(R.id.tv_celular);
-        Button btn_reg = view.findViewById(R.id.btn_registrar_perfil);
-        Button btn_desactivar_usuario = view.findViewById(R.id.btn_desactivar_usuario);
-        TextView tv_vendedor = view.findViewById(R.id.tv_quiero_ser_vendedor);
+        Button btnReg = view.findViewById(R.id.btn_registrar_perfil);
+        Button btnDesactivarUsuario = view.findViewById(R.id.btn_desactivar_usuario);
+        TextView tvVendedor = view.findViewById(R.id.tv_quiero_ser_vendedor);
 
         listaDirecciones = new ArrayList<>();
 
@@ -108,9 +108,9 @@ public class Profile extends Fragment {
         }
 
         //pasar de un fragment a otro
-        //tv_vendedor.setOnClickListener(Navigation.createNavigateOnClickListener(R.id.action_nav_profile_to_nav_seller));
+        //tvVendedor.setOnClickListener(Navigation.createNavigateOnClickListener(R.id.action_nav_profile_to_nav_seller));
 
-        tv_vendedor.setOnClickListener(new View.OnClickListener() {
+        tvVendedor.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getContext(), seller2.class);
@@ -124,10 +124,10 @@ public class Profile extends Fragment {
 
 
         //Llena los campos del formulario con los datos de la bd
-        consultarDatosPerfil(nombres, apellidos, identificacion, celular,btn_reg, btn_desactivar_usuario);
+        consultarDatosPerfil(nombres, apellidos, identificacion, celular,btnReg, btnDesactivarUsuario);
 
         //Acciones del botón registrar
-        btn_reg.setOnClickListener(new View.OnClickListener() {
+        btnReg.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 if(validarCamposVacios(UserMail, nombres, apellidos, identificacion, celular)) {
@@ -139,13 +139,13 @@ public class Profile extends Fragment {
         });
 
         //Acciones del botón desactivar usuario
-        btn_desactivar_usuario.setOnClickListener(new View.OnClickListener() {
+        btnDesactivarUsuario.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(btn_desactivar_usuario.getText().toString().equals("Desactivar Usuario")){
+                if(btnDesactivarUsuario.getText().toString().equals("Desactivar Usuario")){
                     desactivarUsuario(UserMail, nombres, apellidos, identificacion, celular);
                 }
-                if (btn_desactivar_usuario.getText().toString().equals("Activar Usuario")){
+                if (btnDesactivarUsuario.getText().toString().equals("Activar Usuario")){
                     if(validarCamposVacios(UserMail, nombres, apellidos, identificacion, celular)) {
                         registrar(UserMail, nombres, apellidos, identificacion, celular);
 
@@ -174,8 +174,8 @@ public class Profile extends Fragment {
      * Método para consultar los datos del perfil en la BD y pintar
      * el formulario con ellos
      * */
-    public void consultarDatosPerfil(EditText et_nombres, EditText et_apellidos, EditText et_identificacion,
-                                     EditText et_celular,Button btn_reg, Button btn_desactivar_usuario){
+    public void consultarDatosPerfil(EditText etNombres, EditText etApellidos, EditText etIdentificacion,
+                                     EditText etCelular,Button btnReg, Button btnDesactivarUsuario){
         //consultando datos del usuario
         myRef.child(currentUser.getUid())
                 .addValueEventListener(new ValueEventListener() {
@@ -183,15 +183,15 @@ public class Profile extends Fragment {
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
                         if(snapshot.exists()){
                             String nombre = snapshot.child("nombre").getValue().toString();
-                            et_nombres.setText(nombre);
+                            etNombres.setText(nombre);
                             String apellido = snapshot.child("apellido").getValue().toString();
-                            et_apellidos.setText(apellido);
+                            etApellidos.setText(apellido);
                             String identificacion = snapshot.child("identificacion").getValue().toString();
-                            et_identificacion.setText(identificacion);
+                            etIdentificacion.setText(identificacion);
                             String celular = snapshot.child("celular").getValue().toString();
-                            et_celular.setText(celular);
-                            btn_reg.setText("Actualizar");
-                            consultarEstadoUsuario(btn_desactivar_usuario);
+                            etCelular.setText(celular);
+                            btnReg.setText("Actualizar");
+                            consultarEstadoUsuario(btnDesactivarUsuario);
                         }
                     }
                     @Override
@@ -227,7 +227,7 @@ public class Profile extends Fragment {
                     }
 
                     @Override
-                    public void onCancelled(@NonNull DatabaseError error) {
+                    public void onCancelled(@NonNull DatabaseError Error) {
                         Toast.makeText(getApplicationContext(), "Error consultando las comidas preferidas. Intente de nuevo mas tarde.", Toast.LENGTH_SHORT).show();
                     }
                 });
@@ -306,7 +306,7 @@ public class Profile extends Fragment {
                     }
 
                     @Override
-                    public void onCancelled(@NonNull DatabaseError error) {
+                    public void onCancelled(@NonNull DatabaseError Error) {
                         Toast.makeText(getApplicationContext(), "Error consultando las comidas preferidas. Intente de nuevo mas tarde.", Toast.LENGTH_SHORT).show();
                     }
                 });
@@ -545,7 +545,7 @@ public class Profile extends Fragment {
      * Método para consultar el estado del usuario y modificar
      * el nombre del botón activar/desactivar usuario
      * */
-    public void consultarEstadoUsuario(Button btn_desactivar_usuario){
+    public void consultarEstadoUsuario(Button btnDesactivarUsuario){
         myRef.child(currentUser.getUid())
                 .addValueEventListener(new ValueEventListener() {
                     @Override
@@ -553,9 +553,9 @@ public class Profile extends Fragment {
                         if(snapshot.exists()){
                             String Estado = snapshot.child("habilitado").getValue().toString();
                             if (Estado.equals("false")){
-                                btn_desactivar_usuario.setText("Activar Usuario");
+                                btnDesactivarUsuario.setText("Activar Usuario");
                             }else if (Estado.equals("true")){
-                                btn_desactivar_usuario.setText("Desactivar Usuario");
+                                btnDesactivarUsuario.setText("Desactivar Usuario");
                             }
                         }
                     }

@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:background="@color/backgroundColor"
     android:orientation="vertical"
-    tools:context=".ui.seller.requested_products">
+    tools:context=".ui.seller.requestedProducts">
 
     <TextView
         android:id="@+id/tv_titulo_productos_solicitados"

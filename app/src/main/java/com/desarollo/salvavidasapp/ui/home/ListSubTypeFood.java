@@ -13,23 +13,19 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
-import com.desarollo.salvavidasapp.Models.SubTipoComidas;
+import com.desarollo.salvavidasapp.Models.SubTipoProductos;
 import com.desarollo.salvavidasapp.R;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.ArrayList;
 
 public class ListSubTypeFood extends RecyclerView.Adapter<ListSubTypeFood.viewHolder> implements View.OnClickListener{
-    ArrayList<SubTipoComidas> listaDeDatos;
+    ArrayList<SubTipoProductos> listaDeDatos;
     LayoutInflater inflater;
     private View.OnClickListener listener;
     Activity activity;
 
 
-    public ListSubTypeFood(Context context, ArrayList<SubTipoComidas> listaDeDatos, Activity activity) {
+    public ListSubTypeFood(Context context, ArrayList<SubTipoProductos> listaDeDatos, Activity activity) {
         this.inflater = LayoutInflater.from(context);
         this.listaDeDatos = listaDeDatos;
         this.activity = activity;
@@ -58,7 +54,7 @@ public class ListSubTypeFood extends RecyclerView.Adapter<ListSubTypeFood.viewHo
                 //Intent intent = new Intent(activity , addProduct.class);
                 String SubTipoComida = listaDeDatos.get(position).getSubTipoComida();
                 String TipoProducto = listaDeDatos.get(position).getTipo();
-                Intent intent = new Intent(activity , products_by_sub_type.class);
+                Intent intent = new Intent(activity , productsBySubType.class);
                 intent.putExtra("SubTipoComida", SubTipoComida);
                 intent.putExtra("TipoProducto", TipoProducto);
 

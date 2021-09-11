@@ -18,7 +18,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.desarollo.salvavidasapp.Models.ListDirecciones;
 import com.desarollo.salvavidasapp.Models.Productos;
-import com.desarollo.salvavidasapp.Models.TipoComidas;
+import com.desarollo.salvavidasapp.Models.TipoProductos;
 import com.desarollo.salvavidasapp.R;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -39,8 +39,8 @@ import static com.facebook.FacebookSdk.getApplicationContext;
 public class HomeFragment extends Fragment {
 
     ArrayList<Productos> listaDeDatos = new ArrayList<>();
-    ArrayList<TipoComidas> listaDeDatosTipo = new ArrayList<>();
-    RecyclerView listado_comidas,listado_tipo_comidas;
+    ArrayList<TipoProductos> listaDeDatosTipo = new ArrayList<>();
+    RecyclerView listadoProducto, listadoTipoProducto;
     ListSellAdapter listSellAdapter;
     ListTypeFood listTypeFood;
     ProgressDialog cargando;
@@ -49,7 +49,7 @@ public class HomeFragment extends Fragment {
     FirebaseDatabase database;
     DatabaseReference myRefTypeFood,myRef,myRefVendedores,myRefUsuarios;
     ListDirecciones d;
-    TextView tv_principal_address;
+    TextView tvPrincipalAddress;
     Button btnShopping;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
@@ -64,27 +64,27 @@ public class HomeFragment extends Fragment {
         myRefUsuarios = database.getReference("usuarios");
         myRefVendedores = database.getReference("vendedores");
         TextView tv_saludo = view.findViewById(R.id.tv_saludo_home);
-        tv_principal_address  = view.findViewById(R.id.principal_address);
+        tvPrincipalAddress = view.findViewById(R.id.principal_address);
         btnShopping = view.findViewById(R.id.btnShopping);
         cargando = new ProgressDialog(getActivity());
-        listado_comidas = view.findViewById(R.id.listado);
-        listado_tipo_comidas = view.findViewById(R.id.tipo_comidas);
-        listado_tipo_comidas.setLayoutManager(new LinearLayoutManager(getContext(),LinearLayoutManager.HORIZONTAL,false));
+        listadoProducto = view.findViewById(R.id.listado);
+        listadoTipoProducto = view.findViewById(R.id.tipo_comidas);
+        listadoTipoProducto.setLayoutManager(new LinearLayoutManager(getContext(),LinearLayoutManager.HORIZONTAL,false));
         listTypeFood = new ListTypeFood(getContext(),listaDeDatosTipo,getActivity());
-        listado_tipo_comidas.setAdapter(listTypeFood);
+        listadoTipoProducto.setAdapter(listTypeFood);
 
         LinearLayoutManager manager = new LinearLayoutManager(getContext());
-        listado_comidas.setLayoutManager(manager);
+        listadoProducto.setLayoutManager(manager);
         //listado.setHasFixedSize(true);
         listSellAdapter = new ListSellAdapter(getApplicationContext(),listaDeDatos, getActivity());
-        listado_comidas.setAdapter(listSellAdapter);
+        listadoProducto.setAdapter(listSellAdapter);
 
         consultarDireccionUsuario();
         actualizarNombreUsuario(tv_saludo);
         crearListadoTiposDeProductos();
         crearListadoProductos();
 
-        tv_principal_address.setOnClickListener(Navigation.createNavigateOnClickListener(R.id.action_nav_home_to_nav_address));
+        tvPrincipalAddress.setOnClickListener(Navigation.createNavigateOnClickListener(R.id.action_nav_home_to_nav_address));
 
         btnShopping.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -116,12 +116,12 @@ public class HomeFragment extends Fragment {
                 if(snapshot.exists()){
                     listaDeDatosTipo.clear();
                     for(DataSnapshot objsnapshot : snapshot.getChildren()){ //Recorre los usuarios
-                        TipoComidas t = objsnapshot.getValue(TipoComidas.class);
+                        TipoProductos t = objsnapshot.getValue(TipoProductos.class);
                         assert t != null;
-                        listaDeDatosTipo.add(new TipoComidas(t.getTipoComida(),t.getFoto()));
+                        listaDeDatosTipo.add(new TipoProductos(t.getTipoComida(),t.getFoto()));
                         }
                     listTypeFood = new ListTypeFood(getContext(),listaDeDatosTipo, getActivity());
-                    listado_tipo_comidas.setAdapter(listTypeFood);
+                    listadoTipoProducto.setAdapter(listTypeFood);
                 }
             }
 
@@ -173,7 +173,7 @@ public class HomeFragment extends Fragment {
                         }
                     }
                     listSellAdapter = new ListSellAdapter(getApplicationContext(),listaDeDatos, getActivity());
-                    listado_comidas.setAdapter(listSellAdapter);
+                    listadoProducto.setAdapter(listSellAdapter);
                     cargando.dismiss();
                 }
             }
@@ -194,7 +194,7 @@ public class HomeFragment extends Fragment {
                         d = new ListDirecciones();
                         d = objsnapshot.getValue(ListDirecciones.class);
                         if(d.getSeleccion().equals("true")){
-                            tv_principal_address.setText(d.direccionUsuario);
+                            tvPrincipalAddress.setText(d.direccionUsuario);
                         }
                     }
                 }

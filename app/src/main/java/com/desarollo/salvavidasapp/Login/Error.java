@@ -6,7 +6,7 @@ import android.os.Bundle;
 
 import com.desarollo.salvavidasapp.R;
 
-public class error extends AppCompatActivity {
+public class Error extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

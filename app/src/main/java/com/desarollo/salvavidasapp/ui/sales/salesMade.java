@@ -14,8 +14,6 @@ import com.desarollo.salvavidasapp.Models.Productos;
 import com.desarollo.salvavidasapp.Models.ProductosEnTramite;
 import com.desarollo.salvavidasapp.R;
 import com.desarollo.salvavidasapp.ui.home.Home;
-import com.desarollo.salvavidasapp.ui.purchases.listPurchasesInProcessAdapter;
-import com.desarollo.salvavidasapp.ui.purchases.purchases_made;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -24,11 +22,9 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
 
 public class salesMade extends AppCompatActivity {
     ArrayList<Productos> listaDeDatos = new ArrayList<>();
@@ -38,15 +34,15 @@ public class salesMade extends AppCompatActivity {
     FirebaseUser currentUser;
     FirebaseDatabase database;
     DatabaseReference myRefVendedores,myRefProductos;
-    TextView titulo_ventas_efectuadas, subtitulo_ventas_efectuadas;
+    TextView tituloVentasEfectuadas, subtituloVentasEfectuadas;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sales_made);
 
-        titulo_ventas_efectuadas = findViewById(R.id.tv_titulo_ventas_efectuadas);
-        subtitulo_ventas_efectuadas = findViewById(R.id.tv_subtitulo_ventas_efectuadas);
+        tituloVentasEfectuadas = findViewById(R.id.tv_titulo_ventas_efectuadas);
+        subtituloVentasEfectuadas = findViewById(R.id.tv_subtitulo_ventas_efectuadas);
 
         mAuth = FirebaseAuth.getInstance();
         currentUser = mAuth.getCurrentUser();
@@ -72,7 +68,7 @@ public class salesMade extends AppCompatActivity {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 if (snapshot.exists()) {
-                    subtitulo_ventas_efectuadas.setText("Se han comprado los siguientes productos");
+                    subtituloVentasEfectuadas.setText("Se han comprado los siguientes productos");
                     listaDeDatos.clear();
                     for (DataSnapshot objsnapshot : snapshot.getChildren()) { //recorre los usuarios
                         for (DataSnapshot objsnapshot2 : objsnapshot.getChildren()) { //recorre los productos
