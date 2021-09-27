@@ -19,7 +19,7 @@ public class TipoProductos {
         }
 
         public void setTipoComida(String tipoComida) {
-            TipoComida = tipoComida;
+            this.TipoComida = tipoComida;
         }
 
         public String getFoto() {

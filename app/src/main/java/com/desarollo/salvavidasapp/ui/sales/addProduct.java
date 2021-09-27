@@ -26,8 +26,13 @@ import android.widget.Toast;
 import com.bumptech.glide.Glide;
 import com.desarollo.salvavidasapp.Models.ListDirecciones;
 import com.desarollo.salvavidasapp.Models.Productos;
+import com.desarollo.salvavidasapp.Models.SubTipoProductos;
+import com.desarollo.salvavidasapp.Models.TipoProductos;
 import com.desarollo.salvavidasapp.R;
 import com.desarollo.salvavidasapp.ui.direction.Maps;
+import com.desarollo.salvavidasapp.ui.home.ListSubTypeFood;
+import com.desarollo.salvavidasapp.ui.home.ListTypeFood;
+import com.desarollo.salvavidasapp.ui.home.productsByType;
 import com.desarollo.salvavidasapp.ui.seller.seller2;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -58,10 +63,12 @@ public class addProduct extends AppCompatActivity {
     FirebaseAuth mAuth;
     FirebaseUser currentUser;
     FirebaseDatabase database;
-    DatabaseReference myRefProductos, myRefVendedores, myRefUsuarios;
+    DatabaseReference myRefProductos, myRefVendedores, myRefUsuarios,myRefTipoProducto;
     Productos p;
     String idProductoEdit ="";
     String nombreEstablecimiento;
+    Spinner categoriaProducto;
+    Spinner subCategoriaProducto;
 
     Map<String,Object> selectedItems = new HashMap<>();
 
@@ -77,9 +84,10 @@ public class addProduct extends AppCompatActivity {
         myRefProductos = database.getReference("productos");
         myRefVendedores = database.getReference("vendedores");
         myRefUsuarios = database.getReference("usuarios");
+        myRefTipoProducto = database.getReference("tipo_comidas");
 
-        Spinner categoriaProducto = findViewById(R.id.sp_categoria_producto);
-        Spinner subCategoriaProducto = findViewById(R.id.sp_sub_categoria_producto);
+        categoriaProducto = findViewById(R.id.sp_categoria_producto);
+        subCategoriaProducto = findViewById(R.id.sp_sub_categoria_producto);
         Spinner domicilioProducto = findViewById(R.id.sp_domicilio);
         TextView btnFechaInicio = findViewById(R.id.btn_fecha_inicio);
         TextView tvFechaInicio = findViewById(R.id.tv_fecha_inicio);
@@ -158,16 +166,9 @@ public class addProduct extends AppCompatActivity {
             ArrayAdapter<String> adapterDomicilioProductos = new ArrayAdapter<String>(this, R.layout.spinner_item_modified, listDomicilioProductos);
             domicilioProducto.setAdapter(adapterDomicilioProductos);
         }else {
-            String[] ArrayCategorias = new String[]{"✚ Seleccione una categoría", "comida preparada", "comida cruda"};
-            ArrayList<String> listCategoriaProductos = new ArrayList(Arrays.asList(ArrayCategorias));
-            ArrayAdapter<String> adapterCategoriaProductos = new ArrayAdapter<String>(this, R.layout.spinner_item_modified, listCategoriaProductos);
-            categoriaProducto.setAdapter(adapterCategoriaProductos);
 
-            String[] ArraySubCategorias = new String[]{"✚ Seleccione una sub categoría", "aceites", "aderezos", "carnes rojas", "condimentos", "flores", "frutas",
-                    "frutos secos", "granos", "hortalizas", "legumbres", "pescado", "pollo","verduras"};
-            ArrayList<String> listSubCategoriaProductos = new ArrayList(Arrays.asList(ArraySubCategorias));
-            ArrayAdapter<String> adapterSubCategoriaProductos = new ArrayAdapter<String>(this, R.layout.spinner_item_modified, listSubCategoriaProductos);
-            subCategoriaProducto.setAdapter(adapterSubCategoriaProductos);
+            consultarCategoriaProducto();
+            consultarSubCategoriaProducto();
 
             String[] ArrayDomicilio = new String[]{"✚ ¿Deseas ofrecer domicilio?", "Sí", "No"};
             ArrayList<String> listDomicilioProductos = new ArrayList(Arrays.asList(ArrayDomicilio));
@@ -539,5 +540,62 @@ public class addProduct extends AppCompatActivity {
                     }
                 });
 
+         }
+
+    public void consultarCategoriaProducto(){
+        List<String> tipoProducto = new ArrayList<>();
+        tipoProducto.add("✚ Seleccione una categoría");
+        myRefTipoProducto.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if(snapshot.exists()){
+
+                    for(DataSnapshot objsnapshot : snapshot.getChildren()){
+                        TipoProductos t = objsnapshot.getValue(TipoProductos.class);
+                        tipoProducto.add(t.getTipoComida());
+                    }
+
+                    ArrayAdapter<String> adapterCategoriaProductos = new ArrayAdapter<>(addProduct.this, R.layout.spinner_item_modified, tipoProducto);
+                    categoriaProducto.setAdapter(adapterCategoriaProductos);
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                Toast.makeText(getApplicationContext(), "Error cargando los productos", Toast.LENGTH_SHORT).show();
+            }
+        });
     }
+
+
+    private void consultarSubCategoriaProducto() {
+        List<String> SubTipoProducto = new ArrayList<>();
+        SubTipoProducto.add("✚ Seleccione una sub categoría");
+        myRefTipoProducto.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if(snapshot.exists()){
+
+                    for(DataSnapshot objsnapshot : snapshot.getChildren()){ //Recorre los usuarios
+                        for (DataSnapshot objsnapshot2 : objsnapshot.child("subTipo").getChildren()) { //recorre los productos
+
+                            SubTipoProductos st = objsnapshot2.getValue(SubTipoProductos.class);
+                            SubTipoProducto.add(st.getSubTipoComida());
+                        }
+
+                    }
+
+                    ArrayAdapter<String> adapterSubCategoriaProductos = new ArrayAdapter<String>(addProduct.this, R.layout.spinner_item_modified, SubTipoProducto);
+                    subCategoriaProducto.setAdapter(adapterSubCategoriaProductos);
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                Toast.makeText(getApplicationContext(), "Error cargando los productos", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+    }
+
 }
