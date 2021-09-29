@@ -109,6 +109,7 @@
     <string name="totalCarrito">Total</string>
     <string name="subTotalCarrito">Sub Total</string>
     <string name="cantidad">Cant.</string>
+    <string name="cantidad2">Cantidad</string>
     <string name="comprar">Comprar</string>
     <string name="valor">Valor</string>
     <string name="uno">1</string>

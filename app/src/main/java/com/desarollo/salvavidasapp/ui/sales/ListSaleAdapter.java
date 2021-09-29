@@ -60,13 +60,19 @@ public class ListSaleAdapter extends RecyclerView.Adapter<ListSaleAdapter.viewHo
         String idProducto = listaDeDatos.get(position).getIdProducto();
         String tipoProducto = listaDeDatos.get(position).getCategoriaProducto();
         String nombreProducto = listaDeDatos.get(position).getNombreProducto();
+        String categoriaProducto = listaDeDatos.get(position).getCategoriaProducto();
+        String subcategoria = listaDeDatos.get(position).getSubCategoriaProducto();
         String descripcionProducto = listaDeDatos.get(position).getDescripcionProducto();
+        String domicilioProducto = listaDeDatos.get(position).getDomicilio();
+        int cantidadProducto = listaDeDatos.get(position).getCantidad();
         Double precio = listaDeDatos.get(position).getPrecio();
         Double descuento = listaDeDatos.get(position).getDescuento();
         Double precioDomicilio = listaDeDatos.get(position).getPrecioDomicilio();
         long porcDescuento = Math.round(descuento/precio*100);
         String fechaInicio = listaDeDatos.get(position).getFechaInicio();
+        String horaInicio = listaDeDatos.get(position).getHoraInicio();
         String fechaFin = listaDeDatos.get(position).getFechaFin();
+        String horaFin = listaDeDatos.get(position).getHoraFin();
         String getUrlFoto = listaDeDatos.get(position).getfoto();
         String direccionProducto = listaDeDatos.get(position).getDireccion();
 
@@ -93,21 +99,23 @@ public class ListSaleAdapter extends RecyclerView.Adapter<ListSaleAdapter.viewHo
 
                 //Intent intent = new Intent(activity , addProduct.class);
                 Intent intent = new Intent(activity , lookAtProduct.class);
-                intent.putExtra("nombreProducto", listaDeDatos.get(position).getNombreProducto());
-                intent.putExtra("idProducto" , listaDeDatos.get(position).getIdProducto());
-                intent.putExtra("tipoProducto" , listaDeDatos.get(position).getCategoriaProducto());
-                intent.putExtra("subTipoProducto" , listaDeDatos.get(position).getSubCategoriaProducto());
-                intent.putExtra("domicilioProducto" , listaDeDatos.get(position).getDomicilio());
-                intent.putExtra("descripcionProducto" , listaDeDatos.get(position).getDescripcionProducto());
-                intent.putExtra("precio" , String.valueOf(listaDeDatos.get(position).getPrecio()));
-                intent.putExtra("descuento" , String.valueOf(listaDeDatos.get(position).getDescuento()));
+                intent.putExtra("nombreProducto", nombreProducto);
+                intent.putExtra("idProducto" , idProducto);
+                intent.putExtra("tipoProducto" , categoriaProducto);
+                intent.putExtra("subTipoProducto" , subcategoria);
+                intent.putExtra("domicilioProducto" , domicilioProducto);
+                intent.putExtra("descripcionProducto" , descripcionProducto);
+                intent.putExtra("cantidadProducto" , String.valueOf(cantidadProducto));
                 intent.putExtra("precioDomicilio" , String.valueOf(precioDomicilio));
-                intent.putExtra("fechaInicio", listaDeDatos.get(position).getFechaInicio());
-                intent.putExtra("horaInicio", listaDeDatos.get(position).getHoraInicio());
-                intent.putExtra("fechaFin", listaDeDatos.get(position).getFechaFin());
-                intent.putExtra("horaFin", listaDeDatos.get(position).getHoraFin());
-                intent.putExtra("urlFoto" , listaDeDatos.get(position).getfoto());
-                intent.putExtra("direccionProducto" , listaDeDatos.get(position).getDireccion());
+                intent.putExtra("precio" , String.valueOf(precio));
+                intent.putExtra("descuento" , String.valueOf(descuento));
+                intent.putExtra("precioDomicilio" , String.valueOf(precioDomicilio));
+                intent.putExtra("fechaInicio", fechaInicio);
+                intent.putExtra("horaInicio", horaInicio);
+                intent.putExtra("fechaFin", fechaFin);
+                intent.putExtra("horaFin", horaFin);
+                intent.putExtra("urlFoto" , getUrlFoto);
+                intent.putExtra("direccionProducto" , direccionProducto);
                 intent.putExtra("tipyEntry" , "Consultar");
 
                 activity.startActivity(intent);
@@ -120,20 +128,22 @@ public class ListSaleAdapter extends RecyclerView.Adapter<ListSaleAdapter.viewHo
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(activity , addProduct.class);
-                intent.putExtra("nombreProducto", listaDeDatos.get(position).getNombreProducto());
-                intent.putExtra("idProducto" , listaDeDatos.get(position).getIdProducto());
-                intent.putExtra("tipoProducto" , listaDeDatos.get(position).getCategoriaProducto());
-                intent.putExtra("subTipoProducto" , listaDeDatos.get(position).getSubCategoriaProducto());
-                intent.putExtra("domicilioProducto" , listaDeDatos.get(position).getDomicilio());
-                intent.putExtra("descripcionProducto" , listaDeDatos.get(position).getDescripcionProducto());
-                intent.putExtra("precio" , String.valueOf(listaDeDatos.get(position).getPrecio()));
-                intent.putExtra("descuento" , String.valueOf(listaDeDatos.get(position).getDescuento()));
-                intent.putExtra("fechaInicio", listaDeDatos.get(position).getFechaInicio());
-                intent.putExtra("horaInicio", listaDeDatos.get(position).getHoraInicio());
-                intent.putExtra("fechaFin", listaDeDatos.get(position).getFechaFin());
-                intent.putExtra("horaFin", listaDeDatos.get(position).getHoraFin());
-                intent.putExtra("urlFoto", listaDeDatos.get(position).getfoto());
-                intent.putExtra("direccionProducto" , listaDeDatos.get(position).getDireccion());
+                intent.putExtra("nombreProducto", nombreProducto);
+                intent.putExtra("idProducto" , idProducto);
+                intent.putExtra("tipoProducto" , categoriaProducto);
+                intent.putExtra("subTipoProducto" , subcategoria);
+                intent.putExtra("domicilioProducto" , domicilioProducto);
+                intent.putExtra("descripcionProducto" , descripcionProducto);
+                intent.putExtra("cantidadProducto" , String.valueOf(cantidadProducto));
+                intent.putExtra("precioDomicilio" , String.valueOf(precioDomicilio));
+                intent.putExtra("precio" , String.valueOf(precio));
+                intent.putExtra("descuento" , String.valueOf(descuento));
+                intent.putExtra("fechaInicio", fechaInicio);
+                intent.putExtra("horaInicio", horaInicio);
+                intent.putExtra("fechaFin", fechaFin);
+                intent.putExtra("horaFin", horaFin);
+                intent.putExtra("urlFoto", getUrlFoto);
+                intent.putExtra("direccionProducto" , direccionProducto);
                 intent.putExtra("tipyEntry" , "Editar");
 
                 activity.startActivity(intent);

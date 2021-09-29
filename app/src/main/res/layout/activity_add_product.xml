@@ -24,7 +24,7 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="25dp"
+                    android:layout_marginTop="0dp"
                     android:fontFamily="@font/poppins_bold"
                     android:text="@string/agregarProducto"
                     android:textAlignment="center"
@@ -91,6 +91,20 @@
                     app:layout_constraintTop_toBottomOf="@+id/sp_categoria_producto" />
 
                 <EditText
+                    android:id="@+id/et_cantidad"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="50dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginEnd="50dp"
+                    android:fontFamily="@font/poppins_light"
+                    android:hint="@string/cantidad2"
+                    android:textSize="18sp"
+                    android:importantForAutofill="no"
+                    app:layout_constraintTop_toBottomOf="@id/sp_sub_categoria_producto"
+                    android:inputType="number" />
+
+                <EditText
                     android:id="@+id/et_precio"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -135,7 +149,7 @@
                     android:textSize="18sp"
                     android:importantForAutofill="no"
                     app:layout_constraintTop_toBottomOf="@id/et_descuento"
-                     />
+                    android:inputType="text" />
 
 
                     <Button

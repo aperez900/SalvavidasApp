@@ -6,11 +6,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.location.Address;
-import android.location.LocationManager;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
@@ -23,17 +20,11 @@ import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
-import com.bumptech.glide.Glide;
 import com.desarollo.salvavidasapp.Models.ListDirecciones;
 import com.desarollo.salvavidasapp.Models.Productos;
 import com.desarollo.salvavidasapp.Models.SubTipoProductos;
 import com.desarollo.salvavidasapp.Models.TipoProductos;
 import com.desarollo.salvavidasapp.R;
-import com.desarollo.salvavidasapp.ui.direction.Maps;
-import com.desarollo.salvavidasapp.ui.home.ListSubTypeFood;
-import com.desarollo.salvavidasapp.ui.home.ListTypeFood;
-import com.desarollo.salvavidasapp.ui.home.productsByType;
-import com.desarollo.salvavidasapp.ui.seller.seller2;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
@@ -43,10 +34,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-import com.google.protobuf.Empty;
 
-
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
@@ -55,8 +43,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.UUID;
-
-import static com.facebook.FacebookSdk.getApplicationContext;
 
 public class addProduct extends AppCompatActivity {
 
@@ -101,6 +87,7 @@ public class addProduct extends AppCompatActivity {
         EditText nombreProducto = findViewById(R.id.et_nombre_producto);
         EditText descripcionProducto = findViewById(R.id.et_descripcion_producto);
         EditText precioProducto = findViewById(R.id.et_precio);
+        EditText cantidadProducto = findViewById(R.id.et_cantidad);
         EditText descuentoProducto = findViewById(R.id.et_descuento);
         Button direccionVenta = findViewById(R.id.bt_direccion);
         EditText direccionProducto = findViewById(R.id.et_direccion);
@@ -121,6 +108,7 @@ public class addProduct extends AppCompatActivity {
             nombreProducto.setText(extras.getString("nombreProducto"));
             descripcionProducto.setText(extras.getString("descripcionProducto"));
             precioProducto.setText(extras.getString("precio"));
+            cantidadProducto.setText(extras.getString("cantidadProducto"));
             descuentoProducto.setText(extras.getString("descuento"));
             ScategoriaProductos = extras.getString("tipoProducto");
             SsubCategoriaProductos = extras.getString("subTipoProducto");
@@ -247,9 +235,9 @@ public class addProduct extends AppCompatActivity {
         btnRegistrarProducto.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(validarCamposVacios(nombreProducto, descripcionProducto, categoriaProducto, subCategoriaProducto, precioProducto, descuentoProducto,
+                if(validarCamposVacios(nombreProducto, descripcionProducto, categoriaProducto, subCategoriaProducto, cantidadProducto,precioProducto, descuentoProducto,
                         domicilioProducto, tvFechaInicio, tvFechaFin, tvHoraInicio, tvHoraFin,direccionProducto,precioDomicilio)) {
-                    registrar(nombreProducto, descripcionProducto, categoriaProducto, subCategoriaProducto, precioProducto, descuentoProducto,
+                    registrar(nombreProducto, descripcionProducto, categoriaProducto, subCategoriaProducto, cantidadProducto, precioProducto, descuentoProducto,
                             domicilioProducto, tvFechaInicio, tvFechaFin, tvHoraInicio, tvHoraFin, finalFotoConsulta,idProductoEdit,direccionProducto,precioDomicilio);
                 }
             }
@@ -287,11 +275,12 @@ public class addProduct extends AppCompatActivity {
     }
 
     public void registrar(EditText et_nombre_producto, EditText et_descripcion_producto, Spinner sp_categoria_producto, Spinner sp_sub_categoria_producto,
-                          EditText et_precio_producto, EditText et_descuento_producto, Spinner sp_domicilio_producto, TextView tv_fecha_inicio,
+                          EditText et_cantidad_producto ,EditText et_precio_producto, EditText et_descuento_producto, Spinner sp_domicilio_producto, TextView tv_fecha_inicio,
                           TextView tv_fecha_fin, TextView tv_hora_inicio, TextView tv_hora_fin,String fotoConsulta, String idProductoEdit,EditText direccionProducto, EditText et_precio_Domicilio){
         try {
-            String idProducto,descripcionProducto,nombreProducto,categoriaProducto, subCategoriaProducto, estadoProducto, domicilio,   fechaInicio, direccion,
+            String idProducto,descripcionProducto,nombreProducto,categoriaProducto, subCategoriaProducto, estadoProducto, domicilio, fechaInicio, direccion,
                     horaInicio,  fechaFin,  horaFin;
+            int cantidad;
             double precio,descuento,precioDomicilio_;
             String foto;
 
@@ -316,6 +305,7 @@ public class addProduct extends AppCompatActivity {
             estadoProducto = "Programado";
             categoriaProducto = sp_categoria_producto.getSelectedItem().toString();
             subCategoriaProducto = sp_sub_categoria_producto.getSelectedItem().toString();
+            cantidad = Integer.parseInt(et_cantidad_producto.getText().toString());
             precio = Double.parseDouble(et_precio_producto.getText().toString());
             descuento = Double.parseDouble(et_descuento_producto.getText().toString());
             domicilio = sp_domicilio_producto.getSelectedItem().toString();
@@ -327,7 +317,7 @@ public class addProduct extends AppCompatActivity {
 
             p = new Productos(idProducto  ,  nombreProducto,  descripcionProducto,  categoriaProducto,  subCategoriaProducto,
                     precio,  descuento,  domicilio,  estadoProducto,  foto,  fechaInicio,  horaInicio,  fechaFin,  horaFin,
-                    nombreEstablecimiento,direccion,1 ,precioDomicilio_, currentUser.getUid()){};
+                    nombreEstablecimiento,direccion, cantidad ,precioDomicilio_, currentUser.getUid()){};
 
             //guarda los datos del producto
             myRefProductos.child(currentUser.getUid()).child(p.getIdProducto()).setValue(p)
@@ -377,7 +367,7 @@ public class addProduct extends AppCompatActivity {
      */
 
     public boolean validarCamposVacios(EditText et_nombre_producto, EditText et_descripcion_producto, Spinner sp_categoria_producto,
-                                       Spinner sp_sub_categoria_producto, EditText et_precio_producto, EditText et_descuento_producto,
+                                       Spinner sp_sub_categoria_producto, EditText et_cantidad_producto, EditText et_precio_producto, EditText et_descuento_producto,
                                        Spinner sp_domicilio_producto, TextView tv_fecha_inicio, TextView tv_fecha_fin, TextView tv_hora_inicio,
                                        TextView tv_hora_fin , EditText direccionProducto,EditText et_precio_domicilio){
         boolean campoLleno = true;
@@ -386,6 +376,7 @@ public class addProduct extends AppCompatActivity {
         String descripcionProducto = et_descripcion_producto.getText().toString();
         String categoriaProducto = sp_categoria_producto.getSelectedItem().toString();
         String subCategoriaProducto = sp_sub_categoria_producto.getSelectedItem().toString();
+        String cantidadProducto = et_cantidad_producto.getText().toString();
         String precioProducto = et_precio_producto.getText().toString();
         String descuentoProducto = et_descuento_producto.getText().toString();
         String domicilioProducto = sp_domicilio_producto.getSelectedItem().toString();
@@ -411,6 +402,9 @@ public class addProduct extends AppCompatActivity {
         }if(nombreProducto.isEmpty()){
             et_nombre_producto.setError("Debe diligenciar un nombre para el producto");
             campoLleno=false;
+        }if(cantidadProducto.isEmpty()) {
+            et_precio_producto.setError("Debe diligenciar una cantidad para el producto");
+            campoLleno = false;
         }if(precioProducto.isEmpty()) {
             et_precio_producto.setError("Debe diligenciar un precio para el producto");
             campoLleno = false;
