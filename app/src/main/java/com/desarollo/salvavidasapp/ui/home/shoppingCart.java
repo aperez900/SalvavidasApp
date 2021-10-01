@@ -138,9 +138,10 @@ public class shoppingCart extends AppCompatActivity {
                     listaDeDatos.clear();
                     for(DataSnapshot objsnapshot : snapshot.getChildren()){
                         String idProd = objsnapshot.child("idProducto").getValue().toString();
-                        String cantidad = objsnapshot.child("cantidadProducto").getValue().toString();
+                        String cantidadsolicitados = objsnapshot.child("cantidadProductosSolicitados").getValue().toString();
+                        String cantidadDisponibles = objsnapshot.child("cantidadProductosDisponibles").getValue().toString();
 
-                        consultarDetalleProducto(idProd,cantidad);
+                        consultarDetalleProducto(idProd,cantidadsolicitados, cantidadDisponibles);
                     }
                 }else{
                     Intent intent = new Intent(shoppingCart.this , Home.class);
@@ -157,7 +158,7 @@ public class shoppingCart extends AppCompatActivity {
         });
     }
 
-    public void consultarDetalleProducto(String idProduct, String cantidad){
+    public void consultarDetalleProducto(String idProduct, String cantidadSolicitados, String cantidadDisponibles){
         Calendar c = Calendar.getInstance();
         SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm");
         subTotalCarrito=0.0;
@@ -189,9 +190,10 @@ public class shoppingCart extends AppCompatActivity {
                                         && !estado.equals("Cancelado por el vendedor")) {
                                     listaDeDatos.add(new Productos(p.getIdProducto(), p.getNombreProducto(), p.getDescripcionProducto(),
                                             p.getCategoriaProducto(), p.getSubCategoriaProducto(), p.getPrecio(), p.getDescuento(), p.getDomicilio(), p.getEstadoProducto(),
-                                            p.getfoto(), p.getFechaInicio(), p.getHoraInicio(), p.getFechaFin(), p.getHoraFin(), p.getNombreEmpresa(), p.getDireccion(), Integer.parseInt(cantidad), p.getPrecioDomicilio(),
+                                            p.getfoto(), p.getFechaInicio(), p.getHoraInicio(), p.getFechaFin(), p.getHoraFin(), p.getNombreEmpresa(), p.getDireccion(),
+                                            Integer.parseInt(cantidadSolicitados), Integer.parseInt(cantidadDisponibles), p.getPrecioDomicilio(),
                                             p.getIdVendedor()));
-                                    subTotalCarrito = subTotalCarrito + (p.getPrecio() - p.getDescuento()) * Integer.parseInt(cantidad);
+                                    subTotalCarrito = subTotalCarrito + (p.getPrecio() - p.getDescuento()) * Integer.parseInt(cantidadSolicitados);
                                 }
                             }
                         }

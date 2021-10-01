@@ -19,6 +19,7 @@ public class ProductosEnTramite {
     private String horaFin;
     private String nombreEmpresa;
     private int cantidad;
+    private int cantidadDisponible;
     private double precioDomicilio;
     private String IdVendedor;
     private String IdusuarioSolicitud;
@@ -34,7 +35,7 @@ public class ProductosEnTramite {
     public ProductosEnTramite(String idProducto, String nombreProducto, String descripcionProducto, String categoriaProducto,
                      String subCategoriaProducto, double precio, double descuento, String domicilio, String estadoProducto,
                      String foto, String fechaInicio, String horaInicio, String fechaFin, String horaFin, String nombreEmpresa,String direccion,
-                     int cantidad, double precioDomicilio, String IdVendedor, String IdusuarioSolicitud, String usuarioSolicitud, String correoUsuarioSolicitud,
+                     int cantidad, int cantidadDisponible , double precioDomicilio, String IdVendedor, String IdusuarioSolicitud, String usuarioSolicitud, String correoUsuarioSolicitud,
                      String estadoSolicitud) {
         this.idProducto = idProducto;
         this.nombreProducto = nombreProducto;
@@ -53,6 +54,7 @@ public class ProductosEnTramite {
         this.nombreEmpresa = nombreEmpresa;
         this.direccion = direccion;
         this.cantidad = cantidad;
+        this.cantidadDisponible = cantidadDisponible;
         this.precioDomicilio = precioDomicilio;
         this.IdVendedor = IdVendedor;
         this.IdusuarioSolicitud = IdusuarioSolicitud;
@@ -204,6 +206,14 @@ public class ProductosEnTramite {
 
     public void setCantidad(int cantidad) {
         this.cantidad = cantidad;
+    }
+
+    public int getCantidadDisponible() {
+        return cantidadDisponible;
+    }
+
+    public void setCantidadDisponible(int cantidadDisponible) {
+        this.cantidadDisponible = cantidadDisponible;
     }
 
     public String getIdVendedor() {

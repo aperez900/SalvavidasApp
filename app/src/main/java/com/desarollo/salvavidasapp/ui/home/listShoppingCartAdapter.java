@@ -113,6 +113,7 @@ public class listShoppingCartAdapter extends RecyclerView.Adapter<listShoppingCa
         String idProducto = listaDeDatos.get(position).getIdProducto();
         String nombreProducto = listaDeDatos.get(position).getNombreProducto();
         String descripcionProducto = listaDeDatos.get(position).getDescripcionProducto();
+        int cantidadProductosDisponibles = listaDeDatos.get(position).getCantidadDisponible();
         Double precioProducto = listaDeDatos.get(position).getPrecio();
         Double descuentoProducto = listaDeDatos.get(position).getDescuento();
         String domicilioProducto = listaDeDatos.get(position).getDomicilio();
@@ -143,8 +144,8 @@ public class listShoppingCartAdapter extends RecyclerView.Adapter<listShoppingCa
             @Override
             public void onClick(View v) {
                 irADetalleDeProducto(nombreProducto, idProducto, tipoProducto, domicilioProducto, descripcionProducto,
-                        precioProducto, descuentoProducto, precioDomicilio, fechaInicio, horaInicio, fechaFin, horaFin,
-                        getUrlFoto, idVendedor[0]);
+                        cantidad[0], precioProducto, descuentoProducto, precioDomicilio, fechaInicio, horaInicio,
+                        fechaFin, horaFin, getUrlFoto, idVendedor[0]);
             }
         });
 
@@ -186,7 +187,8 @@ public class listShoppingCartAdapter extends RecyclerView.Adapter<listShoppingCa
         holder.btnComprar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                String numeroActual = holder.tvCantidad.getText().toString();
+                if (Integer.parseInt(numeroActual) <= cantidadProductosDisponibles){
                 cargando.setTitle("Cargando");
                 cargando.setMessage("Un momento por favor...");
                 cargando.show();
@@ -196,13 +198,17 @@ public class listShoppingCartAdapter extends RecyclerView.Adapter<listShoppingCa
                 registrarProductoSolicitadoAlVendedor(idProducto, total, cantidad[0], precioDomicilio, idVendedor[0]);
                 registrarProductoSolicitadoAlComprador(idProducto, total, cantidad[0], precioDomicilio, idVendedor[0]);
                 consultarDatosVendedor(idVendedor[0], idProducto, nombreProducto, total, precioDomicilio, cantidad[0]);
+                }else{
+                    Toast.makeText(getApplicationContext(), "Solo hay " + cantidadProductosDisponibles
+                            + " producto(s) disponible(s)", Toast.LENGTH_SHORT).show();
+                }
 
             }
         });
     }
 
     private void irADetalleDeProducto(String nombreProducto, String idProducto, String tipoProducto, String domicilioProducto,
-                                      String descripcionProducto, Double precioProducto, Double descuentoProducto,
+                                      String descripcionProducto, int cantidadProducto, Double precioProducto, Double descuentoProducto,
                                       Double precioDomicilio, String fechaInicio, String horaInicio, String fechaFin,
                                       String horaFin, String getUrlFoto, String idVendedor){
         Intent intent = new Intent(activity , lookAtProduct.class);
@@ -211,6 +217,7 @@ public class listShoppingCartAdapter extends RecyclerView.Adapter<listShoppingCa
         intent.putExtra("tipoProducto" , tipoProducto);
         intent.putExtra("domicilioProducto" , domicilioProducto);
         intent.putExtra("descripcionProducto" , descripcionProducto);
+        intent.putExtra("cantidadProducto" , String.valueOf(cantidadProducto));
         intent.putExtra("precio" , String.valueOf(precioProducto));
         intent.putExtra("descuento" , String.valueOf(descuentoProducto));
         intent.putExtra("precioDomicilio" , String.valueOf(precioDomicilio));
@@ -308,7 +315,7 @@ public class listShoppingCartAdapter extends RecyclerView.Adapter<listShoppingCa
 
     public void actualizarCantidadEnCarritoCompras(String idProducto, int cantidad){
         //guarda los datos del carrito de compras
-        myRefUsuario.child(currentUser.getUid()).child("carrito_compras").child(idProducto).child("cantidadProducto").setValue(cantidad)
+        myRefUsuario.child(currentUser.getUid()).child("carrito_compras").child(idProducto).child("cantidadProductosSolicitados").setValue(cantidad)
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void aVoid) {

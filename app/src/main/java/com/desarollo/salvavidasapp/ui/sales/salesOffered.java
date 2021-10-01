@@ -95,7 +95,7 @@ salesOffered extends AppCompatActivity {
                             listaDeDatos.add(new Productos(p.getIdProducto(), p.getNombreProducto(), p.getDescripcionProducto(),
                                     p.getCategoriaProducto(), p.getSubCategoriaProducto(), p.getPrecio(), p.getDescuento(), p.getDomicilio(), p.getEstadoProducto(),
                                     p.getfoto(), p.getFechaInicio(), p.getHoraInicio(), p.getFechaFin(), p.getHoraFin(),p.getNombreEmpresa(),p.getDireccion(),p.getCantidad(),
-                                    p.getPrecioDomicilio(), p.getIdVendedor()));
+                                    p.getCantidadDisponible() ,p.getPrecioDomicilio(), p.getIdVendedor()));
                         }
                     }
                     listSaleAdapter = new ListSaleAdapter(salesOffered.this, listaDeDatos, salesOffered.this);

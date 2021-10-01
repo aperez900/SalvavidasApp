@@ -167,8 +167,8 @@ public class HomeFragment extends Fragment {
 
                                 listaDeDatos.add(new Productos(p.getIdProducto(), p.getNombreProducto(), p.getDescripcionProducto(),
                                         p.getCategoriaProducto(), p.getSubCategoriaProducto(), p.getPrecio(), p.getDescuento(), p.getDomicilio(), p.getEstadoProducto(),
-                                        p.getfoto(), p.getFechaInicio(), p.getHoraInicio(), p.getFechaFin(), p.getHoraFin(),p.getNombreEmpresa(),p.getDireccion(), 1,
-                                        p.getPrecioDomicilio(), p.getIdVendedor()));
+                                        p.getfoto(), p.getFechaInicio(), p.getHoraInicio(), p.getFechaFin(), p.getHoraFin(),p.getNombreEmpresa(),p.getDireccion(), p.getCantidad(),
+                                        p.getCantidadDisponible(), p.getPrecioDomicilio(), p.getIdVendedor()));
                             }
                         }
                     }

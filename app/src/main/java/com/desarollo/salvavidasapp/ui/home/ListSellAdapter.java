@@ -81,6 +81,7 @@ public class ListSellAdapter extends RecyclerView.Adapter<ListSellAdapter.viewHo
         String nombreProducto = listaDeDatos.get(position).getNombreProducto();
         String domicilioProducto = listaDeDatos.get(position).getDomicilio();
         String descripcionProducto = listaDeDatos.get(position).getDescripcionProducto();
+        int cantidadProducto = listaDeDatos.get(position).getCantidad();
         Double precioProducto = listaDeDatos.get(position).getPrecio();
         Double descuentoProducto = listaDeDatos.get(position).getDescuento();
         long porcDescuento = Math.round(descuentoProducto/precioProducto*100);
@@ -112,14 +113,14 @@ public class ListSellAdapter extends RecyclerView.Adapter<ListSellAdapter.viewHo
             @Override
             public void onClick(View v) {
                 irADetalleDeProducto(nombreProducto, idProducto, tipoProducto, domicilioProducto, descripcionProducto,
-                        precioProducto, descuentoProducto, precioDomicilio, fechaInicio, horaInicio, fechaFin, horaFin,
-                        getUrlFoto, idVendedor);
+                        cantidadProducto, precioProducto, descuentoProducto, precioDomicilio, fechaInicio, horaInicio,
+                        fechaFin, horaFin, getUrlFoto, idVendedor);
             }
         });
     }
 
     private void irADetalleDeProducto(String nombreProducto, String idProducto, String tipoProducto, String domicilioProducto,
-                                      String descripcionProducto, Double precioProducto, Double descuentoProducto,
+                                      String descripcionProducto, int cantidadProducto, Double precioProducto, Double descuentoProducto,
                                       Double precioDomicilio, String fechaInicio, String horaInicio, String fechaFin,
                                       String horaFin, String getUrlFoto, String idVendedor){
         Intent intent = new Intent(activity , lookAtProduct.class);
@@ -128,6 +129,7 @@ public class ListSellAdapter extends RecyclerView.Adapter<ListSellAdapter.viewHo
         intent.putExtra("tipoProducto" , tipoProducto);
         intent.putExtra("domicilioProducto" , domicilioProducto);
         intent.putExtra("descripcionProducto" , descripcionProducto);
+        intent.putExtra("cantidadProducto" , String.valueOf(cantidadProducto));
         intent.putExtra("precio" , String.valueOf(precioProducto));
         intent.putExtra("descuento" , String.valueOf(descuentoProducto));
         intent.putExtra("precioDomicilio" , String.valueOf(precioDomicilio));

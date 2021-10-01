@@ -138,12 +138,14 @@ public class requestedProducts extends AppCompatActivity {
                                 if(estadoSolicitud.equals("Solicitado")) {
                                     listaDeDatos.add(new ProductosEnTramite(p.getIdProducto(), p.getNombreProducto(), p.getDescripcionProducto(),
                                             p.getCategoriaProducto(), p.getSubCategoriaProducto(), p.getPrecio(), p.getDescuento(), p.getDomicilio(), p.getEstadoProducto(),
-                                            p.getfoto(), p.getFechaInicio(), p.getHoraInicio(), p.getFechaFin(), p.getHoraFin(), p.getNombreEmpresa(), p.getDireccion(), Integer.parseInt(cantidad), p.getPrecioDomicilio(),
+                                            p.getfoto(), p.getFechaInicio(), p.getHoraInicio(), p.getFechaFin(), p.getHoraFin(), p.getNombreEmpresa(), p.getDireccion(), Integer.parseInt(cantidad),
+                                            p.getCantidadDisponible() ,p.getPrecioDomicilio(),
                                             p.getIdVendedor(), idUsuarioSolicitud, usuarioSolicitud, correoUsuarioSolicitud, estadoSolicitud));
                                 }else{
                                     listaDeDatosHistorial.add(new ProductosEnTramite(p.getIdProducto(), p.getNombreProducto(), p.getDescripcionProducto(),
                                             p.getCategoriaProducto(), p.getSubCategoriaProducto(), p.getPrecio(), p.getDescuento(), p.getDomicilio(), p.getEstadoProducto(),
-                                            p.getfoto(), p.getFechaInicio(), p.getHoraInicio(), p.getFechaFin(), p.getHoraFin(), p.getNombreEmpresa(), p.getDireccion(), Integer.parseInt(cantidad), p.getPrecioDomicilio(),
+                                            p.getfoto(), p.getFechaInicio(), p.getHoraInicio(), p.getFechaFin(), p.getHoraFin(), p.getNombreEmpresa(), p.getDireccion(), Integer.parseInt(cantidad),
+                                            p.getCantidadDisponible(),p.getPrecioDomicilio(),
                                             p.getIdVendedor(), idUsuarioSolicitud, usuarioSolicitud, correoUsuarioSolicitud, estadoSolicitud));
                                 }
                             }

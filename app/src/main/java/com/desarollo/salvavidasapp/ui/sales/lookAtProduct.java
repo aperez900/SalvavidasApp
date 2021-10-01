@@ -81,6 +81,7 @@ public class lookAtProduct extends AppCompatActivity {
     String fechaFin="";
     String horaFin="";
     int numeroProductos = 1;
+    int cantidadProductosDisponibles;
     Double total, precioDomicilio;
     HashMap<String, String> producto = new HashMap<String, String>();
     Session session;
@@ -129,6 +130,7 @@ public class lookAtProduct extends AppCompatActivity {
 
             idProducto = extras.getString("idProducto");
             nombreProducto = extras.getString("nombreProducto");
+            cantidadProductosDisponibles = Integer.parseInt(extras.getString("cantidadProducto"));
             tvnombreProducto.setText(nombreProducto);
             tvdescripcionProducto.setText(extras.getString("descripcionProducto"));
             tvprecioProducto.setText(String.valueOf(extras.getString("precio")));
@@ -196,12 +198,17 @@ public class lookAtProduct extends AppCompatActivity {
         btn_comprar_producto.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                cargando.setTitle("Cargando");
-                cargando.setMessage("Un momento por favor...");
-                cargando.show();
-                registrarProductoSolicitadoAlVendedor();
-                registrarProductoSolicitadoAlComprador();
-                consultarDatosVendedor(idVendedor);
+                if (numeroProductos <= cantidadProductosDisponibles){
+                    cargando.setTitle("Cargando");
+                    cargando.setMessage("Un momento por favor...");
+                    cargando.show();
+                    registrarProductoSolicitadoAlVendedor();
+                    registrarProductoSolicitadoAlComprador();
+                    consultarDatosVendedor(idVendedor);
+                }else{
+                    Toast.makeText(lookAtProduct.this, "Solo hay " + cantidadProductosDisponibles
+                            + " producto(s) disponible(s)", Toast.LENGTH_SHORT).show();
+                }
             }
         });
 
@@ -261,7 +268,8 @@ public class lookAtProduct extends AppCompatActivity {
         producto.clear();
         producto.put("idProducto", idProducto);
         producto.put("valorProducto",String.valueOf(total));
-        producto.put("cantidadProducto",String.valueOf(numeroProductos));
+        producto.put("cantidadProductosSolicitados",String.valueOf(numeroProductos));
+        producto.put("cantidadProductosDisponibles",String.valueOf(cantidadProductosDisponibles));
         producto.put("precioDomicilio",String.valueOf(precioDomicilio));
         producto.put("fechaFin",String.valueOf(fechaFin));
         producto.put("horaFin",String.valueOf(horaFin));

@@ -153,7 +153,7 @@ productsByType extends AppCompatActivity {
                                     tituloSubTipo.setVisibility(View.INVISIBLE);
                                     listaDeDatos.add(new Productos(p.getIdProducto(), p.getNombreProducto(), p.getDescripcionProducto(),
                                             p.getCategoriaProducto(), p.getSubCategoriaProducto(), p.getPrecio(), p.getDescuento(), p.getDomicilio(), p.getEstadoProducto(),
-                                            p.getfoto(), p.getFechaInicio(), p.getHoraInicio(), p.getFechaFin(), p.getHoraFin(),p.getNombreEmpresa(),p.getDireccion(), 1,p.getPrecioDomicilio(),
+                                            p.getfoto(), p.getFechaInicio(), p.getHoraInicio(), p.getFechaFin(), p.getHoraFin(),p.getNombreEmpresa(),p.getDireccion(), 1, p.getCantidadDisponible(),p.getPrecioDomicilio(),
                                             p.getIdVendedor()));
                                     //Toast.makeText(getApplicationContext(), p.getfoto(), Toast.LENGTH_SHORT).show();
 
