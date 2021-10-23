@@ -74,15 +74,19 @@ public class cancelledPurchases extends AppCompatActivity {
                 if (snapshot.exists()) {
                     subtituloComprasCanceladas.setText("Los siguientes productos fueron cancelados");
                     listaDeDatos.clear();
-                    for (DataSnapshot objsnapshot : snapshot.getChildren()) { //recorre los productos
-                        String estadoSolicitud = objsnapshot.child("estado").getValue().toString();
-                        if (estadoSolicitud.equals("Cancelado por el comprador")
-                                || estadoSolicitud.equals("Cancelado por el vendedor")){
-                            String idProd = objsnapshot.child("idProducto").getValue().toString();
-                            String cantidad = objsnapshot.child("cantidadProducto").getValue().toString();
-                            String idUsuarioSolicitud = objsnapshot.child("usuarioSolicitud").getValue().toString();
-                            String valorCompra = objsnapshot.child("valorProducto").getValue().toString();
-                            consultarDetalleProducto(idProd, cantidad, idUsuarioSolicitud, estadoSolicitud, Double.parseDouble(valorCompra));
+                    for (DataSnapshot objsnapshot : snapshot.getChildren()) { //recorre las compras
+                        for (DataSnapshot objsnapshot2 : objsnapshot.getChildren()) { //recorre los productos
+                        String estadoSolicitud = objsnapshot2.child("estado").getValue().toString();
+                            if (estadoSolicitud.equals("Cancelado por el comprador")
+                                    || estadoSolicitud.equals("Cancelado por el vendedor")
+                                    || estadoSolicitud.equals("Rechazado por el vendedor")) {
+                                String idProd = objsnapshot2.child("idProducto").getValue().toString();
+                                String idCompra = objsnapshot2.child("idCompra").getValue().toString();
+                                String cantidad = objsnapshot2.child("cantidadProducto").getValue().toString();
+                                String idUsuarioSolicitud = objsnapshot2.child("usuarioSolicitud").getValue().toString();
+                                String valorCompra = objsnapshot2.child("valorProducto").getValue().toString();
+                                consultarDetalleProducto(idProd, idCompra, cantidad, idUsuarioSolicitud, estadoSolicitud, Double.parseDouble(valorCompra));
+                            }
                         }
                     }
                 }
@@ -101,7 +105,7 @@ public class cancelledPurchases extends AppCompatActivity {
         });
     }
 
-    public void consultarDetalleProducto(String idProduct, String cantidad, String correoUsuarioSolicitud, String estadoSolicitud, double valorCompra){
+    public void consultarDetalleProducto(String idProduct, String idCompra, String cantidad, String correoUsuarioSolicitud, String estadoSolicitud, double valorCompra){
 
         myRefProductos.addValueEventListener(new ValueEventListener() {
             @Override
@@ -112,7 +116,7 @@ public class cancelledPurchases extends AppCompatActivity {
                             ProductosEnTramite p = objsnapshot2.getValue(ProductosEnTramite.class);
                             String id = p.getIdProducto();
                             if(idProduct.equals(id)) {
-                                listaDeDatos.add(new ProductosEnTramite(p.getIdProducto(), p.getNombreProducto(), p.getDescripcionProducto(),
+                                listaDeDatos.add(new ProductosEnTramite(p.getIdProducto(), idCompra, p.getNombreProducto(), p.getDescripcionProducto(),
                                         p.getCategoriaProducto(), p.getSubCategoriaProducto(), valorCompra, p.getDescuento(), p.getDomicilio(), p.getEstadoProducto(),
                                         p.getfoto(), p.getFechaInicio(), p.getHoraInicio(), p.getFechaFin(), p.getHoraFin(), p.getNombreEmpresa(), p.getDireccion(),
                                         Integer.parseInt(cantidad), p.getCantidadDisponible(),p.getPrecioDomicilio(), p.getIdVendedor(), currentUser.getUid(), currentUser.getDisplayName(),

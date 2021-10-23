@@ -73,6 +73,7 @@ public class listRequestedProductsAdapter extends RecyclerView.Adapter<listReque
     @Override
     public void onBindViewHolder(@NonNull listRequestedProductsAdapter.viewHolder holder, int position) {
         String id_producto = listaDeDatos.get(position).getIdProducto();
+        String id_compra = listaDeDatos.get(position).getIdCompra();
 
         String nombre_producto = listaDeDatos.get(position).getNombreProducto();
         String descripcion_producto = listaDeDatos.get(position).getDescripcionProducto();
@@ -149,9 +150,9 @@ public class listRequestedProductsAdapter extends RecyclerView.Adapter<listReque
                     enviar_email_aceptacion_comprador(nombreUsuario, correoUsuarioSolicitud,
                             nombre_producto, cantidad);
                     actualizarEstadoProductoVendedor(idVendedor, idUsuarioSolicitud,
-                            id_producto,"Aprobado por el vendedor");
+                            id_producto, id_compra,"Aprobado por el vendedor");
                     actualizarEstadoProductoComprador(idUsuarioSolicitud,
-                            id_producto,"Aprobado por el vendedor");
+                            id_producto, id_compra,"Aprobado por el vendedor");
                 }else{
                     Toast.makeText(activity, "El producto ya no se puede aceptar", Toast.LENGTH_SHORT).show();
                 }
@@ -169,9 +170,9 @@ public class listRequestedProductsAdapter extends RecyclerView.Adapter<listReque
                     enviar_email_rechazo_comprador(nombreUsuario, correoUsuarioSolicitud,
                             nombre_producto, cantidad);
                     actualizarEstadoProductoVendedor(idVendedor, idUsuarioSolicitud,
-                            id_producto, "Rechazado por el vendedor");
+                            id_producto,  id_compra,"Rechazado por el vendedor");
                     actualizarEstadoProductoComprador(idUsuarioSolicitud,
-                            id_producto, "Rechazado por el vendedor");
+                            id_producto, id_compra,"Rechazado por el vendedor");
                 }else{
                     Toast.makeText(activity, "El producto ya no se puede rechazar", Toast.LENGTH_SHORT).show();
                 }
@@ -237,13 +238,14 @@ public class listRequestedProductsAdapter extends RecyclerView.Adapter<listReque
         }
     }
 
-    public void actualizarEstadoProductoVendedor(String idVendedor, String idUsuarioSolicitud, String idProducto, String estado){
+    public void actualizarEstadoProductoVendedor(String idVendedor, String idUsuarioSolicitud, String idProducto, String idCompra,
+                                                 String estado){
 
         FirebaseDatabase database;
         DatabaseReference myRefVendedor;
         database = FirebaseDatabase.getInstance();
         myRefVendedor = database.getReference("vendedores");
-        myRefVendedor.child(idVendedor).child("productos_en_tramite").child(idUsuarioSolicitud).child(idProducto).child("estado").setValue(estado)
+        myRefVendedor.child(idVendedor).child("productos_en_tramite").child(idUsuarioSolicitud).child(idCompra).child(idProducto).child("estado").setValue(estado)
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void aVoid) {
@@ -258,7 +260,7 @@ public class listRequestedProductsAdapter extends RecyclerView.Adapter<listReque
                 });
     }
 
-    public void actualizarEstadoProductoComprador(String idUsuarioSolicitud, String idProducto, String estado){
+    public void actualizarEstadoProductoComprador(String idUsuarioSolicitud, String idProducto, String idCompra, String estado){
 
         FirebaseDatabase database;
         DatabaseReference myRefusuario;
@@ -268,7 +270,7 @@ public class listRequestedProductsAdapter extends RecyclerView.Adapter<listReque
         currentUser = mAuth.getCurrentUser();
         database = FirebaseDatabase.getInstance();
         myRefusuario = database.getReference("usuarios");
-        myRefusuario.child(currentUser.getUid()).child("mis_compras").child(idProducto).child("estado").setValue(estado)
+        myRefusuario.child(currentUser.getUid()).child("mis_compras").child(idCompra).child(idProducto).child("estado").setValue(estado)
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void aVoid) {

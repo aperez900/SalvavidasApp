@@ -67,7 +67,6 @@ public class requestedProducts extends AppCompatActivity {
         ListRequestedProductsAdapter = new listRequestedProductsAdapter(this, listaDeDatosHistorial, this);
         listadoHistorial.setAdapter(ListRequestedProductsAdapter);
 
-
         crearListado();
     }
 
@@ -83,12 +82,15 @@ public class requestedProducts extends AppCompatActivity {
                     subtitulo_productos_solicitados.setText("Los siguientes productos estan en trámite de aprobación o entrega");
                     listaDeDatos.clear();
                     for (DataSnapshot objsnapshot : snapshot.getChildren()) { //recorre los usuarios
-                        for (DataSnapshot objsnapshot2 : objsnapshot.getChildren()) { //recorre los productos
-                            String idProd = objsnapshot2.child("idProducto").getValue().toString();
-                            String cantidad = objsnapshot2.child("cantidadProducto").getValue().toString();
-                            String idUsuarioSolicitud = objsnapshot2.child("usuarioSolicitud").getValue().toString();
-                            String estadoSolicitud = objsnapshot2.child("estado").getValue().toString();
-                            consultarDatosUsuario(idProd, cantidad, idUsuarioSolicitud, estadoSolicitud);
+                        for (DataSnapshot objsnapshot2 : objsnapshot.getChildren()) { //recorre las compras
+                            for (DataSnapshot objsnapshot3 : objsnapshot2.getChildren()) { //recorre los productos
+                                String idProd = objsnapshot3.child("idProducto").getValue().toString();
+                                String idCompra = objsnapshot3.child("idCompra").getValue().toString();
+                                String cantidad = objsnapshot3.child("cantidadProducto").getValue().toString();
+                                String idUsuarioSolicitud = objsnapshot3.child("usuarioSolicitud").getValue().toString();
+                                String estadoSolicitud = objsnapshot3.child("estado").getValue().toString();
+                                consultarDatosUsuario(idProd, idCompra, cantidad, idUsuarioSolicitud, estadoSolicitud);
+                            }
                         }
                     }
                 } else {
@@ -106,7 +108,7 @@ public class requestedProducts extends AppCompatActivity {
         });
     }
 
-    public void consultarDatosUsuario(String idProd, String cantidad, String idUsuarioSolicitud, String estadoSolicitud) {
+    public void consultarDatosUsuario(String idProd, String idCompra, String cantidad, String idUsuarioSolicitud, String estadoSolicitud) {
 
         myRefUsuarios.child(idUsuarioSolicitud).addValueEventListener(new ValueEventListener() {
             @Override
@@ -114,7 +116,7 @@ public class requestedProducts extends AppCompatActivity {
                 if(snapshot.exists()){
                     String nombreUsuario = snapshot.child("nombre").getValue().toString();
                     String correoUsuario = snapshot.child("correo").getValue().toString();
-                    consultarDetalleProducto(idProd, cantidad, idUsuarioSolicitud, nombreUsuario, correoUsuario, estadoSolicitud);
+                    consultarDetalleProducto(idProd, idCompra, cantidad, idUsuarioSolicitud, nombreUsuario, correoUsuario, estadoSolicitud);
                 }
             }
             @Override
@@ -124,7 +126,7 @@ public class requestedProducts extends AppCompatActivity {
         });
     }
 
-    public void consultarDetalleProducto(String idProduct, String cantidad, String idUsuarioSolicitud, String usuarioSolicitud, String correoUsuarioSolicitud, String estadoSolicitud){
+    public void consultarDetalleProducto(String idProduct, String idCompra, String cantidad, String idUsuarioSolicitud, String usuarioSolicitud, String correoUsuarioSolicitud, String estadoSolicitud){
 
         myRefProductos.addValueEventListener(new ValueEventListener() {
             @Override
@@ -136,13 +138,13 @@ public class requestedProducts extends AppCompatActivity {
                             String id = p.getIdProducto();
                             if(idProduct.equals(id)) {
                                 if(estadoSolicitud.equals("Solicitado")) {
-                                    listaDeDatos.add(new ProductosEnTramite(p.getIdProducto(), p.getNombreProducto(), p.getDescripcionProducto(),
+                                    listaDeDatos.add(new ProductosEnTramite(p.getIdProducto(), idCompra, p.getNombreProducto(), p.getDescripcionProducto(),
                                             p.getCategoriaProducto(), p.getSubCategoriaProducto(), p.getPrecio(), p.getDescuento(), p.getDomicilio(), p.getEstadoProducto(),
                                             p.getfoto(), p.getFechaInicio(), p.getHoraInicio(), p.getFechaFin(), p.getHoraFin(), p.getNombreEmpresa(), p.getDireccion(), Integer.parseInt(cantidad),
                                             p.getCantidadDisponible() ,p.getPrecioDomicilio(),
                                             p.getIdVendedor(), idUsuarioSolicitud, usuarioSolicitud, correoUsuarioSolicitud, estadoSolicitud));
                                 }else{
-                                    listaDeDatosHistorial.add(new ProductosEnTramite(p.getIdProducto(), p.getNombreProducto(), p.getDescripcionProducto(),
+                                    listaDeDatosHistorial.add(new ProductosEnTramite(p.getIdProducto(), idCompra, p.getNombreProducto(), p.getDescripcionProducto(),
                                             p.getCategoriaProducto(), p.getSubCategoriaProducto(), p.getPrecio(), p.getDescuento(), p.getDomicilio(), p.getEstadoProducto(),
                                             p.getfoto(), p.getFechaInicio(), p.getHoraInicio(), p.getFechaFin(), p.getHoraFin(), p.getNombreEmpresa(), p.getDireccion(), Integer.parseInt(cantidad),
                                             p.getCantidadDisponible(),p.getPrecioDomicilio(),

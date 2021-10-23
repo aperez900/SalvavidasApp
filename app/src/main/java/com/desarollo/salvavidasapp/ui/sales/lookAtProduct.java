@@ -57,6 +57,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Objects;
 import java.util.Properties;
+import java.util.UUID;
 
 import javax.mail.Authenticator;
 import javax.mail.PasswordAuthentication;
@@ -202,8 +203,9 @@ public class lookAtProduct extends AppCompatActivity {
                     cargando.setTitle("Cargando");
                     cargando.setMessage("Un momento por favor...");
                     cargando.show();
-                    registrarProductoSolicitadoAlVendedor();
-                    registrarProductoSolicitadoAlComprador();
+                    String idCompra = UUID.randomUUID().toString();
+                    registrarProductoSolicitadoAlVendedor(idCompra);
+                    registrarProductoSolicitadoAlComprador(idCompra);
                     consultarDatosVendedor(idVendedor);
                 }else{
                     Toast.makeText(lookAtProduct.this, "Solo hay " + cantidadProductosDisponibles
@@ -431,20 +433,54 @@ public class lookAtProduct extends AppCompatActivity {
         }
     }
 
-    public void registrarProductoSolicitadoAlVendedor(){
+    public void registrarProductoSolicitadoAlVendedor(String idCompra){
 
         getCurrentDateTime = c.getTime();
 
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm");
+        SimpleDateFormat sdf2 = new SimpleDateFormat("dd/MM/yyyy");
+        SimpleDateFormat sdf3 = new SimpleDateFormat("HH:mm");
+        SimpleDateFormat sdf4 = new SimpleDateFormat("E");
+        String fechaHora = sdf.format(getCurrentDateTime);
+        String fecha = sdf2.format(getCurrentDateTime);
+        String hora = sdf3.format(getCurrentDateTime);
+        String diaSemana = sdf4.format(getCurrentDateTime);
+        if (diaSemana.equals("Sun") || diaSemana.equals("Sunday")){
+            diaSemana = "Domingo";
+        }
+        if (diaSemana.equals("Mon") || diaSemana.equals("Monday")){
+            diaSemana = "Lunes";
+        }
+        if (diaSemana.equals("Tue") || diaSemana.equals("Tuesday")){
+            diaSemana = "Martes";
+        }
+        if (diaSemana.equals("Wed") || diaSemana.equals("Wednesday")){
+            diaSemana = "Miércoles";
+        }
+        if (diaSemana.equals("Thu") || diaSemana.equals("Thursday")){
+            diaSemana = "Jueves";
+        }
+        if (diaSemana.equals("Fri") || diaSemana.equals("Friday")){
+            diaSemana = "Viérnes";
+        }
+        if (diaSemana.equals("Sat") || diaSemana.equals("Satuday")){
+            diaSemana = "Sábado";
+        }
+
         producto.clear();
+        producto.put("idCompra", idCompra);
         producto.put("idProducto", idProducto);
         producto.put("valorProducto",String.valueOf(total));
         producto.put("cantidadProducto",String.valueOf(numeroProductos));
         producto.put("usuarioSolicitud",currentUser.getUid());
         producto.put("precioDomicilio",String.valueOf(precioDomicilio));
-        producto.put("fecha", String.valueOf(getCurrentDateTime));
+        producto.put("fechaHora", fechaHora);
+        producto.put("fecha", fecha);
+        producto.put("hora", hora);
+        producto.put("diaSemana", diaSemana);
         producto.put("estado","Solicitado");
 
-        myRefVendedor.child(idVendedor).child("productos_en_tramite").child(currentUser.getUid()).child(idProducto).setValue(producto)
+        myRefVendedor.child(idVendedor).child("productos_en_tramite").child(currentUser.getUid()).child(idCompra).child(idProducto).setValue(producto)
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void aVoid) {
@@ -459,19 +495,51 @@ public class lookAtProduct extends AppCompatActivity {
                 });
     }
 
-    public void registrarProductoSolicitadoAlComprador(){
-        getCurrentDateTime = c.getTime();
+    public void registrarProductoSolicitadoAlComprador(String idCompra){
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm");
+        SimpleDateFormat sdf2 = new SimpleDateFormat("dd/MM/yyyy");
+        SimpleDateFormat sdf3 = new SimpleDateFormat("HH:mm");
+        SimpleDateFormat sdf4 = new SimpleDateFormat("E");
+        String fechaHora = sdf.format(getCurrentDateTime);
+        String fecha = sdf2.format(getCurrentDateTime);
+        String hora = sdf3.format(getCurrentDateTime);
+        String diaSemana = sdf4.format(getCurrentDateTime);
+        if (diaSemana.equals("Sun") || diaSemana.equals("Sunday")){
+            diaSemana = "Domingo";
+        }
+        if (diaSemana.equals("Mon") || diaSemana.equals("Monday")){
+            diaSemana = "Lunes";
+        }
+        if (diaSemana.equals("Tue") || diaSemana.equals("Tuesday")){
+            diaSemana = "Martes";
+        }
+        if (diaSemana.equals("Wed") || diaSemana.equals("Wednesday")){
+            diaSemana = "Miércoles";
+        }
+        if (diaSemana.equals("Thu") || diaSemana.equals("Thursday")){
+            diaSemana = "Jueves";
+        }
+        if (diaSemana.equals("Fri") || diaSemana.equals("Friday")){
+            diaSemana = "Viérnes";
+        }
+        if (diaSemana.equals("Sat") || diaSemana.equals("Satuday")){
+            diaSemana = "Sábado";
+        }
 
         producto.clear();
+        producto.put("idCompra", idCompra);
         producto.put("idProducto", idProducto);
         producto.put("valorProducto",String.valueOf(total));
         producto.put("cantidadProducto",String.valueOf(numeroProductos));
         producto.put("usuarioSolicitud",currentUser.getUid());
         producto.put("precioDomicilio",String.valueOf(precioDomicilio));
-        producto.put("fecha", String.valueOf(getCurrentDateTime));
+        producto.put("fechaHora", fechaHora);
+        producto.put("fecha", fecha);
+        producto.put("hora", hora);
+        producto.put("diaSemana", diaSemana);
         producto.put("estado","Solicitado");
 
-        myRefUsuarios.child(currentUser.getUid()).child("mis_compras").child(idProducto).setValue(producto)
+        myRefUsuarios.child(currentUser.getUid()).child("mis_compras").child(idCompra).child(idProducto).setValue(producto)
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void aVoid) {

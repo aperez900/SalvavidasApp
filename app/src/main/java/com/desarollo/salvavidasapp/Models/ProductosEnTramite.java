@@ -3,6 +3,7 @@ package com.desarollo.salvavidasapp.Models;
 public class ProductosEnTramite {
 
     private String idProducto;
+    private String idCompra;
     private String nombreProducto;
     private String descripcionProducto;
     private String categoriaProducto;
@@ -32,12 +33,13 @@ public class ProductosEnTramite {
 
     }
 
-    public ProductosEnTramite(String idProducto, String nombreProducto, String descripcionProducto, String categoriaProducto,
+    public ProductosEnTramite(String idProducto, String idCompra, String nombreProducto, String descripcionProducto, String categoriaProducto,
                      String subCategoriaProducto, double precio, double descuento, String domicilio, String estadoProducto,
                      String foto, String fechaInicio, String horaInicio, String fechaFin, String horaFin, String nombreEmpresa,String direccion,
                      int cantidad, int cantidadDisponible , double precioDomicilio, String IdVendedor, String IdusuarioSolicitud, String usuarioSolicitud, String correoUsuarioSolicitud,
                      String estadoSolicitud) {
         this.idProducto = idProducto;
+        this.idCompra = idCompra;
         this.nombreProducto = nombreProducto;
         this.descripcionProducto = descripcionProducto;
         this.categoriaProducto = categoriaProducto;
@@ -78,6 +80,14 @@ public class ProductosEnTramite {
 
     public void setIdProducto(String idProducto) {
         this.idProducto = idProducto;
+    }
+
+    public String getIdCompra() {
+        return idCompra;
+    }
+
+    public void setIdCompra(String idCompra) {
+        this.idCompra = idCompra;
     }
 
     public String getNombreProducto() {

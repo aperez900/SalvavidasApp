@@ -317,7 +317,7 @@ public class addProduct extends AppCompatActivity {
 
             p = new Productos(idProducto  ,  nombreProducto,  descripcionProducto,  categoriaProducto,  subCategoriaProducto,
                     precio,  descuento,  domicilio,  estadoProducto,  foto,  fechaInicio,  horaInicio,  fechaFin,  horaFin,
-                    nombreEstablecimiento,direccion, cantidad, p.getCantidadDisponible(), precioDomicilio_, currentUser.getUid()){};
+                    nombreEstablecimiento,direccion, cantidad, cantidad, precioDomicilio_, currentUser.getUid()){};
 
             //guarda los datos del producto
             myRefProductos.child(currentUser.getUid()).child(p.getIdProducto()).setValue(p)

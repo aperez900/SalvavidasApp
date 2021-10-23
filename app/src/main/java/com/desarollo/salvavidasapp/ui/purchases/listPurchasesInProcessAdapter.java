@@ -64,7 +64,7 @@ public class listPurchasesInProcessAdapter extends RecyclerView.Adapter<listPurc
     @Override
     public void onBindViewHolder(@NonNull listPurchasesInProcessAdapter.viewHolder holder, int position) {
         String producto = listaDeDatos.get(position).getIdProducto();
-
+        String idCompra = listaDeDatos.get(position).getIdCompra();
         String nombreProducto = listaDeDatos.get(position).getNombreProducto();
         String descripcionProducto = listaDeDatos.get(position).getDescripcionProducto();
         Double totalCompra = listaDeDatos.get(position).getPrecio();
@@ -130,16 +130,16 @@ public class listPurchasesInProcessAdapter extends RecyclerView.Adapter<listPurc
                     Toast.makeText(activity, "el producto ya se encuentra cancelado", Toast.LENGTH_SHORT).show();
 
                 }else if(estadoSolicitud.equals("Realizado") || estadoSolicitud.equals("Pagado")){
-                    crearAlertDialog(idVendedor, producto,"Anulado por el comprador");
+                    crearAlertDialog(idVendedor, producto, idCompra,"Anulado por el comprador");
                 }else{
-                    crearAlertDialog(idVendedor, producto, "Cancelado por el comprador");
+                    crearAlertDialog(idVendedor, producto, idCompra,"Cancelado por el comprador");
                 }
             }
         });
 
     }
 
-    public void crearAlertDialog(String idVendedor, String producto, String tipo){
+    public void crearAlertDialog(String idVendedor, String producto, String idCompra, String tipo){
         AlertDialog.Builder confirmacion = new AlertDialog.Builder(activity);
         confirmacion.setMessage("¿Esta seguro que desea cancelar el pedido?. Notificaremos al vendedor.")
                 .setCancelable(false)
@@ -152,7 +152,7 @@ public class listPurchasesInProcessAdapter extends RecyclerView.Adapter<listPurc
                         myRefVendedores = database.getReference("vendedores");
                         myRefUsuarios = database.getReference("usuarios");
 
-                        myRefVendedores.child(idVendedor).child("productos_en_tramite").child(currentUser.getUid()).child(producto).child("estado").setValue(tipo)
+                        myRefVendedores.child(idVendedor).child("productos_en_tramite").child(currentUser.getUid()).child(idCompra).child(producto).child("estado").setValue(tipo)
                                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                                     @Override
                                     public void onSuccess(Void aVoid) {
@@ -166,7 +166,7 @@ public class listPurchasesInProcessAdapter extends RecyclerView.Adapter<listPurc
                                     }
                                 });
 
-                        myRefUsuarios.child(currentUser.getUid()).child("mis_compras").child(producto).child("estado").setValue(tipo)
+                        myRefUsuarios.child(currentUser.getUid()).child("mis_compras").child(idCompra).child(producto).child("estado").setValue(tipo)
                                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                                     @Override
                                     public void onSuccess(Void aVoid) {

@@ -371,11 +371,13 @@ public class Home extends AppCompatActivity {
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 if(snapshot.exists()){
                     nroProductosSolicitados=0;
-                    for(DataSnapshot objsnapshot : snapshot.getChildren()){
-                        for(DataSnapshot objsnapshot2 : objsnapshot.getChildren()) { //recorre los productos
-                            String estado = Objects.requireNonNull(objsnapshot2.child("estado").getValue()).toString();
-                            if (estado.equals("Solicitado")){
-                                nroProductosSolicitados = nroProductosSolicitados + 1;
+                    for(DataSnapshot objsnapshot : snapshot.getChildren()){ //Recorre los usuarios
+                        for(DataSnapshot objsnapshot2 : objsnapshot.getChildren()) { //recorre las compras
+                            for(DataSnapshot objsnapshot3 : objsnapshot2.getChildren()) { //recorre los productos
+                            String estado = Objects.requireNonNull(objsnapshot3.child("estado").getValue()).toString();
+                                if (estado.equals("Solicitado")){
+                                    nroProductosSolicitados = nroProductosSolicitados + 1;
+                                }
                             }
                         }
                     }
