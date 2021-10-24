@@ -445,25 +445,32 @@ public class lookAtProduct extends AppCompatActivity {
         String fecha = sdf2.format(getCurrentDateTime);
         String hora = sdf3.format(getCurrentDateTime);
         String diaSemana = sdf4.format(getCurrentDateTime);
-        if (diaSemana.equals("Sun") || diaSemana.equals("Sunday")){
+        if (diaSemana.equals("Sun") || diaSemana.equals("Sunday") || diaSemana.equals("dom.")
+                || diaSemana.equals("domingo")){
             diaSemana = "Domingo";
         }
-        if (diaSemana.equals("Mon") || diaSemana.equals("Monday")){
+        if (diaSemana.equals("Mon") || diaSemana.equals("Monday") || diaSemana.equals("lun.")
+                || diaSemana.equals("lunes")){
             diaSemana = "Lunes";
         }
-        if (diaSemana.equals("Tue") || diaSemana.equals("Tuesday")){
+        if (diaSemana.equals("Tue") || diaSemana.equals("Tuesday") || diaSemana.equals("mar.")
+                || diaSemana.equals("martes")){
             diaSemana = "Martes";
         }
-        if (diaSemana.equals("Wed") || diaSemana.equals("Wednesday")){
+        if (diaSemana.equals("Wed") || diaSemana.equals("Wednesday") || diaSemana.equals("mie.")
+                || diaSemana.equals("miércoles")){
             diaSemana = "Miércoles";
         }
-        if (diaSemana.equals("Thu") || diaSemana.equals("Thursday")){
+        if (diaSemana.equals("Thu") || diaSemana.equals("Thursday") || diaSemana.equals("jue.")
+                || diaSemana.equals("jueves")){
             diaSemana = "Jueves";
         }
-        if (diaSemana.equals("Fri") || diaSemana.equals("Friday")){
+        if (diaSemana.equals("Fri") || diaSemana.equals("Friday") || diaSemana.equals("vie.")
+                || diaSemana.equals("viernes")){
             diaSemana = "Viérnes";
         }
-        if (diaSemana.equals("Sat") || diaSemana.equals("Satuday")){
+        if (diaSemana.equals("Sat") || diaSemana.equals("Satuday") || diaSemana.equals("sáb.")
+                || diaSemana.equals("sábado")){
             diaSemana = "Sábado";
         }
 

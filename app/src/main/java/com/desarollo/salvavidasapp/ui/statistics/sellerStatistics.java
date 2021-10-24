@@ -15,13 +15,11 @@ import android.widget.Toast;
 
 import com.desarollo.salvavidasapp.R;
 import com.github.mikephil.charting.charts.BarChart;
-import com.github.mikephil.charting.charts.PieChart;
+import com.github.mikephil.charting.components.XAxis;
 import com.github.mikephil.charting.data.BarData;
 import com.github.mikephil.charting.data.BarDataSet;
 import com.github.mikephil.charting.data.BarEntry;
-import com.github.mikephil.charting.data.PieData;
-import com.github.mikephil.charting.data.PieDataSet;
-import com.github.mikephil.charting.data.PieEntry;
+import com.github.mikephil.charting.formatter.IndexAxisValueFormatter;
 import com.github.mikephil.charting.utils.ColorTemplate;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -32,12 +30,14 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 public class sellerStatistics extends Fragment {
     FirebaseAuth mAuth;
     FirebaseUser currentUser;
     FirebaseDatabase database;
     DatabaseReference myRefVendedores;
+    ArrayList<BarEntry> ventas = new ArrayList<>();
     int contadorLunes=0;
     int contadorMartes=0;
     int contadorMiercoles=0;
@@ -66,37 +66,13 @@ public class sellerStatistics extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_seller_statistics, container, false);
 
-        //Barchart
         BarChart barChart = view.findViewById(R.id.barChartSeller);
-
-        ArrayList<BarEntry> ventas = new ArrayList<>();
-        ventas.add(new BarEntry(2017,420));
-        ventas.add(new BarEntry(2018,475));
-        ventas.add(new BarEntry(2019,500));
-        ventas.add(new BarEntry(2020,520));
-        ventas.add(new BarEntry(2021,550));
-
-        BarDataSet barDataSet = new BarDataSet(ventas, "Ventas");
-        barDataSet.setColors(ColorTemplate.MATERIAL_COLORS);
-        barDataSet.setValueTextColor(Color.BLACK);
-        barDataSet.setValueTextSize(16f);
-
-        BarData barData = new BarData(barDataSet);
-
-        barChart.setFitBars(true);
-        barChart.setData(barData);
-        barChart.getDescription().setText("Gráfico de ejemplo");
-        barChart.animateY(2000);
-
-        //PieChartSeller
-
-        PieChart pieChart = view.findViewById(R.id.pieChartSeller);
-        consultarDatos(pieChart);
+        consultarDatos(barChart);
 
         return view;
     }
 
-    private void consultarDatos(PieChart pieChart) {
+    private void consultarDatos(BarChart barChart) {
 
         myRefVendedores.child(currentUser.getUid()).child("productos_en_tramite").addValueEventListener(new ValueEventListener() {
             @Override
@@ -105,35 +81,49 @@ public class sellerStatistics extends Fragment {
                     for (DataSnapshot objsnapshot : snapshot.getChildren()) { //recorre los usuarios
                         for (DataSnapshot objsnapshot2 : objsnapshot.getChildren()) { //recorre las compras
                             for (DataSnapshot objsnapshot3 : objsnapshot2.getChildren()) { //recorre los productos
-                                String diaSemana = objsnapshot3.child("diaSemana").getValue().toString();
-                                if(diaSemana.equals("Lunes")){
-                                    contadorLunes++;
-                                }
-                                if(diaSemana.equals("Martes")){
-                                    contadorMartes++;
-                                }
-                                if(diaSemana.equals("Miércoles")){
-                                    contadorMiercoles++;
-                                }
-                                if(diaSemana.equals("Jueves")){
-                                    contadorJueves++;
-                                }
-                                if(diaSemana.equals("Viernes")){
-                                    contadorViernes++;
-                                }
-                                if(diaSemana.equals("Sábado")){
-                                    contadorSabado++;
-                                }
-                                if(diaSemana.equals("Domingo")){
-                                    contadorDomingo++;
+                                String diaSemana = Objects.requireNonNull(objsnapshot3.child("diaSemana").getValue()).toString();
+                                String estado = Objects.requireNonNull(objsnapshot3.child("estado").getValue()).toString();
+                                if (!estado.contains("Cancelado") && !estado.contains("Rechazado")  && !estado.contains("Anulado")){
+                                    if(diaSemana.equals("Lunes") || diaSemana.contains("lun")){
+                                        contadorLunes++;
+                                    }
+                                    if(diaSemana.equals("Martes") || diaSemana.contains("mar")){
+                                        contadorMartes++;
+                                    }
+                                    if(diaSemana.equals("Miércoles") || diaSemana.contains("mié")){
+                                        contadorMiercoles++;
+                                    }
+                                    if(diaSemana.equals("Jueves") || diaSemana.contains("jue")){
+                                        contadorJueves++;
+                                    }
+                                    if(diaSemana.equals("Viernes") || diaSemana.contains("vie")){
+                                        contadorViernes++;
+                                    }
+                                    if(diaSemana.equals("Sábado") || diaSemana.contains("sáb")){
+                                        contadorSabado++;
+                                    }
+                                    if(diaSemana.equals("Domingo") || diaSemana.contains("dom")){
+                                        contadorDomingo++;
+                                    }
                                 }
                             }
                         }
                     }
-                    mostrarTorta(pieChart);
+                    ventas.clear();
+                    ventas.add(new BarEntry(1f,contadorLunes));
+                    ventas.add(new BarEntry(2f,contadorMartes));
+                    ventas.add(new BarEntry(3f,contadorMiercoles));
+                    ventas.add(new BarEntry(4f,contadorJueves));
+                    ventas.add(new BarEntry(5f,contadorViernes));
+                    ventas.add(new BarEntry(6f,contadorSabado));
+                    ventas.add(new BarEntry(7f,contadorDomingo));
+
+                    mostrarTorta(barChart, ventas);
                 }
                 else {
                     Toast.makeText(getApplicationContext(), "Aún no hay datos", Toast.LENGTH_SHORT).show();
+                    barChart.clear();
+                    barChart.invalidate();
                 }
             }
 
@@ -144,26 +134,36 @@ public class sellerStatistics extends Fragment {
         });
     }
 
-    public void mostrarTorta(PieChart pieChart){
-        ArrayList<PieEntry> ventas2 = new ArrayList<>();
-        ventas2.add(new PieEntry(contadorLunes,"Lunes"));
-        ventas2.add(new PieEntry(contadorMartes,"Martes"));
-        ventas2.add(new PieEntry(contadorMiercoles,"Miércoles"));
-        ventas2.add(new PieEntry(contadorJueves,"Jueves"));
-        ventas2.add(new PieEntry(contadorViernes,"Viernes"));
-        ventas2.add(new PieEntry(contadorSabado,"Sábado"));
-        ventas2.add(new PieEntry(contadorDomingo,"Domingo"));
+    public void mostrarTorta(BarChart barChart, ArrayList<BarEntry> ventas){
 
-        PieDataSet pieDataSet = new PieDataSet(ventas2,"Gráfico de ejemplo 2");
-        pieDataSet.setColors(ColorTemplate.COLORFUL_COLORS);
-        pieDataSet.setValueTextColor(Color.BLACK);
-        pieDataSet.setValueTextSize(16f);
+        BarDataSet barDataSet = new BarDataSet(ventas, "Ventas");
+        barDataSet.setColors(ColorTemplate.MATERIAL_COLORS);
+        barDataSet.setValueTextColor(Color.BLACK);
+        barDataSet.setValueTextSize(16f);
 
-        PieData pieData = new PieData(pieDataSet);
-        pieChart.setData(pieData);
-        pieChart.getDescription().setEnabled(false);
-        pieChart.setCenterText("Ventas");
-        pieChart.animate();
+        BarData barData = new BarData(barDataSet);
+
+        ArrayList<String> xLabels = new ArrayList<>();
+        xLabels.add("");
+        xLabels.add("Lunes");
+        xLabels.add("Martes");
+        xLabels.add("Miércoles");
+        xLabels.add("Jueves");
+        xLabels.add("Viernes");
+        xLabels.add("Sábado");
+        xLabels.add("Domingo");
+
+        XAxis xAxis = barChart.getXAxis();
+        xAxis.setValueFormatter(new IndexAxisValueFormatter(xLabels));
+        xAxis.setPosition(XAxis.XAxisPosition.TOP);
+        xAxis.setLabelCount(xLabels.size());
+
+        barChart.setFitBars(true);
+        barChart.clear();
+        barChart.setData(barData);
+        barChart.getDescription().setText("Diagrama de barras");
+        barChart.animateY(1000);
+        barChart.invalidate();
     }
 
 }
