@@ -80,6 +80,7 @@ public class buyerStatistics extends Fragment {
                                     && !estado.contains("Anulado")) {
                                 String nombreProducto = Objects.requireNonNull(objsnapshot2.child("nombreProducto")
                                         .getValue()).toString();
+                                //System.out.println("nombrePro:" + nombreProducto);
                                 ListNombres.add(nombreProducto);
                             }
                         }
@@ -100,20 +101,48 @@ public class buyerStatistics extends Fragment {
         });
     }
 
-    private void contarProducto(ArrayList<String> ListNombres, PieChart pieChart){
+    private void contarProducto(ArrayList<String> ListProductos, PieChart pieChart){
         int contador;
-        for (int i=0; i < ListNombres.size(); i++){
-            String nombreABuscar = ListNombres.get(i);
+        ArrayList<String> productosContados = new ArrayList<>();
+        //recorre la lista de productos
+        for (String productoABuscar : ListProductos) {
+            boolean contado=false;
             contador=0;
-            for (String nombre : ListNombres) {
-                if (nombre.equals(nombreABuscar)) {
-                    contador++;
+            //Valida si el producto en el que va el recorrido ya lo contó
+            for (String productoContado : productosContados) {
+                if (productoContado.equals(productoABuscar)) {
+                    contado = true;
+                    break;
                 }
             }
-            i++;
-            ventas2.add(new PieEntry(contador,nombreABuscar));
-        }
+            //Si no ha contado el producto en el que va el recorrido, lo cuenta
+            if(!contado){
+                for (String nombre : ListProductos) {
+                    if (nombre.equals(productoABuscar)) {
+                        contador++;
+                    }
+                }
+                ventas2.add(new PieEntry(contador, productoABuscar));
+            }
+            productosContados.add(productoABuscar);
+        } // fin for ppal
         mostrarTorta(pieChart, ventas2);
+    } //fin método
+
+    public void mostrarTorta(PieChart pieChart, ArrayList<PieEntry> ventas2){
+
+        PieDataSet pieDataSet = new PieDataSet(ventas2,"");
+        pieDataSet.setColors(ColorTemplate.COLORFUL_COLORS);
+        pieDataSet.setValueTextColor(Color.BLACK);
+        pieDataSet.setValueTextSize(16f);
+
+        PieData pieData = new PieData(pieDataSet);
+        pieChart.clear();
+        pieChart.setData(pieData);
+        pieChart.getDescription().setEnabled(false);
+        pieChart.setCenterText("Compras");
+        pieChart.animate();
+        pieChart.invalidate();
     }
 
     /*
@@ -140,19 +169,4 @@ public class buyerStatistics extends Fragment {
     }
      */
 
-    public void mostrarTorta(PieChart pieChart, ArrayList<PieEntry> ventas2){
-
-        PieDataSet pieDataSet = new PieDataSet(ventas2,"");
-        pieDataSet.setColors(ColorTemplate.COLORFUL_COLORS);
-        pieDataSet.setValueTextColor(Color.BLACK);
-        pieDataSet.setValueTextSize(16f);
-
-        PieData pieData = new PieData(pieDataSet);
-        pieChart.clear();
-        pieChart.setData(pieData);
-        pieChart.getDescription().setEnabled(false);
-        pieChart.setCenterText("Ventas");
-        pieChart.animate();
-        pieChart.invalidate();
-    }
 }

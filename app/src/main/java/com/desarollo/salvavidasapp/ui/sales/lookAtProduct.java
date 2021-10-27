@@ -457,7 +457,7 @@ public class lookAtProduct extends AppCompatActivity {
                 || diaSemana.equals("martes")){
             diaSemana = "Martes";
         }
-        if (diaSemana.equals("Wed") || diaSemana.equals("Wednesday") || diaSemana.equals("mie.")
+        if (diaSemana.equals("Wed") || diaSemana.equals("Wednesday") || diaSemana.equals("mié.")
                 || diaSemana.equals("miércoles")){
             diaSemana = "Miércoles";
         }
