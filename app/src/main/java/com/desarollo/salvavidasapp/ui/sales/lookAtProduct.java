@@ -477,6 +477,7 @@ public class lookAtProduct extends AppCompatActivity {
         producto.clear();
         producto.put("idCompra", idCompra);
         producto.put("idProducto", idProducto);
+        producto.put("nombreProducto", nombreProducto);
         producto.put("valorProducto",String.valueOf(total));
         producto.put("cantidadProducto",String.valueOf(numeroProductos));
         producto.put("usuarioSolicitud",currentUser.getUid());
@@ -536,6 +537,7 @@ public class lookAtProduct extends AppCompatActivity {
         producto.clear();
         producto.put("idCompra", idCompra);
         producto.put("idProducto", idProducto);
+        producto.put("nombreProducto", nombreProducto);
         producto.put("valorProducto",String.valueOf(total));
         producto.put("cantidadProducto",String.valueOf(numeroProductos));
         producto.put("usuarioSolicitud",currentUser.getUid());

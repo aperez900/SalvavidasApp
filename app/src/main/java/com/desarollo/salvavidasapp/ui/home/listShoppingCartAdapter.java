@@ -66,7 +66,7 @@ public class listShoppingCartAdapter extends RecyclerView.Adapter<listShoppingCa
     String nombreComprador;
     Session session;
     ProgressDialog cargando;
-    HashMap<String, String> producto = new HashMap<String, String>();
+    HashMap<String, String> producto = new HashMap<>();
     FirebaseAuth mAuth;
     FirebaseDatabase database;
     FirebaseUser currentUser;
@@ -198,8 +198,8 @@ public class listShoppingCartAdapter extends RecyclerView.Adapter<listShoppingCa
                 double total = (precioProducto - descuentoProducto);
 
                 String idCompra = UUID.randomUUID().toString();
-                registrarProductoSolicitadoAlVendedor(idProducto, idCompra, total, cantidad[0], precioDomicilio, idVendedor[0]);
-                registrarProductoSolicitadoAlComprador(idProducto, idCompra, total, cantidad[0], precioDomicilio, idVendedor[0]);
+                registrarProductoSolicitadoAlVendedor(idProducto, nombreProducto, idCompra, total, cantidad[0], precioDomicilio, idVendedor[0]);
+                registrarProductoSolicitadoAlComprador(idProducto, nombreProducto, idCompra, total, cantidad[0], precioDomicilio, idVendedor[0]);
                 consultarDatosVendedor(idVendedor[0], idProducto, nombreProducto, total, precioDomicilio, cantidad[0]);
                 }else{
                     Toast.makeText(getApplicationContext(), "Solo hay " + cantidadProductosDisponibles
@@ -234,7 +234,7 @@ public class listShoppingCartAdapter extends RecyclerView.Adapter<listShoppingCa
         activity.startActivity(intent);
     }
 
-    private void registrarProductoSolicitadoAlVendedor(String idProducto, String idCompra, double total, int numeroProductos, double precioDomicilio, String idVendedor){
+    private void registrarProductoSolicitadoAlVendedor(String idProducto, String nombreProducto, String idCompra, double total, int numeroProductos, double precioDomicilio, String idVendedor){
         getCurrentDateTime = c.getTime();
 
         SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm");
@@ -270,6 +270,7 @@ public class listShoppingCartAdapter extends RecyclerView.Adapter<listShoppingCa
         producto.clear();
         producto.put("idCompra", idCompra);
         producto.put("idProducto", idProducto);
+        producto.put("nombreProducto", nombreProducto);
         producto.put("valorProducto",String.valueOf(total));
         producto.put("cantidadProducto",String.valueOf(numeroProductos));
         producto.put("usuarioSolicitud",currentUser.getUid());
@@ -295,7 +296,7 @@ public class listShoppingCartAdapter extends RecyclerView.Adapter<listShoppingCa
                 });
     }
 
-    private void registrarProductoSolicitadoAlComprador(String idProducto, String idCompra, double total, int numeroProductos, double precioDomicilio, String idVendedor){
+    private void registrarProductoSolicitadoAlComprador(String idProducto, String nombreProducto, String idCompra, double total, int numeroProductos, double precioDomicilio, String idVendedor){
         getCurrentDateTime = c.getTime();
 
         SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm");
@@ -331,6 +332,7 @@ public class listShoppingCartAdapter extends RecyclerView.Adapter<listShoppingCa
         producto.clear();
         producto.put("idCompra", idCompra);
         producto.put("idProducto", idProducto);
+        producto.put("nombreProducto", nombreProducto);
         producto.put("valorProducto",String.valueOf(total));
         producto.put("cantidadProducto",String.valueOf(numeroProductos));
         producto.put("usuarioSolicitud",currentUser.getUid());

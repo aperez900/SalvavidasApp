@@ -138,7 +138,8 @@
 
     <string name="historial">Historial </string>
 
-    <string name="nroVentasPorDia">Nro. de ventas por día de la semana </string>
+    <string name="nroVentasPorDia">Nro. de ventas por día de la semana</string>
+    <string name="nroComprasPorProducto">Nro. de compras por producto</string>
 
     <string name="facebook_app_id">1541603559379639</string>
     <string name="fb_login_protocol_scheme">fb1541603559379639</string>

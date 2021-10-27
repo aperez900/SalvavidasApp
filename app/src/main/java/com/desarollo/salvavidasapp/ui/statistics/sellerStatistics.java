@@ -165,5 +165,4 @@ public class sellerStatistics extends Fragment {
         barChart.animateY(1000);
         barChart.invalidate();
     }
-
 }
