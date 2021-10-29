@@ -206,7 +206,7 @@ public class lookAtProduct extends AppCompatActivity {
                     String idCompra = UUID.randomUUID().toString();
                     registrarProductoSolicitadoAlVendedor(idCompra);
                     registrarProductoSolicitadoAlComprador(idCompra);
-                    consultarDatosVendedor(idVendedor);
+                    consultarDatosVendedor(idVendedor,idCompra);
                 }else{
                     Toast.makeText(lookAtProduct.this, "Solo hay " + cantidadProductosDisponibles
                             + " producto(s) disponible(s)", Toast.LENGTH_SHORT).show();
@@ -294,7 +294,7 @@ public class lookAtProduct extends AppCompatActivity {
                 });
     }
 
-    public void consultarDatosVendedor(String idVendedor) {
+    public void consultarDatosVendedor(String idVendedor,String idCompra) {
         myRefUsuarios.child(idVendedor).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -312,6 +312,7 @@ public class lookAtProduct extends AppCompatActivity {
                     intent.putExtra("precioDomicilio", String.valueOf(precioDomicilio));
                     intent.putExtra("nroProductos", String.valueOf(numeroProductos));
                     intent.putExtra("idVendedor" , idVendedor);
+                    intent.putExtra("idCompra" , idCompra);
                     intent.putExtra("origen" , "LookAtProduct");
 
                     startActivity(intent);

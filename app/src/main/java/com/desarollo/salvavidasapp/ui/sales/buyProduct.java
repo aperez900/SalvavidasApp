@@ -42,7 +42,7 @@ public class buyProduct extends AppCompatActivity {
     ArrayList<Productos> listaDeDatos = new ArrayList<>();
     String idProducto ="";
     String idVendedor ="";
-    String nombreProducto, origen;
+    String nombreProducto, origen,idCompra;
     Double precioProducto = 0.0, precioDomicilio = 0.0;
     int nroProductos;
     Button btn_pago;
@@ -97,6 +97,7 @@ public class buyProduct extends AppCompatActivity {
             tvPrecioProducto.setText(objDF.format(precioProducto*nroProductos));
             tvPrecioDomicilio.setText(objDF.format(precioDomicilio));
             tvValorComision.setText(objDF.format(valorComision));
+            idCompra = extras.getString("idCompra");
 
             tvTotal.setText(objDF.format(precioProducto*nroProductos + precioDomicilio + valorComision));
 
@@ -119,20 +120,20 @@ public class buyProduct extends AppCompatActivity {
                 double valorTotal_ = precioProducto*nroProductos + precioDomicilio + valorComision ;
                 int vt = (int) valorTotal_*100;
                 String vt_ = Integer.toString(vt);
-                String transaction = UUID.randomUUID().toString();
-                registrarsolicitudVendedor(vt_,transaction, idProducto,idVendedor);
-                registrarCompraAlComprador(vt_,transaction, idProducto,idVendedor);
+                String Reference = currentUser.getUid() + "/" + idCompra + "/" + idProducto;
+                registrarsolicitudVendedor(vt_,idCompra, idProducto,idVendedor,Reference);
+                registrarCompraAlComprador(vt_,idCompra, idProducto,idVendedor,Reference);
             }
         });
     }
 
-    private void registrarsolicitudVendedor(String vt_, String transaction, String idProducto,String idVendedor){
-        myRefVendedores.child(idVendedor).child("productos_en_tramite").child(currentUser.getUid()).child(idProducto).child("estado").setValue("Procesando pago")
+    private void registrarsolicitudVendedor(String vt_, String idCompra, String idProducto,String idVendedor,String Reference){
+        myRefVendedores.child(idVendedor).child("productos_en_tramite").child(currentUser.getUid()).child(idCompra).child(idProducto).child("estado").setValue("Procesando pago")
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void aVoid) {
                         //Toast.makeText(shoppingCart.this, "Producto registrado", Toast.LENGTH_SHORT).show();
-                        Uri uri = Uri.parse("https://checkout.wompi.co/p/?public-key=pub_test_KY4VrC344hkv91RHAfu9XRajobfm0ROe&currency=COP&amount-in-cents="+vt_+"&reference="+transaction+"&redirect-url=https://www.salvavidas.app/");
+                        Uri uri = Uri.parse("https://checkout.wompi.co/p/?public-key=pub_test_KY4VrC344hkv91RHAfu9XRajobfm0ROe&currency=COP&amount-in-cents="+vt_+"&reference="+Reference+"&redirect-url=https://www.salvavidas.app/");
                         Intent intent = new Intent(Intent.ACTION_VIEW, uri);
                         startActivity(intent);
                         finish();
@@ -146,8 +147,8 @@ public class buyProduct extends AppCompatActivity {
                 });
     }
 
-    private void registrarCompraAlComprador(String vt_, String transaction, String idProducto,String idVendedor){
-        myRef.child(currentUser.getUid()).child("mis_compras").child(idProducto).child("estado").setValue("Procesando pago")
+    private void registrarCompraAlComprador(String vt_, String idCompra, String idProducto,String idVendedor,String Reference){
+        myRef.child(currentUser.getUid()).child("mis_compras").child(idCompra).child(idProducto).child("estado").setValue("Procesando pago")
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void aVoid) {
