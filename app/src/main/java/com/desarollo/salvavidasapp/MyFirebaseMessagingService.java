@@ -33,6 +33,10 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
     @Override
     public void onNewToken(@NonNull String s) {
         super.onNewToken(s);
+        mAuth = FirebaseAuth.getInstance();
+        currentUser = mAuth.getCurrentUser();
+        database = FirebaseDatabase.getInstance();
+        myRefUsuarios = database.getReference("usuarios");
 
         Log.e("token", "mi token es: " + s);
         guardarToken(s);
@@ -40,11 +44,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
     }
 
     private void guardarToken(String s) {
-        mAuth = FirebaseAuth.getInstance();
-        currentUser = mAuth.getCurrentUser();
-        database = FirebaseDatabase.getInstance();
-        myRefUsuarios = database.getReference("usuarios");
-
+        if (currentUser != null){
         myRefUsuarios.child(currentUser.getUid()).child("tokenId").setValue(s)
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
@@ -58,7 +58,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
                         Log.e("Error", "Error al guardar mi token: " + s);
                     }
                 });
-
+        }
     }
 
     @Override
@@ -67,15 +67,29 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
         String from = remoteMessage.getFrom();
 
+        if(remoteMessage.getNotification() != null){
+            String id = "mensaje";
+            String titulo = remoteMessage.getNotification().getTitle();
+            String body = remoteMessage.getNotification().getBody();
+            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+                mayorQueOreo(titulo, body);
+            }
+        }
+
+        /*
         if(remoteMessage.getData().size() > 0){
 
             String titulo = remoteMessage.getData().get("titulo");
             String detalle = remoteMessage.getData().get("detalle");
+            Log.e("TAG", "titulo " + titulo);
+            Log.e("TAG", "detalle " + detalle);
 
             if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
                 mayorQueOreo(titulo, detalle);
             }
         }
+
+         */
 
     }
 

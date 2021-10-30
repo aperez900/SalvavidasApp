@@ -510,11 +510,13 @@ public class listShoppingCartAdapter extends RecyclerView.Adapter<listShoppingCa
         JSONObject json = new JSONObject();
         try{
             json.put("to", token);
-            JSONObject notificacion = new JSONObject();
-            notificacion.put("titulo","Solicitud de compra");
-            notificacion.put("detalle", "Hola, alguien desee comprar unos de tus productos");
+            JSONObject notification = new JSONObject();
+            notification.put("title","Solicitud de compra");
+            notification.put("body", "Hola, alguien desea comprar uno de tus productos");
+            notification.put("priority", "high");
+            notification.put("sound","default");
 
-            json.put("data",notificacion);
+            json.put("notification",notification);
 
             String URL = "https://fcm.googleapis.com/fcm/send";
 
@@ -523,8 +525,8 @@ public class listShoppingCartAdapter extends RecyclerView.Adapter<listShoppingCa
                 public Map<String, String> getHeaders() throws AuthFailureError {
                     Map<String, String> header = new HashMap<>();
 
-                    header.put("content-type","application/json");
-                    header.put("authorization","key=AAAAYqhQGoo:APA91bH6pY-0i7a7NM76Gj4QcUQjMqkEoFbt2Ne4xJA6Zj2mUqSIUNkauH9bBuOaVIq49YJo8GM3UdglAQqGvvxp3V2zBqBXiYk1oQRLkEK7A_iUCAubPIZNJYdJGYAaGhxW7RbMNe1L");
+                    header.put("Authorization","key=AAAAYqhQGoo:APA91bH6pY-0i7a7NM76Gj4QcUQjMqkEoFbt2Ne4xJA6Zj2mUqSIUNkauH9bBuOaVIq49YJo8GM3UdglAQqGvvxp3V2zBqBXiYk1oQRLkEK7A_iUCAubPIZNJYdJGYAaGhxW7RbMNe1L");
+                    header.put("Content-Type","application/json");
 
                     return header;
                 }
