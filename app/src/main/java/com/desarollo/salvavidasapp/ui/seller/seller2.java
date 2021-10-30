@@ -570,7 +570,7 @@ public class seller2 extends AppCompatActivity {
                     public void onFailure(@NonNull Exception e) {
                     }
                 });
-        registrar_token();
+        //registrar_token();
     }
 
     public void enviar_email( String correo, String contrasena, TextView nombres, TextView celular){

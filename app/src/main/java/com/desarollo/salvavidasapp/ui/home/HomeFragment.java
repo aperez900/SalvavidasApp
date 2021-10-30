@@ -86,12 +86,7 @@ public class HomeFragment extends Fragment {
 
         tvPrincipalAddress.setOnClickListener(Navigation.createNavigateOnClickListener(R.id.action_nav_home_to_nav_address));
 
-        btnShopping.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                irAlCarritoDeCompras();
-            }
-        });
+        btnShopping.setOnClickListener(v -> irAlCarritoDeCompras());
 
         return view;
     }

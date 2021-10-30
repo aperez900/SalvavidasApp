@@ -1,41 +1,110 @@
 package com.desarollo.salvavidasapp;
 
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
+import android.content.Context;
+import android.content.Intent;
 import android.util.Log;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.core.app.NotificationCompat;
 
 import com.desarollo.salvavidasapp.ui.sales.lookAtProduct;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
 
 import static android.content.ContentValues.TAG;
 
+import java.util.Random;
+
 public class MyFirebaseMessagingService extends FirebaseMessagingService {
+    FirebaseAuth mAuth;
+    FirebaseUser currentUser;
+    FirebaseDatabase database;
+    DatabaseReference myRefUsuarios;
+    @Override
+    public void onNewToken(@NonNull String s) {
+        super.onNewToken(s);
+
+        Log.e("token", "mi token es: " + s);
+        guardarToken(s);
+
+    }
+
+    private void guardarToken(String s) {
+        mAuth = FirebaseAuth.getInstance();
+        currentUser = mAuth.getCurrentUser();
+        database = FirebaseDatabase.getInstance();
+        myRefUsuarios = database.getReference("usuarios");
+
+        myRefUsuarios.child(currentUser.getUid()).child("tokenId").setValue(s)
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        Log.e("tokenGuardado", "mi token es: " + s);
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Log.e("Error", "Error al guardar mi token: " + s);
+                    }
+                });
+
+    }
+
     @Override
     public void onMessageReceived(@NonNull RemoteMessage remoteMessage) {
+        super.onMessageReceived(remoteMessage);
 
-        Log.d(TAG, "From: " + remoteMessage.getFrom());
+        String from = remoteMessage.getFrom();
 
-        if (remoteMessage.getData().size() > 0) {
-            Log.d(TAG, "Message data payload: " + remoteMessage.getData());
+        if(remoteMessage.getData().size() > 0){
 
-            if (/* Check if data needs to be processed by long running job */ true) {
-                // For long-running tasks (10 seconds or more) use WorkManager.
-               // scheduleJob();
-            } else {
-                // Handle message within 10 seconds
-               // handleNow();
+            String titulo = remoteMessage.getData().get("titulo");
+            String detalle = remoteMessage.getData().get("detalle");
+
+            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+                mayorQueOreo(titulo, detalle);
             }
-
         }
 
-        // Check if message contains a notification payload.
-        if (remoteMessage.getNotification() != null) {
-            Log.d(TAG, "Message Notification Body: " + remoteMessage.getNotification().getBody());
-        }
+    }
 
-        // Also if you intend on generating your own notifications as a result of a received FCM
-        // message, here is where that should be initiated. See sendNotification method below.
+    private void mayorQueOreo(String titulo, String detalle) {
+        String id = "mensaje";
+        NotificationManager nm = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(this, id);
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+            NotificationChannel nc = new NotificationChannel(id, "nuevo",NotificationManager.IMPORTANCE_HIGH);
+            nc.setShowBadge(true);
+            nm.createNotificationChannel(nc);
+        }
+        builder.setAutoCancel(true)
+                .setWhen(System.currentTimeMillis())
+                .setContentTitle(titulo)
+                .setSmallIcon(R.drawable.logoprincipal)
+                .setContentIntent(clickNotificacion())
+                .setContentText(detalle)
+                .setContentInfo("nuevo");
+        Random random = new Random();
+        int idNotify = random.nextInt(8000);
+
+        nm.notify(idNotify, builder.build());
+
+    }
+
+    public PendingIntent clickNotificacion(){
+        Intent nf = new Intent(getApplicationContext(), lookAtProduct.class);
+        nf.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+        return PendingIntent.getActivity(this,0,nf,0);
     }
 }

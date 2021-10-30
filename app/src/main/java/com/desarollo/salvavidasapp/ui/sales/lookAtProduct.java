@@ -26,6 +26,11 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.AuthFailureError;
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.Volley;
 import com.bumptech.glide.Glide;
 import com.desarollo.salvavidasapp.Models.Productos;
 import com.desarollo.salvavidasapp.R;
@@ -55,6 +60,7 @@ import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.Map;
 import java.util.Objects;
 import java.util.Properties;
 import java.util.UUID;
@@ -69,6 +75,9 @@ import javax.mail.internet.MimeMessage;
 
 import static com.facebook.FacebookSdk.getApplicationContext;
 import static com.google.firebase.messaging.Constants.MessagePayloadKeys.SENDER_ID;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 public class lookAtProduct extends AppCompatActivity {
 
@@ -303,7 +312,8 @@ public class lookAtProduct extends AppCompatActivity {
                     String nombreVendedor = snapshot.child("nombre").getValue().toString();
                     enviar_email_vendedor(nombreComprador, emailVendedor, nombreVendedor);
                     String token = snapshot.child("tokenId").getValue().toString();
-                    enviar_notificacion_push(nombreComprador, emailVendedor, nombreVendedor, token);
+                    //enviar_notificacion_push(nombreComprador, emailVendedor, nombreVendedor, token);
+                    enviar_notificacion_push2(token);
                     cargando.dismiss();
                     Intent intent = new Intent(lookAtProduct.this , buyProduct.class);
                     intent.putExtra("idProducto" , idProducto);
@@ -382,6 +392,39 @@ public class lookAtProduct extends AppCompatActivity {
         }
     }
 
+
+    public void enviar_notificacion_push2(String token){
+        RequestQueue myrequest = Volley.newRequestQueue(getApplicationContext());
+        JSONObject json = new JSONObject();
+        try{
+            json.put("to", token);
+            JSONObject notificacion = new JSONObject();
+            notificacion.put("titulo","Solicitud de compra");
+            notificacion.put("detalle", "Hola, alguien desee comprar unos de tus productos");
+
+            json.put("data",notificacion);
+
+            String URL = "https://fcm.googleapis.com/fcm/send";
+
+            JsonObjectRequest request = new JsonObjectRequest(Request.Method.POST,URL,json, null, null){
+                @Override
+                public Map<String, String> getHeaders() throws AuthFailureError {
+                    Map<String, String> header = new HashMap<>();
+
+                    header.put("content-type","application/json");
+                    header.put("authorization","key=AAAAYqhQGoo:APA91bH6pY-0i7a7NM76Gj4QcUQjMqkEoFbt2Ne4xJA6Zj2mUqSIUNkauH9bBuOaVIq49YJo8GM3UdglAQqGvvxp3V2zBqBXiYk1oQRLkEK7A_iUCAubPIZNJYdJGYAaGhxW7RbMNe1L");
+
+                    return header;
+                }
+            };
+
+            myrequest.add(request);
+
+        }catch (JSONException e){
+            e.printStackTrace();
+        }
+
+    }
 
     public void enviar_notificacion_push(String nombreComprador, String emailVendedor, String nombreVendedor, String token){
 
@@ -468,7 +511,7 @@ public class lookAtProduct extends AppCompatActivity {
         }
         if (diaSemana.equals("Fri") || diaSemana.equals("Friday") || diaSemana.equals("vie.")
                 || diaSemana.equals("viernes")){
-            diaSemana = "Viérnes";
+            diaSemana = "Viernes";
         }
         if (diaSemana.equals("Sat") || diaSemana.equals("Satuday") || diaSemana.equals("sáb.")
                 || diaSemana.equals("sábado")){
@@ -529,7 +572,7 @@ public class lookAtProduct extends AppCompatActivity {
             diaSemana = "Jueves";
         }
         if (diaSemana.equals("Fri") || diaSemana.equals("Friday")){
-            diaSemana = "Viérnes";
+            diaSemana = "Viernes";
         }
         if (diaSemana.equals("Sat") || diaSemana.equals("Satuday")){
             diaSemana = "Sábado";
