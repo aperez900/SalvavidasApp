@@ -385,10 +385,11 @@ public class listShoppingCartAdapter extends RecyclerView.Adapter<listShoppingCa
                     String token = snapshot.child("tokenId").getValue().toString();
                     if(primeraVez) {
                         enviarEmailVendedor(nombreComprador, emailVendedor, nombreVendedor, nombreProducto, numeroProductos);
-                        enviar_notificacion_push2(token, nombreComprador, nombreVendedor, nombreProducto, numeroProductos);
+                        consultarToken(idVendedor, nombreVendedor, nombreProducto, numeroProductos);
                     }
 
                     cargando.dismiss();
+
                     Intent intent = new Intent(getApplicationContext() , buyProduct.class);
                     intent.putExtra("idProducto" , idProducto);
                     intent.putExtra("nombreProducto", nombreProducto);
@@ -402,6 +403,22 @@ public class listShoppingCartAdapter extends RecyclerView.Adapter<listShoppingCa
                     intent.putExtra("tokenId" , token);
                     intent.putExtra("origen" , "lookAtProduct");
                     activity.startActivity(intent);
+                }
+            }
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                Toast.makeText(getApplicationContext(), "Error cargando los datos del vendedor", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    public void consultarToken(String idVendedor, String nombreVendedor, String nombreProducto, int numeroProductos) {
+        myRefVendedor.child(idVendedor).addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if(snapshot.exists()){
+                    String token = snapshot.child("tokenId").getValue().toString();
+                    enviar_notificacion_push2(token, nombreComprador, nombreVendedor, nombreProducto, numeroProductos);
                 }
             }
             @Override

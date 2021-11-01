@@ -180,7 +180,8 @@ public class lookAtProduct extends AppCompatActivity {
                     cargando.show();
                     String idCompra = UUID.randomUUID().toString();
                     registrarProductoSolicitadoAlVendedor(idCompra);
-
+                    registrarProductoSolicitadoAlComprador(idCompra);
+                    consultarDatosVendedor(idVendedor,idCompra);
                 }else{
                     Toast.makeText(lookAtProduct.this, "Solo hay " + cantidadProductosDisponibles
                             + " producto(s) disponible(s)", Toast.LENGTH_SHORT).show();
@@ -196,14 +197,15 @@ public class lookAtProduct extends AppCompatActivity {
         }
     }
 
-/*
-    String token;
-    public String consultarToken() {
+
+
+    public void consultarToken(String nombreVendedor, String idCompra) {
         myRefVendedor.child(idVendedor).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 if(snapshot.exists()){
-                    token = snapshot.child("tokenId").getValue().toString();
+                    String token = snapshot.child("tokenId").getValue().toString();
+                    enviar_notificacion_push2(token, nombreComprador, nombreVendedor, idCompra);
                 }
             }
             @Override
@@ -211,11 +213,8 @@ public class lookAtProduct extends AppCompatActivity {
                 Toast.makeText(lookAtProduct.this, "Error cargando los datos del vendedor", Toast.LENGTH_SHORT).show();
             }
         });
-
-        return token;
     }
 
- */
 
     public void consultarImagen(ImageView imgProducto){
 
@@ -278,10 +277,11 @@ public class lookAtProduct extends AppCompatActivity {
                 if(snapshot.exists()){
                     String emailVendedor = snapshot.child("correo").getValue().toString();
                     String nombreVendedor = snapshot.child("nombre").getValue().toString();
-                    String token = snapshot.child("tokenId").getValue().toString();
+                    //String token = snapshot.child("tokenId").getValue().toString();
                     if(primeraVez){
                         enviar_email_vendedor(nombreComprador, emailVendedor, nombreVendedor);
-                        enviar_notificacion_push2(token, nombreComprador, nombreVendedor, idCompra);
+                        consultarToken(nombreVendedor, idCompra);
+
                     }
                 }
             }
@@ -463,7 +463,7 @@ public class lookAtProduct extends AppCompatActivity {
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void aVoid) {
-                        registrarProductoSolicitadoAlComprador(idCompra);
+
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {
@@ -523,7 +523,7 @@ public class lookAtProduct extends AppCompatActivity {
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void aVoid) {
-                        consultarDatosVendedor(idVendedor,idCompra);
+
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {

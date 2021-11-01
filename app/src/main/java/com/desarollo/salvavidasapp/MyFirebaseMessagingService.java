@@ -67,10 +67,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
     public void onMessageReceived(@NonNull RemoteMessage remoteMessage) {
         super.onMessageReceived(remoteMessage);
 
-        String from = remoteMessage.getFrom();
-
         if(remoteMessage.getNotification() != null){
-            String id = "mensaje";
             String titulo = remoteMessage.getNotification().getTitle();
             String body = remoteMessage.getNotification().getBody();
             if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
@@ -115,6 +112,8 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
                 .setSound(defaultSoundUri);
         Random random = new Random();
         int idNotify = random.nextInt(8000);
+        Log.e("TAG", "Titulo: " + titulo);
+        Log.e("TAG", "detalle: " + detalle);
 
         nm.notify(idNotify, builder.build());
 

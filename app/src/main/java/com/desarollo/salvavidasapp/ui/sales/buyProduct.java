@@ -136,7 +136,7 @@ public class buyProduct extends AppCompatActivity {
                 String vt_ = Integer.toString(vt);
                 String Reference = currentUser.getUid() + "/" + idCompra + "/" + idProducto;
                 registrarsolicitudVendedor(vt_,idCompra, idProducto,idVendedor,Reference);
-                registrarCompraAlComprador(vt_,idCompra, idProducto,idVendedor,Reference);
+                registrarCompraAlComprador(vt_,idCompra, idProducto);
             }
         });
 
@@ -241,7 +241,7 @@ public class buyProduct extends AppCompatActivity {
                 });
     }
 
-    private void registrarCompraAlComprador(String vt_, String idCompra, String idProducto,String idVendedor,String Reference){
+    private void registrarCompraAlComprador(String vt_, String idCompra, String idProducto){
         myRef.child(currentUser.getUid()).child("mis_compras").child(idCompra).child(idProducto).child("estado").setValue("Procesando pago")
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
