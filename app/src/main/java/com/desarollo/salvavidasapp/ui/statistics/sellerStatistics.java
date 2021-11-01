@@ -83,7 +83,7 @@ public class sellerStatistics extends Fragment {
                             for (DataSnapshot objsnapshot3 : objsnapshot2.getChildren()) { //recorre los productos
                                 String diaSemana = Objects.requireNonNull(objsnapshot3.child("diaSemana").getValue()).toString();
                                 String estado = Objects.requireNonNull(objsnapshot3.child("estado").getValue()).toString();
-                                if (!estado.contains("Cancelado") && !estado.contains("Rechazado")  && !estado.contains("Anulado")){
+                                if (estado.equals("Pagado")){
                                     if(diaSemana.equals("Lunes") || diaSemana.contains("lun")){
                                         contadorLunes++;
                                     }

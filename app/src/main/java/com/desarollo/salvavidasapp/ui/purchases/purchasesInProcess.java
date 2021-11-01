@@ -77,7 +77,7 @@ public class purchasesInProcess extends AppCompatActivity {
                         for (DataSnapshot objsnapshot2 : objsnapshot.getChildren()) { //recorre los productos
                         String estadoSolicitud = objsnapshot2.child("estado").getValue().toString();
                             if (estadoSolicitud.equals("Solicitado") || estadoSolicitud.equals("Procesando pago")
-                                    || estadoSolicitud.equals("Aprobado por el vendedor")) {
+                                    || estadoSolicitud.equals("Aprobado por el vendedor") || estadoSolicitud.equals("Pagado")) {
                                 String idProd = objsnapshot2.child("idProducto").getValue().toString();
                                 String idCompra = objsnapshot2.child("idCompra").getValue().toString();
                                 String cantidad = objsnapshot2.child("cantidadProducto").getValue().toString();

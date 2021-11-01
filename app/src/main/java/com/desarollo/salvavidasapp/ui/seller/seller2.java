@@ -394,7 +394,7 @@ public class seller2 extends AppCompatActivity {
                     @Override
                     public void onComplete(@NonNull Task<String> task) {
                         if (!task.isSuccessful()) {
-                            Toast.makeText(getApplicationContext(),"Fetching FCM registration token failed" +task.getException(), Toast.LENGTH_SHORT).show();
+                            Toast.makeText(getApplicationContext(),"Error obteniendo token" +task.getException(), Toast.LENGTH_SHORT).show();
                             return;
                         }
                         // Get new FCM registration token
@@ -570,7 +570,7 @@ public class seller2 extends AppCompatActivity {
                     public void onFailure(@NonNull Exception e) {
                     }
                 });
-        //registrar_token();
+        registrar_token();
     }
 
     public void enviar_email( String correo, String contrasena, TextView nombres, TextView celular){

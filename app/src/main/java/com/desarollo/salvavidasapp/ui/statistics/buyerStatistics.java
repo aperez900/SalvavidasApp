@@ -76,8 +76,7 @@ public class buyerStatistics extends Fragment {
                     for (DataSnapshot objsnapshot : snapshot.getChildren()) { //recorre las compras
                         for (DataSnapshot objsnapshot2 : objsnapshot.getChildren()) { //recorre los productos
                             String estado = Objects.requireNonNull(objsnapshot2.child("estado").getValue()).toString();
-                            if (!estado.contains("Cancelado") && !estado.contains("Rechazado")
-                                    && !estado.contains("Anulado")) {
+                            if (estado.equals("Pagado")){
                                 String nombreProducto = Objects.requireNonNull(objsnapshot2.child("nombreProducto")
                                         .getValue()).toString();
                                 //System.out.println("nombrePro:" + nombreProducto);

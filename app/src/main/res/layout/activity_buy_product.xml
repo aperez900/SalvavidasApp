@@ -319,5 +319,17 @@
             android:textStyle="bold" />
 
     </LinearLayout>
+    <TextView
+        android:id="@+id/tv_cancelar_Pedido"
+        android:layout_width="217dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:layout_marginStart="100dp"
+        android:drawablePadding="25dp"
+        android:fontFamily="@font/poppins_semibold"
+        android:textStyle="italic"
+        android:text="@string/cancelarPedido"
+        android:textAlignment="center"
+        android:textSize="14sp" />
 
 </LinearLayout>

@@ -2,27 +2,15 @@ package com.desarollo.salvavidasapp.ui.sales;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.NotificationCompat;
 
-import android.app.NotificationChannel;
-import android.app.NotificationManager;
-import android.app.PendingIntent;
 import android.app.ProgressDialog;
-import android.content.Context;
 import android.content.Intent;
 import android.graphics.Paint;
-import android.media.RingtoneManager;
-import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.StrictMode;
-import android.util.Log;
 import android.view.View;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -32,15 +20,9 @@ import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.bumptech.glide.Glide;
-import com.desarollo.salvavidasapp.Models.Productos;
 import com.desarollo.salvavidasapp.R;
-import com.desarollo.salvavidasapp.ui.home.Home;
-import com.desarollo.salvavidasapp.ui.home.ListSellAdapter;
-import com.desarollo.salvavidasapp.ui.seller.seller2;
-import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 
 import com.google.firebase.auth.UserInfo;
@@ -49,19 +31,13 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-import com.google.firebase.messaging.FirebaseMessaging;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.messaging.RemoteMessage;
 
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Objects;
 import java.util.Properties;
 import java.util.UUID;
 
@@ -71,10 +47,6 @@ import javax.mail.Session;
 import javax.mail.Transport;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
-
-
-import static com.facebook.FacebookSdk.getApplicationContext;
-import static com.google.firebase.messaging.Constants.MessagePayloadKeys.SENDER_ID;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -99,6 +71,7 @@ public class lookAtProduct extends AppCompatActivity {
     ProgressDialog cargando;
     Calendar c;
     Date getCurrentDateTime;
+    Boolean primeraVez=true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -153,16 +126,10 @@ public class lookAtProduct extends AppCompatActivity {
             tvporcDescuento.setText(String.valueOf(-porcDescuento));
             total = precio-descuento;
             tvtotalProducto.setText(String.valueOf(total));
-            //ScategoriaProductos = extras.getString("tipoProducto");
-            //SdomicilioProducto = extras.getString("domicilioProducto");
             fechaFin = extras.getString("fechaFin");
             horaFin =  extras.getString("horaFin");
             tvinicioProducto.setText(extras.getString("fechaInicio") + " " + extras.getString("horaInicio"));
             tvfinProducto.setText(fechaFin + " " + horaFin);
-            //tvHoraInicio.setText(extras.getString("horaInicio"));
-            //tvHoraFin.setText(extras.getString("horaFin"));
-            //type = extras.getString("tipyEntry");
-            //fotoConsulta = extras.getString("getUrlFoto");
             idVendedor = extras.getString("idVendedor");
         }
 
@@ -181,7 +148,6 @@ public class lookAtProduct extends AppCompatActivity {
                 agregarCarrito();
             }
         });
-
 
         btnMas.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -214,8 +180,7 @@ public class lookAtProduct extends AppCompatActivity {
                     cargando.show();
                     String idCompra = UUID.randomUUID().toString();
                     registrarProductoSolicitadoAlVendedor(idCompra);
-                    registrarProductoSolicitadoAlComprador(idCompra);
-                    consultarDatosVendedor(idVendedor,idCompra);
+
                 }else{
                     Toast.makeText(lookAtProduct.this, "Solo hay " + cantidadProductosDisponibles
                             + " producto(s) disponible(s)", Toast.LENGTH_SHORT).show();
@@ -231,7 +196,7 @@ public class lookAtProduct extends AppCompatActivity {
         }
     }
 
-
+/*
     String token;
     public String consultarToken() {
         myRefVendedor.child(idVendedor).addValueEventListener(new ValueEventListener() {
@@ -249,6 +214,8 @@ public class lookAtProduct extends AppCompatActivity {
 
         return token;
     }
+
+ */
 
     public void consultarImagen(ImageView imgProducto){
 
@@ -304,29 +271,18 @@ public class lookAtProduct extends AppCompatActivity {
     }
 
     public void consultarDatosVendedor(String idVendedor,String idCompra) {
+        primeraVez = true;
         myRefUsuarios.child(idVendedor).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 if(snapshot.exists()){
                     String emailVendedor = snapshot.child("correo").getValue().toString();
                     String nombreVendedor = snapshot.child("nombre").getValue().toString();
-                    enviar_email_vendedor(nombreComprador, emailVendedor, nombreVendedor);
                     String token = snapshot.child("tokenId").getValue().toString();
-                    //enviar_notificacion_push(nombreComprador, emailVendedor, nombreVendedor, token);
-                    enviar_notificacion_push2(token);
-                    cargando.dismiss();
-                    Intent intent = new Intent(lookAtProduct.this , buyProduct.class);
-                    intent.putExtra("idProducto" , idProducto);
-                    intent.putExtra("nombreProducto", nombreProducto);
-                    intent.putExtra("totalProducto", String.valueOf(total));
-                    intent.putExtra("precioDomicilio", String.valueOf(precioDomicilio));
-                    intent.putExtra("nroProductos", String.valueOf(numeroProductos));
-                    intent.putExtra("idVendedor" , idVendedor);
-                    intent.putExtra("idCompra" , idCompra);
-                    intent.putExtra("origen" , "LookAtProduct");
-
-                    startActivity(intent);
-                    finish();
+                    if(primeraVez){
+                        enviar_email_vendedor(nombreComprador, emailVendedor, nombreVendedor);
+                        enviar_notificacion_push2(token, nombreComprador, nombreVendedor, idCompra);
+                    }
                 }
             }
             @Override
@@ -337,17 +293,17 @@ public class lookAtProduct extends AppCompatActivity {
     }
 
     public void enviar_email_vendedor(String nombreComprador, String emailVendedor, String nombreVendedor){
-
+        primeraVez=false;
         //String correoEnvia = correo.getText().toString();
         String correoEnvia = "ceo@salvavidas.app";
         //String contraseñaCorreoEnvia = contraseña.getText().toString();
         String contrasenaCorreoEnvia = "Great_Simplicity01945#";
 
         String cuerpoCorreo = "<p style='text-align: justify'> Hola " + nombreVendedor +", <br><br>" +
-                "nuestro usuario <b>" + nombreComprador + "</b> desea comprar lo siguiente: <br><br>" +
+                "nuestro usuario: <b>" + nombreComprador + "</b> desea comprar lo siguiente: <br><br>" +
                 "<u>Producto:</u> <b>" + nombreProducto + "</b><br>" +
                 "<u>Cantidad:</u> <b>" + numeroProductos + "</b><br><br>" +
-                "Ingresa a Salvavidas App para aceptar el pedido.<br></p>Cordialmente,<br> <b>Equipo de Salvavidas App</b><br>" +
+                "Ingresa a Salvavidas App para hacerle seguimiento al pedido.<br></p>Cordialmente,<br> <b>Equipo de Salvavidas App</b><br>" +
                 "<p style='text-align: justify'><font size=1><i>Este mensaje y sus archivos adjuntos van dirigidos exclusivamente a su destinatario pudiendo contener información confidencial " +
                 "sometida a secreto profesional. No está permitida su reproducción o distribución sin la autorización expresa de SALVAVIDAS APP, Si usted no es el destinatario " +
                 "final por favor elimínelo e infórmenos por esta vía. Según la Ley Estatutaria 1581 de 2.012 de Protección de Datos y sus normas reglamentarias, " +
@@ -384,7 +340,7 @@ public class lookAtProduct extends AppCompatActivity {
                 //message.setContent("Hola mundo","txt/html; charset= utf-8");
                 Transport.send(message);
 
-                Toast.makeText(getApplicationContext(), "Hemos enviado una solicitud de compra al vendedor. Espera un momento hasta que la solicitud sea aceptada", Toast.LENGTH_LONG).show();
+                Toast.makeText(getApplicationContext(), "Hemos enviado una solicitud de compra al vendedor. Recuerda realizar el pago para que tenga validez.", Toast.LENGTH_LONG).show();
             }
         }catch (Exception e){
             e.printStackTrace();
@@ -393,14 +349,16 @@ public class lookAtProduct extends AppCompatActivity {
     }
 
 
-    public void enviar_notificacion_push2(String token){
+    public void enviar_notificacion_push2(String token, String nombreComprador, String nombreVendedor, String idCompra){
+        primeraVez=false;
         RequestQueue myrequest = Volley.newRequestQueue(getApplicationContext());
         JSONObject json = new JSONObject();
         try{
             json.put("to", token);
             JSONObject notification = new JSONObject();
             notification.put("title","Solicitud de compra");
-            notification.put("body", "Hola, alguien desea comprar uno de tus productos");
+            notification.put("body", "Hola " + nombreVendedor +", nuestro usuario: " + nombreComprador +
+                    " desea comprar " + numeroProductos + " " + nombreProducto);
             notification.put("priority", "high");
             notification.put("sound","default");
 
@@ -422,61 +380,28 @@ public class lookAtProduct extends AppCompatActivity {
 
             myrequest.add(request);
 
+            cargando.dismiss();
+
+            Intent intent = new Intent(lookAtProduct.this , buyProduct.class);
+            intent.putExtra("idProducto" , idProducto);
+            intent.putExtra("nombreProducto", nombreProducto);
+            intent.putExtra("totalProducto", String.valueOf(total));
+            intent.putExtra("precioDomicilio", String.valueOf(precioDomicilio));
+            intent.putExtra("nroProductos", String.valueOf(numeroProductos));
+            intent.putExtra("idVendedor" , idVendedor);
+            intent.putExtra("nombreVendedor" , nombreVendedor);
+            intent.putExtra("idCompra" , idCompra);
+            intent.putExtra("nombreComprador" , nombreComprador);
+            intent.putExtra("tokenId" , token);
+            intent.putExtra("origen" , "LookAtProduct");
+
+            startActivity(intent);
+            finish();
+
         }catch (JSONException e){
             e.printStackTrace();
         }
 
-    }
-
-    public void enviar_notificacion_push(String nombreComprador, String emailVendedor, String nombreVendedor, String token){
-
-        try {
-            Intent intent = new Intent(getApplicationContext(), lookAtProduct.class);
-            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-            PendingIntent pendingIntent = PendingIntent.getActivity(getApplicationContext(), 0 /* Request code */, intent,
-                    PendingIntent.FLAG_ONE_SHOT);
-
-            //String channelId = consultarToken();
-            String channelId = token;
-
-            if (channelId.equals("")){
-                Toast.makeText(lookAtProduct.this, "Para enviar notificaciones push el vendedor debera actualizar su perfil", Toast.LENGTH_SHORT).show();
-
-            }
-            else{
-            Uri defaultSoundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
-            NotificationCompat.Builder notificationBuilder =
-                    new NotificationCompat.Builder(getApplicationContext(), channelId)
-                            .setSmallIcon(R.drawable.logoprincipal)
-                            .setContentTitle("Solicitud de compra - Salvavidas App")
-                            .setContentText(" Hola " + nombreVendedor +"," +
-                                    " nuestro usuario " + nombreComprador + " desea comprar lo siguiente:" +
-                                    " Producto: " + nombreProducto  +
-                                    " Cantidad: " + numeroProductos +
-                                    " Ingresa a Salvavidas App para aceptar el pedido.")
-                            .setAutoCancel(true)
-                            .setSound(defaultSoundUri)
-                            .setContentIntent(pendingIntent);
-
-            NotificationManager notificationManager =
-                    (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-
-            // Since android Oreo notification channel is needed.
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                NotificationChannel channel = new NotificationChannel(channelId,
-                        "Channel human readable title",
-                        NotificationManager.IMPORTANCE_DEFAULT);
-                notificationManager.createNotificationChannel(channel);
-            }
-
-            notificationManager.notify(0 /* ID of notification */, notificationBuilder.build());
-
-        }
-        }
-        catch (Exception e){
-            e.printStackTrace();
-            //Toast.makeText(getApplicationContext(), "Error enviando la solicitud. " + e, Toast.LENGTH_SHORT).show();
-        }
     }
 
     public void registrarProductoSolicitadoAlVendedor(String idCompra){
@@ -538,7 +463,7 @@ public class lookAtProduct extends AppCompatActivity {
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void aVoid) {
-                        //Toast.makeText(lookAtProduct.this, "Producto solicitado", Toast.LENGTH_SHORT).show();
+                        registrarProductoSolicitadoAlComprador(idCompra);
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {
@@ -598,7 +523,7 @@ public class lookAtProduct extends AppCompatActivity {
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void aVoid) {
-                        //Toast.makeText(lookAtProduct.this, "Producto solicitado", Toast.LENGTH_SHORT).show();
+                        consultarDatosVendedor(idVendedor,idCompra);
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {

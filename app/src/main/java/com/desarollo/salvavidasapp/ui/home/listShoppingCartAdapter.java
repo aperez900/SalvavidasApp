@@ -82,6 +82,7 @@ public class listShoppingCartAdapter extends RecyclerView.Adapter<listShoppingCa
     DatabaseReference myRefUsuario, myRefVendedor;
     Calendar c;
     Date getCurrentDateTime;
+    Boolean primeraVez=true;
 
     public listShoppingCartAdapter(Context context, ArrayList<Productos> listaDeDatos, Activity activity) {
         this.inflater = LayoutInflater.from(context);
@@ -209,12 +210,11 @@ public class listShoppingCartAdapter extends RecyclerView.Adapter<listShoppingCa
                 String idCompra = UUID.randomUUID().toString();
                 registrarProductoSolicitadoAlVendedor(idProducto, nombreProducto, idCompra, total, cantidad[0], precioDomicilio, idVendedor[0]);
                 registrarProductoSolicitadoAlComprador(idProducto, nombreProducto, idCompra, total, cantidad[0], precioDomicilio, idVendedor[0]);
-                consultarDatosVendedor(idVendedor[0], idProducto, nombreProducto, total, precioDomicilio, cantidad[0]);
+                consultarDatosVendedor(idVendedor[0], idCompra, idProducto, nombreProducto, total, precioDomicilio, cantidad[0]);
                 }else{
                     Toast.makeText(getApplicationContext(), "Solo hay " + cantidadProductosDisponibles
                             + " producto(s) disponible(s)", Toast.LENGTH_SHORT).show();
                 }
-
             }
         });
     }
@@ -374,17 +374,20 @@ public class listShoppingCartAdapter extends RecyclerView.Adapter<listShoppingCa
                 });
     }
 
-    public void consultarDatosVendedor(String idVendedor, String idProducto, String nombreProducto, double total, double precioDomicilio, int numeroProductos) {
+    public void consultarDatosVendedor(String idVendedor, String idCompra, String idProducto, String nombreProducto, double total, double precioDomicilio, int numeroProductos) {
+        primeraVez = true;
         myRefUsuario.child(idVendedor).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 if(snapshot.exists()){
                     String emailVendedor = snapshot.child("correo").getValue().toString();
                     String nombreVendedor = snapshot.child("nombre").getValue().toString();
-                    enviarEmailVendedor(nombreComprador, emailVendedor, nombreVendedor, nombreProducto, numeroProductos);
                     String token = snapshot.child("tokenId").getValue().toString();
-                    //enviarNotificacionPush(nombreComprador, emailVendedor, nombreVendedor, token, nombreProducto, numeroProductos);
-                    enviar_notificacion_push2(token);
+                    if(primeraVez) {
+                        enviarEmailVendedor(nombreComprador, emailVendedor, nombreVendedor, nombreProducto, numeroProductos);
+                        enviar_notificacion_push2(token, nombreComprador, nombreVendedor, nombreProducto, numeroProductos);
+                    }
+
                     cargando.dismiss();
                     Intent intent = new Intent(getApplicationContext() , buyProduct.class);
                     intent.putExtra("idProducto" , idProducto);
@@ -393,7 +396,11 @@ public class listShoppingCartAdapter extends RecyclerView.Adapter<listShoppingCa
                     intent.putExtra("precioDomicilio", String.valueOf(precioDomicilio));
                     intent.putExtra("nroProductos", String.valueOf(numeroProductos));
                     intent.putExtra("idVendedor" , idVendedor);
-                    intent.putExtra("origen" , "LookAtProduct");
+                    intent.putExtra("nombreVendedor" , nombreVendedor);
+                    intent.putExtra("idCompra" , idCompra);
+                    intent.putExtra("nombreComprador" , nombreComprador);
+                    intent.putExtra("tokenId" , token);
+                    intent.putExtra("origen" , "lookAtProduct");
                     activity.startActivity(intent);
                 }
             }
@@ -443,14 +450,11 @@ public class listShoppingCartAdapter extends RecyclerView.Adapter<listShoppingCa
             }
         });
 
-        /*Intent intent = new Intent(activity , shoppingCart.class);
-        activity.startActivity(intent);
-         */
     }
 
     public void enviarEmailVendedor(String nombreComprador, String emailVendedor, String nombreVendedor, String nombreProducto,
                                       int numeroProductos){
-
+        primeraVez=false;
         //String correoEnvia = correo.getText().toString();
         String correoEnvia = "ceo@salvavidas.app";
         //String contraseñaCorreoEnvia = contraseña.getText().toString();
@@ -460,7 +464,7 @@ public class listShoppingCartAdapter extends RecyclerView.Adapter<listShoppingCa
                 "nuestro usuario <b>" + nombreComprador + "</b> desea comprar lo siguiente: <br><br>" +
                 "<u>Producto:</u> <b>" + nombreProducto + "</b><br>" +
                 "<u>Cantidad:</u> <b>" + numeroProductos + "</b><br><br>" +
-                "Ingresa a Salvavidas App para aceptar el pedido.<br></p>Cordialmente,<br> <b>Equipo de Salvavidas App</b><br>" +
+                "Ingresa a Salvavidas App para hacerle seguimiento al pedido.<br></p>Cordialmente,<br> <b>Equipo de Salvavidas App</b><br>" +
                 "<p style='text-align: justify'><font size=1><i>Este mensaje y sus archivos adjuntos van dirigidos exclusivamente a su destinatario pudiendo contener información confidencial " +
                 "sometida a secreto profesional. No está permitida su reproducción o distribución sin la autorización expresa de SALVAVIDAS APP, Si usted no es el destinatario " +
                 "final por favor elimínelo e infórmenos por esta vía. Según la Ley Estatutaria 1581 de 2.012 de Protección de Datos y sus normas reglamentarias, " +
@@ -505,14 +509,17 @@ public class listShoppingCartAdapter extends RecyclerView.Adapter<listShoppingCa
         }
     }
 
-    public void enviar_notificacion_push2(String token){
+    public void enviar_notificacion_push2(String token, String nombreComprador, String nombreVendedor, String nombreProducto,
+                                          int numeroProductos){
+        primeraVez=false;
         RequestQueue myrequest = Volley.newRequestQueue(getApplicationContext());
         JSONObject json = new JSONObject();
         try{
             json.put("to", token);
             JSONObject notification = new JSONObject();
             notification.put("title","Solicitud de compra");
-            notification.put("body", "Hola, alguien desea comprar uno de tus productos");
+            notification.put("body", "Hola " + nombreVendedor +", nuestro usuario: " + nombreComprador +
+                    " desea comprar " + numeroProductos + " " + nombreProducto);
             notification.put("priority", "high");
             notification.put("sound","default");
 

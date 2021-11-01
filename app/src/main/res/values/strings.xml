@@ -133,6 +133,8 @@
 
     <string name="pagar">Pagar</string>
 
+    <string name="cancelarPedido">Cancelar pedido</string>
+
     <string name="tituloVentasEfectuadas">Ventas efectuadas</string>
     <string name="subtituloVentasEfectuadas">No hay ventas efectuadas actualmente</string>
 

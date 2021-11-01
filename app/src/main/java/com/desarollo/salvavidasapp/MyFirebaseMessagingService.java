@@ -5,6 +5,8 @@ import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.media.RingtoneManager;
+import android.net.Uri;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -29,14 +31,14 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
     FirebaseAuth mAuth;
     FirebaseUser currentUser;
     FirebaseDatabase database;
-    DatabaseReference myRefUsuarios;
+    DatabaseReference myRefVendedores;
     @Override
     public void onNewToken(@NonNull String s) {
         super.onNewToken(s);
         mAuth = FirebaseAuth.getInstance();
         currentUser = mAuth.getCurrentUser();
         database = FirebaseDatabase.getInstance();
-        myRefUsuarios = database.getReference("usuarios");
+        myRefVendedores = database.getReference("vendedores");
 
         Log.e("token", "mi token es: " + s);
         guardarToken(s);
@@ -45,7 +47,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
     private void guardarToken(String s) {
         if (currentUser != null){
-        myRefUsuarios.child(currentUser.getUid()).child("tokenId").setValue(s)
+            myRefVendedores.child(currentUser.getUid()).child("tokenId").setValue(s)
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void aVoid) {
@@ -102,13 +104,15 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
             nc.setShowBadge(true);
             nm.createNotificationChannel(nc);
         }
+        Uri defaultSoundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
         builder.setAutoCancel(true)
                 .setWhen(System.currentTimeMillis())
                 .setContentTitle(titulo)
                 .setSmallIcon(R.drawable.logoprincipal)
                 .setContentIntent(clickNotificacion())
                 .setContentText(detalle)
-                .setContentInfo("nuevo");
+                .setContentInfo("nuevo")
+                .setSound(defaultSoundUri);
         Random random = new Random();
         int idNotify = random.nextInt(8000);
 

@@ -15,8 +15,15 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.AuthFailureError;
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.Volley;
 import com.desarollo.salvavidasapp.Models.Productos;
 import com.desarollo.salvavidasapp.R;
+import com.desarollo.salvavidasapp.ui.purchases.cancelledPurchases;
+import com.desarollo.salvavidasapp.ui.purchases.purchasesInProcess;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
@@ -27,10 +34,13 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.UUID;
+import java.util.Map;
 
 public class buyProduct extends AppCompatActivity {
 
@@ -42,14 +52,14 @@ public class buyProduct extends AppCompatActivity {
     ArrayList<Productos> listaDeDatos = new ArrayList<>();
     String idProducto ="";
     String idVendedor ="";
-    String nombreProducto, origen,idCompra;
+    String nombreProducto, origen,idCompra, tokenId, nombreVendedor, nombreComprador;
     Double precioProducto = 0.0, precioDomicilio = 0.0;
     int nroProductos;
     Button btn_pago;
     Double valorComision;
     TextView tvPrecioProducto, tvPrecioDomicilio, tvValorComision, tvTotal, tvNombreProducto,
                 tvCantidadProducto, tvEstadoProducto, tvSubTotalProducto, tvSubTotalProducto1,
-                tvSignoMonedaSubTotal;
+                tvSignoMonedaSubTotal,tvCancelarPedido;
     LinearLayout linearLayoutBP, linearLayoutBP1, linearLayoutBP2;
 
     @Override
@@ -74,6 +84,7 @@ public class buyProduct extends AppCompatActivity {
         tvSubTotalProducto = findViewById(R.id.tv_subTotal);
         tvSubTotalProducto1 = findViewById(R.id.tv_subTotal1);
         tvSignoMonedaSubTotal = findViewById(R.id.tv_signo_moneda1);
+        tvCancelarPedido = findViewById(R.id.tv_cancelar_Pedido);
         linearLayoutBP = findViewById(R.id.LinearLayoutBuyProducto);
         linearLayoutBP1 = findViewById(R.id.LinearLayout1);
         linearLayoutBP2 = findViewById(R.id.LinearLayout2);
@@ -98,6 +109,9 @@ public class buyProduct extends AppCompatActivity {
             tvPrecioDomicilio.setText(objDF.format(precioDomicilio));
             tvValorComision.setText(objDF.format(valorComision));
             idCompra = extras.getString("idCompra");
+            tokenId = extras.getString("tokenId");
+            nombreVendedor = extras.getString("nombreVendedor");
+            nombreComprador = extras.getString("nombreComprador");
 
             tvTotal.setText(objDF.format(precioProducto*nroProductos + precioDomicilio + valorComision));
 
@@ -125,6 +139,86 @@ public class buyProduct extends AppCompatActivity {
                 registrarCompraAlComprador(vt_,idCompra, idProducto,idVendedor,Reference);
             }
         });
+
+        tvCancelarPedido.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                cancelarSolicitudVendedor();
+            }
+        });
+    }
+
+    private void cancelarCompraAlComprador() {
+        myRef.child(currentUser.getUid()).child("mis_compras").child(idCompra).child(idProducto).child("estado").setValue("Cancelado por el comprador")
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        enviar_notificacion_push(tokenId, nombreComprador, nombreVendedor);
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Toast.makeText(buyProduct.this, "Error agregando la compra en la base de datos. Intenta de nuevo mas tarde", Toast.LENGTH_SHORT).show();
+                    }
+                });
+    }
+
+    private void cancelarSolicitudVendedor() {
+        myRefVendedores.child(idVendedor).child("productos_en_tramite").child(currentUser.getUid()).child(idCompra).child(idProducto).child("estado").setValue("Cancelado por el comprador")
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        cancelarCompraAlComprador();
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Toast.makeText(buyProduct.this, "Error cancelando la compra en la base de datos. Intenta de nuevo mas tarde", Toast.LENGTH_SHORT).show();
+                    }
+                });
+
+    }
+
+    public void enviar_notificacion_push(String token, String nombreComprador, String nombreVendedor){
+        RequestQueue myrequest = Volley.newRequestQueue(getApplicationContext());
+        JSONObject json = new JSONObject();
+        try{
+            json.put("to", token);
+            JSONObject notification = new JSONObject();
+            notification.put("title","Cancelación de compra");
+            notification.put("body", "Hola " + nombreVendedor +", nuestro usuario: " + nombreComprador +
+                    " canceló el pedido de " + nombreProducto);
+            notification.put("priority", "high");
+            notification.put("sound","default");
+
+            json.put("notification",notification);
+
+            String URL = "https://fcm.googleapis.com/fcm/send";
+
+            JsonObjectRequest request = new JsonObjectRequest(Request.Method.POST,URL,json, null, null){
+                @Override
+                public Map<String, String> getHeaders() throws AuthFailureError {
+                    Map<String, String> header = new HashMap<>();
+
+                    header.put("Authorization","key=AAAAYqhQGoo:APA91bH6pY-0i7a7NM76Gj4QcUQjMqkEoFbt2Ne4xJA6Zj2mUqSIUNkauH9bBuOaVIq49YJo8GM3UdglAQqGvvxp3V2zBqBXiYk1oQRLkEK7A_iUCAubPIZNJYdJGYAaGhxW7RbMNe1L");
+                    header.put("Content-Type","application/json");
+
+                    return header;
+                }
+            };
+
+            myrequest.add(request);
+
+            Intent intent = new Intent(buyProduct.this , cancelledPurchases.class);
+            startActivity(intent);
+            finish();
+
+        }catch (JSONException e){
+            e.printStackTrace();
+        }
+
     }
 
     private void registrarsolicitudVendedor(String vt_, String idCompra, String idProducto,String idVendedor,String Reference){
@@ -152,7 +246,9 @@ public class buyProduct extends AppCompatActivity {
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void aVoid) {
-
+                        Intent intent = new Intent(buyProduct.this , purchasesInProcess.class);
+                        startActivity(intent);
+                        finish();
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {
@@ -208,7 +304,7 @@ public class buyProduct extends AppCompatActivity {
                     listaDeDatos.clear();
                     for(DataSnapshot objsnapshot : snapshot.getChildren()){
                         String idProd = objsnapshot.child("idProducto").getValue().toString();
-                        String cantidad = objsnapshot.child("cantidadProducto").getValue().toString();
+                        String cantidad = objsnapshot.child("cantidadProductosSolicitados").getValue().toString();
 
                         consultarDetalleProducto(idProd,cantidad);
                     }
