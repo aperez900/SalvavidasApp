@@ -7,11 +7,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.location.LocationManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.StrictMode;
@@ -28,9 +26,6 @@ import com.bumptech.glide.Glide;
 import com.desarollo.salvavidasapp.Models.ListDirecciones;
 import com.desarollo.salvavidasapp.Models.Vendedores;
 import com.desarollo.salvavidasapp.R;
-import com.desarollo.salvavidasapp.ui.direction.Maps;
-import com.desarollo.salvavidasapp.ui.sales.addProduct;
-import com.desarollo.salvavidasapp.ui.sales.lookAtProduct;
 import com.google.android.gms.tasks.Continuation;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -44,7 +39,6 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-import com.google.firebase.messaging.FirebaseMessaging;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
@@ -71,8 +65,6 @@ import javax.mail.internet.MimeMessage;
 
 import id.zelory.compressor.Compressor;
 
-import static com.facebook.FacebookSdk.getApplicationContext;
-
 public class seller2 extends AppCompatActivity {
 
     FirebaseAuth mAuth;
@@ -94,6 +86,7 @@ public class seller2 extends AppCompatActivity {
     private String contrasena="";
     ImageView foto_tienda=null;
     String urlFoto="";
+    boolean esVendedor=false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -173,9 +166,10 @@ public class seller2 extends AppCompatActivity {
                 if(validarCamposVacios( nombres, apellidos, identificacion, celular, nombreEstablecimiento, nit, sp_actividad_econimica,
                         urlFoto,direccionVendedor)) {
                     registrar(nombres, apellidos, identificacion, celular, nombreEstablecimiento, nit, sp_actividad_econimica, estado,direccionVendedor);
-
-                    enviar_email(correo,contrasena, nombres, celular);
-                    enviar_email_usuario(correo,contrasena, nombres, celular);
+                    if(!esVendedor){
+                        enviar_email(correo,contrasena, nombres, celular);
+                        enviar_email_usuario(correo,contrasena, nombres, celular);
+                    }
                 }
             }
         });
@@ -295,7 +289,7 @@ public class seller2 extends AppCompatActivity {
                             if (snapshot.child("nombre").exists()) {
                                 String nombre = Objects.requireNonNull(snapshot.child("nombre").getValue()).toString();
                                 tv_nombres.setText(nombre);
-                                btn_reg.setText("Reenviar solicitud");
+                                btn_reg.setText("Actualizar");
                             }
                             if (snapshot.child("apellido").exists()) {
                                 String apellido = Objects.requireNonNull(snapshot.child("apellido").getValue()).toString();
@@ -327,6 +321,9 @@ public class seller2 extends AppCompatActivity {
                             if (snapshot.child("estado").exists()) {
                                 String estado = Objects.requireNonNull(snapshot.child("estado").getValue()).toString();
                                 tv_estado.setText(estado);
+                                if (estado.equals("Aprobado") || estado.equals("Aceptado")){
+                                    esVendedor=true;
+                                }
                             }
 
                             if (snapshot.child("direccion").exists()) {
@@ -383,39 +380,6 @@ public class seller2 extends AppCompatActivity {
                     }
                 });
     }
-
-
-
-    private void registrar_token() {
-
-        FirebaseMessaging.getInstance().getToken()
-                .addOnCompleteListener(new OnCompleteListener<String>() {
-                    String token = "";
-                    @Override
-                    public void onComplete(@NonNull Task<String> task) {
-                        if (!task.isSuccessful()) {
-                            Toast.makeText(getApplicationContext(),"Error obteniendo token" +task.getException(), Toast.LENGTH_SHORT).show();
-                            return;
-                        }
-                        // Get new FCM registration token
-                        token = task.getResult();
-                        //guarda los datos del usuario
-                        myRefVendedores.child(currentUser.getUid()).child("tokenId").setValue(token)
-                                .addOnSuccessListener(new OnSuccessListener<Void>() {
-                                    @Override
-                                    public void onSuccess(Void aVoid) {
-                                    }
-                                })
-                                .addOnFailureListener(new OnFailureListener() {
-                                    @Override
-                                    public void onFailure(@NonNull Exception e) {
-                                    }
-                                });
-                    }
-                });
-    }
-
-
 
     private void registrar(TextView nombres, TextView apellidos, TextView identificacion, TextView celular, EditText nombre_establecimiento, EditText nit, Spinner sp_actividad_econimica,
                            TextView estado, EditText direccionVendedor) {
@@ -570,7 +534,9 @@ public class seller2 extends AppCompatActivity {
                     public void onFailure(@NonNull Exception e) {
                     }
                 });
-        registrar_token();
+
+        Toast.makeText(getApplicationContext(), "Perfil guardado correctamente", Toast.LENGTH_LONG).show();
+        //registrar_token();
     }
 
     public void enviar_email( String correo, String contrasena, TextView nombres, TextView celular){
@@ -720,6 +686,10 @@ public class seller2 extends AppCompatActivity {
         }
         if(direccion.isEmpty()){
             direccionVendedor.setError("Debe diligenciar la direccion");
+            campoLleno=false;
+        }
+        if(direccion.contains("Dirección")){
+            direccionVendedor.setError("Debe registrar una dirección válida");
             campoLleno=false;
         }
         if(nit.isEmpty()){

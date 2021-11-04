@@ -126,7 +126,7 @@ public class buyProduct extends AppCompatActivity {
             tvSubTotalProducto1.setPaintFlags(tvSubTotalProducto1.getPaintFlags());
             tvSignoMonedaSubTotal.setPaintFlags(tvSignoMonedaSubTotal.getPaintFlags());
         }
-        consultarEstadoProductoEnTramite(idProducto);
+        consultarEstadoProductoEnTramite(idCompra, idProducto);
 
         btn_pago.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -143,7 +143,10 @@ public class buyProduct extends AppCompatActivity {
         tvCancelarPedido.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                cancelarSolicitudVendedor();
+
+                cancelarCompraAlComprador();
+
+
             }
         });
     }
@@ -153,7 +156,7 @@ public class buyProduct extends AppCompatActivity {
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void aVoid) {
-                        enviar_notificacion_push(tokenId, nombreComprador, nombreVendedor);
+                        cancelarSolicitudVendedor();
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {
@@ -169,7 +172,10 @@ public class buyProduct extends AppCompatActivity {
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void aVoid) {
-                        cancelarCompraAlComprador();
+                        enviar_notificacion_push(tokenId, nombreComprador, nombreVendedor);
+                        Intent intent = new Intent(buyProduct.this , cancelledPurchases.class);
+                        startActivity(intent);
+                        finish();
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {
@@ -210,10 +216,6 @@ public class buyProduct extends AppCompatActivity {
             };
 
             myrequest.add(request);
-
-            Intent intent = new Intent(buyProduct.this , cancelledPurchases.class);
-            startActivity(intent);
-            finish();
 
         }catch (JSONException e){
             e.printStackTrace();
@@ -259,9 +261,9 @@ public class buyProduct extends AppCompatActivity {
                 });
     }
 
-    public void consultarEstadoProductoEnTramite(String idProducto) {
+    public void consultarEstadoProductoEnTramite(String idCompra, String idProducto) {
 
-        myRefVendedores.child(idVendedor).child("productos_en_tramite").child(currentUser.getUid()).child(idProducto).addValueEventListener(new ValueEventListener() {
+        myRefVendedores.child(idVendedor).child("productos_en_tramite").child(currentUser.getUid()).child(idCompra).child(idProducto).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 if (snapshot.exists()) {

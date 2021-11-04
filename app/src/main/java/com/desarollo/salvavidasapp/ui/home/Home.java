@@ -20,8 +20,10 @@ import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.ResultCallback;
 import com.google.android.gms.common.api.Status;
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 
@@ -41,6 +43,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.messaging.FirebaseMessaging;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -115,7 +118,56 @@ public class Home extends AppCompatActivity {
 
         actualizarDatosPerfil();
 
+        actualizarTokenNotificacionesPush();
+
     } // fin OnCreate
+
+    private void actualizarTokenNotificacionesPush() {
+        myRefVendedores.child(currentUser.getUid()).child("tokenId").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if(snapshot.exists()){
+                    registrarToken();
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
+
+    }
+
+    private void registrarToken(){
+        FirebaseMessaging.getInstance().getToken()
+                .addOnCompleteListener(new OnCompleteListener<String>() {
+                    String token = "";
+                    @Override
+                    public void onComplete(@NonNull Task<String> task) {
+                        if (!task.isSuccessful()) {
+                            Toast.makeText(getApplicationContext(),"Error obteniendo token " +task.getException(), Toast.LENGTH_SHORT).show();
+                            return;
+                        }
+                        // Get new FCM registration token
+                        token = task.getResult();
+
+                        //guarda los datos del usuario
+                        myRefVendedores.child(currentUser.getUid()).child("tokenId").setValue(token)
+                                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                    @Override
+                                    public void onSuccess(Void aVoid) {
+                                    }
+                                })
+                                .addOnFailureListener(new OnFailureListener() {
+                                    @Override
+                                    public void onFailure(@NonNull Exception e) {
+                                    }
+                                });
+                    }
+                });
+    }
 
     private void onConnectionFailed(ConnectionResult connectionResult) {
     }
@@ -154,7 +206,6 @@ public class Home extends AppCompatActivity {
                 || super.onSupportNavigateUp();
     }
 
-    //botón de cerrar sesión y carrito compras en el menú
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         if (item.getItemId() == R.id.action_settings) {
@@ -375,7 +426,7 @@ public class Home extends AppCompatActivity {
                         for(DataSnapshot objsnapshot2 : objsnapshot.getChildren()) { //recorre las compras
                             for(DataSnapshot objsnapshot3 : objsnapshot2.getChildren()) { //recorre los productos
                             String estado = Objects.requireNonNull(objsnapshot3.child("estado").getValue()).toString();
-                                if (estado.equals("Solicitado")){
+                                if (estado.equals("Solicitado") || estado.equals("Procesando pago")){
                                     nroProductosSolicitados = nroProductosSolicitados + 1;
                                 }
                             }

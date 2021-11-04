@@ -67,11 +67,11 @@ public class lookAtProduct extends AppCompatActivity {
     Double total, precioDomicilio;
     HashMap<String, String> producto = new HashMap<String, String>();
     Session session;
-    String nombreComprador, nombreProducto;
+    String nombreComprador, nombreProducto, token, emailVendedor, nombreVendedor;
     ProgressDialog cargando;
     Calendar c;
     Date getCurrentDateTime;
-    Boolean primeraVez=true;
+    Boolean primeraVez=true;;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -178,10 +178,11 @@ public class lookAtProduct extends AppCompatActivity {
                     cargando.setTitle("Cargando");
                     cargando.setMessage("Un momento por favor...");
                     cargando.show();
+
                     String idCompra = UUID.randomUUID().toString();
-                    registrarProductoSolicitadoAlVendedor(idCompra);
-                    registrarProductoSolicitadoAlComprador(idCompra);
                     consultarDatosVendedor(idVendedor,idCompra);
+
+
                 }else{
                     Toast.makeText(lookAtProduct.this, "Solo hay " + cantidadProductosDisponibles
                             + " producto(s) disponible(s)", Toast.LENGTH_SHORT).show();
@@ -204,8 +205,7 @@ public class lookAtProduct extends AppCompatActivity {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 if(snapshot.exists()){
-                    String token = snapshot.child("tokenId").getValue().toString();
-                    enviar_notificacion_push2(token, nombreComprador, nombreVendedor, idCompra);
+                    token = snapshot.child("tokenId").getValue().toString();
                 }
             }
             @Override
@@ -213,6 +213,7 @@ public class lookAtProduct extends AppCompatActivity {
                 Toast.makeText(lookAtProduct.this, "Error cargando los datos del vendedor", Toast.LENGTH_SHORT).show();
             }
         });
+        registrarProductoSolicitadoAlVendedor(idCompra);
     }
 
 
@@ -270,19 +271,12 @@ public class lookAtProduct extends AppCompatActivity {
     }
 
     public void consultarDatosVendedor(String idVendedor,String idCompra) {
-        primeraVez = true;
         myRefUsuarios.child(idVendedor).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 if(snapshot.exists()){
-                    String emailVendedor = snapshot.child("correo").getValue().toString();
-                    String nombreVendedor = snapshot.child("nombre").getValue().toString();
-                    //String token = snapshot.child("tokenId").getValue().toString();
-                    if(primeraVez){
-                        enviar_email_vendedor(nombreComprador, emailVendedor, nombreVendedor);
-                        consultarToken(nombreVendedor, idCompra);
-
-                    }
+                    emailVendedor = snapshot.child("correo").getValue().toString();
+                    nombreVendedor = snapshot.child("nombre").getValue().toString();
                 }
             }
             @Override
@@ -290,6 +284,7 @@ public class lookAtProduct extends AppCompatActivity {
                 Toast.makeText(lookAtProduct.this, "Error cargando los datos del vendedor", Toast.LENGTH_SHORT).show();
             }
         });
+        consultarToken(nombreVendedor, idCompra);
     }
 
     public void enviar_email_vendedor(String nombreComprador, String emailVendedor, String nombreVendedor){
@@ -380,24 +375,6 @@ public class lookAtProduct extends AppCompatActivity {
 
             myrequest.add(request);
 
-            cargando.dismiss();
-
-            Intent intent = new Intent(lookAtProduct.this , buyProduct.class);
-            intent.putExtra("idProducto" , idProducto);
-            intent.putExtra("nombreProducto", nombreProducto);
-            intent.putExtra("totalProducto", String.valueOf(total));
-            intent.putExtra("precioDomicilio", String.valueOf(precioDomicilio));
-            intent.putExtra("nroProductos", String.valueOf(numeroProductos));
-            intent.putExtra("idVendedor" , idVendedor);
-            intent.putExtra("nombreVendedor" , nombreVendedor);
-            intent.putExtra("idCompra" , idCompra);
-            intent.putExtra("nombreComprador" , nombreComprador);
-            intent.putExtra("tokenId" , token);
-            intent.putExtra("origen" , "LookAtProduct");
-
-            startActivity(intent);
-            finish();
-
         }catch (JSONException e){
             e.printStackTrace();
         }
@@ -463,7 +440,7 @@ public class lookAtProduct extends AppCompatActivity {
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void aVoid) {
-
+                        registrarProductoSolicitadoAlComprador(idCompra);
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {
@@ -523,7 +500,27 @@ public class lookAtProduct extends AppCompatActivity {
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void aVoid) {
+                        if(primeraVez){
+                            enviar_email_vendedor(nombreComprador, emailVendedor, nombreVendedor);
+                            enviar_notificacion_push2(token, nombreComprador, nombreVendedor, idCompra);
+                            cargando.dismiss();
 
+                            Intent intent = new Intent(lookAtProduct.this , buyProduct.class);
+                            intent.putExtra("idProducto" , idProducto);
+                            intent.putExtra("nombreProducto", nombreProducto);
+                            intent.putExtra("totalProducto", String.valueOf(total));
+                            intent.putExtra("precioDomicilio", String.valueOf(precioDomicilio));
+                            intent.putExtra("nroProductos", String.valueOf(numeroProductos));
+                            intent.putExtra("idVendedor" , idVendedor);
+                            intent.putExtra("nombreVendedor" , nombreVendedor);
+                            intent.putExtra("idCompra" , idCompra);
+                            intent.putExtra("nombreComprador" , nombreComprador);
+                            intent.putExtra("tokenId" , token);
+                            intent.putExtra("origen" , "LookAtProduct");
+
+                            startActivity(intent);
+                            finish();
+                        }
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {
