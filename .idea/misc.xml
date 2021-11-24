@@ -3,7 +3,10 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
-        <entry key="..\:/Users/ecardona/Documents/AndroidStudioProjects/SalvavidasApp/app/src/main/res/layout/activity_buy_product.xml" value="0.4" />
+        <entry key="..\:/Users/ecardona/Documents/AndroidStudioProjects/SalvavidasApp/app/src/main/res/layout/activity_buy_product.xml" value="0.536" />
+        <entry key="..\:/Users/ecardona/Documents/AndroidStudioProjects/SalvavidasApp/app/src/main/res/layout/activity_home.xml" value="0.1758879781420765" />
+        <entry key="..\:/Users/ecardona/Documents/AndroidStudioProjects/SalvavidasApp/app/src/main/res/layout/activity_main.xml" value="0.264" />
+        <entry key="..\:/Users/ecardona/Documents/AndroidStudioProjects/SalvavidasApp/app/src/main/res/layout/activity_splash.xml" value="0.4" />
       </map>
     </option>
   </component>
