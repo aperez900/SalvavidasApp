@@ -149,7 +149,7 @@ public class addProduct extends AppCompatActivity {
             ArrayAdapter<String> adapterSubCategoriaProductos = new ArrayAdapter<String>(this, R.layout.spinner_item_modified, listSubCategoriaProductos);
             subCategoriaProducto.setAdapter(adapterSubCategoriaProductos);
 
-            String[] ArrayDomicilio = new String[]{SdomicilioProducto, "✚ ¿Deseas ofrecer domicilio?", "Sí","No"};
+            String[] ArrayDomicilio = new String[]{SdomicilioProducto, "✚ ¿Tienes domicilio?", "Sí","No"};
             ArrayList<String> listDomicilioProductos = new ArrayList(Arrays.asList(ArrayDomicilio));
             ArrayAdapter<String> adapterDomicilioProductos = new ArrayAdapter<String>(this, R.layout.spinner_item_modified, listDomicilioProductos);
             domicilioProducto.setAdapter(adapterDomicilioProductos);
@@ -158,7 +158,7 @@ public class addProduct extends AppCompatActivity {
             consultarCategoriaProducto();
             consultarSubCategoriaProducto();
 
-            String[] ArrayDomicilio = new String[]{"✚ ¿Deseas ofrecer domicilio?", "Sí", "No"};
+            String[] ArrayDomicilio = new String[]{"✚ ¿Tienes domicilio?", "Sí", "No"};
             ArrayList<String> listDomicilioProductos = new ArrayList(Arrays.asList(ArrayDomicilio));
             ArrayAdapter<String> adapterDomicilioProductos = new ArrayAdapter<String>(this, R.layout.spinner_item_modified, listDomicilioProductos);
             domicilioProducto.setAdapter(adapterDomicilioProductos);
@@ -416,7 +416,7 @@ public class addProduct extends AppCompatActivity {
         }else if(Double.parseDouble(descuentoProducto)>Double.parseDouble(precioProducto)){
             et_descuento_producto.setError("El descuento debe ser menor al precio del producto");
             campoLleno = false;
-        }if(domicilioProducto.equals("✚ ¿Deseas ofrecer domicilio?")){
+        }if(domicilioProducto.equals("✚ ¿Tienes domicilio?")){
             Toast.makeText(this, "Seleccione si desea ofrecer domicilio", Toast.LENGTH_SHORT).show();
             campoLleno=false;
         }if(fechaInicio.equals("dd/mm/aaaa")){

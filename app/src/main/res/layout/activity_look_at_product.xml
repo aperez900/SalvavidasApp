@@ -84,7 +84,7 @@
                     android:id="@+id/tv_nombre_producto"
                     android:layout_width="210dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="10dp"
+                    android:layout_marginStart="20dp"
                     android:fontFamily="@font/poppins_semibold"
                     android:text="@string/nombreProducto2"
                     android:textSize="22sp"
@@ -132,8 +132,8 @@
                     android:id="@+id/tv_descripcion_producto"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_marginStart="10dp"
-                    android:layout_marginEnd="10dp"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginEnd="20dp"
                     android:layout_marginTop="10dp"
                     android:fontFamily="@font/poppins_semibold"
                     android:text="@string/descripcionProducto2"
@@ -149,7 +149,7 @@
                         android:layout_width="80dp"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="15dp"
-                        android:layout_marginStart="10dp"
+                        android:layout_marginStart="30dp"
                         android:fontFamily="@font/poppins_light"
                         android:text="@string/inicio"
                         android:textSize="20sp" />
@@ -175,7 +175,7 @@
                         android:id="@+id/tv_fecha_fin_producto1"
                         android:layout_width="80dp"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="10dp"
+                        android:layout_marginStart="30dp"
                         android:fontFamily="@font/poppins_light"
                         android:padding="0dp"
                         android:text="@string/fin"
@@ -203,7 +203,7 @@
                         android:id="@+id/tv_precio_producto1"
                         android:layout_width="120dp"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="10dp"
+                        android:layout_marginStart="30dp"
                         android:layout_marginTop="5dp"
                         android:fontFamily="@font/poppins_semibold"
                         android:text="@string/precioProducto"
@@ -240,7 +240,7 @@
                         android:id="@+id/tv_descuento_producto1"
                         android:layout_width="120dp"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="10dp"
+                        android:layout_marginStart="30dp"
                         android:fontFamily="@font/poppins_semibold"
                         android:text="@string/descuentoProducto"
                         android:textSize="20sp" />
@@ -274,7 +274,7 @@
                         android:id="@+id/tv_total_producto1"
                         android:layout_width="120dp"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="10dp"
+                        android:layout_marginStart="30dp"
                         android:layout_marginTop="0dp"
                         android:fontFamily="@font/poppins_semibold"
                         android:text="@string/totalProducto"
@@ -311,34 +311,32 @@
             </LinearLayout>
         </ScrollView>
 
+    <Button
+        android:id="@+id/btn_comprar_producto"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_gravity="center"
+        android:layout_marginStart="30dp"
+        android:layout_marginEnd="30dp"
+        android:layout_marginBottom="40dp"
+        android:drawableLeft="@drawable/icono_money"
+        android:drawableTint="@color/white"
+        android:fontFamily="@font/poppins_bold"
+        android:text="@string/comprar"
+        android:textStyle="bold" />
 
-
-        <Button
-            android:id="@+id/btn_comprar_producto"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="10dp"
-            android:layout_marginEnd="10dp"
-            android:drawableLeft="@drawable/icono_money"
-            android:drawableTint="@color/white"
-            android:layout_alignParentBottom="true"
-            android:layout_marginBottom="40dp"
-            android:layout_gravity="center"
-            android:fontFamily="@font/poppins_bold"
-            android:textStyle="bold"
-            android:text="@string/comprar" />
-
-        <Button
-            android:id="@+id/bt_añadir_carrito"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="10dp"
-            android:layout_marginEnd="10dp"
-            android:layout_alignTop="@id/btn_comprar_producto"
-            android:layout_gravity="center"
-            android:drawableLeft="@drawable/shopping_cart"
-            android:text="@string/añadirCarrito"
-            android:textSize="14sp"
-            tools:ignore="RtlHardcoded,TextContrastCheck" />
+    <Button
+        android:id="@+id/bt_añadir_carrito"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@id/btn_comprar_producto"
+        android:layout_gravity="center"
+        android:layout_marginStart="30dp"
+        android:layout_marginEnd="30dp"
+        android:drawableLeft="@drawable/shopping_cart"
+        android:text="@string/añadirCarrito"
+        android:textSize="14sp"
+        tools:ignore="RtlHardcoded,TextContrastCheck" />
 
 </RelativeLayout>

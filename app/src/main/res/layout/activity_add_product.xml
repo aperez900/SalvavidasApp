@@ -1,14 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".ui.sales.addProduct">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
 
         <ScrollView
             android:layout_width="match_parent"
@@ -35,9 +32,9 @@
                     android:id="@+id/et_nombre_producto"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="50dp"
+                    android:layout_marginStart="10dp"
                     android:layout_marginTop="10dp"
-                    android:layout_marginEnd="50dp"
+                    android:layout_marginEnd="10dp"
                     android:fontFamily="@font/poppins_light"
                     android:hint="@string/nombreProducto"
                     android:importantForAutofill="no"
@@ -50,9 +47,9 @@
                     android:id="@+id/et_descripcion_producto"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="50dp"
+                    android:layout_marginStart="10dp"
                     android:layout_marginTop="10dp"
-                    android:layout_marginEnd="50dp"
+                    android:layout_marginEnd="10dp"
                     android:fontFamily="@font/poppins_light"
                     android:hint="@string/descripcionProducto"
                     android:importantForAutofill="no"
@@ -62,11 +59,11 @@
 
                 <Spinner
                     android:id="@+id/sp_categoria_producto"
-                    android:layout_width="320sp"
+                    android:layout_width="match_parent"
                     android:layout_height="40dp"
-                    android:layout_gravity="center"
-                    android:layout_marginStart="5dp"
+                    android:layout_marginStart="10dp"
                     android:layout_marginTop="10dp"
+                    android:layout_marginEnd="10dp"
                     android:background="#FFFFFF"
                     android:fontFamily="@font/poppins_light"
                     android:gravity="start"
@@ -77,10 +74,10 @@
 
                 <Spinner
                     android:id="@+id/sp_sub_categoria_producto"
-                    android:layout_width="320sp"
-                    android:layout_height="40sp"
-                    android:layout_gravity="center"
-                    android:layout_marginStart="5dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginEnd="10dp"
                     android:layout_marginTop="10dp"
                     android:background="#FFFFFF"
                     android:fontFamily="@font/poppins_light"
@@ -90,13 +87,17 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/sp_categoria_producto" />
 
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
                 <EditText
                     android:id="@+id/et_cantidad"
-                    android:layout_width="match_parent"
+                    android:layout_width="105dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="50dp"
+                    android:layout_marginStart="10dp"
                     android:layout_marginTop="10dp"
-                    android:layout_marginEnd="50dp"
                     android:fontFamily="@font/poppins_light"
                     android:hint="@string/cantidad2"
                     android:textSize="18sp"
@@ -106,11 +107,9 @@
 
                 <EditText
                     android:id="@+id/et_precio"
-                    android:layout_width="match_parent"
+                    android:layout_width="105dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="50dp"
                     android:layout_marginTop="10dp"
-                    android:layout_marginEnd="50dp"
                     android:fontFamily="@font/poppins_light"
                     android:hint="@string/precioProducto"
                     android:textSize="18sp"
@@ -120,11 +119,10 @@
 
                 <EditText
                     android:id="@+id/et_descuento"
-                    android:layout_width="match_parent"
+                    android:layout_width="105dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="50dp"
                     android:layout_marginTop="10dp"
-                    android:layout_marginEnd="50dp"
+                    android:layout_marginEnd="10dp"
                     android:fontFamily="@font/poppins_light"
                     android:hint="@string/descuentoProducto"
                     android:textSize="18sp"
@@ -132,25 +130,26 @@
                     app:layout_constraintTop_toBottomOf="@id/et_precio"
                     android:inputType="number" />
 
+            </LinearLayout>
+
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal">
+                    android:orientation="horizontal"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginEnd="10dp">
 
                 <EditText
                     android:id="@+id/et_direccion"
                     android:layout_width="250dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="50dp"
                     android:layout_marginTop="10dp"
-                    android:layout_marginEnd="10dp"
                     android:fontFamily="@font/poppins_light"
                     android:hint="@string/direccionVenta"
                     android:textSize="18sp"
                     android:importantForAutofill="no"
                     app:layout_constraintTop_toBottomOf="@id/et_descuento"
                     android:inputType="text" />
-
 
                     <Button
                         android:id="@+id/bt_direccion"
@@ -159,14 +158,20 @@
                         android:layout_marginTop="10dp"
                         android:fontFamily="@font/poppins_light"
                         app:icon="@drawable/icono_near_me" />
+
             </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
 
                 <Spinner
                     android:id="@+id/sp_domicilio"
-                    android:layout_width="320sp"
-                    android:layout_height="40dp"
+                    android:layout_width="200dp"
+                    android:layout_height="44dp"
                     android:layout_gravity="center"
-                    android:layout_marginStart="5dp"
+                    android:layout_marginStart="10dp"
                     android:layout_marginTop="10dp"
                     android:background="#FFFFFF"
                     android:fontFamily="@font/poppins_light"
@@ -179,9 +184,8 @@
                     android:id="@+id/et_precio_domicilio"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="50dp"
                     android:layout_marginTop="10dp"
-                    android:layout_marginEnd="50dp"
+                    android:layout_marginEnd="10dp"
                     android:fontFamily="@font/poppins_light"
                     android:hint="@string/precioDomicilio"
                     android:importantForAutofill="no"
@@ -190,35 +194,38 @@
                     app:layout_constraintTop_toBottomOf="@id/et_descuento"
                     tools:visibility="invisible" />
 
+            </LinearLayout>
+
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal">
+                    android:orientation="horizontal"
+                    android:layout_marginTop="10dp">
 
                     <TextView
-                        android:layout_width="wrap_content"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="80dp"
-                        android:layout_marginTop="10dp"
-                        android:layout_marginEnd="20dp"
+                        android:layout_marginStart="10dp"
+                        android:layout_marginEnd="10dp"
                         android:fontFamily="@font/poppins_light"
                         android:gravity="center"
                         android:text="@string/disponibilidadProducto"
                         android:textAlignment="center"
                         android:textSize="18sp"
                         android:textStyle="bold" />
+
                 </LinearLayout>
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal">
+                    android:orientation="horizontal"
+                    android:layout_marginTop="10dp">
 
                     <TextView
                         android:layout_width="65dp"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="30dp"
-                        android:layout_marginTop="10dp"
+                        android:layout_marginStart="10dp"
                         android:fontFamily="@font/poppins_light"
                         android:text="@string/desdeProducto"
                         android:textStyle="bold"
@@ -229,7 +236,6 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="5dp"
-                        android:layout_marginTop="10dp"
                         android:fontFamily="@font/poppins_light"
                         android:textAlignment="textEnd"
                         android:textSize="18sp"
@@ -240,7 +246,6 @@
                         android:id="@+id/tv_fecha_inicio"
                         android:layout_width="130dp"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="10dp"
                         android:layout_marginEnd="10dp"
                         android:fontFamily="@font/poppins_light"
                         android:text="@string/estructuraFecha"
@@ -251,7 +256,6 @@
                         android:id="@+id/btn_hora_inicio"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="10dp"
                         android:fontFamily="@font/poppins_light"
                         android:textSize="18sp"
                         app:drawableStartCompat="@drawable/icono_reloj" />
@@ -261,7 +265,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="5dp"
-                        android:layout_marginTop="10dp"
+                        android:layout_marginEnd="10dp"
                         android:fontFamily="@font/poppins_light"
                         android:text="@string/estructuraHora"
                         android:textAlignment="textStart"
@@ -271,13 +275,13 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal">
+                    android:orientation="horizontal"
+                    android:layout_marginTop="10dp" >
 
                     <TextView
                         android:layout_width="65dp"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="30dp"
-                        android:layout_marginTop="10dp"
+                        android:layout_marginStart="10dp"
                         android:fontFamily="@font/poppins_light"
                         android:text="@string/hastaProducto"
                         android:textStyle="bold"
@@ -288,7 +292,6 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="5dp"
-                        android:layout_marginTop="10dp"
                         android:fontFamily="@font/poppins_light"
                         android:textAlignment="textEnd"
                         android:textSize="18sp"
@@ -299,7 +302,6 @@
                         android:id="@+id/tv_fecha_fin"
                         android:layout_width="130dp"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="10dp"
                         android:layout_marginEnd="10dp"
                         android:fontFamily="@font/poppins_light"
                         android:text="@string/estructuraFecha"
@@ -310,7 +312,6 @@
                         android:id="@+id/btn_hora_fin"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="10dp"
                         android:fontFamily="@font/poppins_light"
                         android:textSize="18sp"
                         app:drawableStartCompat="@drawable/icono_reloj" />
@@ -320,25 +321,26 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="5dp"
-                        android:layout_marginTop="10dp"
+                        android:layout_marginEnd="10dp"
                         android:fontFamily="@font/poppins_light"
                         android:text="@string/estructuraHora"
                         android:textAlignment="textStart"
                         android:textSize="18sp" />
                 </LinearLayout>
 
-                <Button
-                    android:id="@+id/btn_registrar_producto"
-                    android:layout_width="match_parent"
-                    android:layout_height="50dp"
-                    android:layout_marginStart="30dp"
-                    android:layout_marginTop="10dp"
-                    android:layout_marginEnd="30dp"
-                    android:fontFamily="@font/poppins_semibold"
-                    android:text="@string/registrarProducto"
-                    app:layout_constraintTop_toBottomOf="@id/sp_domicilio" />
             </LinearLayout>
         </ScrollView>
-    </androidx.constraintlayout.widget.ConstraintLayout>
 
-</FrameLayout>
+        <Button
+            android:id="@+id/btn_registrar_producto"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginStart="30dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="30dp"
+            android:fontFamily="@font/poppins_semibold"
+            android:text="@string/registrarProducto"
+            android:layout_alignParentBottom="true"
+            android:layout_marginBottom="10dp"/>
+
+</RelativeLayout>

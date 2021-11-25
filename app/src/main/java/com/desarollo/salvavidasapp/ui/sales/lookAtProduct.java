@@ -33,6 +33,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.auth.FirebaseUser;
 
+import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -72,6 +73,8 @@ public class lookAtProduct extends AppCompatActivity {
     Calendar c;
     Date getCurrentDateTime;
     Boolean primeraVez=true;;
+    String patron = "###,###.##";
+    DecimalFormat objDF = new DecimalFormat (patron);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -116,16 +119,17 @@ public class lookAtProduct extends AppCompatActivity {
             cantidadProductosDisponibles = Integer.parseInt(extras.getString("cantidadProducto"));
             tvnombreProducto.setText(nombreProducto);
             tvdescripcionProducto.setText(extras.getString("descripcionProducto"));
-            tvprecioProducto.setText(String.valueOf(extras.getString("precio")));
-            tvprecioProducto.setPaintFlags(tvprecioProducto.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
             Double precio = Double.parseDouble(extras.getString("precio"));
+            tvprecioProducto.setText(String.valueOf(objDF.format(precio)));
+            tvprecioProducto.setPaintFlags(tvprecioProducto.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
+
             Double descuento = Double.parseDouble(extras.getString("descuento"));
             precioDomicilio = Double.parseDouble(extras.getString("precioDomicilio"));
-            tvdescuentoProducto.setText(String.valueOf(descuento));
+            tvdescuentoProducto.setText(String.valueOf(objDF.format(descuento)));
             long porcDescuento = Math.round(descuento/precio*100);
             tvporcDescuento.setText(String.valueOf(-porcDescuento));
             total = precio-descuento;
-            tvtotalProducto.setText(String.valueOf(total));
+            tvtotalProducto.setText(String.valueOf(objDF.format(total)));
             fechaFin = extras.getString("fechaFin");
             horaFin =  extras.getString("horaFin");
             tvinicioProducto.setText(extras.getString("fechaInicio") + " " + extras.getString("horaInicio"));
@@ -181,7 +185,6 @@ public class lookAtProduct extends AppCompatActivity {
 
                     String idCompra = UUID.randomUUID().toString();
                     consultarDatosVendedor(idVendedor,idCompra);
-
 
                 }else{
                     Toast.makeText(lookAtProduct.this, "Solo hay " + cantidadProductosDisponibles

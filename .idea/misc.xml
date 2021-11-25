@@ -4,10 +4,15 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="..\:/Users/ecardona/Documents/AndroidStudioProjects/SalvavidasApp/app/src/main/res/layout-v23/activity_look_at_product.xml" value="0.25416666666666665" />
-        <entry key="..\:/Users/ecardona/Documents/AndroidStudioProjects/SalvavidasApp/app/src/main/res/layout/activity_buy_product.xml" value="0.2" />
+        <entry key="..\:/Users/ecardona/Documents/AndroidStudioProjects/SalvavidasApp/app/src/main/res/layout/activity_add_photo.xml" value="0.536" />
+        <entry key="..\:/Users/ecardona/Documents/AndroidStudioProjects/SalvavidasApp/app/src/main/res/layout/activity_add_product.xml" value="0.152" />
+        <entry key="..\:/Users/ecardona/Documents/AndroidStudioProjects/SalvavidasApp/app/src/main/res/layout/activity_anulled_purchases.xml" value="0.61" />
+        <entry key="..\:/Users/ecardona/Documents/AndroidStudioProjects/SalvavidasApp/app/src/main/res/layout/activity_anulled_sales.xml" value="0.61" />
+        <entry key="..\:/Users/ecardona/Documents/AndroidStudioProjects/SalvavidasApp/app/src/main/res/layout/activity_buy_product.xml" value="0.536" />
+        <entry key="..\:/Users/ecardona/Documents/AndroidStudioProjects/SalvavidasApp/app/src/main/res/layout/activity_error.xml" value="0.190625" />
         <entry key="..\:/Users/ecardona/Documents/AndroidStudioProjects/SalvavidasApp/app/src/main/res/layout/activity_forget.xml" value="0.4" />
         <entry key="..\:/Users/ecardona/Documents/AndroidStudioProjects/SalvavidasApp/app/src/main/res/layout/activity_home.xml" value="0.264" />
-        <entry key="..\:/Users/ecardona/Documents/AndroidStudioProjects/SalvavidasApp/app/src/main/res/layout/activity_look_at_product.xml" value="0.136" />
+        <entry key="..\:/Users/ecardona/Documents/AndroidStudioProjects/SalvavidasApp/app/src/main/res/layout/activity_look_at_product.xml" value="0.4" />
         <entry key="..\:/Users/ecardona/Documents/AndroidStudioProjects/SalvavidasApp/app/src/main/res/layout/activity_main.xml" value="0.2" />
         <entry key="..\:/Users/ecardona/Documents/AndroidStudioProjects/SalvavidasApp/app/src/main/res/layout/activity_registro.xml" value="0.4" />
         <entry key="..\:/Users/ecardona/Documents/AndroidStudioProjects/SalvavidasApp/app/src/main/res/layout/activity_splash.xml" value="0.4" />

@@ -80,14 +80,12 @@ public class buyProduct extends AppCompatActivity {
         tvTotal = findViewById(R.id.tv_total_producto);
         tvNombreProducto = findViewById(R.id.tv_nombre_producto);
         tvCantidadProducto = findViewById(R.id.tv_cantidad_producto);
-        tvEstadoProducto = findViewById(R.id.tv_estado_Producto);
+        tvEstadoProducto = findViewById(R.id.tv_estado_producto);
         tvSubTotalProducto = findViewById(R.id.tv_subTotal);
         tvSubTotalProducto1 = findViewById(R.id.tv_subTotal1);
         tvSignoMonedaSubTotal = findViewById(R.id.tv_signo_moneda1);
         tvCancelarPedido = findViewById(R.id.tv_cancelar_Pedido);
         linearLayoutBP = findViewById(R.id.LinearLayoutBuyProducto);
-        linearLayoutBP1 = findViewById(R.id.LinearLayout1);
-        linearLayoutBP2 = findViewById(R.id.LinearLayout2);
         btn_pago = findViewById(R.id.btn_pago);
 
         Intent intent = getIntent();
@@ -105,7 +103,7 @@ public class buyProduct extends AppCompatActivity {
             idVendedor = extras.getString("idVendedor");
             origen = extras.getString("origen");
             valorComision = precioProducto * nroProductos * 0.06;
-            tvPrecioProducto.setText(objDF.format(precioProducto*nroProductos));
+            tvPrecioProducto.setText(objDF.format(precioProducto));
             tvPrecioDomicilio.setText(objDF.format(precioDomicilio));
             tvValorComision.setText(objDF.format(valorComision));
             idCompra = extras.getString("idCompra");
