@@ -1,27 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
-
-<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    app:cardBackgroundColor="#FFFFFF"
-    app:cardCornerRadius="30dp"
-    app:cardElevation="4dp"
-    app:cardUseCompatPadding="true"
-    app:layout_constraintEnd_toEndOf="parent"
-    app:layout_constraintStart_toStartOf="parent"
-    app:layout_constraintTop_toTopOf="parent">
+    tools:context=".ui.sales.lookAtProduct">
 
-    <RelativeLayout
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cardImagenProducto"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        tools:context=".ui.sales.lookAtProduct">
+        android:layout_height="wrap_content"
+        app:cardBackgroundColor="#FFFFFF"
+        app:cardCornerRadius="30dp"
+        app:cardElevation="4dp"
+        app:cardUseCompatPadding="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true">
 
         <ImageView
             android:id="@+id/img_imagen_producto"
             android:layout_width="match_parent"
-            android:layout_height="250dp"
+            android:layout_height="195dp"
             android:contentDescription="@string/descripcionImagen"
             android:layout_marginTop="5dp"
             android:scaleType="fitCenter"
@@ -31,16 +31,15 @@
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="34dp"
-            android:layout_marginBottom="0dp"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:layout_marginTop="5dp"
+            android:layout_marginStart="3dp">
             <TextView
                 android:id="@+id/tv_porc_descuento"
                 android:layout_width="40dp"
                 android:layout_height="35dp"
                 android:background="@color/red"
                 android:fontFamily="@font/poppins_bold"
-                android:layout_marginTop="10dp"
                 android:textAlignment="textEnd"
                 android:textColor="@color/white"
                 android:textSize="20sp"
@@ -50,7 +49,6 @@
                 android:id="@+id/tv_signo_porc"
                 android:layout_width="75dp"
                 android:layout_height="35dp"
-                android:layout_marginTop="10dp"
                 android:background="@color/red"
                 android:fontFamily="@font/poppins_bold"
                 android:text="@string/porcDescuentoProducto"
@@ -59,32 +57,34 @@
                 android:textSize="20sp"
                 android:textStyle="bold" />
         </LinearLayout>
+    </androidx.cardview.widget.CardView>
 
         <ScrollView
+            android:id="@+id/scrollViewLookAtProduct"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             tools:layout_editor_absoluteX="0dp"
             tools:layout_editor_absoluteY="-71dp"
-            android:layout_below="@id/img_imagen_producto" >
+            android:layout_alignParentStart="true"
+            android:layout_alignParentEnd="true"
+            android:layout_below="@+id/cardImagenProducto">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="0dp"
                 android:orientation="vertical">
 
             <LinearLayout
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="0dp"
-                android:orientation="horizontal">
+                android:layout_height="match_parent"
+                android:orientation="horizontal"
+                android:layout_marginTop="10dp">
 
                 <TextView
                     android:id="@+id/tv_nombre_producto"
                     android:layout_width="210dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="30dp"
-                    android:layout_marginTop="10dp"
+                    android:layout_marginStart="10dp"
                     android:fontFamily="@font/poppins_semibold"
                     android:text="@string/nombreProducto2"
                     android:textSize="22sp"
@@ -95,20 +95,19 @@
                     android:id="@+id/btn_menos"
                     android:layout_width="30dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
-                    android:layout_marginStart="20dp"
+                    android:layout_marginStart="5dp"
                     android:fontFamily="@font/poppins_light"
                     android:padding="0dp"
-                    android:textSize="18sp"
                     android:text="@string/menos"
+                    android:textAlignment="center"
+                    android:textSize="18sp"
                     android:textStyle="bold"
-                    android:textAlignment="center"/>
+                    tools:ignore="TouchTargetSizeCheck" />
 
                 <TextView
                     android:id="@+id/tv_numero_productos"
                     android:layout_width="35dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
                     android:fontFamily="@font/poppins_bold"
                     android:padding="5dp"
                     android:text="@string/nroProductosPorDefecto"
@@ -119,42 +118,38 @@
                     android:id="@+id/btn_mas"
                     android:layout_width="30dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
                     android:fontFamily="@font/poppins_light"
                     android:padding="5dp"
-                    android:textSize="18sp"
                     android:text="@string/mas"
                     android:textAlignment="center"
-                    android:textStyle="bold"/>
-
-
-
+                    android:textSize="18sp"
+                    android:textStyle="bold"
+                    tools:ignore="TouchTargetSizeCheck" />
 
             </LinearLayout>
 
                 <TextView
                     android:id="@+id/tv_descripcion_producto"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="30dp"
-                    android:layout_marginEnd="30dp"
-                    android:layout_marginTop="0dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginEnd="10dp"
+                    android:layout_marginTop="10dp"
                     android:fontFamily="@font/poppins_semibold"
                     android:text="@string/descripcionProducto2"
                     android:textSize="20sp" />
 
-
                 <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="0dp"
-                    android:orientation="horizontal">
+                    android:orientation="horizontal"
+                    android:layout_marginTop="10dp">
                     <TextView
                         android:id="@+id/tv_fecha_inicio_producto1"
                         android:layout_width="80dp"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="15dp"
-                        android:layout_marginStart="30dp"
+                        android:layout_marginStart="10dp"
                         android:fontFamily="@font/poppins_light"
                         android:text="@string/inicio"
                         android:textSize="20sp" />
@@ -170,17 +165,17 @@
                         android:textSize="20sp"
                         android:textAlignment="textStart"/>
                 </LinearLayout>
+
                 <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="0dp"
+                    android:layout_marginTop="10dp"
                     android:orientation="horizontal">
                     <TextView
                         android:id="@+id/tv_fecha_fin_producto1"
                         android:layout_width="80dp"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="0dp"
-                        android:layout_marginStart="30dp"
+                        android:layout_marginStart="10dp"
                         android:fontFamily="@font/poppins_light"
                         android:padding="0dp"
                         android:text="@string/fin"
@@ -197,18 +192,18 @@
                         android:textSize="20sp"
                         android:textAlignment="textStart"/>
                 </LinearLayout>
+
                 <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="0dp"
-                    android:layout_marginTop="30dp"
-                    android:orientation="horizontal">
+                    android:orientation="horizontal"
+                    android:layout_marginTop="10dp">
 
                     <TextView
                         android:id="@+id/tv_precio_producto1"
                         android:layout_width="120dp"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="30dp"
+                        android:layout_marginStart="10dp"
                         android:layout_marginTop="5dp"
                         android:fontFamily="@font/poppins_semibold"
                         android:text="@string/precioProducto"
@@ -238,15 +233,14 @@
                 <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="0dp"
-                    android:orientation="horizontal">
+                    android:orientation="horizontal"
+                    android:layout_marginTop="10dp">
 
                     <TextView
                         android:id="@+id/tv_descuento_producto1"
                         android:layout_width="120dp"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="30dp"
-                        android:layout_marginTop="0dp"
+                        android:layout_marginStart="10dp"
                         android:fontFamily="@font/poppins_semibold"
                         android:text="@string/descuentoProducto"
                         android:textSize="20sp" />
@@ -256,7 +250,6 @@
                         android:layout_width="20dp"
                         android:layout_height="35dp"
                         android:layout_marginStart="10dp"
-                        android:layout_marginTop="0dp"
                         android:fontFamily="@font/poppins_bold"
                         android:text="@string/signoMoneda"
                         android:textSize="20sp" />
@@ -265,7 +258,6 @@
                         android:id="@+id/tv_descuento_producto"
                         android:layout_width="100dp"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="0dp"
                         android:fontFamily="@font/poppins_semibold"
                         android:text=""
                         android:textAlignment="textEnd"
@@ -275,14 +267,14 @@
                 <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="0dp"
-                    android:orientation="horizontal">
+                    android:orientation="horizontal"
+                    android:layout_marginTop="10dp">
 
                     <TextView
                         android:id="@+id/tv_total_producto1"
                         android:layout_width="120dp"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="30dp"
+                        android:layout_marginStart="10dp"
                         android:layout_marginTop="0dp"
                         android:fontFamily="@font/poppins_semibold"
                         android:text="@string/totalProducto"
@@ -316,36 +308,37 @@
 
                 </LinearLayout>
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="20dp"
-                    android:layout_marginBottom="0dp"
-                    android:orientation="horizontal">
-
-
-                <Button
-                    android:id="@+id/btn_comprar_producto"
-                    android:layout_width="110dp"
-                    android:layout_height="50dp"
-                    android:layout_marginTop="0dp"
-                    android:layout_marginStart="10dp"
-                    android:fontFamily="@font/poppins_bold"
-                    android:textStyle="bold"
-                    android:text="@string/comprar" />
-
-                    <Button
-                        android:id="@+id/bt_añadir_carrito"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="15dp"
-                        android:layout_marginTop="0dp"
-                        android:drawableLeft="@drawable/shopping_cart"
-                        android:text="@string/añadirCarrito"
-                        android:textSize="14sp" />
-                </LinearLayout>
-
             </LinearLayout>
         </ScrollView>
-    </RelativeLayout>
-</androidx.cardview.widget.CardView>
+
+
+
+        <Button
+            android:id="@+id/btn_comprar_producto"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="10dp"
+            android:drawableLeft="@drawable/icono_money"
+            android:drawableTint="@color/white"
+            android:layout_alignParentBottom="true"
+            android:layout_marginBottom="40dp"
+            android:layout_gravity="center"
+            android:fontFamily="@font/poppins_bold"
+            android:textStyle="bold"
+            android:text="@string/comprar" />
+
+        <Button
+            android:id="@+id/bt_añadir_carrito"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="10dp"
+            android:layout_alignTop="@id/btn_comprar_producto"
+            android:layout_gravity="center"
+            android:drawableLeft="@drawable/shopping_cart"
+            android:text="@string/añadirCarrito"
+            android:textSize="14sp"
+            tools:ignore="RtlHardcoded,TextContrastCheck" />
+
+</RelativeLayout>
