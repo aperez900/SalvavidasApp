@@ -71,15 +71,17 @@ public class salesMade extends AppCompatActivity {
                     subtituloVentasEfectuadas.setText("Se han comprado los siguientes productos");
                     listaDeDatos.clear();
                     for (DataSnapshot objsnapshot : snapshot.getChildren()) { //recorre los usuarios
-                        for (DataSnapshot objsnapshot2 : objsnapshot.getChildren()) { //recorre los productos
-                            String idProd = objsnapshot2.child("idProducto").getValue().toString();
-                            String cantidad = objsnapshot2.child("cantidadProducto").getValue().toString();
-                            String idUsuarioSolicitud = objsnapshot2.child("usuarioSolicitud").getValue().toString();
-                            String estadoSolicitud = objsnapshot2.child("estado").getValue().toString();
-                            String valorCompra = objsnapshot2.child("valorProducto").getValue().toString();
-                            //consultarDatosUsuario(idProd, cantidad, idUsuarioSolicitud, estadoSolicitud);
-                            if (estadoSolicitud.equals("Pagado")) {
-                                consultarDetalleProducto(idProd, cantidad, idUsuarioSolicitud, estadoSolicitud, Double.parseDouble(valorCompra));
+                        for (DataSnapshot objsnapshot2 : objsnapshot.getChildren()) {
+                            for (DataSnapshot objsnapshot3 : objsnapshot2.getChildren()) { //recorre los productos
+                                String idProd = objsnapshot3.child("idProducto").getValue().toString();
+                                String cantidad = objsnapshot3.child("cantidadProducto").getValue().toString();
+                                String idUsuarioSolicitud = objsnapshot3.child("usuarioSolicitud").getValue().toString();
+                                String estadoSolicitud = objsnapshot3.child("estado").getValue().toString();
+                                String valorCompra = objsnapshot3.child("valorProducto").getValue().toString();
+                                //consultarDatosUsuario(idProd, cantidad, idUsuarioSolicitud, estadoSolicitud);
+                                if (estadoSolicitud.equals("Pagado")) {
+                                    consultarDetalleProducto(idProd, cantidad, idUsuarioSolicitud, estadoSolicitud, Double.parseDouble(valorCompra));
+                                }
                             }
                         }
                     }

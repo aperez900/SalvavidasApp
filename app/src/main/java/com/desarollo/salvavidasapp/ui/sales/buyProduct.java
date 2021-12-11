@@ -132,7 +132,7 @@ public class buyProduct extends AppCompatActivity {
                 double valorTotal_ = precioProducto*nroProductos + precioDomicilio + valorComision ;
                 int vt = (int) valorTotal_*100;
                 String vt_ = Integer.toString(vt);
-                String Reference = currentUser.getUid() + "/" + idCompra + "/" + idProducto;
+                String Reference = currentUser.getUid() + "/" + idCompra + "/" + idProducto +"/" + idVendedor;
                 registrarsolicitudVendedor(vt_,idCompra, idProducto,idVendedor,Reference);
                 registrarCompraAlComprador(vt_,idCompra, idProducto);
             }
