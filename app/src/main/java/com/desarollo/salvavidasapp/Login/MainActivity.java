@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.util.Patterns;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
@@ -40,6 +41,7 @@ import com.google.firebase.auth.UserInfo;
 public class MainActivity extends AppCompatActivity {
 
     EditText et_email, et_password;
+    Button fb, google;
     private FirebaseAuth mAuth;
     private LoginButton loginButton;
     private CallbackManager callbackManager;
@@ -52,6 +54,8 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        fb = (Button) findViewById(R.id.fb);
+        google = (Button) findViewById(R.id.google);
 
         et_email = findViewById(R.id.et_mail);
         et_password = findViewById(R.id.et_password);
@@ -64,15 +68,15 @@ public class MainActivity extends AppCompatActivity {
 
         mAuth = FirebaseAuth.getInstance();
 
-        //Acesso por facebook
+        //Acceso por facebook
         callbackManager = CallbackManager.Factory.create();
         loginButton = findViewById(R.id.login_button);
         loginButton.setPermissions("email", "public_profile");
-        //loginButton.setReadPermissions("email", "public_profile");
 
         loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 loginButton.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
                     @Override
                     public void onSuccess(LoginResult loginResult) {
@@ -95,6 +99,14 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+
+        fb.setOnClickListener(new View.OnClickListener() {
+              @Override
+              public void onClick(View v) {
+                  loginButton.callOnClick();
+              }
+          });
+
         // Ingresar por Google
         signInButton =  findViewById(R.id.signInButton);
 
@@ -106,7 +118,7 @@ public class MainActivity extends AppCompatActivity {
 
         signInButton.setColorScheme(SignInButton.COLOR_DARK);
 
-        signInButton.setOnClickListener(new View.OnClickListener() {
+        google.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 signInWithGoogle();

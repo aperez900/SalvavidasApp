@@ -47,11 +47,12 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
-                    android:src="@drawable/icono_account_circle" />
+                    android:src="@drawable/perfil" />
 
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
+                    android:layout_marginTop="10dp"
                     android:layout_gravity="center_horizontal"
                     android:fontFamily="@font/poppins_semibold"
                     android:text="@string/perfilComprador"
@@ -86,11 +87,12 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
-                    android:src="@drawable/icono_store" />
+                    android:src="@drawable/shopping2" />
 
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
+                    android:layout_marginTop="10dp"
                     android:layout_gravity="center_horizontal"
                     android:fontFamily="@font/poppins_semibold"
                     android:text="@string/perfilVendedor"

@@ -2,11 +2,11 @@
     <!-- Base application theme. -->
     <style name="Theme.SalvavidasApp" parent="Theme.MaterialComponents.DayNight.NoActionBar">
         <!-- Primary brand color. -->
-        <item name="colorPrimary">#FF0000</item>
-        <item name="colorPrimaryVariant">#FF0000</item>
+        <item name="colorPrimary">#EF5350</item>
+        <item name="colorPrimaryVariant">#EF5350</item>
         <item name="colorOnPrimary">#FFFFFF</item>
         <!-- Secondary brand color. -->
-        <item name="colorSecondary">#FF0000</item>
+        <item name="colorSecondary">#EF5350</item>
         <item name="colorSecondaryVariant">#FFFFFF</item>
         <item name="colorOnSecondary">@color/black</item>
         <item name="fontFamily">@font/poppins_light</item>

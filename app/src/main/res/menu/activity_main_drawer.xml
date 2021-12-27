@@ -6,43 +6,43 @@
     <group android:checkableBehavior="single">
         <item
             android:id="@+id/nav_home"
-            android:icon="@drawable/icono_home_black"
+            android:icon="@drawable/home"
             android:title="@string/menu_home"
             android:fontFamily="@font/poppins_bold" />
         <item
             android:id="@+id/NavStatisticalMenu"
-            android:icon="@drawable/icono_estadisticas_24"
+            android:icon="@drawable/graph"
             android:title="@string/estadisticas"
             android:fontFamily="@font/poppins_bold" />
         <item
             android:id="@+id/subMenuProfile"
-            android:icon="@drawable/baseline_account_box_black_18"
+            android:icon="@drawable/perfil"
             android:title="@string/miPerfil"
             android:fontFamily="@font/poppins_bold" />
         <item
             android:id="@+id/nav_purchases"
-            android:icon="@drawable/icono_shop_24_white"
+            android:icon="@drawable/shopping"
             android:title="@string/misCompras"
             android:fontFamily="@font/poppins_bold" />
         <item
             android:id="@+id/nav_sales"
-            android:icon="@drawable/icono_mis_ventas"
+            android:icon="@drawable/shopping2"
             android:title="@string/misVentas"
             android:fontFamily="@font/poppins_bold" />
         <item
             android:id="@+id/nav_address"
-            android:icon="@drawable/icono_maps_24"
+            android:icon="@drawable/address"
             android:title="@string/misDirecciones"
             android:fontFamily="@font/poppins_bold" />
         <item
             android:id="@+id/nav_favorites"
-            android:icon="@drawable/icono_corazon"
+            android:icon="@drawable/heart"
             android:title="@string/favoritos"
             android:fontFamily="@font/poppins_bold" />
 
         <item
             android:id="@+id/nav_settings"
-            android:icon="@drawable/icono_settings_24"
+            android:icon="@drawable/settings"
             android:title="@string/configuraciones"
             android:fontFamily="@font/poppins_bold" />
     </group>

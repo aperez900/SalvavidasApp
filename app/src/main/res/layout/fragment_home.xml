@@ -78,13 +78,20 @@
     <Button
         android:id="@+id/btnShopping"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="50dp"
         android:layout_alignParentBottom="true"
         android:layout_gravity="bottom"
-        android:drawableLeft="@drawable/shopping_cart"
         android:fontFamily="@font/poppins_semibold"
         android:text="@string/verCarrito"
+        android:textColor="@color/white"
+
+
         android:textSize="16sp"
+        app:cornerRadius="10dp"
+        app:icon="@drawable/shopping"
+        app:iconGravity="start"
+        app:iconPadding="5dp"
+        app:iconSize="30dp"
         tools:ignore="RtlHardcoded,TextContrastCheck" />
 
 </RelativeLayout>

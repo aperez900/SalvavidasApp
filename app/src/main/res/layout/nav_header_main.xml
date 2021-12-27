@@ -13,11 +13,7 @@
 
     android:theme="@style/ThemeOverlay.AppCompat.Dark">
 
-    <ImageView
-        android:id="@+id/id_foto_perfil"
-        android:layout_width="80dp"
-        android:layout_height="70dp"
-        app:srcCompat="@drawable/logoprincipal" />
+
 
     <TextView
         android:id="@+id/id_nombre_perfil"

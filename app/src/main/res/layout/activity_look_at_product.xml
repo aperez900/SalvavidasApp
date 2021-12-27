@@ -334,9 +334,15 @@
         android:layout_gravity="center"
         android:layout_marginStart="30dp"
         android:layout_marginEnd="30dp"
-        android:drawableLeft="@drawable/shopping_cart"
         android:text="@string/añadirCarrito"
         android:textSize="14sp"
-        tools:ignore="RtlHardcoded,TextContrastCheck" />
+
+        app:iconTint="#FFFFFF"
+        app:icon="@drawable/shopping"
+        app:iconGravity="start"
+        app:iconPadding="5dp"
+        app:iconSize="25dp"
+        tools:ignore="RtlHardcoded,TextContrastCheck"
+         />
 
 </RelativeLayout>

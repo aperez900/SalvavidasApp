@@ -64,10 +64,17 @@
 
         <Button
             android:id="@+id/btn_registro"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:fontFamily="@font/poppins_semibold"
             android:onClick="registro"
-            android:text="@string/registrar" />
+            android:text="@string/registrar"
+
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:layout_gravity="center"
+            android:layout_marginTop="0dp"
+            android:fontFamily="@font/poppins_semibold"
+            android:textAlignment="center"
+            android:textSize="18sp"
+            app:cornerRadius="15dp"
+            app:iconPadding="5dp"/>
     </LinearLayout>
 </RelativeLayout>

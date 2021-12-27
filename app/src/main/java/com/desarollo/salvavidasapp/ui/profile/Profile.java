@@ -123,8 +123,6 @@ public class Profile extends Fragment {
         //Glide.with(this).load(currentUser.getPhotoUrl()).apply(RequestOptions.circleCropTransform()).into(UserPhoto);
 
 
-        //Llena los campos del formulario con los datos de la bd
-        consultarDatosPerfil(nombres, apellidos, identificacion, celular,btnReg, btnDesactivarUsuario);
 
         //Acciones del botón registrar
         btnReg.setOnClickListener(new View.OnClickListener() {
@@ -137,6 +135,12 @@ public class Profile extends Fragment {
                 }
             }
         });
+
+        //Llena los campos del formulario con los datos de la bd
+
+            consultarDatosPerfil(nombres, apellidos, identificacion, celular,btnReg, btnDesactivarUsuario);
+
+
 
         //Acciones del botón desactivar usuario
         btnDesactivarUsuario.setOnClickListener(new View.OnClickListener() {
@@ -177,13 +181,14 @@ public class Profile extends Fragment {
     public void consultarDatosPerfil(EditText etNombres, EditText etApellidos, EditText etIdentificacion,
                                      EditText etCelular,Button btnReg, Button btnDesactivarUsuario){
         //consultando datos del usuario
+        String cc = currentUser.getUid();
         myRef.child(currentUser.getUid())
                 .addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
                         if(snapshot.exists()){
-                            String nombre = snapshot.child("nombre").getValue().toString();
-                            etNombres.setText(nombre);
+                            String nombre_ = snapshot.child("nombre").getValue().toString();
+                            etNombres.setText(nombre_);
                             String apellido = snapshot.child("apellido").getValue().toString();
                             etApellidos.setText(apellido);
                             String identificacion = snapshot.child("identificacion").getValue().toString();

@@ -89,9 +89,9 @@ public class SubMenuProfile extends Fragment {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
                         if(snapshot.exists()){
-                            imgComprador.setColorFilter(ContextCompat.getColor(getContext(), R.color.red));
+                            imgComprador.setColorFilter(ContextCompat.getColor(getApplicationContext(), R.color.red));
                         }else{
-                            imgComprador.setColorFilter(ContextCompat.getColor(getContext(), R.color.gray_light));
+                            imgComprador.setColorFilter(ContextCompat.getColor(getApplicationContext(), R.color.gray_light));
                         }
                     }
                     @Override
