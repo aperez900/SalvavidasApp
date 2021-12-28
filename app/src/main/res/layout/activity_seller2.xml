@@ -40,7 +40,7 @@
                 android:layout_height="100dp"
                 android:layout_marginStart="150dp"
                 android:contentDescription="@string/logo_vendedor"
-                app:srcCompat="@drawable/icono_user_vendedor"
+                app:srcCompat="@drawable/perfil"
                 tools:src="@tools:sample/avatars" />
 
             <TextView

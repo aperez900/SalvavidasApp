@@ -43,13 +43,14 @@
         <TextView
             android:id="@+id/tv_subtotal_carrito"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="60dp"
             android:layout_alignParentBottom="true"
-            android:layout_marginBottom="632dp"
+            android:layout_marginBottom="625dp"
             android:background="@color/red"
             android:fontFamily="@font/poppins_bold"
             android:text="@string/subTotalCarrito"
-            android:textAlignment="center"
+            android:gravity="center"
+            android:foregroundGravity="center_vertical"
             android:textColor="@color/white"
             android:textSize="22sp"
             android:textStyle="bold" />

@@ -121,7 +121,8 @@
     <Button
         android:id="@+id/btn_modificar_direccion"
         android:layout_width="343dp"
-        android:layout_height="52dp"
+        android:layout_height="60dp"
+        app:cornerRadius="10dp"
         android:layout_marginTop="32dp"
         android:fontFamily="@font/poppins_semibold"
         android:text="Modificar"

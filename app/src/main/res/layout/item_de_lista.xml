@@ -82,7 +82,7 @@
         <TextView
             android:id="@+id/tv_fecha_inicio_producto"
             android:layout_width="80dp"
-            android:layout_height="32dp"
+            android:layout_height="25dp"
             android:layout_below="@id/tv_nombre_producto"
             android:layout_marginStart="5dp"
             android:layout_marginTop="10dp"
@@ -96,7 +96,7 @@
         <TextView
             android:id="@+id/tv_fecha_fin_producto"
             android:layout_width="80dp"
-            android:layout_height="32dp"
+            android:layout_height="25dp"
             android:layout_below="@id/tv_nombre_producto"
             android:layout_marginTop="10dp"
             android:layout_toEndOf="@id/tv_fecha_inicio_producto"

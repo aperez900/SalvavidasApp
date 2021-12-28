@@ -3,7 +3,9 @@ package com.desarollo.salvavidasapp.Login;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.Dialog;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
 import android.util.Patterns;
@@ -17,6 +19,9 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.shashank.sony.fancydialoglib.Animation;
+import com.shashank.sony.fancydialoglib.FancyAlertDialog;
+import com.shashank.sony.fancydialoglib.FancyAlertDialogListener;
 
 public class Registro extends AppCompatActivity {
 
@@ -68,11 +73,39 @@ public class Registro extends AppCompatActivity {
                                 public void onComplete(@NonNull Task<Void> task) {
                                     if (task.isSuccessful()) {
                                         Log.d("TAG", "Email sent.");
-                                        Toast.makeText(Registro.this, "email enviado para verificación",
-                                                Toast.LENGTH_SHORT).show();
-                                        Intent a = new Intent(getApplicationContext(), MainActivity.class);
-                                        startActivity(a);
-                                        finish();
+                                        FancyAlertDialog.Builder
+                                                .with(Registro.this)
+                                                .setTitle("Felicitaciones !")
+                                                .setBackgroundColor(Color.parseColor("#EC7063"))  // for @ColorRes use setBackgroundColorRes(R.color.colorvalue)
+                                                .setMessage("Ahora revisa tu correo electronico para activa la cuenta!")
+                                                .setPositiveBtnBackground(Color.parseColor("#EC7063"))  // for @ColorRes use setPositiveBtnBackgroundRes(R.color.colorvalue)
+                                                .setPositiveBtnText("Ok")
+                                                .setNegativeBtnBackground(Color.parseColor("#EC7063"))  // for @ColorRes use setNegativeBtnBackgroundRes(R.color.colorvalue)
+                                                .setNegativeBtnText("Volver")
+                                                .setAnimation(Animation.POP)
+                                                .isCancellable(true)
+                                                .setIcon(R.drawable.icono_ok, View.VISIBLE)
+                                                .onPositiveClicked(new FancyAlertDialogListener() {
+                                                    @Override
+                                                    public void onClick(Dialog dialog) {
+                                                        Intent a = new Intent(getApplicationContext(), MainActivity.class);
+                                                        startActivity(a);
+                                                        finish();
+                                                    }
+                                                 })
+                                                .onNegativeClicked(new FancyAlertDialogListener() {
+                                                    @Override
+                                                    public void onClick(Dialog dialog) {
+                                                        Intent a = new Intent(getApplicationContext(), MainActivity.class);
+                                                        startActivity(a);
+                                                        finish();
+                                                    }
+                                                })
+                                                .build()
+                                                .show();
+
+
+
                                     }
                                 }
                             });
@@ -80,7 +113,7 @@ public class Registro extends AppCompatActivity {
                 } else {
                     // If sign in fails, display a message to the user.
                     Log.w("TAG", "createUserWithEmail:failure", task.getException());
-                    Toast.makeText(Registro.this, "El usuario ya se encuenttra creado",
+                    Toast.makeText(Registro.this, "El usuario ya se encuentra creado",
                             Toast.LENGTH_SHORT).show();
                     //updateUI(null);
                 }

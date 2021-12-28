@@ -88,6 +88,7 @@ dependencies {
 
     //Gráficas
     implementation 'com.github.PhilJay:MPAndroidChart:v3.1.0'
+    implementation 'com.github.Shashank02051997:FancyAlertDialog-Android:0.2'
 
 }
 apply plugin: 'com.android.application'

@@ -63,19 +63,23 @@
         <Button
             android:id="@+id/btnUbicacionActual"
             android:layout_width="364dp"
-            android:layout_height="wrap_content"
+            android:layout_height="60dp"
             android:fontFamily="@font/poppins_semibold"
             android:text="@string/ubicacionActual"
             android:textSize="16sp"
-            app:icon="@drawable/ic_icono_address" />
+            app:cornerRadius="20dp"
+            app:icon="@drawable/maps"
+            app:iconSize="30dp" />
 
         <Button
             android:id="@+id/btnAgregarDirecciones"
             android:layout_width="364dp"
-            android:layout_height="wrap_content"
+            android:layout_height="60dp"
+            android:backgroundTint="#FF8A80"
             android:fontFamily="@font/poppins_semibold"
             android:text="@string/agregarDirecciones"
-            android:textSize="16sp" />
+            android:textSize="16sp"
+            app:cornerRadius="20dp" />
     </LinearLayout>
 
 

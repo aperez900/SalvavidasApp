@@ -88,7 +88,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
-                    android:src="@drawable/icono_pending_clocks"
+                    android:src="@drawable/clockt"
                     app:tint="@color/red" />
 
                 <TextView
@@ -128,7 +128,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
-                    android:src="@drawable/icono_local_offert"
+                    android:src="@drawable/shopping"
                     app:tint="@color/red" />
 
                 <TextView
@@ -168,7 +168,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
-                    android:src="@drawable/icono_paid"
+                    android:src="@drawable/money"
                     app:tint="@color/red" />
 
                 <TextView
@@ -208,7 +208,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
-                    android:src="@drawable/icono_cancel"
+                    android:src="@drawable/shoppingcancel"
                     app:tint="@color/red" />
 
                 <TextView
@@ -248,7 +248,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
-                    android:src="@drawable/icono_backspace"
+                    android:src="@drawable/shoppingremove"
                     app:tint="@color/red" />
 
                 <TextView

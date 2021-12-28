@@ -16,6 +16,7 @@
         android:gravity="center"
         android:text="Agregar o seleccionar una dirección"
         android:textSize="20sp"
+
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.492"
         app:layout_constraintStart_toStartOf="parent"
@@ -186,11 +187,14 @@
     <Button
         android:id="@+id/btn_reg"
         android:layout_width="341dp"
-        android:layout_height="48dp"
+        android:layout_height="60dp"
         android:layout_marginTop="32dp"
         android:fontFamily="@font/poppins_semibold"
         android:text="Agregar"
         android:textSize="16sp"
+        app:cornerRadius="20dp"
+        app:icon="@drawable/heart"
+        app:iconSize="25dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.514"
         app:layout_constraintStart_toStartOf="parent"

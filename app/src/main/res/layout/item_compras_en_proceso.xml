@@ -21,6 +21,7 @@
             android:id="@+id/img_imagen_producto"
             android:layout_width="150dp"
             android:layout_height="110dp"
+            android:scaleType="fitCenter"
             android:contentDescription="@string/descripcionImagen"
             android:src="@drawable/icono_fastfood" />
 

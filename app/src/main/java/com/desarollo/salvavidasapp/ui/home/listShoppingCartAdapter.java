@@ -518,7 +518,7 @@ public class listShoppingCartAdapter extends RecyclerView.Adapter<listShoppingCa
                 //message.setContent("Hola mundo","txt/html; charset= utf-8");
                 Transport.send(message);
 
-                Toast.makeText(getApplicationContext(), "Hemos enviado una solicitud de compra al vendedor. Espera un momento hasta que la solicitud sea aceptada", Toast.LENGTH_LONG).show();
+                Toast.makeText(getApplicationContext(), "Hemos enviado la solicitud de compra al vendedor, sigue con el proceso de pago", Toast.LENGTH_LONG).show();
             }
         }catch (Exception e){
             e.printStackTrace();

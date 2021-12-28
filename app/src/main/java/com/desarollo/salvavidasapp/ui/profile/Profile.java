@@ -3,6 +3,7 @@ package com.desarollo.salvavidasapp.ui.profile;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -39,6 +40,8 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.messaging.FirebaseMessaging;
+import com.shashank.sony.fancydialoglib.Animation;
+import com.shashank.sony.fancydialoglib.FancyAlertDialog;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -181,7 +184,6 @@ public class Profile extends Fragment {
     public void consultarDatosPerfil(EditText etNombres, EditText etApellidos, EditText etIdentificacion,
                                      EditText etCelular,Button btnReg, Button btnDesactivarUsuario){
         //consultando datos del usuario
-        String cc = currentUser.getUid();
         myRef.child(currentUser.getUid())
                 .addValueEventListener(new ValueEventListener() {
                     @Override
@@ -258,96 +260,6 @@ public class Profile extends Fragment {
                 Toast.makeText(getApplicationContext(), "Error consultando las direcciones. Intente de nuevo mas tarde.", Toast.LENGTH_SHORT).show();
             }
         });
-    }
-
-    /*
-     * @autor: Andrés Pérez
-     * @since: 15/03/2021
-     * @Version: 01
-     * Método para crear el modal de las comidas preferidas
-     * */
-    private void crearModalComidasPreferidas() {
-        AlertDialog.Builder builder = new AlertDialog.Builder(getContext() );
-        builder.setTitle("Elige tus comidas preferidas");
-        builder.setCancelable(false);
-
-        String[] comidas = new String[]{
-                "aceites", "aderezos", "carnes rojas", "condimentos", "flores", "frutas",
-                "frutos secos", "granos", "hortalizas", "legumbres", "pescado", "pollo","verduras"
-        };
-
-        //array booleano para marcar casillas por defecto
-        boolean[] checkItems = new boolean[]{
-                true,false,false,false,false
-        };
-
-        //consulta comidas preferidas del usuario
-        /*
-        myRef.child(currentUser.getUid()).child("comidas_preferidas")
-                .addValueEventListener(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(@NonNull DataSnapshot snapshot) {
-                        //si el usuario tiene datos de comidas preferidas en la bd
-                        //le muestra sus datos, de lo contrario muestra los valores por defecto
-                        if(snapshot.exists()){
-                            String Todas = snapshot.child("Todas").getValue().toString();
-                            boolean bTodas = Boolean.parseBoolean(Todas);
-                            String Verduras = snapshot.child("Verduras").getValue().toString();
-                            boolean bVerduras = Boolean.parseBoolean(Verduras);
-                            String Frutas = snapshot.child("Frutas").getValue().toString();
-                            boolean bFrutas = Boolean.parseBoolean(Frutas);
-                            String Hamburguesa = snapshot.child("Hamburguesas").getValue().toString();
-                            boolean bHamburguesa = Boolean.parseBoolean(Hamburguesa);
-                            String Otros = snapshot.child("Otros").getValue().toString();
-                            boolean bOtros = Boolean.parseBoolean(Otros);
-
-                            //array booleano para marcar casillas del usuario
-                            checkItems[0]=bTodas;
-                            checkItems[1]=bVerduras;
-                            checkItems[2]=bFrutas;
-                            checkItems[3]=bHamburguesa;
-                            checkItems[4]=bOtros;
-                        }
-                    }
-
-                    @Override
-                    public void onCancelled(@NonNull DatabaseError Error) {
-                        Toast.makeText(getApplicationContext(), "Error consultando las comidas preferidas. Intente de nuevo mas tarde.", Toast.LENGTH_SHORT).show();
-                    }
-                });
-
-        final List<String> foodList = Arrays.asList(comidas);
-
-        builder.setMultiChoiceItems(comidas, checkItems, new DialogInterface.OnMultiChoiceClickListener() {
-            @Override
-            public void onClick(DialogInterface dialogInterface, int i, boolean b) {
-                checkItems[i] = b; //verificar si existe un item seleccionado
-                String currentItems = foodList.get(i); //Obtener el valor seleccionado
-            }
-        });
-        builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialogInterface, int i) {
-                selectedItems.clear();
-                //recorre los items y valida cuales fueron checkeados
-                for(int x=0;x<checkItems.length;x++){
-                    boolean checked = checkItems[x];
-                    //if(checked){
-                        selectedItems.put(foodList.get(x),checked);
-                    //}
-                }
-            }
-        });
-        builder.setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialogInterface, int i) {
-                dialogInterface.cancel();
-            }
-        });
-        AlertDialog dialog = builder.create();
-        dialog.show();
-
-         */
     }
 
     /*
@@ -462,17 +374,7 @@ public class Profile extends Fragment {
                     }
                 });
          */
-        //guarda los datos de las comidas elegidas
-        /*
-        myRef.child(currentUser.getUid()).child("comidas_preferidas").setValue(selectedItems)
-                .addOnSuccessListener(new OnSuccessListener<Void>(){
-                    @Override
-                    public void onSuccess(Void aVoid) {
 
-                    }
-                });
-
-         */
 
         //Guardando datos de las direcciones
         for (int i=0; i<listaDirecciones.size();i++){
@@ -487,6 +389,23 @@ public class Profile extends Fragment {
                     });
         }
         registrar_token();
+
+        FancyAlertDialog.Builder
+                .with(getActivity())
+                .setTitle("Felicitaciones !")
+                .setBackgroundColor(Color.parseColor("#EC7063"))  // for @ColorRes use setBackgroundColorRes(R.color.colorvalue)
+                .setMessage("Se realizo el registro de forma exitosa !")
+                .setPositiveBtnBackground(Color.parseColor("#EC7063"))  // for @ColorRes use setPositiveBtnBackgroundRes(R.color.colorvalue)
+                .setPositiveBtnText("Ok")
+                .setNegativeBtnBackground(Color.parseColor("#EC7063"))  // for @ColorRes use setNegativeBtnBackgroundRes(R.color.colorvalue)
+                .setNegativeBtnText("Volver")
+                .setAnimation(Animation.POP)
+                .isCancellable(true)
+                .setIcon(R.drawable.icono_ok, View.VISIBLE)
+                .onPositiveClicked(dialog -> Toast.makeText(getActivity(), "Volver", Toast.LENGTH_SHORT).show())
+                .onNegativeClicked(dialog -> Toast.makeText(getActivity(), "Cancel", Toast.LENGTH_SHORT).show())
+                .build()
+                .show();
     }
 
 

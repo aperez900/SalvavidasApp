@@ -12,17 +12,18 @@
         android:id="@+id/principal_address"
         android:layout_width="match_parent"
         android:layout_height="38dp"
-        android:background="#FAFFEAEA"
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
         android:layout_alignParentEnd="true"
+        android:background="#FAFFEAEA"
         android:drawablePadding="2dp"
         android:fontFamily="@font/poppins_light"
         android:paddingTop="10dp"
         android:paddingBottom="10dp"
+        android:gravity="center"
+        android:layout_centerHorizontal="true"
         android:textSize="14sp"
-        app:drawableStartCompat="@drawable/marker_24"
-        app:drawableEndCompat="@drawable/down_arrow" />
+        app:drawableStartCompat="@drawable/marker_24"/>
 
     <TextView
         android:id="@+id/tv_saludo_home"

@@ -4,7 +4,9 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.ActionBar;
+import android.app.Dialog;
 import android.content.Intent;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.Gravity;
@@ -33,6 +35,9 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.shashank.sony.fancydialoglib.Animation;
+import com.shashank.sony.fancydialoglib.FancyAlertDialog;
+import com.shashank.sony.fancydialoglib.FancyAlertDialogListener;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -55,10 +60,10 @@ public class buyProduct extends AppCompatActivity {
     String nombreProducto, origen,idCompra, tokenId, nombreVendedor, nombreComprador;
     Double precioProducto = 0.0, precioDomicilio = 0.0;
     int nroProductos;
-    Button btn_pago;
+    Button btn_pago,tvEstadoProducto;
     Double valorComision;
     TextView tvPrecioProducto, tvPrecioDomicilio, tvValorComision, tvTotal, tvNombreProducto,
-                tvCantidadProducto, tvEstadoProducto, tvSubTotalProducto, tvSubTotalProducto1,
+                tvCantidadProducto,  tvSubTotalProducto, tvSubTotalProducto1,
                 tvSignoMonedaSubTotal,tvCancelarPedido;
     LinearLayout linearLayoutBP, linearLayoutBP1, linearLayoutBP2;
 
@@ -133,8 +138,9 @@ public class buyProduct extends AppCompatActivity {
                 int vt = (int) valorTotal_*100;
                 String vt_ = Integer.toString(vt);
                 String Reference = currentUser.getUid() + "/" + idCompra + "/" + idProducto +"/" + idVendedor;
-                registrarsolicitudVendedor(vt_,idCompra, idProducto,idVendedor,Reference);
                 registrarCompraAlComprador(vt_,idCompra, idProducto);
+                registrarsolicitudVendedor(vt_,idCompra, idProducto,idVendedor,Reference);
+
             }
         });
 
@@ -226,11 +232,39 @@ public class buyProduct extends AppCompatActivity {
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void aVoid) {
-                        //Toast.makeText(shoppingCart.this, "Producto registrado", Toast.LENGTH_SHORT).show();
-                        Uri uri = Uri.parse("https://checkout.wompi.co/p/?public-key=pub_test_KY4VrC344hkv91RHAfu9XRajobfm0ROe&currency=COP&amount-in-cents="+vt_+"&reference="+Reference+"&redirect-url=https://www.salvavidas.app/");
-                        Intent intent = new Intent(Intent.ACTION_VIEW, uri);
-                        startActivity(intent);
-                        finish();
+
+                        FancyAlertDialog.Builder
+                                .with(buyProduct.this)
+                                .setTitle("Ya Casi !")
+                                .setBackgroundColor(Color.parseColor("#EC7063"))  // for @ColorRes use setBackgroundColorRes(R.color.colorvalue)
+                                .setMessage("Ahora solo falta realizar el pago!")
+                                .setPositiveBtnBackground(Color.parseColor("#EC7063"))  // for @ColorRes use setPositiveBtnBackgroundRes(R.color.colorvalue)
+                                .setPositiveBtnText("Ok")
+                                .setNegativeBtnBackground(Color.parseColor("#EC7063"))  // for @ColorRes use setNegativeBtnBackgroundRes(R.color.colorvalue)
+                                .setNegativeBtnText("Volver")
+                                .setAnimation(Animation.POP)
+                                .isCancellable(true)
+                                .setIcon(R.drawable.icono_ok, View.VISIBLE)
+                                .onPositiveClicked(new FancyAlertDialogListener() {
+                                    @Override
+                                    public void onClick(Dialog dialog) {
+                                        Uri uri = Uri.parse("https://checkout.wompi.co/p/?public-key=pub_test_KY4VrC344hkv91RHAfu9XRajobfm0ROe&currency=COP&amount-in-cents="+vt_+"&reference="+Reference+"&redirect-url=https://www.salvavidas.app/");
+                                        Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+                                        startActivity(intent);
+                                        finish();
+                                    }
+                                })
+                                .onNegativeClicked(new FancyAlertDialogListener() {
+                                    @Override
+                                    public void onClick(Dialog dialog) {
+                                        dialog.dismiss();
+                                    }
+                                })
+                                .build()
+                                .show();
+
+
+
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {
@@ -246,9 +280,10 @@ public class buyProduct extends AppCompatActivity {
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void aVoid) {
-                        Intent intent = new Intent(buyProduct.this , purchasesInProcess.class);
-                        startActivity(intent);
-                        finish();
+
+                       // Intent intent = new Intent(buyProduct.this , purchasesInProcess.class);
+                       // startActivity(intent);
+                       // finish();
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {
@@ -268,12 +303,11 @@ public class buyProduct extends AppCompatActivity {
                     String estadoSolicitud = snapshot.child("estado").getValue().toString();
                     tvEstadoProducto.setText(estadoSolicitud);
                     if(estadoSolicitud.equals("Solicitado")){
-                        tvEstadoProducto.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.clock, 0);
+                        tvEstadoProducto.setTextColor(Color.WHITE);
                         btn_pago.setVisibility(View.VISIBLE);
                     }else if (estadoSolicitud.equals("Procesando pago")
                             ||estadoSolicitud.equals("Cancelado por el comprador")||estadoSolicitud.equals("Cancelado por el vendedor")
                             ||estadoSolicitud.equals("Anulado por el comprador")) {
-                        tvEstadoProducto.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.clock, 0);
                         btn_pago.setVisibility(View.INVISIBLE);
                     }else if (estadoSolicitud.equals("Aprobado por el vendedor")){
                         tvEstadoProducto.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ok, 0);
