@@ -138,8 +138,9 @@ public class buyProduct extends AppCompatActivity {
                 int vt = (int) valorTotal_*100;
                 String vt_ = Integer.toString(vt);
                 String Reference = currentUser.getUid() + "/" + idCompra + "/" + idProducto +"/" + idVendedor;
-                registrarCompraAlComprador(vt_,idCompra, idProducto);
+
                 registrarsolicitudVendedor(vt_,idCompra, idProducto,idVendedor,Reference);
+                registrarCompraAlComprador(vt_,idCompra, idProducto);
 
             }
         });
