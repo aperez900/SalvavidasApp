@@ -1,6 +1,7 @@
 package com.desarollo.salvavidasapp.ui.profile;
 
 import android.app.AlertDialog;
+import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
@@ -25,6 +26,8 @@ import com.bumptech.glide.request.RequestOptions;
 import com.desarollo.salvavidasapp.Models.ListDirecciones;
 import com.desarollo.salvavidasapp.Models.Usuarios;
 import com.desarollo.salvavidasapp.R;
+import com.desarollo.salvavidasapp.ui.home.Home;
+import com.desarollo.salvavidasapp.ui.home.HomeFragment;
 import com.desarollo.salvavidasapp.ui.sales.lookAtProduct;
 import com.desarollo.salvavidasapp.ui.seller.seller2;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -42,6 +45,7 @@ import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.messaging.FirebaseMessaging;
 import com.shashank.sony.fancydialoglib.Animation;
 import com.shashank.sony.fancydialoglib.FancyAlertDialog;
+import com.shashank.sony.fancydialoglib.FancyAlertDialogListener;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -103,10 +107,13 @@ public class Profile extends Fragment {
                 String email = profile.getEmail();
                 UserMail.setText(email);
                 Uri photoUrl = profile.getPhotoUrl();
-                Glide.with(UserPhoto.getContext())
-                        .load(photoUrl)
-                        .apply(RequestOptions.circleCropTransform())
-                        .into(UserPhoto);
+                if(photoUrl != null){
+                    Glide.with(UserPhoto.getContext())
+                            .load(photoUrl)
+                            .apply(RequestOptions.circleCropTransform())
+                            .into(UserPhoto);
+                }
+
             }
         }
 
@@ -140,8 +147,7 @@ public class Profile extends Fragment {
         });
 
         //Llena los campos del formulario con los datos de la bd
-
-            consultarDatosPerfil(nombres, apellidos, identificacion, celular,btnReg, btnDesactivarUsuario);
+        consultarDatosPerfil(nombres, apellidos, identificacion, celular,btnReg, btnDesactivarUsuario);
 
 
 
@@ -189,16 +195,18 @@ public class Profile extends Fragment {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
                         if(snapshot.exists()){
-                            String nombre_ = snapshot.child("nombre").getValue().toString();
-                            etNombres.setText(nombre_);
-                            String apellido = snapshot.child("apellido").getValue().toString();
-                            etApellidos.setText(apellido);
-                            String identificacion = snapshot.child("identificacion").getValue().toString();
-                            etIdentificacion.setText(identificacion);
-                            String celular = snapshot.child("celular").getValue().toString();
-                            etCelular.setText(celular);
-                            btnReg.setText("Actualizar");
-                            consultarEstadoUsuario(btnDesactivarUsuario);
+                            if(snapshot.child("nombre").exists()){
+                                String nombre = snapshot.child("nombre").getValue().toString();
+                                etNombres.setText(nombre);
+                                String apellido = snapshot.child("apellido").getValue().toString();
+                                etApellidos.setText(apellido);
+                                String identificacion = snapshot.child("identificacion").getValue().toString();
+                                etIdentificacion.setText(identificacion);
+                                String celular = snapshot.child("celular").getValue().toString();
+                                etCelular.setText(celular);
+                                btnReg.setText("Actualizar");
+                                consultarEstadoUsuario(btnDesactivarUsuario);
+                            }
                         }
                     }
                     @Override
@@ -394,7 +402,7 @@ public class Profile extends Fragment {
                 .with(getActivity())
                 .setTitle("Felicitaciones !")
                 .setBackgroundColor(Color.parseColor("#EC7063"))  // for @ColorRes use setBackgroundColorRes(R.color.colorvalue)
-                .setMessage("Se realizo el registro de forma exitosa !")
+                .setMessage("Se realizo el proceso de forma exitosa !")
                 .setPositiveBtnBackground(Color.parseColor("#EC7063"))  // for @ColorRes use setPositiveBtnBackgroundRes(R.color.colorvalue)
                 .setPositiveBtnText("Ok")
                 .setNegativeBtnBackground(Color.parseColor("#EC7063"))  // for @ColorRes use setNegativeBtnBackgroundRes(R.color.colorvalue)
@@ -402,7 +410,14 @@ public class Profile extends Fragment {
                 .setAnimation(Animation.POP)
                 .isCancellable(true)
                 .setIcon(R.drawable.icono_ok, View.VISIBLE)
-                .onPositiveClicked(dialog -> Toast.makeText(getActivity(), "Volver", Toast.LENGTH_SHORT).show())
+                .onPositiveClicked(new FancyAlertDialogListener() {
+                            @Override
+                            public void onClick(Dialog dialog) {
+                                Intent intent = new Intent(getContext(), Home.class);
+                                startActivity(intent);
+
+
+                            }})
                 .onNegativeClicked(dialog -> Toast.makeText(getActivity(), "Cancel", Toast.LENGTH_SHORT).show())
                 .build()
                 .show();
@@ -476,11 +491,14 @@ public class Profile extends Fragment {
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
                         if(snapshot.exists()){
                             String Estado = snapshot.child("habilitado").getValue().toString();
+                                btnDesactivarUsuario.setVisibility(View.VISIBLE);
                             if (Estado.equals("false")){
                                 btnDesactivarUsuario.setText("Activar Usuario");
                             }else if (Estado.equals("true")){
                                 btnDesactivarUsuario.setText("Desactivar Usuario");
                             }
+                        }else{
+                            btnDesactivarUsuario.setVisibility(View.INVISIBLE);
                         }
                     }
                     @Override

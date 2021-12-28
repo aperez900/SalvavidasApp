@@ -98,9 +98,13 @@ public class HomeFragment extends Fragment {
 
     private void actualizarNombreUsuario(TextView tv_saludo){
         if(currentUser != null) {
-            String nombreCompleto = currentUser.getDisplayName();
-            String  [] primerNombre = nombreCompleto.split(" ");
-            tv_saludo.setText("Hola "+ primerNombre[0] +" ¿Qué vas a pedir hoy?");
+            if(currentUser.getDisplayName() != null){
+                String nombreCompleto = currentUser.getDisplayName();
+                String  [] primerNombre = nombreCompleto.split(" ");
+                tv_saludo.setText("Hola "+ primerNombre[0] +" ¿Qué vas a pedir hoy?");
+            }
+            tv_saludo.setText("Hola ¿Qué vas a pedir hoy?");
+
         }
     }
 

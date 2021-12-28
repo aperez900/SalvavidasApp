@@ -51,6 +51,8 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.Objects;
 
+import static com.desarollo.salvavidasapp.R.layout.activity_home;
+
 public class Home extends AppCompatActivity {
 
     private AppBarConfiguration mAppBarConfiguration;
@@ -71,7 +73,7 @@ public class Home extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_home);
+        setContentView(activity_home);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
