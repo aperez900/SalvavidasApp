@@ -44,12 +44,14 @@
                 android:id="@+id/sp_texto_1_direccion"
                 android:layout_width="80dp"
                 android:layout_height="45dp"
-                android:layout_marginStart="20dp"
+                android:layout_marginStart="16dp"
                 android:layout_marginTop="20dp"
                 android:background="#FFFFFF"
                 android:fontFamily="@font/poppins_light"
+                android:foregroundGravity="left"
                 android:gravity="start"
                 android:hint="calle"
+                android:textAlignment="textStart"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/et_alias" />
 
@@ -121,6 +123,7 @@
                 app:layout_constraintStart_toEndOf="@+id/sp_texto_1_direccion"
                 app:layout_constraintTop_toBottomOf="@+id/et_alias" />
 
+
             <Spinner
                 android:id="@+id/sp_municipio"
                 android:layout_width="328dp"
@@ -128,11 +131,13 @@
                 android:layout_marginTop="16dp"
                 android:background="#FFFFFF"
                 android:fontFamily="@font/poppins_light"
+                android:gravity="start"
                 android:hint="calle"
+                android:textAlignment="textStart"
                 app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.457"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/sp_texto_3_direccion" />
-
 
             <EditText
                 android:id="@+id/et_barrio"
@@ -147,14 +152,14 @@
                 android:hint="Barrio"
                 android:inputType="text"
                 app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.394"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/sp_municipio" />
 
-
             <EditText
                 android:id="@+id/et_alias"
-                android:layout_width="331dp"
-                android:layout_height="45dp"
+                android:layout_width="320dp"
+                android:layout_height="47dp"
                 android:layout_marginTop="48dp"
                 android:background="#FFFFFF"
                 android:ems="10"
@@ -162,7 +167,7 @@
                 android:hint="Mi casa"
                 android:inputType="textEmailAddress"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.476"
+                app:layout_constraintHorizontal_bias="0.604"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
@@ -177,6 +182,7 @@
                 android:hint="Mi casa"
                 android:inputType="text"
                 app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.656"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/et_barrio" />
 

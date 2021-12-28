@@ -65,7 +65,7 @@ public class Maps extends FragmentActivity implements GoogleMap.OnMarkerDragList
     DatabaseReference myRef;
     ListDirecciones d;
     Marker makerActual = null;
-    String tipo = null;
+    String tipo = "usuarios";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -205,7 +205,7 @@ public class Maps extends FragmentActivity implements GoogleMap.OnMarkerDragList
         makerActual = mMap.addMarker(new MarkerOptions()
                 .position(coordenadas)
                 .title("Mi ubicación")
-                .icon(BitmapDescriptorFactory.fromResource(R.drawable.marcador25
+                .icon(BitmapDescriptorFactory.fromResource(R.drawable.marker_30
                 ))
                 .draggable(true));
         mMap.moveCamera(CameraUpdateFactory.newLatLng(coordenadas));

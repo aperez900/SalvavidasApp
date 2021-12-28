@@ -67,6 +67,7 @@ public class buyProduct extends AppCompatActivity {
                 tvSignoMonedaSubTotal,tvCancelarPedido;
     LinearLayout linearLayoutBP, linearLayoutBP1, linearLayoutBP2;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
