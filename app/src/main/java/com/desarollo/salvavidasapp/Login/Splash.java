@@ -56,6 +56,7 @@ public class Splash extends AppCompatActivity {
 
         if (networkInfo != null && networkInfo.isConnected()) {
             // Si hay conexión a Internet en este momento
+
             tiempo.schedule(inicio,4000);
         } else {
 

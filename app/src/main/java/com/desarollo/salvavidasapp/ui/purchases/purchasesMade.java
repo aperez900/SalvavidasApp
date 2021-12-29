@@ -24,6 +24,8 @@ import com.google.firebase.database.ValueEventListener;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Timer;
+import java.util.TimerTask;
 
 public class purchasesMade extends AppCompatActivity {
     TextView tituloComprasRealizadas, subtituloComprasRealizadas;
@@ -66,6 +68,14 @@ public class purchasesMade extends AppCompatActivity {
 
         Calendar c = Calendar.getInstance();
         SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm");
+        TimerTask inicio = new TimerTask() {
+            @Override
+            public void run() {
+                Intent intent = new Intent(purchasesMade.this, Home.class);
+                startActivity(intent);
+                finish();
+            }
+        };
 
         myRefUsuarios.child(currentUser.getUid()).child("mis_compras").addValueEventListener(new ValueEventListener() {
             @Override
@@ -88,10 +98,11 @@ public class purchasesMade extends AppCompatActivity {
                     }
                 }
                 else {
-                    Intent intent = new Intent(purchasesMade.this, Home.class);
-                    startActivity(intent);
-                    finish();
                     Toast.makeText(purchasesMade.this, "Aún no se ha realizado compras", Toast.LENGTH_SHORT).show();
+
+                    Timer tiempo = new Timer();
+                    tiempo.schedule(inicio,1500);
+
                 }
             }
 

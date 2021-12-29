@@ -13,6 +13,7 @@ import android.widget.Toast;
 import com.desarollo.salvavidasapp.Models.ProductosEnTramite;
 import com.desarollo.salvavidasapp.R;
 import com.desarollo.salvavidasapp.ui.home.Home;
+import com.desarollo.salvavidasapp.ui.purchases.purchasesInProcess;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -24,6 +25,8 @@ import com.google.firebase.database.ValueEventListener;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Timer;
+import java.util.TimerTask;
 
 public class requestedProducts extends AppCompatActivity {
 
@@ -75,6 +78,15 @@ public class requestedProducts extends AppCompatActivity {
         Calendar c = Calendar.getInstance();
         SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm");
 
+        TimerTask inicio = new TimerTask() {
+            @Override
+            public void run() {
+                Intent intent = new Intent(requestedProducts.this, Home.class);
+                startActivity(intent);
+                finish();
+            }
+        };
+
         myRefVendedores.child(currentUser.getUid()).child("productos_en_tramite").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -94,11 +106,13 @@ public class requestedProducts extends AppCompatActivity {
                         }
                     }
                 } else {
-                    Intent intent = new Intent(requestedProducts.this, Home.class);
-                    startActivity(intent);
-                    finish();
+
                     Toast.makeText(requestedProducts.this, "Aún no han solicitado tus productos. Intenta de nuevo mas tarde.", Toast.LENGTH_SHORT).show();
-                }
+
+                    Timer tiempo = new Timer();
+                    tiempo.schedule(inicio,1500);
+
+                                    }
             }
 
             @Override

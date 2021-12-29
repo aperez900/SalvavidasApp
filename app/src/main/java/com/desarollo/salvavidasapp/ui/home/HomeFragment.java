@@ -83,6 +83,7 @@ public class HomeFragment extends Fragment {
         actualizarNombreUsuario(tv_saludo);
         crearListadoTiposDeProductos();
         crearListadoProductos();
+        crearListado();
 
         tvPrincipalAddress.setOnClickListener(Navigation.createNavigateOnClickListener(R.id.action_nav_home_to_nav_address));
 
@@ -202,6 +203,24 @@ public class HomeFragment extends Fragment {
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
                 Toast.makeText(getApplicationContext(), "Error consultando las direcciones. Intente de nuevo mas tarde.", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    public void crearListado() {
+
+        myRefUsuarios.child(currentUser.getUid()).child("carrito_compras").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if(snapshot.exists()){
+                    btnShopping.setVisibility(View.VISIBLE);
+                }else{
+                    btnShopping.setVisibility(View.INVISIBLE);
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
             }
         });
     }

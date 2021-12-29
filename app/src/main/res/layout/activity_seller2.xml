@@ -9,7 +9,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="180dp"
-        android:layout_marginTop="40dp"
+        android:layout_marginTop="20dp"
         android:orientation="vertical">
 
         <TextView
@@ -55,26 +55,27 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent" />
         </FrameLayout>
+
+        <Space
+            android:layout_width="match_parent"
+            android:layout_height="5dp" />
     </LinearLayout>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="220dp">
+        android:layout_marginTop="200dp">
 
         <ScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            tools:layout_editor_absoluteX="0dp"
-            tools:layout_editor_absoluteY="-71dp">
+            app:layout_constraintTop_toTopOf="parent"
+            tools:layout_editor_absoluteX="-16dp">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
-                <Space
-                    android:layout_width="match_parent"
-                    android:layout_height="5dp" />
 
 
                 <EditText
@@ -84,11 +85,11 @@
                     android:layout_marginStart="50dp"
                     android:layout_marginTop="1dp"
                     android:layout_marginEnd="50dp"
-                    android:hint="@string/nombre"
-                    android:textAlignment="textStart"
                     android:fontFamily="@font/poppins_light"
-                    android:textSize="16sp"
+                    android:hint="@string/nombre"
                     android:inputType="textPersonName"
+                    android:textAlignment="textStart"
+                    android:textSize="18sp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent" />
 
@@ -99,11 +100,11 @@
                     android:layout_marginStart="50dp"
                     android:layout_marginTop="10dp"
                     android:layout_marginEnd="50dp"
-                    android:hint="@string/apellidos"
-                    android:textAlignment="textStart"
                     android:fontFamily="@font/poppins_light"
-                    android:textSize="16sp"
+                    android:hint="@string/apellidos"
                     android:inputType="textPersonName"
+                    android:textAlignment="textStart"
+                    android:textSize="18sp"
                     app:layout_constraintTop_toBottomOf="@id/tv_nombre" />
 
 
@@ -114,11 +115,11 @@
                     android:layout_marginStart="50dp"
                     android:layout_marginTop="10dp"
                     android:layout_marginEnd="50dp"
-                    android:hint="@string/documento_identidad"
-                    android:textAlignment="textStart"
                     android:fontFamily="@font/poppins_light"
-                    android:textSize="16sp"
+                    android:hint="@string/documento_identidad"
                     android:inputType="number"
+                    android:textAlignment="textStart"
+                    android:textSize="18sp"
                     app:layout_constraintTop_toBottomOf="@id/sp_municipio" />
 
 
@@ -132,8 +133,8 @@
                     android:autofillHints="@string/razonSocial"
                     android:fontFamily="@font/poppins_light"
                     android:hint="@string/celular"
-                    android:textSize="16sp"
                     android:inputType="number"
+                    android:textSize="18sp"
                     app:layout_constraintTop_toBottomOf="@id/tv_identidad" />
 
                 <EditText
@@ -143,12 +144,12 @@
                     android:layout_marginStart="50dp"
                     android:layout_marginTop="10dp"
                     android:layout_marginEnd="50dp"
-                    android:hint="@string/razonSocial"
+                    android:autofillHints="@string/razonSocial"
                     android:fontFamily="@font/poppins_light"
+                    android:hint="@string/razonSocial"
                     android:inputType="textPersonName"
-                    android:textSize="16sp"
-                    app:layout_constraintTop_toBottomOf="@id/tv_celular"
-                    android:autofillHints="@string/razonSocial" />
+                    android:textSize="18sp"
+                    app:layout_constraintTop_toBottomOf="@id/tv_celular" />
 
                 <EditText
                     android:id="@+id/et_nit"
@@ -157,12 +158,12 @@
                     android:layout_marginStart="50dp"
                     android:layout_marginTop="10dp"
                     android:layout_marginEnd="50dp"
+                    android:autofillHints="@string/Nit"
+                    android:fontFamily="@font/poppins_light"
                     android:hint="@string/Nit"
                     android:inputType="number"
-                    android:fontFamily="@font/poppins_light"
-                    android:textSize="16sp"
-                    app:layout_constraintTop_toBottomOf="@id/et_razon_social"
-                    android:autofillHints="@string/Nit" />
+                    android:textSize="18sp"
+                    app:layout_constraintTop_toBottomOf="@id/et_razon_social" />
 
 
                 <Spinner
@@ -175,14 +176,15 @@
                     android:background="#FFFFFF"
                     android:fontFamily="@font/abel"
                     android:hint="@string/ActividadEconomica"
+                    android:textSize="18sp"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/et_nit" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:layout_marginTop="10dp">
+                    android:layout_marginTop="10dp"
+                    android:orientation="horizontal">
 
                     <EditText
                         android:id="@+id/et_direccion"
@@ -195,18 +197,21 @@
                         android:hint="@string/agregarDireccion"
                         android:importantForAutofill="no"
                         android:inputType="textPersonName"
+                        android:textSize="18sp"
                         app:layout_constraintTop_toBottomOf="@id/et_descuento" />
 
                     <Button
                         android:id="@+id/agregar_direccion"
-                        android:layout_width="match_parent"
+                        android:layout_width="71dp"
                         android:layout_height="50dp"
-                        android:layout_marginStart="20dp"
-                        android:layout_marginEnd="30dp"
+                        android:layout_marginStart="10dp"
+                        android:layout_marginEnd="40dp"
                         android:fontFamily="@font/poppins_semibold"
-                        app:icon="@drawable/ic_icono_address"
+                        android:gravity="center"
+                        android:textAlignment="center"
+                        app:icon="@drawable/marcador25"
+                        app:iconPadding="0dp"
                         app:layout_constraintTop_toBottomOf="@id/tv_celular" />
-
 
 
                 </LinearLayout>
@@ -214,11 +219,14 @@
                 <Button
                     android:id="@+id/btn_registrar_vendedor"
                     android:layout_width="match_parent"
-                    android:layout_height="50dp"
+                    android:layout_height="60dp"
                     android:layout_marginStart="30dp"
                     android:layout_marginEnd="30dp"
-                    android:text="@string/solicitar"
+
                     android:fontFamily="@font/poppins_semibold"
+                    android:text="@string/solicitar"
+                    android:textSize="16sp"
+                    app:cornerRadius="15dp"
                     app:layout_constraintTop_toBottomOf="@id/tv_celular" />
 
             </LinearLayout>

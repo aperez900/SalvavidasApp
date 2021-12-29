@@ -25,6 +25,7 @@
         android:fontFamily="@font/poppins_semibold"
         android:text="@string/subTituloComprasEnProceso"
         android:textAlignment="center"
+
         android:textSize="14sp" />
 
     <androidx.recyclerview.widget.RecyclerView

@@ -10,6 +10,8 @@ import android.os.Bundle;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.desarollo.salvavidasapp.Login.MainActivity;
+import com.desarollo.salvavidasapp.Login.Splash;
 import com.desarollo.salvavidasapp.Models.ProductosEnTramite;
 import com.desarollo.salvavidasapp.R;
 import com.desarollo.salvavidasapp.ui.home.Home;
@@ -24,6 +26,8 @@ import com.google.firebase.database.ValueEventListener;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Timer;
+import java.util.TimerTask;
 
 public class purchasesInProcess extends AppCompatActivity {
 
@@ -60,12 +64,24 @@ public class purchasesInProcess extends AppCompatActivity {
         listadoComprasEnProceso.setAdapter(ListPurchasesInProcessAdapter);
 
         crearListado();
+
+
+
+
     }
 
     public void crearListado() {
 
         Calendar c = Calendar.getInstance();
         SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm");
+        TimerTask inicio = new TimerTask() {
+            @Override
+            public void run() {
+                Intent intent = new Intent(purchasesInProcess.this, Home.class);
+                startActivity(intent);
+                finish();
+            }
+        };
 
         myRefUsuarios.child(currentUser.getUid()).child("mis_compras").addValueEventListener(new ValueEventListener() {
             @Override
@@ -89,10 +105,11 @@ public class purchasesInProcess extends AppCompatActivity {
                     }
                 }
                 else {
-                    Intent intent = new Intent(purchasesInProcess.this, Home.class);
-                    startActivity(intent);
-                    finish();
+
                     Toast.makeText(purchasesInProcess.this, "Aún no tienes compras en proceso", Toast.LENGTH_SHORT).show();
+                    Timer tiempo = new Timer();
+                    tiempo.schedule(inicio,1500);
+
                 }
             }
 
