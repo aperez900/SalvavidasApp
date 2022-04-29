@@ -136,9 +136,10 @@ public class favorites extends Fragment {
                             }
                         }
 
-                        listFavoritesAdapter = new ListFavoritesAdapter(getApplicationContext(), listaSubTipo, getActivity());
-                        recyclerViewFavorites.setAdapter(listFavoritesAdapter);
                     }
+
+                    listFavoritesAdapter = new ListFavoritesAdapter(getApplicationContext(), listaSubTipo, getActivity());
+                    recyclerViewFavorites.setAdapter(listFavoritesAdapter);
                 }
 
                 @Override

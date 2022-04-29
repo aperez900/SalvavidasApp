@@ -75,7 +75,7 @@ public class ListFavoritesAdapter extends RecyclerView.Adapter<ListFavoritesAdap
                 .load(imagen)
                 .into(holder.imagen_fav);
 
-       holder.ch_fav.setChecked(model.get(position).getEstado());
+
 
        holder.ch_fav.setOnClickListener(new View.OnClickListener() {
            @Override
@@ -91,6 +91,8 @@ public class ListFavoritesAdapter extends RecyclerView.Adapter<ListFavoritesAdap
                }
            }
        });
+
+        holder.ch_fav.setChecked(model.get(position).getEstado());
 
 
     }
