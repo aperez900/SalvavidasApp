@@ -25,7 +25,9 @@
     <string name="olvideClave">Olvidé mi clave</string>
     <string name="registrar">Registrar</string>
     <string name="registrar2">Registrar</string>
+    <string name="continuar">Continuar</string>
     <string name="nombrePerfil">Nombre perfil</string>
+    <string name="Bienvenida">Hola... registra unos pocos datos</string>
     <string name="correoPerfil">Correo perfil</string>
     <string name="desactivar_usuario">Desactivar Usuario</string>
     <string name="agregarDirecciones">Agregar direccion manualmente</string>

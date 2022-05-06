@@ -131,7 +131,6 @@
                     android:text="@string/registrar2"
                     app:layout_constraintTop_toBottomOf="@id/tv_celular" />
 
-
                 <Button
                     android:id="@+id/btn_desactivar_usuario"
                     android:layout_width="match_parent"

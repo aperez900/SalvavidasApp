@@ -1,5 +1,6 @@
 package com.desarollo.salvavidasapp.Login;
 
+import androidx.annotation.Keep;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -14,8 +15,10 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.desarollo.salvavidasapp.profile_initial;
 import com.desarollo.salvavidasapp.ui.home.Home;
 import com.desarollo.salvavidasapp.R;
+import com.desarollo.salvavidasapp.ui.profile.Profile;
 import com.facebook.AccessToken;
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
@@ -37,7 +40,15 @@ import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.firebase.auth.GoogleAuthProvider;
 import com.google.firebase.auth.UserInfo;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
+import static com.facebook.FacebookSdk.getApplicationContext;
+
+@Keep
 public class MainActivity extends AppCompatActivity {
 
     EditText et_email, et_password;
@@ -50,10 +61,20 @@ public class MainActivity extends AppCompatActivity {
     private SignInButton signInButton;
     public static final int RC_SIGN_IN = 0;
 
+    FirebaseUser currentUser;
+    FirebaseDatabase database;
+    DatabaseReference myRef;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        mAuth = FirebaseAuth.getInstance();
+        currentUser = mAuth.getCurrentUser();
+        database = FirebaseDatabase.getInstance();
+        myRef = database.getReference("usuarios");
+        
         fb = (Button) findViewById(R.id.fb);
         google = (Button) findViewById(R.id.google);
 
@@ -215,16 +236,16 @@ public class MainActivity extends AppCompatActivity {
                 String providerId = profile.getProviderId();
                 //Toast.makeText(MainActivity.this, "Proveedor " + providerId, Toast.LENGTH_LONG).show();
                 if (providerId.equals("facebook.com")){
-                    ingreso();
+                      datosIniciales();
                 }
                 if (providerId.equals("google.com")){
-                    ingreso();
+                     datosIniciales();
                 }
                 if(currentUser.isEmailVerified()){
-                    ingreso();
+                     datosIniciales();
                 }
             }
-            Toast.makeText(MainActivity.this, "Ya estas logueado. ", Toast.LENGTH_SHORT).show();
+           // Toast.makeText(MainActivity.this, "Ya estas logueado. ", Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -290,10 +311,59 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void ingreso() {
-        Intent h = new Intent(getApplicationContext(), Home.class);
-        startActivity(h);
-        finish();
+
+        FirebaseUser currentUser = mAuth.getCurrentUser();
+        myRef.child(currentUser.getUid())
+                .addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        if(snapshot.exists()){
+
+
+                            Intent h = new Intent(getApplicationContext(), Home.class);
+                            startActivity(h);
+                            finish();
+
+                        }
+                        else{
+
+                            Intent h = new Intent(getApplication(), profile_initial.class);
+                            startActivity(h);
+                            finish();
+                        }
+
+                    }
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+                        Toast.makeText(getApplicationContext(), "Error consultando los datos del usuario. Intente de nuevo mas tarde.", Toast.LENGTH_SHORT).show();
+                    }
+                });
+
     }
+
+    private void datosIniciales() {
+
+        myRef.child(currentUser.getUid())
+                .addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        if(snapshot.exists()){
+
+                            Intent h = new Intent(getApplicationContext(), Home.class);
+                            startActivity(h);
+                            finish();
+
+                        }
+
+                    }
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+                        Toast.makeText(getApplicationContext(), "Error consultando los datos del usuario. Intente de nuevo mas tarde.", Toast.LENGTH_SHORT).show();
+                    }
+                });
+
+    }
+
 
     public boolean validarCamposVacios(){
         boolean campoLleno = true;
