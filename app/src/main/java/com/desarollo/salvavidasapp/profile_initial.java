@@ -1,24 +1,49 @@
 package com.desarollo.salvavidasapp;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.Dialog;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.desarollo.salvavidasapp.Login.Registro;
+import com.desarollo.salvavidasapp.Models.Usuarios;
 import com.desarollo.salvavidasapp.ui.home.Home;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.shashank.sony.fancydialoglib.Animation;
+import com.shashank.sony.fancydialoglib.FancyAlertDialog;
+import com.shashank.sony.fancydialoglib.FancyAlertDialogListener;
 
 public class profile_initial extends AppCompatActivity {
+
+    FirebaseAuth mAuth;
+    FirebaseUser currentUser;
+    FirebaseDatabase database;
+    DatabaseReference myRef;
+    Usuarios u;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile_initial);
+
+        mAuth = FirebaseAuth.getInstance();
+        currentUser = mAuth.getCurrentUser();
+        database = FirebaseDatabase.getInstance();
+        myRef = database.getReference("usuarios");
 
 
         EditText nombres = findViewById(R.id.tv_nombre);
@@ -26,16 +51,24 @@ public class profile_initial extends AppCompatActivity {
         EditText identificacion = findViewById(R.id.tv_identidad);
         EditText celular = findViewById(R.id.tv_celular);
         Button btnReg = findViewById(R.id.btn_registrar_perfil);
+        String email;
+        email = "";
+
+        Intent intent = getIntent();
+        if (intent.getExtras()  != null){
+            Bundle extras = getIntent().getExtras();
+            email = extras.getString("email");
+
+        }
+
 
         //Acciones del botón registrar
+        String finalEmail = email;
         btnReg.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 if(validarCamposVacios(nombres, apellidos, identificacion, celular)) {
-
-                    Intent i = new Intent(getApplicationContext(), Home.class);
-                    startActivity(i);
-                    finish();
+                    registrar(finalEmail, nombres, apellidos, identificacion, celular);
                 }
             }
         });
@@ -82,5 +115,109 @@ public class profile_initial extends AppCompatActivity {
         }
          */
         return campoLleno;
+    }
+
+
+    /*
+     * @autor: Andrés Pérez
+     * @since: 10/03/2021
+     * @Version: 01
+     * Método para registrar o actualizar los datos del perfil en la BD
+     * */
+    private void registrar(String email ,EditText nombres, EditText apellidos, EditText identificacion, EditText celular) {
+        u = new Usuarios();
+        u.nombre=nombres.getText().toString();
+        u.apellido = apellidos.getText().toString();
+        u.identificacion = identificacion.getText().toString();
+        u.celular = celular.getText().toString();
+        u.correo = email;
+        u.habilitado = true;
+
+        //guarda los datos del usuario
+        myRef.child(currentUser.getUid()).child("apellido").setValue(u.getApellido())
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        //Toast.makeText(getApplicationContext(), "Usuario actualizado correctamente", Toast.LENGTH_SHORT).show();
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        //Toast.makeText(getApplicationContext(), "Error actualizando el usuario", Toast.LENGTH_SHORT).show();
+                    }
+                });
+        myRef.child(currentUser.getUid()).child("celular").setValue(u.getCelular())
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        //Toast.makeText(getApplicationContext(), "Usuario actualizado correctamente", Toast.LENGTH_SHORT).show();
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        //Toast.makeText(getApplicationContext(), "Error actualizando el usuario", Toast.LENGTH_SHORT).show();
+                    }
+                });
+
+        myRef.child(currentUser.getUid()).child("correo").setValue(u.getCorreo())
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        //Toast.makeText(getApplicationContext(), "Usuario actualizado correctamente", Toast.LENGTH_SHORT).show();
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        //Toast.makeText(getApplicationContext(), "Error actualizando el usuario", Toast.LENGTH_SHORT).show();
+                    }
+                });
+        myRef.child(currentUser.getUid()).child("habilitado").setValue(u.getHabilitado())
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        //Toast.makeText(getApplicationContext(), "Usuario actualizado correctamente", Toast.LENGTH_SHORT).show();
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        //Toast.makeText(getApplicationContext(), "Error actualizando el usuario", Toast.LENGTH_SHORT).show();
+                    }
+                });
+
+        myRef.child(currentUser.getUid()).child("identificacion").setValue(u.getIdentificacion())
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        //Toast.makeText(getApplicationContext(), "Usuario actualizado correctamente", Toast.LENGTH_SHORT).show();
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        //Toast.makeText(getApplicationContext(), "Error actualizando el usuario", Toast.LENGTH_SHORT).show();
+                    }
+                });
+
+        myRef.child(currentUser.getUid()).child("nombre").setValue(u.getNombre())
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        //Toast.makeText(getApplicationContext(), "Usuario actualizado correctamente", Toast.LENGTH_SHORT).show();
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        //Toast.makeText(getApplicationContext(), "Error actualizando el usuario", Toast.LENGTH_SHORT).show();
+                    }
+                });
+
+
+         Toast.makeText(getApplicationContext(), "Felicidades !", Toast.LENGTH_SHORT).show();
+
     }
 }

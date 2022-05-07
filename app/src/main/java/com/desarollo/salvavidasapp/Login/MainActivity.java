@@ -4,6 +4,7 @@ import androidx.annotation.Keep;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -18,6 +19,7 @@ import android.widget.Toast;
 import com.desarollo.salvavidasapp.profile_initial;
 import com.desarollo.salvavidasapp.ui.home.Home;
 import com.desarollo.salvavidasapp.R;
+import com.desarollo.salvavidasapp.ui.home.productsByType;
 import com.desarollo.salvavidasapp.ui.profile.Profile;
 import com.facebook.AccessToken;
 import com.facebook.CallbackManager;
@@ -327,9 +329,14 @@ public class MainActivity extends AppCompatActivity {
                         }
                         else{
 
-                            Intent h = new Intent(getApplication(), profile_initial.class);
-                            startActivity(h);
+
+                            String email = currentUser.getEmail();
+                            Intent intent = new Intent(getApplication() , profile_initial.class);
+                            intent.putExtra("email", email );
+                            startActivity(intent);
                             finish();
+
+
                         }
 
                     }
