@@ -235,37 +235,10 @@ public class buyProduct extends AppCompatActivity {
                     @Override
                     public void onSuccess(Void aVoid) {
 
-                        FancyAlertDialog.Builder
-                                .with(buyProduct.this)
-                                .setTitle("Ya Casi !")
-                                .setBackgroundColor(Color.parseColor("#EC7063"))  // for @ColorRes use setBackgroundColorRes(R.color.colorvalue)
-                                .setMessage("Ahora solo falta realizar el pago!")
-                                .setPositiveBtnBackground(Color.parseColor("#EC7063"))  // for @ColorRes use setPositiveBtnBackgroundRes(R.color.colorvalue)
-                                .setPositiveBtnText("Ok")
-                                .setNegativeBtnBackground(Color.parseColor("#EC7063"))  // for @ColorRes use setNegativeBtnBackgroundRes(R.color.colorvalue)
-                                .setNegativeBtnText("Volver")
-                                .setAnimation(Animation.POP)
-                                .isCancellable(true)
-                                .setIcon(R.drawable.icono_ok, View.VISIBLE)
-                                .onPositiveClicked(new FancyAlertDialogListener() {
-                                    @Override
-                                    public void onClick(Dialog dialog) {
-                                        Uri uri = Uri.parse("https://checkout.wompi.co/p/?public-key=pub_test_KY4VrC344hkv91RHAfu9XRajobfm0ROe&currency=COP&amount-in-cents="+vt_+"&reference="+Reference+"&redirect-url=https://www.salvavidas.app/");
-                                        Intent intent = new Intent(Intent.ACTION_VIEW, uri);
-                                        startActivity(intent);
-                                        finish();
-                                    }
-                                })
-                                .onNegativeClicked(new FancyAlertDialogListener() {
-                                    @Override
-                                    public void onClick(Dialog dialog) {
-                                        dialog.dismiss();
-                                    }
-                                })
-                                .build()
-                                .show();
-
-
+                        Uri uri = Uri.parse("https://checkout.wompi.co/p/?public-key=pub_test_KY4VrC344hkv91RHAfu9XRajobfm0ROe&currency=COP&amount-in-cents="+vt_+"&reference="+Reference+"&redirect-url=https://www.salvavidas.app/");
+                        Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+                        startActivity(intent);
+                        finish();
 
                     }
                 })

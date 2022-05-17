@@ -17,15 +17,20 @@ import android.widget.Toast;
 import com.desarollo.salvavidasapp.Login.Registro;
 import com.desarollo.salvavidasapp.Models.Usuarios;
 import com.desarollo.salvavidasapp.ui.home.Home;
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.messaging.FirebaseMessaging;
 import com.shashank.sony.fancydialoglib.Animation;
 import com.shashank.sony.fancydialoglib.FancyAlertDialog;
 import com.shashank.sony.fancydialoglib.FancyAlertDialogListener;
+
+import static com.facebook.FacebookSdk.getApplicationContext;
 
 public class profile_initial extends AppCompatActivity {
 
@@ -216,8 +221,39 @@ public class profile_initial extends AppCompatActivity {
                     }
                 });
 
+         registrar_token();
 
          Toast.makeText(getApplicationContext(), "Felicidades !", Toast.LENGTH_SHORT).show();
 
+    }
+
+    private void registrar_token() {
+
+        FirebaseMessaging.getInstance().getToken()
+                .addOnCompleteListener(new OnCompleteListener<String>() {
+                    String token ="";
+                    @Override
+                    public void onComplete(@NonNull Task<String> task) {
+                        if (!task.isSuccessful()) {
+                            Toast.makeText(getApplicationContext(),"Fetching FCM registration token failed" +task.getException(), Toast.LENGTH_SHORT).show();
+                            return;
+                        }
+                        // Get new FCM registration token
+                        token = task.getResult();
+                        myRef.child(currentUser.getUid()).child("tokenId").setValue(token)
+                                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                    @Override
+                                    public void onSuccess(Void aVoid) {
+
+                                    }
+                                })
+                                .addOnFailureListener(new OnFailureListener() {
+                                    @Override
+                                    public void onFailure(@NonNull Exception e) {
+
+                                    }
+                                });
+                    }
+                });
     }
 }

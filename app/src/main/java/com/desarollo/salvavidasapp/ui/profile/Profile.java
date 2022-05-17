@@ -132,8 +132,6 @@ public class Profile extends Fragment {
         //UserMail.setText(currentUser.getEmail());
         //Glide.with(this).load(currentUser.getPhotoUrl()).apply(RequestOptions.circleCropTransform()).into(UserPhoto);
 
-
-
         //Acciones del botón registrar
         btnReg.setOnClickListener(new View.OnClickListener() {
             @Override
