@@ -70,6 +70,7 @@ public class SubMenuProfile extends Fragment {
         consultarDatosVendedor(imgVendedor);
 
         tvPerfilComprador.setOnClickListener(Navigation.createNavigateOnClickListener(R.id.action_subMenuProfile_to_nav_profile));
+
         tvPerfilVendedor.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -77,7 +78,8 @@ public class SubMenuProfile extends Fragment {
                 startActivity(intent);
             }
         });
-        //tvPerfilVendedor.setOnClickListener(Navigation.createNavigateOnClickListener(R.id.action_subMenuProfile_to_nav_seller));
+
+        //tvPerfilVendedor.setOnClickListener(Navigation.createNavigateOnClickListener(R.id.action_subMenuProfile_to_seller3));
 
         return view;
     }

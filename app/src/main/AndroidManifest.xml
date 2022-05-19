@@ -65,7 +65,8 @@
         <activity android:name=".ui.direction.FrmAddress" />
         <activity
             android:name=".Login.Splash"
-            android:theme="@style/Theme.SalvavidasApp.NoActionBar">
+            android:theme="@style/Theme.SalvavidasApp.NoActionBar"
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

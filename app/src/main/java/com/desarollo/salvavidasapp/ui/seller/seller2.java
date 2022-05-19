@@ -172,6 +172,30 @@ public class seller2 extends AppCompatActivity {
                 if(validarCamposVacios( nombres, apellidos, identificacion, celular, nombreEstablecimiento, nit, sp_actividad_econimica,
                         urlFoto,direccionVendedor)) {
                     registrar(nombres, apellidos, identificacion, celular, nombreEstablecimiento, nit, sp_actividad_econimica, estado,direccionVendedor);
+
+                    FancyAlertDialog.Builder
+                            .with(seller2.this)
+                            .setTitle("Felicitaciones !")
+                            .setBackgroundColor(Color.parseColor("#EC7063"))  // for @ColorRes use setBackgroundColorRes(R.color.colorvalue)
+                            .setMessage("Se realizo el proceso de forma exitosa !")
+                            .setPositiveBtnBackground(Color.parseColor("#EC7063"))  // for @ColorRes use setPositiveBtnBackgroundRes(R.color.colorvalue)
+                            .setPositiveBtnText("Ok")
+                            .setNegativeBtnBackground(Color.parseColor("#EC7063"))  // for @ColorRes use setNegativeBtnBackgroundRes(R.color.colorvalue)
+                            .setNegativeBtnText("Volver")
+                            .setAnimation(Animation.POP)
+                            .isCancellable(true)
+                            .setIcon(R.drawable.icono_ok, View.VISIBLE)
+                            .onPositiveClicked(new FancyAlertDialogListener() {
+                                @Override
+                                public void onClick(Dialog dialog) {
+                                    Intent intent = new Intent(seller2.this, Home.class);
+                                    startActivity(intent);
+                                    finish();
+                                }})
+                            .onNegativeClicked(dialog -> Toast.makeText(seller2.this, "Cancel", Toast.LENGTH_SHORT).show())
+                            .build()
+                            .show();
+
                     if(!esVendedor){
                         enviar_email(correo,contrasena, nombres, celular);
                         enviar_email_usuario(correo,contrasena, nombres, celular);
@@ -194,8 +218,6 @@ public class seller2 extends AppCompatActivity {
                                         Intent intent = new Intent(seller2.this, Home.class);
                                         startActivity(intent);
                                         finish();
-
-
                                     }})
                                 .onNegativeClicked(new FancyAlertDialogListener() {
                                     @Override
