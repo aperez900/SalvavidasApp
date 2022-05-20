@@ -18,7 +18,7 @@
 
     <com.google.android.material.navigation.NavigationView
         android:id="@+id/nav_view"
-        android:fontFamily="@font/poppins_bold"
+        android:fontFamily="@font/poppins"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:layout_gravity="start"

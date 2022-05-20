@@ -3,8 +3,10 @@ package com.desarollo.salvavidasapp.ui.sales;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.graphics.Color;
 import android.graphics.Paint;
 import android.os.Bundle;
 import android.os.StrictMode;
@@ -21,6 +23,8 @@ import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.bumptech.glide.Glide;
 import com.desarollo.salvavidasapp.R;
+import com.desarollo.salvavidasapp.ui.home.Home;
+import com.desarollo.salvavidasapp.ui.seller.seller2;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
@@ -32,6 +36,9 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.auth.FirebaseUser;
+import com.shashank.sony.fancydialoglib.Animation;
+import com.shashank.sony.fancydialoglib.FancyAlertDialog;
+import com.shashank.sony.fancydialoglib.FancyAlertDialogListener;
 
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
@@ -178,20 +185,46 @@ public class lookAtProduct extends AppCompatActivity {
         btn_comprar_producto.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (numeroProductos <= cantidadProductosDisponibles){
-                    cargando.setTitle("Cargando");
-                    cargando.setMessage("Un momento por favor...");
-                    cargando.show();
-
-                    String idCompra = UUID.randomUUID().toString();
-                    consultarDatosVendedor(idVendedor,idCompra);
-
+                if (currentUser.getUid().equals(idVendedor)) {
+                    Toast.makeText(lookAtProduct.this, "No puedes comprar tus mismos productos", Toast.LENGTH_SHORT).show();
                 }else{
-                    Toast.makeText(lookAtProduct.this, "Solo hay " + cantidadProductosDisponibles
-                            + " producto(s) disponible(s)", Toast.LENGTH_SHORT).show();
+                    if (numeroProductos <= cantidadProductosDisponibles) {
+                        /*
+                        cargando.setTitle("Cargando");
+                        cargando.setMessage("Un momento por favor...");
+                        cargando.show();
+                         */
+                        FancyAlertDialog.Builder
+                                .with(lookAtProduct.this)
+                                .setTitle("Confirmación de compra")
+                                .setBackgroundColor(Color.parseColor("#EC7063"))  // for @ColorRes use setBackgroundColorRes(R.color.colorvalue)
+                                .setMessage("¿estas seguro que deseas realizar la compra?... Notificaremos al vendedor")
+                                .setPositiveBtnBackground(Color.parseColor("#EC7063"))  // for @ColorRes use setPositiveBtnBackgroundRes(R.color.colorvalue)
+                                .setPositiveBtnText("Comprar")
+                                .setNegativeBtnBackground(Color.parseColor("#EC7063"))  // for @ColorRes use setNegativeBtnBackgroundRes(R.color.colorvalue)
+                                .setNegativeBtnText("Volver")
+                                .setAnimation(Animation.POP)
+                                .isCancellable(true)
+                                .setIcon(R.drawable.icono_ok, View.VISIBLE)
+                                .onPositiveClicked(new FancyAlertDialogListener() {
+                                    @Override
+                                    public void onClick(Dialog dialog) {
+                                        String idCompra = UUID.randomUUID().toString();
+                                        consultarDatosVendedor(idVendedor, idCompra);
+                                    }
+                                })
+                                .onNegativeClicked(
+                                        dialog -> Toast.makeText(lookAtProduct.this, "Cancelando", Toast.LENGTH_SHORT).show()
+                                )
+                                .build()
+                                .show();
+                    } else {
+                        Toast.makeText(lookAtProduct.this, "Solo hay " + cantidadProductosDisponibles
+                                + " producto(s) disponible(s)", Toast.LENGTH_SHORT).show();
+                    }
                 }
             }
-        });
+        }); //fin método
 
         //Actualiza los datos del perfil logeado en el fragmenProfile
         if (currentUser != null) {
@@ -200,8 +233,6 @@ public class lookAtProduct extends AppCompatActivity {
             }
         }
     }
-
-
 
     public void consultarToken(String nombreVendedor, String idCompra) {
         myRefVendedor.child(idVendedor).addValueEventListener(new ValueEventListener() {
@@ -513,7 +544,8 @@ public class lookAtProduct extends AppCompatActivity {
                         if(primeraVez){
                             enviar_email_vendedor(nombreComprador, emailVendedor, nombreVendedor);
                             enviar_notificacion_push2(token, nombreComprador, nombreVendedor, idCompra);
-                            cargando.dismiss();
+
+                            //cargando.dismiss();
 
                             Intent intent = new Intent(lookAtProduct.this , buyProduct.class);
                             intent.putExtra("idProducto" , idProducto);
@@ -527,7 +559,6 @@ public class lookAtProduct extends AppCompatActivity {
                             intent.putExtra("nombreComprador" , nombreComprador);
                             intent.putExtra("tokenId" , token);
                             intent.putExtra("origen" , "LookAtProduct");
-
                             startActivity(intent);
                             finish();
                         }
