@@ -26,10 +26,13 @@
         <entry key="..\:/Users/ecardona/Documents/AndroidStudioProjects/SalvavidasApp/app/src/main/res/layout/fragment_seller3.xml" value="0.22592592592592592" />
         <entry key="..\:/Users/ecardona/Documents/AndroidStudioProjects/SalvavidasApp/app/src/main/res/layout/fragment_sub_menu_profile.xml" value="0.176" />
         <entry key="..\:/Users/ecardona/Documents/AndroidStudioProjects/SalvavidasApp/app/src/main/res/layout/item_carrito_compras.xml" value="0.25416666666666665" />
+        <entry key="..\:/Users/usuario/AndroidStudioProjects/SalvavidasApp/app/src/main/res/layout/fragment_home.xml" value="0.159375" />
+        <entry key="..\:/Users/usuario/AndroidStudioProjects/SalvavidasApp/app/src/main/res/layout/item_de_lista.xml" value="0.33" />
+        <entry key="..\:/Users/usuario/AndroidStudioProjects/SalvavidasApp/app/src/main/res/layout/item_de_lista_crud.xml" value="0.33" />
       </map>
     </option>
   </component>
-  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" project-jdk-name="1.8" project-jdk-type="JavaSDK">
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="1.8" project-jdk-type="JavaSDK">
     <output url="file://$PROJECT_DIR$/build/classes" />
   </component>
   <component name="ProjectType">

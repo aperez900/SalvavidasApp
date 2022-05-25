@@ -14,12 +14,12 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="296dp">
 
         <ImageView
             android:id="@+id/img_imagen_producto"
             android:layout_width="match_parent"
-            android:layout_height="230dp"
+            android:layout_height="210dp"
             android:contentDescription="@string/descripcionImagen"
             android:scaleType="fitCenter" />
 
@@ -55,7 +55,8 @@
             android:id="@+id/tv_nombre_producto"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="200dp"
+            android:layout_alignParentTop="true"
+            android:layout_marginTop="175dp"
             android:background="@color/red"
             android:fontFamily="@font/poppins_bold"
             android:padding="5dp"
@@ -67,119 +68,186 @@
 
         <ImageView
             android:id="@+id/img_disponibilidad"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
             android:layout_below="@id/tv_nombre_producto"
-            android:layout_marginStart="5dp"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="9dp"
             android:contentDescription="@string/descripcionImagen"
             android:fontFamily="@font/poppins_semibold"
             android:padding="5dp"
             android:textSize="14sp"
             android:textStyle="bold"
-            app:srcCompat="@drawable/icono_clock_black" />
+            app:srcCompat="@drawable/clockt" />
 
         <TextView
             android:id="@+id/tv_fecha_inicio_producto"
             android:layout_width="80dp"
             android:layout_height="25dp"
             android:layout_below="@id/tv_nombre_producto"
-            android:layout_marginStart="5dp"
-            android:layout_marginTop="10dp"
+            android:layout_marginStart="-4dp"
+            android:layout_marginTop="22dp"
             android:layout_toEndOf="@id/img_disponibilidad"
             android:fontFamily="@font/poppins_semibold"
             android:padding="5dp"
             android:text="@string/inicio"
-            android:textSize="14sp"
-            android:textStyle="bold" />
+            android:textSize="13sp" />
 
         <TextView
             android:id="@+id/tv_fecha_fin_producto"
             android:layout_width="80dp"
             android:layout_height="25dp"
             android:layout_below="@id/tv_nombre_producto"
-            android:layout_marginTop="10dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="22dp"
             android:layout_toEndOf="@id/tv_fecha_inicio_producto"
             android:fontFamily="@font/poppins_semibold"
             android:padding="5dp"
             android:text="@string/fin"
-            android:textSize="14sp"
-            android:textStyle="bold" />
+            android:textSize="13sp" />
+
 
         <ImageView
             android:id="@+id/img_restaurant"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
             android:layout_below="@id/tv_nombre_producto"
-            android:layout_marginStart="25dp"
-            android:layout_marginTop="10dp"
+            android:layout_marginStart="19dp"
+            android:layout_marginTop="22dp"
             android:layout_toEndOf="@id/tv_fecha_fin_producto"
             android:contentDescription="@string/descripcionImagen"
             android:fontFamily="@font/poppins_semibold"
             android:padding="5dp"
             android:textSize="14sp"
             android:textStyle="bold"
-            app:srcCompat="@drawable/icono_restaurant" />
+            app:srcCompat="@drawable/shopping" />
 
         <TextView
             android:id="@+id/tv_nombre_empresa"
             android:layout_width="135dp"
-            android:layout_height="30dp"
+            android:layout_height="25dp"
             android:layout_below="@id/tv_nombre_producto"
-            android:layout_marginTop="10dp"
+            android:layout_marginStart="-17dp"
+            android:layout_marginTop="22dp"
             android:layout_toEndOf="@id/img_restaurant"
             android:fontFamily="@font/poppins_semibold"
             android:padding="5dp"
-            android:textSize="14sp"
-            android:textStyle="bold" />
+            android:textSize="13sp" />
 
         <ImageView
             android:id="@+id/img_total_producto1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
             android:layout_below="@id/tv_fecha_inicio_producto"
-            android:layout_marginStart="5dp"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="6dp"
             android:contentDescription="@string/descripcionImagen"
             android:fontFamily="@font/poppins_semibold"
             android:padding="5dp"
             android:textSize="14sp"
             android:textStyle="bold"
-            app:srcCompat="@drawable/icono_money" />
+            app:srcCompat="@drawable/corazon" />
 
         <TextView
             android:id="@+id/tv_signo_moneda3"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/tv_fecha_inicio_producto"
+            android:layout_marginStart="76dp"
             android:layout_marginTop="10dp"
             android:layout_toEndOf="@id/img_total_producto1"
             android:fontFamily="@font/poppins_semibold"
-            android:padding="5dp"
+            android:padding="2dp"
             android:text="@string/signoMoneda"
+            android:textSize="13sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/tv_1"
+            android:layout_width="83dp"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tv_fecha_inicio_producto"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentEnd="true"
+            android:layout_marginStart="17dp"
+            android:layout_marginTop="6dp"
+            android:layout_marginEnd="292dp"
+            android:fontFamily="@font/poppins_light"
+            android:text="Precio"
+            android:textAlignment="textStart"
+            android:textSize="13sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/tv_2"
+            android:layout_width="wrap_content"
+            android:layout_height="25dp"
+            android:layout_below="@+id/tv_fecha_inicio_producto"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentEnd="true"
+            android:layout_marginStart="14dp"
+            android:layout_marginTop="-40dp"
+            android:layout_marginEnd="291dp"
+            android:fontFamily="@font/poppins_light"
+            android:padding="2dp"
+            android:text="Fecha inicio"
+            android:textAlignment="textStart"
+            android:textSize="14sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/tv_4"
+            android:layout_width="wrap_content"
+            android:layout_height="25dp"
+            android:layout_below="@+id/tv_fecha_inicio_producto"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentEnd="true"
+            android:layout_marginStart="109dp"
+            android:layout_marginTop="-40dp"
+            android:layout_marginEnd="170dp"
+            android:fontFamily="@font/poppins_light"
+            android:padding="2dp"
+            android:text="Fecha Fin"
+            android:textAlignment="textStart"
+            android:textSize="14sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/tv_3"
+            android:layout_width="wrap_content"
+            android:layout_height="25dp"
+            android:layout_below="@+id/tv_fecha_inicio_producto"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentEnd="true"
+            android:layout_marginStart="210dp"
+            android:layout_marginTop="-40dp"
+            android:layout_marginEnd="66dp"
+            android:fontFamily="@font/poppins_light"
+            android:padding="2dp"
+            android:text="Establecimiento"
+            android:textAlignment="textStart"
             android:textSize="14sp"
             android:textStyle="bold" />
 
         <TextView
             android:id="@+id/tv_total_producto"
-            android:layout_width="90dp"
+            android:layout_width="85dp"
             android:layout_height="wrap_content"
             android:layout_below="@id/tv_fecha_inicio_producto"
-            android:layout_marginTop="10dp"
+            android:layout_marginStart="1dp"
+            android:layout_marginTop="6dp"
             android:layout_toEndOf="@id/tv_signo_moneda3"
             android:fontFamily="@font/poppins_semibold"
             android:padding="5dp"
             android:text=""
-            android:textSize="14sp"
+            android:textSize="13sp"
             android:textStyle="bold" />
 
         <ImageView
             android:id="@+id/img_distancia"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="25dp"
             android:layout_below="@id/img_restaurant"
-            android:layout_marginStart="80dp"
-            android:layout_marginTop="10dp"
+            android:layout_marginStart="56dp"
+            android:layout_marginTop="8dp"
             android:layout_toEndOf="@id/tv_total_producto"
             android:contentDescription="@string/descripcionImagen"
             android:fontFamily="@font/poppins_semibold"
@@ -191,9 +259,10 @@
         <TextView
             android:id="@+id/tv_distancia"
             android:layout_width="135dp"
-            android:layout_height="30dp"
+            android:layout_height="25dp"
             android:layout_below="@id/tv_nombre_empresa"
-            android:layout_marginTop="10dp"
+            android:layout_marginStart="-8dp"
+            android:layout_marginTop="7dp"
             android:layout_toEndOf="@id/img_distancia"
             android:fontFamily="@font/poppins_semibold"
             android:padding="5dp"
