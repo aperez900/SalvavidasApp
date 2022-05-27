@@ -16,6 +16,7 @@ import android.widget.Toast;
 
 import com.desarollo.salvavidasapp.Login.Registro;
 import com.desarollo.salvavidasapp.Models.Usuarios;
+import com.desarollo.salvavidasapp.ui.direction.Maps;
 import com.desarollo.salvavidasapp.ui.home.Home;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -212,6 +213,9 @@ public class profile_initial extends AppCompatActivity {
                     @Override
                     public void onSuccess(Void aVoid) {
                         //Toast.makeText(getApplicationContext(), "Usuario actualizado correctamente", Toast.LENGTH_SHORT).show();
+                        Intent h = new Intent(getApplication(), Maps.class);
+                        startActivity(h);
+                        finish();
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {
@@ -223,7 +227,8 @@ public class profile_initial extends AppCompatActivity {
 
          registrar_token();
 
-         Toast.makeText(getApplicationContext(), "Felicidades !", Toast.LENGTH_SHORT).show();
+
+
 
     }
 

@@ -159,7 +159,7 @@ public class ListSellAdapter extends RecyclerView.Adapter<ListSellAdapter.viewHo
                         }
                     }
                 }else{
-                    Toast.makeText(getApplicationContext(), "Registre al menos una dirección para poder calcular la distancia.", Toast.LENGTH_SHORT).show();
+                    //Toast.makeText(getApplicationContext(), "Registre al menos una dirección para poder calcular la distancia.", Toast.LENGTH_SHORT).show();
                 }
             }
 
@@ -217,7 +217,7 @@ public class ListSellAdapter extends RecyclerView.Adapter<ListSellAdapter.viewHo
     public class viewHolder extends RecyclerView.ViewHolder {
         TextView nombre_producto, precio, fechaInicio, fechaFin,
                 porcentajeDescuento, nombre_empresa, distancia;
-        ImageView imagenProducto;
+        ImageView imagenProducto,imgDisponibilidad;
 
         public viewHolder(@NonNull View itemView) {
             super(itemView);
@@ -229,6 +229,7 @@ public class ListSellAdapter extends RecyclerView.Adapter<ListSellAdapter.viewHo
             porcentajeDescuento = itemView.findViewById(R.id.tv_porc_descuento);
             nombre_empresa = itemView.findViewById(R.id.tv_nombre_empresa);
             distancia = itemView.findViewById(R.id.tv_distancia);
+            imgDisponibilidad = itemView.findViewById(R.id.img_disponibilidad);
         }
     }
 }

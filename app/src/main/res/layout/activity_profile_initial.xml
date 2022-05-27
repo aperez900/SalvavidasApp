@@ -57,9 +57,23 @@ tools:context=".profile_initial">
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
-            <Space
+
+
+            <EditText
+                android:id="@+id/tv_nombre"
                 android:layout_width="match_parent"
-                android:layout_height="5dp" />
+                android:layout_height="wrap_content"
+                android:layout_marginStart="50dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginEnd="50dp"
+                android:fontFamily="@font/poppins_light"
+                android:hint="@string/nombre"
+                android:inputType="textPersonName"
+                app:cornerRadius="20dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.25"
+                app:layout_constraintStart_toStartOf="parent"
+                tools:layout_editor_absoluteY="36dp" />
 
             <EditText
                 android:id="@+id/tv_apellido"
@@ -98,6 +112,8 @@ tools:context=".profile_initial">
                 android:inputType="number"
                 app:layout_constraintTop_toBottomOf="@id/tv_identidad" />
 
+
+
             <Button
                 android:id="@+id/btn_registrar_perfil"
                 android:layout_width="match_parent"
@@ -109,22 +125,6 @@ tools:context=".profile_initial">
                 android:fontFamily="@font/poppins_semibold"
                 android:text="@string/continuar"
                 app:layout_constraintTop_toBottomOf="@id/tv_celular" />
-
-            <EditText
-                android:id="@+id/tv_nombre"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="50dp"
-                android:layout_marginTop="20dp"
-                android:layout_marginEnd="50dp"
-                android:fontFamily="@font/poppins_light"
-                android:hint="@string/nombre"
-                android:inputType="textPersonName"
-                app:cornerRadius="20dp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.25"
-                app:layout_constraintStart_toStartOf="parent"
-                tools:layout_editor_absoluteY="36dp" />
 
         </LinearLayout>
     </ScrollView>

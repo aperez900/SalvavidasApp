@@ -145,14 +145,16 @@ public class Maps extends FragmentActivity implements GoogleMap.OnMarkerDragList
     @Override
     public void onRequestPermissionsResult(int requestCode, String[] permissions,
                                            int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+
         switch (requestCode) {
             case PERMISSION_REQUEST_CODE:
                 // If request is cancelled, the result arrays are empty.
                 if (grantResults.length > 0 &&
                         grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                     miUbicacion();
-                }  else {
-                    Toast.makeText(getApplicationContext(),"Permiso denegado",Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(getApplicationContext(), "Permiso denegado", Toast.LENGTH_SHORT).show();
                     Intent h = new Intent(getApplicationContext(), Home.class);
                     startActivity(h);
                 }
@@ -233,7 +235,7 @@ public class Maps extends FragmentActivity implements GoogleMap.OnMarkerDragList
         d.nombreDireccion = et_alias.getText().toString();
         d.direccionUsuario = et_direccion.getText().toString();
         d.municipioDireccion = et_municipio.getText().toString();
-        d.seleccion = "false";
+        d.seleccion = "true";
 
         //guarda los datos del usuario
         myRef.child(currentUser.getUid()).child("mis direcciones").child(d.nombreDireccion).setValue(d)

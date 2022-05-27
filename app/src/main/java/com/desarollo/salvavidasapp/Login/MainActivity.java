@@ -331,7 +331,7 @@ public class MainActivity extends AppCompatActivity {
 
 
                             String email = currentUser.getEmail();
-                            Intent intent = new Intent(getApplication() , profile_initial.class);
+                            Intent intent = new Intent(getApplicationContext() , profile_initial.class);
                             intent.putExtra("email", email );
                             startActivity(intent);
                             finish();
