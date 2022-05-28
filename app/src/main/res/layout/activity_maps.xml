@@ -102,30 +102,25 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/et_municipio" />
 
+
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.cardview.widget.CardView>
 
     <Button
         android:id="@+id/btn_reg"
-        android:layout_width="390dp"
-        android:layout_height="60dp"
+        android:layout_width="362dp"
+        android:layout_height="62dp"
         android:layout_below="@+id/cardView"
         android:layout_alignParentStart="true"
-        android:layout_alignParentEnd="true"
-        android:layout_marginStart="11dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="10dp"
+        android:layout_marginStart="15dp"
+        android:layout_marginTop="-1dp"
         android:backgroundTint="#EF5350"
         android:fontFamily="@font/poppins_semibold"
-
         android:text="Agregar"
         android:textColor="#FFFFFFFF"
         android:textSize="16sp"
         app:cornerRadius="20dp"
         app:icon="@drawable/heart"
         app:iconSize="30dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/cardView"
         tools:ignore="RtlHardcoded,TextContrastCheck" />
 </RelativeLayout>

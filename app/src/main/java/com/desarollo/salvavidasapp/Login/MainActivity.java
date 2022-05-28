@@ -185,9 +185,7 @@ public class MainActivity extends AppCompatActivity {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()){
-                            Intent intent = new Intent(MainActivity.this, Home.class);
-                            startActivity(intent);
-                            finish();
+                            ingreso();
                             Toast.makeText(MainActivity.this,"Ingreso correcto con Google",Toast.LENGTH_SHORT).show();
                         }else{
                             Toast.makeText(MainActivity.this,"Error inciando sesión con Google",Toast.LENGTH_SHORT).show();
@@ -322,7 +320,7 @@ public class MainActivity extends AppCompatActivity {
                         if(snapshot.exists()){
 
 
-                            Intent h = new Intent(getApplicationContext(), Home.class);
+                            Intent h = new Intent(MainActivity.this, Home.class);
                             startActivity(h);
                             finish();
 
@@ -331,7 +329,7 @@ public class MainActivity extends AppCompatActivity {
 
 
                             String email = currentUser.getEmail();
-                            Intent intent = new Intent(getApplicationContext() , profile_initial.class);
+                            Intent intent = new Intent(MainActivity.this , profile_initial.class);
                             intent.putExtra("email", email );
                             startActivity(intent);
                             finish();
@@ -350,6 +348,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void datosIniciales() {
 
+        FirebaseUser currentUser = mAuth.getCurrentUser();
         myRef.child(currentUser.getUid())
                 .addValueEventListener(new ValueEventListener() {
                     @Override
