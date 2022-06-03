@@ -320,20 +320,17 @@
         android:layout_marginStart="30dp"
         android:layout_marginEnd="30dp"
         android:layout_marginBottom="60dp"
-        app:iconTint="#FFFFFF"
         android:fontFamily="@font/poppins_bold"
         android:icon="@drawable/money"
         android:text="@string/comprar"
+        android:textSize="16sp"
         android:textStyle="bold"
         app:cornerRadius="15dp"
-        app:iconPadding="5dp"
         app:iconGravity="start"
+        app:iconPadding="5dp"
         app:iconSize="20dp"
-        android:textSize="16sp"
-
-        tools:ignore="RtlHardcoded,TextContrastCheck"
-
-        />
+        app:iconTint="#FFFFFF"
+        tools:ignore="RtlHardcoded,TextContrastCheck" />
 
     <Button
         android:id="@+id/bt_añadir_carrito"

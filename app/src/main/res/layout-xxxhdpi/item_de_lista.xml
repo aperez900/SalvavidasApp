@@ -168,8 +168,8 @@
             android:layout_toEndOf="@id/img_disponibilidad"
             android:fontFamily="@font/poppins_light"
             android:text="@string/precioProducto"
-            android:textAlignment="textStart"
             android:padding="5dp"
+            android:textAlignment="textStart"
             android:textSize="@dimen/text_size_sub_item_lista"
             android:textStyle="bold" />
 

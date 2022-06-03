@@ -149,8 +149,7 @@
                 android:layout_marginTop="0dp"
                 android:backgroundTint="#0084ff"
                 android:fontFamily="@font/poppins_semibold"
-
-                android:text="inciar con facebook"
+                android:text="@string/iniciarFacebook"
                 android:textAlignment="center"
                 android:textColor="@color/white"
                 android:textSize="18sp"
@@ -180,7 +179,7 @@
                 android:layout_marginTop="10dp"
                 android:backgroundTint="#0084ff"
                 android:fontFamily="@font/poppins_semibold"
-                android:text="Inciar con gmail"
+                android:text="@string/iniciarGmail"
                 android:textAlignment="center"
                 android:textColor="@color/white"
                 android:textSize="18sp"

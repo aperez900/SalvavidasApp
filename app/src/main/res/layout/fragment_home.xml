@@ -15,15 +15,15 @@
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
         android:layout_alignParentEnd="true"
+        android:layout_centerHorizontal="true"
         android:background="#FAFFEAEA"
         android:drawablePadding="2dp"
         android:fontFamily="@font/poppins_light"
+        android:gravity="center"
         android:paddingTop="10dp"
         android:paddingBottom="10dp"
-        android:gravity="center"
-        android:layout_centerHorizontal="true"
         android:textSize="14sp"
-        app:drawableStartCompat="@drawable/marker_24"/>
+        app:drawableStartCompat="@drawable/marker_24" />
 
     <TextView
         android:id="@+id/tv_saludo_home"
@@ -85,7 +85,6 @@
         android:fontFamily="@font/poppins_semibold"
         android:text="@string/verCarrito"
         android:textColor="@color/white"
-
         android:textSize="16sp"
         app:cornerRadius="10dp"
         app:icon="@drawable/shopping"

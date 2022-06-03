@@ -3,20 +3,30 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Users/ecardona/Documents/AndroidStudioProjects/SalvavidasApp/app/src/main/res/layout-hdpi/item_de_lista.xml" value="0.4" />
         <entry key="..\:/Users/ecardona/Documents/AndroidStudioProjects/SalvavidasApp/app/src/main/res/layout-v23/activity_look_at_product.xml" value="0.25416666666666665" />
-        <entry key="..\:/Users/ecardona/Documents/AndroidStudioProjects/SalvavidasApp/app/src/main/res/layout/activity_add_photo.xml" value="0.536" />
-        <entry key="..\:/Users/ecardona/Documents/AndroidStudioProjects/SalvavidasApp/app/src/main/res/layout/activity_add_product.xml" value="0.152" />
-        <entry key="..\:/Users/ecardona/Documents/AndroidStudioProjects/SalvavidasApp/app/src/main/res/layout/activity_anulled_purchases.xml" value="0.61" />
+        <entry key="..\:/Users/ecardona/Documents/AndroidStudioProjects/SalvavidasApp/app/src/main/res/layout-xhdpi/item_de_lista.xml" value="0.264" />
+        <entry key="..\:/Users/ecardona/Documents/AndroidStudioProjects/SalvavidasApp/app/src/main/res/layout-xxhdpi/item_de_lista.xml" value="0.4" />
+        <entry key="..\:/Users/ecardona/Documents/AndroidStudioProjects/SalvavidasApp/app/src/main/res/layout-xxxhdpi/item_de_lista.xml" value="0.2" />
+        <entry key="..\:/Users/ecardona/Documents/AndroidStudioProjects/SalvavidasApp/app/src/main/res/layout/activity_add_photo.xml" value="0.152" />
+        <entry key="..\:/Users/ecardona/Documents/AndroidStudioProjects/SalvavidasApp/app/src/main/res/layout/activity_add_product.xml" value="0.2" />
+        <entry key="..\:/Users/ecardona/Documents/AndroidStudioProjects/SalvavidasApp/app/src/main/res/layout/activity_anulled_purchases.xml" value="0.152" />
         <entry key="..\:/Users/ecardona/Documents/AndroidStudioProjects/SalvavidasApp/app/src/main/res/layout/activity_anulled_sales.xml" value="0.61" />
-        <entry key="..\:/Users/ecardona/Documents/AndroidStudioProjects/SalvavidasApp/app/src/main/res/layout/activity_buy_product.xml" value="0.176" />
-        <entry key="..\:/Users/ecardona/Documents/AndroidStudioProjects/SalvavidasApp/app/src/main/res/layout/activity_error.xml" value="0.190625" />
-        <entry key="..\:/Users/ecardona/Documents/AndroidStudioProjects/SalvavidasApp/app/src/main/res/layout/activity_forget.xml" value="0.4" />
+        <entry key="..\:/Users/ecardona/Documents/AndroidStudioProjects/SalvavidasApp/app/src/main/res/layout/activity_buy_product.xml" value="0.1" />
+        <entry key="..\:/Users/ecardona/Documents/AndroidStudioProjects/SalvavidasApp/app/src/main/res/layout/activity_cancelled_purchases.xml" value="0.1" />
+        <entry key="..\:/Users/ecardona/Documents/AndroidStudioProjects/SalvavidasApp/app/src/main/res/layout/activity_cancelled_sales.xml" value="0.12894736842105264" />
+        <entry key="..\:/Users/ecardona/Documents/AndroidStudioProjects/SalvavidasApp/app/src/main/res/layout/activity_error.xml" value="0.2" />
+        <entry key="..\:/Users/ecardona/Documents/AndroidStudioProjects/SalvavidasApp/app/src/main/res/layout/activity_forget.xml" value="0.2" />
+        <entry key="..\:/Users/ecardona/Documents/AndroidStudioProjects/SalvavidasApp/app/src/main/res/layout/activity_frm_address.xml" value="0.264" />
         <entry key="..\:/Users/ecardona/Documents/AndroidStudioProjects/SalvavidasApp/app/src/main/res/layout/activity_home.xml" value="0.264" />
-        <entry key="..\:/Users/ecardona/Documents/AndroidStudioProjects/SalvavidasApp/app/src/main/res/layout/activity_look_at_product.xml" value="0.2" />
-        <entry key="..\:/Users/ecardona/Documents/AndroidStudioProjects/SalvavidasApp/app/src/main/res/layout/activity_main.xml" value="0.2" />
+        <entry key="..\:/Users/ecardona/Documents/AndroidStudioProjects/SalvavidasApp/app/src/main/res/layout/activity_look_at_address.xml" value="0.264" />
+        <entry key="..\:/Users/ecardona/Documents/AndroidStudioProjects/SalvavidasApp/app/src/main/res/layout/activity_look_at_product.xml" value="0.16799999999999998" />
+        <entry key="..\:/Users/ecardona/Documents/AndroidStudioProjects/SalvavidasApp/app/src/main/res/layout/activity_main.xml" value="0.136" />
+        <entry key="..\:/Users/ecardona/Documents/AndroidStudioProjects/SalvavidasApp/app/src/main/res/layout/activity_maps.xml" value="0.20416666666666666" />
         <entry key="..\:/Users/ecardona/Documents/AndroidStudioProjects/SalvavidasApp/app/src/main/res/layout/activity_profile_initial.xml" value="0.15324074074074073" />
         <entry key="..\:/Users/ecardona/Documents/AndroidStudioProjects/SalvavidasApp/app/src/main/res/layout/activity_registro.xml" value="0.4" />
         <entry key="..\:/Users/ecardona/Documents/AndroidStudioProjects/SalvavidasApp/app/src/main/res/layout/activity_seller2.xml" value="0.15324074074074073" />
+        <entry key="..\:/Users/ecardona/Documents/AndroidStudioProjects/SalvavidasApp/app/src/main/res/layout/activity_shopping_cart.xml" value="0.10860655737704918" />
         <entry key="..\:/Users/ecardona/Documents/AndroidStudioProjects/SalvavidasApp/app/src/main/res/layout/activity_splash.xml" value="0.4" />
         <entry key="..\:/Users/ecardona/Documents/AndroidStudioProjects/SalvavidasApp/app/src/main/res/layout/app_bar_main.xml" value="0.3245967741935484" />
         <entry key="..\:/Users/ecardona/Documents/AndroidStudioProjects/SalvavidasApp/app/src/main/res/layout/content_main.xml" value="0.3245967741935484" />
@@ -26,6 +36,13 @@
         <entry key="..\:/Users/ecardona/Documents/AndroidStudioProjects/SalvavidasApp/app/src/main/res/layout/fragment_seller3.xml" value="0.22592592592592592" />
         <entry key="..\:/Users/ecardona/Documents/AndroidStudioProjects/SalvavidasApp/app/src/main/res/layout/fragment_sub_menu_profile.xml" value="0.176" />
         <entry key="..\:/Users/ecardona/Documents/AndroidStudioProjects/SalvavidasApp/app/src/main/res/layout/item_carrito_compras.xml" value="0.25416666666666665" />
+        <entry key="..\:/Users/ecardona/Documents/AndroidStudioProjects/SalvavidasApp/app/src/main/res/layout/item_de_lista.xml" value="0.264" />
+        <entry key="..\:/Users/ecardona/Documents/AndroidStudioProjects/SalvavidasApp/app/src/main/res/layout/item_de_lista_crud.xml" value="0.22592592592592592" />
+        <entry key="..\:/Users/ecardona/Documents/AndroidStudioProjects/SalvavidasApp/app/src/main/res/layout/item_favoritos.xml" value="0.22592592592592592" />
+        <entry key="..\:/Users/ecardona/Documents/AndroidStudioProjects/SalvavidasApp/app/src/main/res/layout/item_productos_solicitados.xml" value="0.22592592592592592" />
+        <entry key="..\:/Users/ecardona/Documents/AndroidStudioProjects/SalvavidasApp/app/src/main/res/layout/item_sub_tipo_comidas.xml" value="0.22592592592592592" />
+        <entry key="..\:/Users/ecardona/Documents/AndroidStudioProjects/SalvavidasApp/app/src/main/res/layout/item_tipo_comidas.xml" value="0.22592592592592592" />
+        <entry key="..\:/Users/ecardona/Documents/AndroidStudioProjects/SalvavidasApp/app/src/main/res/layout/lista_direcciones.xml" value="0.22592592592592592" />
         <entry key="..\:/Users/usuario/AndroidStudioProjects/SalvavidasApp/app/src/main/res/layout/activity_frm_address.xml" value="0.19" />
         <entry key="..\:/Users/usuario/AndroidStudioProjects/SalvavidasApp/app/src/main/res/layout/activity_look_at_address.xml" value="0.21614583333333334" />
         <entry key="..\:/Users/usuario/AndroidStudioProjects/SalvavidasApp/app/src/main/res/layout/activity_maps.xml" value="0.21614583333333334" />
@@ -37,7 +54,8 @@
       </map>
     </option>
   </component>
-  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="1.8" project-jdk-type="JavaSDK">
+  <component name="ExternalStorageConfigurationManager" enabled="true" />
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" project-jdk-name="1.8" project-jdk-type="JavaSDK">
     <output url="file://$PROJECT_DIR$/build/classes" />
   </component>
   <component name="ProjectType">

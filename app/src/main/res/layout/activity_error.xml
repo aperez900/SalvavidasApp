@@ -13,6 +13,7 @@
         android:layout_width="155dp"
         android:layout_height="83dp"
         android:layout_marginTop="252dp"
+        android:contentDescription="@string/descripcionImagen"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
@@ -20,11 +21,11 @@
 
     <TextView
         android:id="@+id/textView"
-        android:layout_width="424dp"
-        android:layout_height="48dp"
+        android:layout_width="430dp"
+        android:layout_height="wrap_content"
         android:layout_marginTop="32dp"
         android:fontFamily="@font/poppins_light"
-        android:text="SIN INTERNET"
+        android:text="@string/sinInternet"
         android:textAlignment="center"
         android:textSize="24sp"
         app:layout_constraintEnd_toEndOf="parent"
@@ -34,16 +35,15 @@
 
     <TextView
         android:id="@+id/textView_"
-        android:layout_width="416dp"
-        android:layout_height="65dp"
-        android:layout_marginTop="80dp"
+        android:layout_width="430dp"
+        android:layout_height="wrap_content"
         android:fontFamily="@font/poppins_light"
-        android:text="Por favor revisa tu conexion a internet"
+        android:text="@string/descripcionSinInternet"
         android:textAlignment="center"
         android:textSize="18sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintHorizontal_bias="0.594"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageView3" />
+        app:layout_constraintTop_toBottomOf="@+id/textView" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

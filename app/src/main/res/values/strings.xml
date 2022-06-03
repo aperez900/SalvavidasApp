@@ -30,10 +30,22 @@
     <string name="Bienvenida">Hola... registra unos pocos datos</string>
     <string name="correoPerfil">Correo perfil</string>
     <string name="desactivar_usuario">Desactivar Usuario</string>
-    <string name="agregarDirecciones">Agregar direccion manualmente</string>
+    <string name="agregarDirecciones">Agregar dirección manualmente</string>
+    <string name="agregarOSeleccionarDireccion">Agregar o seleccionar una dirección</string>
+    <string name="consultarOEditarDireccion">Consultar o editar una dirección</string>
     <string name="agregarFavoritos">Agregar favoritos</string>
     <string name="agregarDireccion">Agregar direccion </string>
     <string name="ubicacionActual">Ubicación actual</string>
+    <string name="calle">Calle</string>
+    <string name="municipio">Municipio</string>
+    <string name="barrio">Barrio</string>
+    <string name="miCasa">Mi casa</string>
+    <string name="direccion">Dirección</string>
+    <string name="numeroDireccionEjemplo">55</string>
+    <string name="agregar">Agregar</string>
+    <string name="modificar">Modificar</string>
+    <string name="datosAdicionales">DatosAdicionales</string>
+    <string name="alias">Alias</string>
 
     <string name="nombre">Nombres</string>
     <string name="apellidos">Apellidos</string>
@@ -146,8 +158,18 @@
     <string name="nroVentasPorDia">Nro. de ventas por día de la semana</string>
     <string name="nroComprasPorProducto">Nro. de compras por producto</string>
 
+    <string name="desde">Desde</string>
+    <string name="hasta">Hasta</string>
+    <string name="vendedor">Vendedor</string>
+
+    <string name="sinInternet">SIN INTERNET</string>
+    <string name="descripcionSinInternet">Por favor revisa tu conexión a internet</string>
+
+    <string name="iniciarFacebook">Iniciar con Facebook</string>
     <string name="facebook_app_id">1541603559379639</string>
     <string name="fb_login_protocol_scheme">fb1541603559379639</string>
+
+    <string name="iniciarGmail">Iniciar con Gmail</string>
 
     <string name="web_client_id">423730616970-6mn3q3u61lu5futioc1m610focr3ffjm.apps.googleusercontent.com</string>
     <!-- TODO: Remove or change this placeholder text -->

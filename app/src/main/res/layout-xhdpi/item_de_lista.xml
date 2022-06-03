@@ -62,7 +62,7 @@
             android:text="@string/nombreProducto2"
             android:textAlignment="center"
             android:textColor="@color/white"
-            android:textSize="16sp"
+            android:textSize="18sp"
             android:textStyle="bold" />
 
         <ImageView
@@ -80,7 +80,7 @@
 
         <TextView
             android:id="@+id/tv_fecha_inicio_producto"
-            android:layout_width="100dp"
+            android:layout_width="150dp"
             android:layout_height="25dp"
             android:layout_below="@id/tv_nombre_producto"
             android:layout_marginTop="25dp"
@@ -88,11 +88,11 @@
             android:fontFamily="@font/poppins_semibold"
             android:padding="5dp"
             android:text="@string/inicio"
-            android:textSize="@dimen/text_size_sub_item_lista" />
+            android:textSize="15sp" />
 
         <TextView
             android:id="@+id/tv_fecha_fin_producto"
-            android:layout_width="108dp"
+            android:layout_width="158dp"
             android:layout_height="25dp"
             android:layout_below="@id/tv_nombre_producto"
             android:layout_marginStart="8dp"
@@ -101,7 +101,7 @@
             android:fontFamily="@font/poppins_semibold"
             android:padding="5dp"
             android:text="@string/fin"
-            android:textSize="@dimen/text_size_sub_item_lista" />
+            android:textSize="15sp" />
 
 
         <ImageView
@@ -121,14 +121,14 @@
 
         <TextView
             android:id="@+id/tv_nombre_empresa"
-            android:layout_width="115dp"
+            android:layout_width="165dp"
             android:layout_height="25dp"
             android:layout_below="@id/tv_nombre_producto"
             android:layout_marginTop="25dp"
             android:layout_toEndOf="@id/img_restaurant"
             android:fontFamily="@font/poppins_semibold"
             android:padding="5dp"
-            android:textSize="@dimen/text_size_sub_item_lista" />
+            android:textSize="15sp" />
 
         <ImageView
             android:id="@+id/img_total_producto1"
@@ -160,7 +160,7 @@
 
         <TextView
             android:id="@+id/tv_1"
-            android:layout_width="95dp"
+            android:layout_width="145dp"
             android:layout_height="25dp"
             android:layout_below="@+id/tv_fecha_inicio_producto"
             android:layout_marginStart="7dp"
@@ -170,12 +170,12 @@
             android:text="@string/precioProducto"
             android:textAlignment="textStart"
             android:padding="5dp"
-            android:textSize="@dimen/text_size_sub_item_lista"
+            android:textSize="15sp"
             android:textStyle="bold" />
 
         <TextView
             android:id="@+id/tv_2"
-            android:layout_width="100dp"
+            android:layout_width="150dp"
             android:layout_height="25dp"
             android:layout_below="@+id/tv_nombre_producto"
             android:layout_alignParentStart="true"
@@ -185,12 +185,12 @@
             android:padding="2dp"
             android:text="@string/desde"
             android:textAlignment="textStart"
-            android:textSize="@dimen/text_size_item_lista"
+            android:textSize="16sp"
             android:textStyle="bold" />
 
         <TextView
             android:id="@+id/tv_4"
-            android:layout_width="120dp"
+            android:layout_width="170dp"
             android:layout_height="25dp"
             android:layout_below="@id/tv_nombre_producto"
             android:layout_marginStart="10dp"
@@ -200,12 +200,12 @@
             android:padding="2dp"
             android:text="@string/hasta"
             android:textAlignment="textStart"
-            android:textSize="@dimen/text_size_item_lista"
+            android:textSize="16sp"
             android:textStyle="bold" />
 
         <TextView
             android:id="@+id/tv_3"
-            android:layout_width="130dp"
+            android:layout_width="180dp"
             android:layout_height="25dp"
             android:layout_below="@+id/tv_nombre_producto"
             android:layout_marginStart="5dp"
@@ -215,12 +215,12 @@
             android:padding="2dp"
             android:text="@string/vendedor"
             android:textAlignment="textStart"
-            android:textSize="@dimen/text_size_item_lista"
+            android:textSize="16sp"
             android:textStyle="bold" />
 
         <TextView
             android:id="@+id/tv_total_producto"
-            android:layout_width="97dp"
+            android:layout_width="147dp"
             android:layout_height="25dp"
             android:layout_below="@id/tv_fecha_inicio_producto"
             android:layout_marginTop="5dp"
@@ -228,7 +228,7 @@
             android:fontFamily="@font/poppins_semibold"
             android:padding="5dp"
             android:text=""
-            android:textSize="@dimen/text_size_sub_item_lista"
+            android:textSize="15sp"
             android:textStyle="bold" />
 
         <ImageView
@@ -248,14 +248,14 @@
 
         <TextView
             android:id="@+id/tv_distancia"
-            android:layout_width="135dp"
+            android:layout_width="185dp"
             android:layout_height="25dp"
             android:layout_below="@id/tv_nombre_empresa"
             android:layout_marginTop="5dp"
             android:layout_toEndOf="@id/img_distancia"
             android:fontFamily="@font/poppins_semibold"
             android:padding="5dp"
-            android:textSize="@dimen/text_size_sub_item_lista"
+            android:textSize="15sp"
             android:textStyle="bold" />
 
     </RelativeLayout>

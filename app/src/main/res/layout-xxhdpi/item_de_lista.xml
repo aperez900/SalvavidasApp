@@ -167,9 +167,9 @@
             android:layout_marginTop="5dp"
             android:layout_toEndOf="@id/img_disponibilidad"
             android:fontFamily="@font/poppins_light"
+            android:padding="5dp"
             android:text="@string/precioProducto"
             android:textAlignment="textStart"
-            android:padding="5dp"
             android:textSize="@dimen/text_size_sub_item_lista"
             android:textStyle="bold" />
 
