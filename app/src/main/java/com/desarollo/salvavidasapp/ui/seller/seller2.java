@@ -179,32 +179,10 @@ public class seller2 extends AppCompatActivity {
                         enviar_email(correo,contrasena, nombres, celular);
                         enviar_email_usuario(correo,contrasena, nombres, celular);
 
-                        FancyAlertDialog.Builder
-                                .with(seller2.this)
-                                .setTitle("Buen Trabajo!")
-                                .setBackgroundColor(Color.parseColor("#EC7063"))  // for @ColorRes use setBackgroundColorRes(R.color.colorvalue)
-                                .setMessage("Se realizo el proceso de forma exitosa, ahora analizaremos tu solicitud!")
-                                .setPositiveBtnBackground(Color.parseColor("#EC7063"))  // for @ColorRes use setPositiveBtnBackgroundRes(R.color.colorvalue)
-                                .setPositiveBtnText("Ok")
-                                .setNegativeBtnBackground(Color.parseColor("#EC7063"))  // for @ColorRes use setNegativeBtnBackgroundRes(R.color.colorvalue)
-                                .setNegativeBtnText("Volver")
-                                .setAnimation(Animation.POP)
-                                .isCancellable(true)
-                                .setIcon(R.drawable.icono_ok, View.VISIBLE)
-                                .onPositiveClicked(new FancyAlertDialogListener() {
-                                    @Override
-                                    public void onClick(Dialog dialog) {
-                                        Intent intent = new Intent(seller2.this, Home.class);
-                                        startActivity(intent);
-                                        finish();
-                                    }})
-                                .onNegativeClicked(new FancyAlertDialogListener() {
-                                    @Override
-                                    public void onClick(Dialog dialog) {
-                                        dialog.dismiss();
-                                    }})
-                                .build()
-                                .show();
+                        Intent intent = new Intent(seller2.this, Home.class);
+                        startActivity(intent);
+                        finish();
+
                     }
                 }
             }
@@ -611,15 +589,15 @@ public class seller2 extends AppCompatActivity {
         //String contraseñaCorreoEnvia = contraseña.getText().toString();
         String contrasenaCorreoEnvia = "Great_Simplicity01945#";
 
-        String cuerpoCorreo = "<p style='text-align: justify'> Hola Administrador de Salvavidas App, <b>" + nombres.getText().toString() + "</b> desea ser vendedor en nuestra APP y"
-                + " lo puedes contactar en el número móvil: <u>" + celular.getText().toString() + "</u></p><br>Cordialmente,<br> <b>Equipo de Salvavidas App</b><br>" +
+        String cuerpoCorreo = "<p style='text-align: justify'> Hola Administrador de Surplapp, <b>" + nombres.getText().toString() + "</b> desea ser vendedor en nuestra APP y"
+                + " lo puedes contactar en el número móvil: <u>" + celular.getText().toString() + "</u></p><br>Cordialmente,<br> <b>Equipo de Surplapp</b><br>" +
                 "<p style='text-align: justify'><font size=1><i>Este mensaje y sus archivos adjuntos van dirigidos exclusivamente a su destinatario pudiendo contener información confidencial " +
-                "sometida a secreto profesional. No está permitida su reproducción o distribución sin la autorización expresa de SALVAVIDAS APP, Si usted no es el destinatario " +
+                "sometida a secreto profesional. No está permitida su reproducción o distribución sin la autorización expresa de SURPLAPP, Si usted no es el destinatario " +
                 "final por favor elimínelo e infórmenos por esta vía. Según la Ley Estatutaria 1581 de 2.012 de Protección de Datos y sus normas reglamentarias, " +
                 "el Titular presta su consentimiento para que sus datos, facilitados voluntariamente, pasen a formar parte de una base de datos, cuyo responsable " +
-                "es SALVAVIDAS APP, cuyas finalidades son: Gestión administrativa, Gestión de clientes, Prospección comercial, Fidelización de clientes, Marketing y " +
+                "es SURPLAPP, cuyas finalidades son: Gestión administrativa, Gestión de clientes, Prospección comercial, Fidelización de clientes, Marketing y " +
                 "el envío de comunicaciones comerciales sobre nuestros productos y/o servicios. Puede usted ejercer los derechos de acceso, corrección, supresión, " +
-                "revocación o reclamo por infracción sobre sus datos, mediante escrito dirigido a SALVAVIDAS APP a la dirección de correo electrónico " +
+                "revocación o reclamo por infracción sobre sus datos, mediante escrito dirigido a SURPLAPP a la dirección de correo electrónico " +
                 "ceo@salvavidas.app indicando en el asunto el derecho que desea ejercer, o mediante correo ordinario remitido a la Carrera XX # XX – XX Medellín, Antioquia." +
                 "</font></i></p>";
         //String to_ = to.getText().toString();
@@ -643,7 +621,7 @@ public class seller2 extends AppCompatActivity {
             if(session!=null){
                 MimeMessage message = new MimeMessage(session);
                 message.setFrom(new InternetAddress(correoEnvia));
-                message.setSubject("Solicitud de nuevo vendedor Salvavidas App");
+                message.setSubject("Solicitud de nuevo vendedor Surplapp");
                 message.setText(cuerpoCorreo, "ISO-8859-1","html");
                 message.setRecipients(MimeMessage.RecipientType.TO,InternetAddress.parse(to_));
                 //message.setContent("Hola mundo","txt/html; charset= utf-8");
@@ -665,14 +643,14 @@ public class seller2 extends AppCompatActivity {
         String contrasenaCorreoEnvia = "Great_Simplicity01945#";
 
         String cuerpoCorreo = "<p style='text-align: justify'> Hola <b>" + nombres.getText().toString() + "</b> recibimos con agrado tu solicitud "
-                + "y te estaremos respondiendo en el menor tiempo posible.<br></p><br>Cordialmente,<br> <b>Equipo de Salvavidas App</b><br>" +
+                + "y te estaremos respondiendo en el menor tiempo posible.<br></p><br>Cordialmente,<br> <b>Equipo de Surplapp</b><br>" +
                 "<p style='text-align: justify'><font size=1><i>Este mensaje y sus archivos adjuntos van dirigidos exclusivamente a su destinatario pudiendo contener información confidencial " +
-                "sometida a secreto profesional. No está permitida su reproducción o distribución sin la autorización expresa de SALVAVIDAS APP, Si usted no es el destinatario " +
+                "sometida a secreto profesional. No está permitida su reproducción o distribución sin la autorización expresa de SURPLAPP, Si usted no es el destinatario " +
                 "final por favor elimínelo e infórmenos por esta vía. Según la Ley Estatutaria 1581 de 2.012 de Protección de Datos y sus normas reglamentarias, " +
                 "el Titular presta su consentimiento para que sus datos, facilitados voluntariamente, pasen a formar parte de una base de datos, cuyo responsable " +
-                "es SALVAVIDAS APP, cuyas finalidades son: Gestión administrativa, Gestión de clientes, Prospección comercial, Fidelización de clientes, Marketing y " +
+                "es SURPLAPP, cuyas finalidades son: Gestión administrativa, Gestión de clientes, Prospección comercial, Fidelización de clientes, Marketing y " +
                 "el envío de comunicaciones comerciales sobre nuestros productos y/o servicios. Puede usted ejercer los derechos de acceso, corrección, supresión, " +
-                "revocación o reclamo por infracción sobre sus datos, mediante escrito dirigido a SALVAVIDAS APP a la dirección de correo electrónico " +
+                "revocación o reclamo por infracción sobre sus datos, mediante escrito dirigido a SURPLAPP a la dirección de correo electrónico " +
                 "ceo@salvavidas.app indicando en el asunto el derecho que desea ejercer, o mediante correo ordinario remitido a la Carrera XX # XX – XX Medellín, Antioquia." +
                 "</font></i></p>";
         //String to_ = to.getText().toString();
@@ -696,7 +674,7 @@ public class seller2 extends AppCompatActivity {
             if(session!=null){
                 MimeMessage message = new MimeMessage(session);
                 message.setFrom(new InternetAddress(correoEnvia));
-                message.setSubject("Solicitud de nuevo vendedor Salvavidas App");
+                message.setSubject("Solicitud de nuevo vendedor Surplapp");
                 message.setText(cuerpoCorreo, "ISO-8859-1","html");
                 message.setRecipients(MimeMessage.RecipientType.TO,InternetAddress.parse(to_));
                 //message.setContent("Hola mundo","txt/html; charset= utf-8");

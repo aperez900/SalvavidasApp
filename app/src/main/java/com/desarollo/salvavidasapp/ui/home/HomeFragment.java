@@ -176,6 +176,7 @@ public class HomeFragment extends Fragment {
                     listadoProducto.setAdapter(listSellAdapter);
                     cargando.dismiss();
                 }
+                cargando.dismiss();
             }
 
             @Override

@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".Login.Registro">
+-
 
     <ImageView
         android:id="@+id/logo_salvavidas_forget"
@@ -17,7 +18,7 @@
         android:layout_marginTop="30dp"
         android:layout_marginEnd="10dp"
         android:contentDescription="@string/logoSalvavidas"
-        app:srcCompat="@drawable/logo_surplapp" />
+        app:srcCompat="@drawable/logo_surplapp_fondo_blanco" />
 
     <LinearLayout
         android:layout_width="match_parent"
