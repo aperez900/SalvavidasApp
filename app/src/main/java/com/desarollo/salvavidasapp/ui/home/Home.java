@@ -11,6 +11,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 import com.desarollo.salvavidasapp.Login.MainActivity;
 import com.desarollo.salvavidasapp.R;
 import com.desarollo.salvavidasapp.ui.seller.requestedProducts;
@@ -317,7 +319,7 @@ public class Home extends AppCompatActivity {
         View headerView = navigationView.getHeaderView(0);
         TextView navUserName = headerView.findViewById(R.id.id_nombre_perfil);
         TextView navUserMail = headerView.findViewById(R.id.id_correo_perfil);
-        //ImageView navUserPhoto = headerView.findViewById(R.id.id_foto_perfil);
+        ImageView navUserPhoto = headerView.findViewById(R.id.id_imagen_perfil);
 
         //navUserMail.setText(currentUser.getEmail());
         //navUserName.setText(currentUser.getDisplayName());
@@ -329,6 +331,9 @@ public class Home extends AppCompatActivity {
                 navUserName.setText(name);
                 String email = profile.getEmail();
                 navUserMail.setText(email);
+                Glide.with(this).load(currentUser.getPhotoUrl())
+                        .apply(RequestOptions.circleCropTransform())
+                        .into(navUserPhoto);
             }
         }
     }

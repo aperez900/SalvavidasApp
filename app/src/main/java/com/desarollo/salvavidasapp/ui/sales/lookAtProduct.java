@@ -332,12 +332,12 @@ public class lookAtProduct extends AppCompatActivity {
                 "nuestro usuario: <b>" + nombreComprador + "</b> desea comprar lo siguiente: <br><br>" +
                 "<u>Producto:</u> <b>" + nombreProducto + "</b><br>" +
                 "<u>Cantidad:</u> <b>" + numeroProductos + "</b><br><br>" +
-                "Ingresa a Salvavidas App para hacerle seguimiento al pedido.<br></p>Cordialmente,<br> <b>Equipo de Salvavidas App</b><br>" +
+                "Ingresa a Surplapp App para hacerle seguimiento al pedido.<br></p>Cordialmente,<br> <b>Equipo de Surplapp App</b><br>" +
                 "<p style='text-align: justify'><font size=1><i>Este mensaje y sus archivos adjuntos van dirigidos exclusivamente a su destinatario pudiendo contener información confidencial " +
-                "sometida a secreto profesional. No está permitida su reproducción o distribución sin la autorización expresa de SALVAVIDAS APP, Si usted no es el destinatario " +
+                "sometida a secreto profesional. No está permitida su reproducción o distribución sin la autorización expresa de SURPLAPP, Si usted no es el destinatario " +
                 "final por favor elimínelo e infórmenos por esta vía. Según la Ley Estatutaria 1581 de 2.012 de Protección de Datos y sus normas reglamentarias, " +
                 "el Titular presta su consentimiento para que sus datos, facilitados voluntariamente, pasen a formar parte de una base de datos, cuyo responsable " +
-                "es SALVAVIDAS APP, cuyas finalidades son: Gestión administrativa, Gestión de clientes, Prospección comercial, Fidelización de clientes, Marketing y " +
+                "es SURPLAPP, cuyas finalidades son: Gestión administrativa, Gestión de clientes, Prospección comercial, Fidelización de clientes, Marketing y " +
                 "el envío de comunicaciones comerciales sobre nuestros productos y/o servicios. Puede usted ejercer los derechos de acceso, corrección, supresión, " +
                 "revocación o reclamo por infracción sobre sus datos, mediante escrito dirigido a SALVAVIDAS APP a la dirección de correo electrónico " +
                 "ceo@salvavidas.app indicando en el asunto el derecho que desea ejercer, o mediante correo ordinario remitido a la Carrera XX # XX – XX Medellín, Antioquia." +
@@ -363,7 +363,7 @@ public class lookAtProduct extends AppCompatActivity {
             if(session!=null){
                 MimeMessage message = new MimeMessage(session);
                 message.setFrom(new InternetAddress(correoEnvia));
-                message.setSubject("Solicitud de compra - Salvavidas App");
+                message.setSubject("Solicitud de compra - Surplapp");
                 message.setText(cuerpoCorreo, "ISO-8859-1","html");
                 message.setRecipients(MimeMessage.RecipientType.TO,InternetAddress.parse(to_));
                 //message.setContent("Hola mundo","txt/html; charset= utf-8");
