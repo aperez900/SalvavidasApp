@@ -173,7 +173,7 @@ public class MainActivity extends AppCompatActivity {
                 GoogleSignInAccount account = Task.getResult(ApiException.class);
                 firebaseAuthWithGoogle(account.getIdToken());
             } catch(ApiException e){
-                Toast.makeText(MainActivity.this,"Error de inicio de sesión con google",Toast.LENGTH_SHORT).show();
+                Toast.makeText(MainActivity.this,"Error de inicio de sesión con google" + e,Toast.LENGTH_SHORT).show();
             }
         }
     }

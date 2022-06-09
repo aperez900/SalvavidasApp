@@ -59,7 +59,7 @@ public class buyProduct extends AppCompatActivity {
     String idVendedor ="";
     String nombreProducto, origen,idCompra, tokenId, nombreVendedor, nombreComprador;
     Double precioProducto = 0.0, precioDomicilio = 0.0;
-    int nroProductos;
+    int nroProductos, cantidadProductosDisponibles;
     Button btn_pago,tvEstadoProducto;
     Double valorComision;
     TextView tvPrecioProducto, tvPrecioDomicilio, tvValorComision, tvTotal, tvNombreProducto,
@@ -106,6 +106,7 @@ public class buyProduct extends AppCompatActivity {
             precioProducto = Double.parseDouble(extras.getString("totalProducto"));
             precioDomicilio = Double.parseDouble(extras.getString("precioDomicilio"));
             nroProductos = Integer.parseInt(extras.getString("nroProductos"));
+            cantidadProductosDisponibles = Integer.parseInt(extras.getString("cantidadProductosDisponibles"));
             idVendedor = extras.getString("idVendedor");
             origen = extras.getString("origen");
             valorComision = precioProducto * nroProductos * 0.06;
@@ -231,6 +232,25 @@ public class buyProduct extends AppCompatActivity {
 
     private void registrarsolicitudVendedor(String vt_, String idCompra, String idProducto,String idVendedor,String Reference){
         myRefVendedores.child(idVendedor).child("productos_en_tramite").child(currentUser.getUid()).child(idCompra).child(idProducto).child("estado").setValue("Procesando pago")
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+
+                        Uri uri = Uri.parse("https://checkout.wompi.co/p/?public-key=pub_test_KY4VrC344hkv91RHAfu9XRajobfm0ROe&currency=COP&amount-in-cents="+vt_+"&reference="+Reference+"&redirect-url=https://www.salvavidas.app/");
+                        Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+                        startActivity(intent);
+                        finish();
+
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Toast.makeText(buyProduct.this, "Error agregando la compra en la base de datos. Intenta de nuevo mas tarde", Toast.LENGTH_SHORT).show();
+                    }
+                });
+
+        myRefProductos.child(idVendedor).child(idProducto).child("cantidadDisponible").setValue(cantidadProductosDisponibles - 1)
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void aVoid) {

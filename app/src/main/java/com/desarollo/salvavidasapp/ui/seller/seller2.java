@@ -431,6 +431,11 @@ public class seller2 extends AppCompatActivity {
                                 String celular = Objects.requireNonNull(snapshot.child("celular").getValue()).toString();
                                 tv_celular.setText(celular);
                             }
+                            if (emailUser.isEmpty()){
+                                if(snapshot.child("correo").exists()) {
+                                    emailUser = Objects.requireNonNull(snapshot.child("correo").getValue()).toString();
+                                }
+                            }
                         }else{
                             Toast.makeText(seller2.this, "Debes completar primero el perfil del comprador", Toast.LENGTH_LONG).show();
                         }

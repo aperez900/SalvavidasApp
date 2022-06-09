@@ -23,9 +23,9 @@ android {
             debuggable true
         }
         release {
-            //minifyEnabled false
-            minifyEnabled true
-            shrinkResources true
+            minifyEnabled false
+            //minifyEnabled true
+            //shrinkResources true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
@@ -63,7 +63,7 @@ dependencies {
     implementation 'com.google.android.gms:play-services-location:19.0.1'
 
     // Importar dependencias para conectar con firebase y gmail
-    implementation platform('com.google.firebase:firebase-bom:26.2.0')
+    implementation platform('com.google.firebase:firebase-bom:29.3.1')
     implementation 'com.google.firebase:firebase-auth'
     implementation 'com.google.android.gms:play-services-auth:20.2.0'
     implementation 'com.google.firebase:firebase-messaging'

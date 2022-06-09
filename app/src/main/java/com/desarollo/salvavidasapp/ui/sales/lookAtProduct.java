@@ -123,7 +123,7 @@ public class lookAtProduct extends AppCompatActivity {
 
             idProducto = extras.getString("idProducto");
             nombreProducto = extras.getString("nombreProducto");
-            cantidadProductosDisponibles = Integer.parseInt(extras.getString("cantidadProducto"));
+            cantidadProductosDisponibles = Integer.parseInt(extras.getString("cantidadProductosDisponibles"));
             tvnombreProducto.setText(nombreProducto);
             tvdescripcionProducto.setText(extras.getString("descripcionProducto"));
             Double precio = Double.parseDouble(extras.getString("precio"));
@@ -553,6 +553,7 @@ public class lookAtProduct extends AppCompatActivity {
                             intent.putExtra("totalProducto", String.valueOf(total));
                             intent.putExtra("precioDomicilio", String.valueOf(precioDomicilio));
                             intent.putExtra("nroProductos", String.valueOf(numeroProductos));
+                            intent.putExtra("cantidadProductosDisponibles", String.valueOf(cantidadProductosDisponibles));
                             intent.putExtra("idVendedor" , idVendedor);
                             intent.putExtra("nombreVendedor" , nombreVendedor);
                             intent.putExtra("idCompra" , idCompra);
