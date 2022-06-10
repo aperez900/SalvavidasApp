@@ -156,7 +156,7 @@ public class ListSellAdapter extends RecyclerView.Adapter<ListSellAdapter.viewHo
                         d = objsnapshot.getValue(ListDirecciones.class);
                         if(d.getSeleccion().equals("true")){
                             DecimalFormat df = new DecimalFormat("0.00");
-                            //Distancia[0] = df.format(calcularDistanciaEntreDirecciones(direccionProducto,d.direccionUsuario));
+                            Distancia[0] = df.format(calcularDistanciaEntreDirecciones(direccionProducto,d.direccionUsuario));
                             holder.distancia.setText(Distancia[0] + " KM");
                         }
                     }
@@ -181,15 +181,17 @@ public class ListSellAdapter extends RecyclerView.Adapter<ListSellAdapter.viewHo
         try {
             List<Address> addresses = geocoder.getFromLocationName(direccionProducto,1);
             List<Address> addresses_buy = geocoder.getFromLocationName(direccionUsuario,1);
-            double latitud = addresses.get(0).getLatitude();
-            double longitud = addresses.get(0).getLongitude();
-            double latitud_usuario = addresses_buy.get(0).getLatitude();
-            double longitud_usuario = addresses_buy.get(0).getLongitude();
-            location.setLatitude(latitud);
-            location.setLongitude(longitud);
-            location2.setLatitude(latitud_usuario);
-            location2.setLongitude(longitud_usuario);
-            distance = location.distanceTo(location2)/1000;
+            if (addresses.size() > 0 && addresses_buy.size() > 0) {
+                double latitud = addresses.get(0).getLatitude();
+                double longitud = addresses.get(0).getLongitude();
+                double latitud_usuario = addresses_buy.get(0).getLatitude();
+                double longitud_usuario = addresses_buy.get(0).getLongitude();
+                location.setLatitude(latitud);
+                location.setLongitude(longitud);
+                location2.setLatitude(latitud_usuario);
+                location2.setLongitude(longitud_usuario);
+                distance = location.distanceTo(location2) / 1000;
+            }
         } catch (IOException e) {
             Toast.makeText(getApplicationContext(),"Error calculando la distancia del producto. Inténtalo mas tarde",Toast.LENGTH_SHORT).show();
             e.printStackTrace();

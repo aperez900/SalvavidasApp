@@ -31,6 +31,7 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
+import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
@@ -45,12 +46,11 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Locale;
 
-public class Maps extends FragmentActivity implements GoogleMap.OnMarkerDragListener,OnMapReadyCallback {
+public class Maps extends FragmentActivity implements GoogleMap.OnMarkerDragListener, OnMapReadyCallback {
 
-    private static final int LOCATION_REQUEST_CODE =1;
+    private static final int LOCATION_REQUEST_CODE = 1;
     private static final int REQUEST_LOCATION = 1;
     private static final int PERMISSION_REQUEST_CODE = 1;
-    private ProgressDialog mProgessDialog;
 
     private GoogleMap mMap;
 
@@ -71,7 +71,6 @@ public class Maps extends FragmentActivity implements GoogleMap.OnMarkerDragList
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_maps);
-        mProgessDialog = new ProgressDialog(this);
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
@@ -82,17 +81,16 @@ public class Maps extends FragmentActivity implements GoogleMap.OnMarkerDragList
         database = FirebaseDatabase.getInstance();
 
         Intent intent = getIntent();
-        if (intent.getExtras()  != null){
+        if (intent.getExtras() != null) {
             Bundle extras = getIntent().getExtras();
             tipo = extras.getString("tipo");
-            if (tipo.equals("vendedores")){
+            if (tipo.equals("vendedores")) {
                 myRef = database.getReference("vendedores");
-            }
-            else{
+            } else {
                 myRef = database.getReference("usuarios");
             }
 
-        }else{
+        } else {
             myRef = database.getReference("usuarios");
         }
 
@@ -101,46 +99,38 @@ public class Maps extends FragmentActivity implements GoogleMap.OnMarkerDragList
         etAlias = findViewById(R.id.et_alias);
         btnReg = findViewById(R.id.btn_reg);
 
-        if (ContextCompat.checkSelfPermission(Maps.this, Manifest.permission.ACCESS_FINE_LOCATION) !=
-                PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission
-                (this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(Maps.this,
-                    new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
-                    REQUEST_LOCATION);
-        }
+        permisosGeoLocalizacion();
+
+
     }// Fin OnCreate
+
+    private void permisosGeoLocalizacion() {
+        int permiso = ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION);
+        if (permiso == PackageManager.PERMISSION_DENIED) {
+            if (ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.ACCESS_FINE_LOCATION)) {
+
+            } else {
+                ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 1);
+            }
+        }
+    }
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
-        Toast.makeText(getApplicationContext(),"Si desea cambiar la ubicación, dele clic al icono",Toast.LENGTH_LONG).show();
         miUbicacion();
 
-        //acciones del boton registrar
         btnReg.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(validarCamposVacios(etAlias, etDireccion, etMunicipio)) {
+                if (validarCamposVacios(etAlias, etDireccion, etMunicipio)) {
                     registrar(etAlias, etDireccion, etMunicipio);
                 }
             }
         });
-
         //arrastrar el marcador
         googleMap.setOnMarkerDragListener(this);
-    }
-
-
-
-    public static boolean isGPSProvider(Context context) {
-        LocationManager lm = (LocationManager)context.getSystemService(Context.LOCATION_SERVICE);
-        return lm.isProviderEnabled(LocationManager.GPS_PROVIDER);
-    }
-
-    public static boolean isNetowrkProvider(Context context) {
-        LocationManager lm = (LocationManager)context.getSystemService(Context.LOCATION_SERVICE);
-        return lm.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
-    }
+    }// fin onMapReady
 
     @Override
     public void onRequestPermissionsResult(int requestCode, String[] permissions,
@@ -152,7 +142,7 @@ public class Maps extends FragmentActivity implements GoogleMap.OnMarkerDragList
                 // If request is cancelled, the result arrays are empty.
                 if (grantResults.length > 0 &&
                         grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    miUbicacion();
+                    //miUbicacion();
                 } else {
                     Toast.makeText(getApplicationContext(), "Permiso denegado", Toast.LENGTH_SHORT).show();
                     Intent h = new Intent(getApplicationContext(), Home.class);
@@ -164,31 +154,45 @@ public class Maps extends FragmentActivity implements GoogleMap.OnMarkerDragList
         // permissions this app might request.
     }
 
-    LocationListener locationListener = new LocationListener() {
-        @Override
-        public void onLocationChanged(@NonNull Location location) {
-            //actualizarUbicacion(location);
-        }
-    };
-
     private void miUbicacion() {
-        if (ActivityCompat.checkSelfPermission(Maps.this, Manifest.permission.ACCESS_FINE_LOCATION) !=
-                PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission
-                (this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            //  Consider calling
+            //    ActivityCompat#requestPermissions
+            // here to request the missing permissions, and then overriding
+            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+            //                                          int[] grantResults)
+            // to handle the case where the user grants the permission. See the documentation
+            // for ActivityCompat#requestPermissions for more details.
+            return;
         }
-        else{
-            mProgessDialog.setTitle("Ubicación actual");
-            mProgessDialog.setMessage("Un momento por favor, te estamos ubicando.");
-            mProgessDialog.setCancelable(false);
-            mProgessDialog.show();
-            mMap.setMyLocationEnabled(true);
-            LocationManager locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
-            Location location = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
-            locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER,15000,0,locationListener);
-            actualizarUbicacion(location);
-        }
-    }
+        mMap.setMyLocationEnabled(true);
+        mMap.getUiSettings().setMyLocationButtonEnabled(false);
+        LocationManager locationManager = (LocationManager) Maps.this.getSystemService(Context.LOCATION_SERVICE);
+        Location location = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+        actualizarUbicacion(location);
+        LocationListener locationListener = new LocationListener() {
+            @Override
+            public void onLocationChanged(Location location) {
 
+            }
+
+            @Override
+            public void onStatusChanged(String provider, int status, Bundle extras) {
+
+            }
+
+            @Override
+            public void onProviderEnabled(String provider) {
+
+            }
+
+            @Override
+            public void onProviderDisabled(String provider) {
+
+            }
+        };
+        locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0, locationListener);
+    }
     private void actualizarUbicacion(Location location) {
         if (location != null) {
             //6.258329, -75.594995;
@@ -200,24 +204,29 @@ public class Maps extends FragmentActivity implements GoogleMap.OnMarkerDragList
     }
 
     private void agregarMarcador(double lat, double lng) {
-        LatLng coordenadas = new LatLng(lat, lng);
+        LatLng miUbicacion = new LatLng(lat, lng);
         if(makerActual!= null){
             makerActual.remove();
         }
         makerActual = mMap.addMarker(new MarkerOptions()
-                .position(coordenadas)
-                .title("Mi ubicación")
-                .icon(BitmapDescriptorFactory.fromResource(R.drawable.marker_30
-                ))
+                .position(miUbicacion)
+                .title("Ubicación actual")
                 .draggable(true));
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(coordenadas));
-        mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(coordenadas, 16));
+        mMap.moveCamera(CameraUpdateFactory.newLatLng(miUbicacion));
+        /*CameraPosition cameraPosition = new CameraPosition.Builder()
+                .target(miUbicacion)
+                .zoom(14)
+                .bearing(90)
+                .tilt(45)
+                .build();
+        mMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));*/
+        mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(miUbicacion, 16));
     }
+
 
     private  void convertirDireccion(double lat, double lng){
         Geocoder geocoder =  new Geocoder(Maps.this, Locale.getDefault());
         try {
-            mProgessDialog.dismiss();
             List<Address> addresses = geocoder.getFromLocation(lat,lng,1);
             String direccion = addresses.get(0).getAddressLine(0);
             String municipio = addresses.get(0).getLocality();
@@ -228,6 +237,7 @@ public class Maps extends FragmentActivity implements GoogleMap.OnMarkerDragList
             e.printStackTrace();
         }
     }
+
 
     private void registrar(TextView et_alias,  TextView et_direccion,TextView et_municipio ) {
 
@@ -247,16 +257,11 @@ public class Maps extends FragmentActivity implements GoogleMap.OnMarkerDragList
                             Intent h = new Intent(getApplicationContext(), seller2.class);
                             h.putExtra("direccion",et_direccion.getText().toString());
                             startActivity(h);
-
-
                         }else{
                             Toast.makeText(getApplicationContext(), "Dirección registrada correctamente", Toast.LENGTH_SHORT).show();
                             Intent h = new Intent(getApplicationContext(), Home.class);
                             startActivity(h);
-
-
                         }
-
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {
@@ -265,7 +270,6 @@ public class Maps extends FragmentActivity implements GoogleMap.OnMarkerDragList
                         Toast.makeText(getApplicationContext(), "Error registrando la dirección", Toast.LENGTH_SHORT).show();
                     }
                 });
-
     }
 
     public boolean validarCamposVacios(TextView et_alias,  TextView et_direccion,TextView et_municipio){
@@ -293,6 +297,7 @@ public class Maps extends FragmentActivity implements GoogleMap.OnMarkerDragList
 
         return campoLleno;
     }
+
 
     //eventos para arrastrar el market
     @Override

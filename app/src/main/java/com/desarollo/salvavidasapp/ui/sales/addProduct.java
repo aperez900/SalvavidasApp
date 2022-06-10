@@ -437,7 +437,13 @@ public class addProduct extends AppCompatActivity {
             campoLleno=false;
         }if(direccion.isEmpty()) {
             direccionProducto.setError("");
-            Toast.makeText(this, "Debe agregar una direccion", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Debe agregar una dirección", Toast.LENGTH_SHORT).show();
+            campoLleno = false;
+        }else if(direccion.equals("Dirección 1") || direccion.equals("Dirección 2")
+                || direccion.equals("Dirección 3" ) || direccion.equals("Dirección 4" )
+                || direccion.equals("Dirección 5" )){
+            direccionProducto.setError("");
+            Toast.makeText(this, "Debe agregar una dirección válida", Toast.LENGTH_SHORT).show();
             campoLleno = false;
         }
         return campoLleno;

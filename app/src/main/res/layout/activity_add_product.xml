@@ -139,17 +139,18 @@
                     android:layout_marginStart="10dp"
                     android:layout_marginEnd="10dp">
 
-                <EditText
-                    android:id="@+id/et_direccion"
-                    android:layout_width="250dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
-                    android:fontFamily="@font/poppins_light"
-                    android:hint="@string/direccionVenta"
-                    android:textSize="18sp"
-                    android:importantForAutofill="no"
-                    app:layout_constraintTop_toBottomOf="@id/et_descuento"
-                    android:inputType="text" />
+                    <EditText
+                        android:id="@+id/et_direccion"
+                        android:layout_width="250dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:enabled="false"
+                        android:fontFamily="@font/poppins_light"
+                        android:hint="@string/direccionVenta"
+                        android:importantForAutofill="no"
+                        android:inputType="text"
+                        android:textSize="18sp"
+                        app:layout_constraintTop_toBottomOf="@id/et_descuento" />
 
                     <Button
                         android:id="@+id/bt_direccion"

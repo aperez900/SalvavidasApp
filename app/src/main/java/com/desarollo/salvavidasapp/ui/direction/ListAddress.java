@@ -77,7 +77,7 @@ public class ListAddress extends Fragment {
         recyclerViewDirecciones = (RecyclerView) view.findViewById(R.id.recycle_address);
         LinearLayoutManager manager = new LinearLayoutManager(getApplicationContext());
         recyclerViewDirecciones.setLayoutManager(manager);
-        recyclerViewDirecciones.setHasFixedSize(true);
+        //recyclerViewDirecciones.setHasFixedSize(true);
         listAddressAdapter = new ListAddressAdapter(getApplicationContext(),listaDirecciones,getActivity());
         recyclerViewDirecciones.setAdapter(listAddressAdapter);
 
@@ -86,7 +86,6 @@ public class ListAddress extends Fragment {
         listaDirecciones = new ArrayList<>();
         //cargar la lista
         cargarLista();
-
 
 
         btnUbicacionActual.setOnClickListener(new View.OnClickListener() {
