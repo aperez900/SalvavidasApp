@@ -127,7 +127,7 @@ public class Home extends AppCompatActivity {
     } // fin OnCreate
 
     private void actualizarTokenNotificacionesPush() {
-        myRefVendedores.child(currentUser.getUid()).child("tokenId").addValueEventListener(new ValueEventListener() {
+        myRef.child(currentUser.getUid()).child("tokenId").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 if(snapshot.exists()){
@@ -158,7 +158,7 @@ public class Home extends AppCompatActivity {
                         token = task.getResult();
 
                         //guarda los datos del usuario
-                        myRefVendedores.child(currentUser.getUid()).child("tokenId").setValue(token)
+                        myRef.child(currentUser.getUid()).child("tokenId").setValue(token)
                                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                                     @Override
                                     public void onSuccess(Void aVoid) {

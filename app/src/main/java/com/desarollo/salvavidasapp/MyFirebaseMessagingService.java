@@ -31,14 +31,14 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
     FirebaseAuth mAuth;
     FirebaseUser currentUser;
     FirebaseDatabase database;
-    DatabaseReference myRefVendedores;
+    DatabaseReference myRefUsuarios;
     @Override
     public void onNewToken(@NonNull String s) {
         super.onNewToken(s);
         mAuth = FirebaseAuth.getInstance();
         currentUser = mAuth.getCurrentUser();
         database = FirebaseDatabase.getInstance();
-        myRefVendedores = database.getReference("vendedores");
+        myRefUsuarios = database.getReference("usuarios");
 
         Log.e("token", "mi token es: " + s);
         guardarToken(s);
@@ -47,7 +47,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
     private void guardarToken(String s) {
         if (currentUser != null){
-            myRefVendedores.child(currentUser.getUid()).child("tokenId").setValue(s)
+            myRefUsuarios.child(currentUser.getUid()).child("tokenId").setValue(s)
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void aVoid) {

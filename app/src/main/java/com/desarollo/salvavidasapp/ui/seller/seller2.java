@@ -819,4 +819,5 @@ public class seller2 extends AppCompatActivity {
         AlertDialog dialog = builder.create();
         dialog.show();
     }
+
 }

@@ -429,7 +429,7 @@ public class listShoppingCartAdapter extends RecyclerView.Adapter<listShoppingCa
     }
 
     public void consultarToken(String idVendedor, String nombreVendedor, String nombreProducto, int numeroProductos) {
-        myRefVendedor.child(idVendedor).addValueEventListener(new ValueEventListener() {
+        myRefUsuario.child(idVendedor).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 if(snapshot.exists()){

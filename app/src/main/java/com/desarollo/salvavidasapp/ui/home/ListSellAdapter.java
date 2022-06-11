@@ -156,8 +156,8 @@ public class ListSellAdapter extends RecyclerView.Adapter<ListSellAdapter.viewHo
                         d = objsnapshot.getValue(ListDirecciones.class);
                         if(d.getSeleccion().equals("true")){
                             DecimalFormat df = new DecimalFormat("0.00");
-                            Distancia[0] = df.format(calcularDistanciaEntreDirecciones(direccionProducto,d.direccionUsuario));
-                            holder.distancia.setText(Distancia[0] + " KM");
+                            //Distancia[0] = df.format(calcularDistanciaEntreDirecciones(direccionProducto,d.direccionUsuario));
+                            //holder.distancia.setText(Distancia[0] + " KM");
                         }
                     }
                 }else{
