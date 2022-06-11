@@ -181,6 +181,7 @@ public class ListSellAdapter extends RecyclerView.Adapter<ListSellAdapter.viewHo
         try {
             List<Address> addresses = geocoder.getFromLocationName(direccionProducto,1);
             List<Address> addresses_buy = geocoder.getFromLocationName(direccionUsuario,1);
+
             if (addresses.size() > 0 && addresses_buy.size() > 0) {
                 double latitud = addresses.get(0).getLatitude();
                 double longitud = addresses.get(0).getLongitude();

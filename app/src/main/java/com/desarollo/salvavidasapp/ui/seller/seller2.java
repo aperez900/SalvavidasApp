@@ -151,7 +151,6 @@ public class seller2 extends AppCompatActivity {
             Bundle extras = getIntent().getExtras();
             String direccion = extras.getString("direccion");
             direccionVendedor.setText(direccion);
-
         }
         consultarDatosVendedor(nombres, apellidos, identificacion, celular, nombreEstablecimiento, nit, sp_actividad_econimica,
                 btn_reg,estado,direccionVendedor);

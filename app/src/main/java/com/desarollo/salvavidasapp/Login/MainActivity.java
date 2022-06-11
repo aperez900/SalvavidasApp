@@ -5,9 +5,11 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.util.Patterns;
@@ -16,6 +18,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 import com.desarollo.salvavidasapp.profile_initial;
 import com.desarollo.salvavidasapp.ui.home.Home;
 import com.desarollo.salvavidasapp.R;
@@ -67,6 +71,8 @@ public class MainActivity extends AppCompatActivity {
     FirebaseDatabase database;
     DatabaseReference myRef;
 
+    ProgressDialog cargando;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -76,6 +82,8 @@ public class MainActivity extends AppCompatActivity {
         currentUser = mAuth.getCurrentUser();
         database = FirebaseDatabase.getInstance();
         myRef = database.getReference("usuarios");
+
+        cargando = new ProgressDialog(this);
         
         fb = (Button) findViewById(R.id.fb);
         google = (Button) findViewById(R.id.google);
@@ -227,26 +235,35 @@ public class MainActivity extends AppCompatActivity {
     protected void onStart() {
         super.onStart();
 
+
         FirebaseUser currentUser = mAuth.getCurrentUser();
         //updateUI(currentUser);
 
         if(currentUser != null){
+            cargando.setTitle("Logueo automático");
+            cargando.setMessage("Un momento por favor...");
+            cargando.show();
         for (UserInfo profile : currentUser.getProviderData()) {
                 // Id of the provider (ex: google.com)
                 String providerId = profile.getProviderId();
                 //Toast.makeText(MainActivity.this, "Proveedor " + providerId, Toast.LENGTH_LONG).show();
                 if (providerId.equals("facebook.com")){
                       datosIniciales();
+                    cargando.dismiss();
                 }
                 if (providerId.equals("google.com")){
                      datosIniciales();
+                    cargando.dismiss();
                 }
                 if(currentUser.isEmailVerified()){
                      datosIniciales();
+                    cargando.dismiss();
                 }
             }
+            cargando.dismiss();
            // Toast.makeText(MainActivity.this, "Ya estas logueado. ", Toast.LENGTH_SHORT).show();
         }
+
     }
 
     public void Registro(View view) {
@@ -318,32 +335,29 @@ public class MainActivity extends AppCompatActivity {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
                         if(snapshot.exists()){
-
-
                             Intent h = new Intent(MainActivity.this, Home.class);
                             startActivity(h);
                             finish();
-
                         }
                         else{
-
-
-                            String email = currentUser.getEmail();
-                            Intent intent = new Intent(MainActivity.this , profile_initial.class);
-                            intent.putExtra("email", email );
-                            startActivity(intent);
-                            finish();
-
-
+                            if (currentUser != null) {
+                                Intent intent = new Intent(MainActivity.this , profile_initial.class);
+                                for (UserInfo profile : currentUser.getProviderData()) {
+                                    //String name = profile.getDisplayName();
+                                    String email = profile.getEmail();
+                                    intent.putExtra("email", email );
+                                    //Uri photoUrl = profile.getPhotoUrl();
+                                }
+                                startActivity(intent);
+                                finish();
+                            }
                         }
-
                     }
                     @Override
                     public void onCancelled(@NonNull DatabaseError error) {
                         Toast.makeText(getApplicationContext(), "Error consultando los datos del usuario. Intente de nuevo mas tarde.", Toast.LENGTH_SHORT).show();
                     }
                 });
-
     }
 
     private void datosIniciales() {

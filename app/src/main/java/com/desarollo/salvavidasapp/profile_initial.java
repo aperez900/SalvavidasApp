@@ -64,7 +64,6 @@ public class profile_initial extends AppCompatActivity {
         if (intent.getExtras()  != null){
             Bundle extras = getIntent().getExtras();
             email = extras.getString("email");
-
         }
 
 
@@ -156,12 +155,7 @@ public class profile_initial extends AppCompatActivity {
                         //Toast.makeText(getApplicationContext(), "Error actualizando el usuario", Toast.LENGTH_SHORT).show();
                     }
                 });
-
          registrar_token();
-
-
-
-
     }
 
     private void registrar_token() {

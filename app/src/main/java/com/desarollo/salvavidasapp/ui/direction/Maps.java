@@ -16,6 +16,7 @@ import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -166,29 +167,35 @@ public class Maps extends FragmentActivity implements GoogleMap.OnMarkerDragList
             return;
         }
         mMap.setMyLocationEnabled(true);
-        mMap.getUiSettings().setMyLocationButtonEnabled(false);
+        //mMap.getUiSettings().setMyLocationButtonEnabled(false);
         LocationManager locationManager = (LocationManager) Maps.this.getSystemService(Context.LOCATION_SERVICE);
-        Location location = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
-        actualizarUbicacion(location);
+
+        if(makerActual == null) {
+            Location location = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+            actualizarUbicacion(location);
+        }
         LocationListener locationListener = new LocationListener() {
             @Override
             public void onLocationChanged(Location location) {
-
+                if(makerActual == null){
+                    actualizarUbicacion(location);
+                }
             }
 
             @Override
             public void onStatusChanged(String provider, int status, Bundle extras) {
-
+                Log.e("StatusChanged", "provider: " + provider + ", status: "
+                + status + ", extras" + extras);
             }
 
             @Override
             public void onProviderEnabled(String provider) {
-
+                Log.e("ProviderEnabled", "provider Enabled: " + provider);
             }
 
             @Override
             public void onProviderDisabled(String provider) {
-
+                Log.e("ProviderDisabled", "provider Disabled: " + provider);
             }
         };
         locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0, locationListener);

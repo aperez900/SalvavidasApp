@@ -234,8 +234,8 @@ public class lookAtProduct extends AppCompatActivity {
         }
     }
 
-    public void consultarToken(String nombreVendedor, String idCompra) {
-        myRefVendedor.child(idVendedor).addValueEventListener(new ValueEventListener() {
+    public void consultarToken(String idCompra) {
+        myRefUsuarios.child(idVendedor).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 if(snapshot.exists()){
@@ -318,7 +318,7 @@ public class lookAtProduct extends AppCompatActivity {
                 Toast.makeText(lookAtProduct.this, "Error cargando los datos del vendedor", Toast.LENGTH_SHORT).show();
             }
         });
-        consultarToken(nombreVendedor, idCompra);
+        consultarToken(idCompra);
     }
 
     public void enviar_email_vendedor(String nombreComprador, String emailVendedor, String nombreVendedor){

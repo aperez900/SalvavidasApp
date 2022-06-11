@@ -103,9 +103,6 @@ public class Registro extends AppCompatActivity {
                                                 })
                                                 .build()
                                                 .show();
-
-
-
                                     }
                                 }
                             });
