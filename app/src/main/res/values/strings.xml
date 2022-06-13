@@ -34,18 +34,20 @@
     <string name="agregarOSeleccionarDireccion">Agregar o seleccionar una dirección</string>
     <string name="consultarOEditarDireccion">Consultar o editar una dirección</string>
     <string name="agregarFavoritos">Agregar favoritos</string>
-    <string name="agregarDireccion">Agregar direccion </string>
+    <string name="agregarDireccion">Agregar dirección </string>
     <string name="ubicacionActual">Ubicación actual</string>
     <string name="calle">Calle</string>
-    <string name="municipio">Municipio</string>
+    <string name="municipio">Ingrese un municipio</string>
     <string name="barrio">Barrio</string>
     <string name="miCasa">Mi casa</string>
-    <string name="direccion">Dirección</string>
+    <string name="direccion">Ingrese una dirección</string>
     <string name="numeroDireccionEjemplo">55</string>
     <string name="agregar">Agregar</string>
     <string name="modificar">Modificar</string>
-    <string name="datosAdicionales">DatosAdicionales</string>
-    <string name="alias">Alias</string>
+    <string name="datosAdicionales">¿alguna dato adicional para la dirección?</string>
+    <string name="alias">Ingrese un nombre para la dirección</string>
+    <string name="Latitud">Latitud</string>
+    <string name="Longitud">Longitud</string>
 
     <string name="nombre">Nombres</string>
     <string name="apellidos">Apellidos</string>

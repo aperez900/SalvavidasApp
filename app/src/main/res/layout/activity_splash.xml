@@ -10,16 +10,14 @@
 
     <ImageView
         android:id="@+id/imageView2"
-        android:layout_width="3000dp"
+        android:layout_width="wrap_content"
         android:layout_height="300dp"
+        android:layout_marginTop="50dp"
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
         android:layout_alignParentEnd="true"
-        android:layout_marginStart="70dp"
-        android:layout_marginTop="80dp"
-        android:layout_marginEnd="70dp"
         android:contentDescription="@string/descripcionImagen"
-        app:srcCompat="@drawable/logo_surplapp" />
+        app:srcCompat="@drawable/logo_surplapp_fondo_blanco" />
 
     <ProgressBar
         android:id="@+id/progressBar"

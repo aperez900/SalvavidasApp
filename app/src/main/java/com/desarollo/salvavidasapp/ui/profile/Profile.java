@@ -255,7 +255,7 @@ public class Profile extends Fragment {
                     for(DataSnapshot objsnapshot : snapshot.getChildren()){
                         d = new ListDirecciones();
                         d = objsnapshot.getValue(ListDirecciones.class);
-                        listaDirecciones.add(new ListDirecciones(d.getNombreDireccion(),d.getDireccionUsuario(), d.getMunicipioDireccion(),R.drawable.ic_icono_address,d.getSeleccion()));
+                        listaDirecciones.add(new ListDirecciones(d.getNombreDireccion(),d.getDireccionUsuario(), d.getMunicipioDireccion(),R.drawable.ic_icono_address,d.getSeleccion(),d.getLat(),d.getLng()));
                     }
 
                 }

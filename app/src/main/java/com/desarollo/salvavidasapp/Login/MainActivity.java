@@ -96,8 +96,10 @@ public class MainActivity extends AppCompatActivity {
         et_email.setText(preferences.getString("email",""));
         et_password.setText(preferences.getString("password", ""));
 
-
         mAuth = FirebaseAuth.getInstance();
+
+        FirebaseUser currentUser = mAuth.getCurrentUser();
+        //updateUI(currentUser);
 
         //Acceso por facebook
         callbackManager = CallbackManager.Factory.create();
@@ -235,35 +237,26 @@ public class MainActivity extends AppCompatActivity {
     protected void onStart() {
         super.onStart();
 
-
         FirebaseUser currentUser = mAuth.getCurrentUser();
         //updateUI(currentUser);
 
         if(currentUser != null){
-            cargando.setTitle("Logueo automático");
-            cargando.setMessage("Un momento por favor...");
-            cargando.show();
-        for (UserInfo profile : currentUser.getProviderData()) {
-                // Id of the provider (ex: google.com)
-                String providerId = profile.getProviderId();
-                //Toast.makeText(MainActivity.this, "Proveedor " + providerId, Toast.LENGTH_LONG).show();
-                if (providerId.equals("facebook.com")){
-                      datosIniciales();
-                    cargando.dismiss();
+            for (UserInfo profile : currentUser.getProviderData()) {
+                    // Id of the provider (ex: google.com)
+                    String providerId = profile.getProviderId();
+                    //Toast.makeText(MainActivity.this, "Proveedor " + providerId, Toast.LENGTH_LONG).show();
+                    if (providerId.equals("facebook.com")){
+                        ingreso();
+                    }
+                    if (providerId.equals("google.com")){
+                        ingreso();
+                    }
+                    if(currentUser.isEmailVerified()){
+                        ingreso();
+                    }
                 }
-                if (providerId.equals("google.com")){
-                     datosIniciales();
-                    cargando.dismiss();
-                }
-                if(currentUser.isEmailVerified()){
-                     datosIniciales();
-                    cargando.dismiss();
-                }
+               // Toast.makeText(MainActivity.this, "Ya estas logueado. ", Toast.LENGTH_SHORT).show();
             }
-            cargando.dismiss();
-           // Toast.makeText(MainActivity.this, "Ya estas logueado. ", Toast.LENGTH_SHORT).show();
-        }
-
     }
 
     public void Registro(View view) {
@@ -360,7 +353,13 @@ public class MainActivity extends AppCompatActivity {
                 });
     }
 
+    /*
     private void datosIniciales() {
+
+        Intent h = new Intent(getApplicationContext(), Home.class);
+        startActivity(h);
+        finish();
+
 
         FirebaseUser currentUser = mAuth.getCurrentUser();
         myRef.child(currentUser.getUid())
@@ -383,7 +382,7 @@ public class MainActivity extends AppCompatActivity {
                 });
 
     }
-
+*/
 
     public boolean validarCamposVacios(){
         boolean campoLleno = true;

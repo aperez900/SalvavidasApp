@@ -7,18 +7,21 @@ public class ListDirecciones {
     public String municipioDireccion;
     public int imagenID;
     public String seleccion;
+    public double lat;
+    public double lng;
 
     public ListDirecciones(){}
 
-    public ListDirecciones(String nombreDireccion, String direccionUsuario, String municipioDireccion, int imagenID,String seleccion) {
+    public ListDirecciones(String nombreDireccion, String direccionUsuario, String municipioDireccion,
+                           int imagenID,String seleccion, Double lat, Double lng) {
         this.nombreDireccion = nombreDireccion;
         this.direccionUsuario = direccionUsuario;
         this.municipioDireccion = municipioDireccion;
         this.imagenID = imagenID;
         this.seleccion = seleccion;
+        this.lat = lat;
+        this.lng = lng;
     }
-
-
 
     public String getSeleccion() {
         return seleccion;
@@ -58,5 +61,21 @@ public class ListDirecciones {
 
     public void setImagenID(int imagenID) {
         this.imagenID = imagenID;
+    }
+
+    public double getLat() {
+        return lat;
+    }
+
+    public void setLat(double lat) {
+        this.lat = lat;
+    }
+
+    public double getLng() {
+        return lng;
+    }
+
+    public void setLng(double lng) {
+        this.lng = lng;
     }
 }

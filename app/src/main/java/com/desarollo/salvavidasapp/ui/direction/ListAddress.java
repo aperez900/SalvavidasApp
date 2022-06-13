@@ -95,13 +95,14 @@ public class ListAddress extends Fragment {
                 LocationManager lm = (LocationManager) getApplicationContext().getSystemService(Context.LOCATION_SERVICE);
                 boolean gpsActivo = lm.isProviderEnabled(LocationManager.GPS_PROVIDER);
 
-                if (gpsActivo != false){
+                //if (gpsActivo != false){
                         Intent h = new Intent(getContext(), Maps.class);
                         startActivity(h);
-                }
-                else{
+                //}
+                /*else{
                     Toast.makeText(getContext(),"activa el GPS para poder continuar...",Toast.LENGTH_SHORT).show();
                 }
+                 */
             }
         });
 
@@ -129,7 +130,7 @@ public class ListAddress extends Fragment {
                     listaDirecciones.clear();
                     for(DataSnapshot objsnapshot : snapshot.getChildren()){
                         ListDirecciones d = objsnapshot.getValue(ListDirecciones.class);
-                        listaDirecciones.add(new ListDirecciones(d.getNombreDireccion(),d.getDireccionUsuario(), d.getMunicipioDireccion(),R.drawable.marker,d.getSeleccion()));
+                        listaDirecciones.add(new ListDirecciones(d.getNombreDireccion(),d.getDireccionUsuario(), d.getMunicipioDireccion(),R.drawable.marker,d.getSeleccion(), d.getLat(), d.getLng()));
                     }
 
                     listAddressAdapter = new ListAddressAdapter(getApplicationContext(),listaDirecciones,getActivity());
@@ -156,8 +157,8 @@ public class ListAddress extends Fragment {
         });
     }
     public void mostrarData(){
-        listaDirecciones.add(new ListDirecciones("Nombre dirección 1", "Dirección 1","Ciudad/Departamento",R.drawable.marker,"false"));
-        listaDirecciones.add(new ListDirecciones("Nombre dirección 2", "Dirección 2","Ciudad/Departamento",R.drawable.marker,"false"));
+        listaDirecciones.add(new ListDirecciones("Nombre dirección 1", "Dirección 1","Ciudad/Departamento",R.drawable.marker,"false",0.0,0.0));
+        listaDirecciones.add(new ListDirecciones("Nombre dirección 2", "Dirección 2","Ciudad/Departamento",R.drawable.marker,"false",0.0,0.0));
 
         recyclerViewDirecciones.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
         listAddressAdapter = new ListAddressAdapter(getApplicationContext(),listaDirecciones,getActivity());

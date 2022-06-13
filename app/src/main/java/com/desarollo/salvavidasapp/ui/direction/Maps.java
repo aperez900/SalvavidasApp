@@ -1,12 +1,12 @@
 package com.desarollo.salvavidasapp.ui.direction;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.FragmentActivity;
 
 import android.Manifest;
-import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -27,23 +27,28 @@ import com.desarollo.salvavidasapp.Models.ListDirecciones;
 import com.desarollo.salvavidasapp.R;
 import com.desarollo.salvavidasapp.ui.home.Home;
 import com.desarollo.salvavidasapp.ui.seller.seller2;
+import com.google.android.gms.common.api.Status;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
-import com.google.android.gms.maps.model.BitmapDescriptorFactory;
-import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.libraries.places.api.Places;
+import com.google.android.libraries.places.api.model.Place;
+import com.google.android.libraries.places.widget.Autocomplete;
+import com.google.android.libraries.places.widget.AutocompleteActivity;
+import com.google.android.libraries.places.widget.model.AutocompleteActivityMode;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
 
@@ -58,6 +63,8 @@ public class Maps extends FragmentActivity implements GoogleMap.OnMarkerDragList
     EditText etDireccion;
     EditText etMunicipio;
     EditText etAlias;
+    TextView tvLat;
+    TextView tvLng;
     Button btnReg;
 
     FirebaseAuth mAuth;
@@ -75,6 +82,7 @@ public class Maps extends FragmentActivity implements GoogleMap.OnMarkerDragList
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
+        assert mapFragment != null;
         mapFragment.getMapAsync(this);
 
         mAuth = FirebaseAuth.getInstance();
@@ -99,11 +107,59 @@ public class Maps extends FragmentActivity implements GoogleMap.OnMarkerDragList
         etMunicipio = findViewById(R.id.et_municipio);
         etAlias = findViewById(R.id.et_alias);
         btnReg = findViewById(R.id.btn_reg);
+        tvLat = findViewById(R.id.tv_lat);
+        tvLng = findViewById(R.id.tv_lng);
 
         permisosGeoLocalizacion();
 
+        //Dirección autocompletada por Google
+        Places.initialize(getApplicationContext(), "AIzaSyDFliIjeHW8G8DnAPyQ8t7fOwap5ap6u7w");
+        etDireccion.setFocusable(false);
+        etDireccion.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                List<Place.Field> fieldList = Arrays.asList(Place.Field.ADDRESS
+                        ,Place.Field.LAT_LNG, Place.Field.NAME);
+                Intent intent = new Autocomplete.IntentBuilder(AutocompleteActivityMode.OVERLAY,fieldList)
+                        .build(Maps.this);
+                startActivityForResult(intent, 100);
+            }
+        });
 
     }// Fin OnCreate
+
+    //Dirección autocompletada por Google
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == 100 && resultCode == RESULT_OK){
+            assert data != null;
+            Place place = Autocomplete.getPlaceFromIntent(data);
+            String[] Municipio = place.getAddress().split(",");
+            etDireccion.setText(place.getAddress());
+            etMunicipio.setText(Municipio[1]);
+            String latitudYLongitud= String.valueOf(place.getLatLng());
+            if (!latitudYLongitud.isEmpty()){
+                // Dividimos nuestro texto
+                String[] resultadoSplit = latitudYLongitud.split("[, lat/lng: ()]+");
+                try {
+                    Double lat = Double.parseDouble(resultadoSplit[1]);
+                    Double lng = Double.parseDouble(resultadoSplit[2]);
+                    agregarMarcador(lat, lng);
+                    tvLat.setText(String.valueOf(lat));
+                    tvLng.setText(String.valueOf(lng));
+                } catch (NumberFormatException nfe) {
+                    Toast.makeText(this, "Error con las coordenadas", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+        }else if(resultCode == AutocompleteActivity.RESULT_ERROR){
+            assert data != null;
+            Status status = Autocomplete.getStatusFromIntent(data);
+            Toast.makeText(getApplicationContext(), status.getStatusMessage(), Toast.LENGTH_SHORT).show();
+        }
+    }
+
 
     private void permisosGeoLocalizacion() {
         int permiso = ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION);
@@ -119,13 +175,53 @@ public class Maps extends FragmentActivity implements GoogleMap.OnMarkerDragList
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
-        miUbicacion();
+        //miUbicacion();
+
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            // TODO: Consider calling
+            //    ActivityCompat#requestPermissions
+            // here to request the missing permissions, and then overriding
+            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+            //                                          int[] grantResults)
+            // to handle the case where the user grants the permission. See the documentation
+            // for ActivityCompat#requestPermissions for more details.
+            return;
+        }
+        mMap.setMyLocationEnabled(true);
+
+        mMap.getUiSettings().setMyLocationButtonEnabled(false);
+
+        LocationManager locationManager = (LocationManager) Maps.this.getSystemService(Context.LOCATION_SERVICE);
+        LocationListener locationListener = new LocationListener() {
+            @Override
+            public void onLocationChanged(Location location) {
+                if(makerActual == null){
+                    actualizarUbicacion(location);
+                }
+            }
+
+            @Override
+            public void onStatusChanged(String provider, int status, Bundle extras) {
+
+            }
+
+            @Override
+            public void onProviderEnabled(String provider) {
+
+            }
+
+            @Override
+            public void onProviderDisabled(String provider) {
+
+            }
+        };
+        locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0, locationListener);
 
         btnReg.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (validarCamposVacios(etAlias, etDireccion, etMunicipio)) {
-                    registrar(etAlias, etDireccion, etMunicipio);
+                if (validarCamposVacios(etAlias, etDireccion, etMunicipio, tvLat, tvLng)) {
+                    registrar(etAlias, etDireccion, etMunicipio, tvLat, tvLng);
                 }
             }
         });
@@ -169,11 +265,11 @@ public class Maps extends FragmentActivity implements GoogleMap.OnMarkerDragList
         mMap.setMyLocationEnabled(true);
         //mMap.getUiSettings().setMyLocationButtonEnabled(false);
         LocationManager locationManager = (LocationManager) Maps.this.getSystemService(Context.LOCATION_SERVICE);
-
-        if(makerActual == null) {
+        /*if(makerActual == null) {
             Location location = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
             actualizarUbicacion(location);
         }
+         */
         LocationListener locationListener = new LocationListener() {
             @Override
             public void onLocationChanged(Location location) {
@@ -239,6 +335,8 @@ public class Maps extends FragmentActivity implements GoogleMap.OnMarkerDragList
             String municipio = addresses.get(0).getLocality();
             etDireccion.setText(direccion);
             etMunicipio.setText(municipio);
+            tvLat.setText(String.valueOf(lat));
+            tvLng.setText(String.valueOf(lng));
         } catch (IOException e) {
             Toast.makeText(getApplicationContext(),"Error :" + e,Toast.LENGTH_SHORT).show();
             e.printStackTrace();
@@ -246,12 +344,14 @@ public class Maps extends FragmentActivity implements GoogleMap.OnMarkerDragList
     }
 
 
-    private void registrar(TextView et_alias,  TextView et_direccion,TextView et_municipio ) {
+    private void registrar(TextView et_alias,  TextView et_direccion,TextView et_municipio, TextView tvLat, TextView tvLng) {
 
         d = new ListDirecciones();
         d.nombreDireccion = et_alias.getText().toString();
         d.direccionUsuario = et_direccion.getText().toString();
         d.municipioDireccion = et_municipio.getText().toString();
+        d.lat = Double.parseDouble(tvLat.getText().toString());
+        d.lng = Double.parseDouble(tvLng.getText().toString());
         d.seleccion = "true";
 
         //guarda los datos del usuario
@@ -279,12 +379,14 @@ public class Maps extends FragmentActivity implements GoogleMap.OnMarkerDragList
                 });
     }
 
-    public boolean validarCamposVacios(TextView et_alias,  TextView et_direccion,TextView et_municipio){
+    public boolean validarCamposVacios(TextView et_alias,  TextView et_direccion,TextView et_municipio, TextView tvLat, TextView tvLng){
 
         d = new ListDirecciones();
         d.nombreDireccion = et_alias.getText().toString();
         d.direccionUsuario = et_direccion.getText().toString();
         d.municipioDireccion = et_municipio.getText().toString();
+        d.setLat(Double.parseDouble(tvLat.getText().toString()));
+        d.setLng(Double.parseDouble(tvLng.getText().toString()));
 
         boolean campoLleno = true;
 
