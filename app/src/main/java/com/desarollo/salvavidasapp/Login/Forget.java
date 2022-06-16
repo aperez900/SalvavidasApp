@@ -41,7 +41,7 @@ public class Forget extends AppCompatActivity {
     private void validate() {
         String email = et_recuperarEmail.getText().toString().trim();
         if (email.isEmpty()||!Patterns.EMAIL_ADDRESS.matcher(email).matches()){
-            et_recuperarEmail.setError("Correo no válido.");
+            et_recuperarEmail.setError("El correo no es válido.");
             return;
         }
         sendEmail(email);
@@ -56,7 +56,7 @@ public class Forget extends AppCompatActivity {
                     @Override
                     public void onComplete(@NonNull Task<Void> task) {
                         if (task.isSuccessful()){
-                            Toast.makeText(Forget.this,"Correo enviado",Toast.LENGTH_SHORT).show();
+                            Toast.makeText(Forget.this,"Se envio un correo, para restablecer su contraseña",Toast.LENGTH_SHORT).show();
                             Intent intent = new Intent(Forget.this, MainActivity.class);
                             startActivity(intent);
                             finish();

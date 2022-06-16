@@ -141,7 +141,7 @@ public class buyProduct extends AppCompatActivity {
                 String vt_ = Integer.toString(vt);
                 String Reference = currentUser.getUid() + "/" + idCompra + "/" + idProducto +"/" + idVendedor;
 
-                registrarsolicitudVendedor(vt_,idCompra, idProducto,idVendedor,Reference);
+                registrarsolicitudVendedor(vt_,idCompra, idProducto,idVendedor,Reference,nroProductos);
                 registrarCompraAlComprador(vt_,idCompra, idProducto);
 
             }
@@ -230,7 +230,7 @@ public class buyProduct extends AppCompatActivity {
 
     }
 
-    private void registrarsolicitudVendedor(String vt_, String idCompra, String idProducto,String idVendedor,String Reference){
+    private void registrarsolicitudVendedor(String vt_, String idCompra, String idProducto,String idVendedor,String Reference,Integer nnroProductos){
         myRefVendedores.child(idVendedor).child("productos_en_tramite").child(currentUser.getUid()).child(idCompra).child(idProducto).child("estado").setValue("Procesando pago")
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
@@ -250,7 +250,7 @@ public class buyProduct extends AppCompatActivity {
                     }
                 });
 
-        myRefProductos.child(idVendedor).child(idProducto).child("cantidadDisponible").setValue(cantidadProductosDisponibles - nroProductos)
+        myRefProductos.child(idVendedor).child(idProducto).child("cantidadDisponible").setValue(cantidadProductosDisponibles - nnroProductos)
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void aVoid) {

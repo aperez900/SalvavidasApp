@@ -755,7 +755,7 @@ public class seller2 extends AppCompatActivity {
 
         String[] direcciones = new String[]
                 {
-                        "Dirección 1", "Dirección 2", "Dirección 3", "Dirección 4", "Dirección 5"
+                        " ", " ", " ", " ", " "
                 };
 
         //array booleano para marcar casillas por defecto
