@@ -1,16 +1,19 @@
 package com.desarollo.salvavidasapp.ui.home;
 
 import android.app.Activity;
+import android.app.Dialog;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.Build;
 import android.os.StrictMode;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -33,8 +36,10 @@ import com.desarollo.salvavidasapp.Models.Productos;
 import com.desarollo.salvavidasapp.R;
 import com.desarollo.salvavidasapp.ui.sales.buyProduct;
 import com.desarollo.salvavidasapp.ui.sales.lookAtProduct;
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.UserInfo;
@@ -43,6 +48,9 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.shashank.sony.fancydialoglib.Animation;
+import com.shashank.sony.fancydialoglib.FancyAlertDialog;
+import com.shashank.sony.fancydialoglib.FancyAlertDialogListener;
 
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
@@ -68,21 +76,21 @@ import org.json.JSONObject;
 
 public class listShoppingCartAdapter extends RecyclerView.Adapter<listShoppingCartAdapter.viewHolder> implements View.OnClickListener {
 
-    ArrayList<Productos> listaDeDatos;
-    LayoutInflater inflater;
+    private ArrayList<Productos> listaDeDatos;
+    private LayoutInflater inflater;
     private View.OnClickListener listener;
-    Activity  activity;
-    String nombreComprador;
-    Session session;
-    ProgressDialog cargando;
-    HashMap<String, String> producto = new HashMap<>();
-    FirebaseAuth mAuth;
-    FirebaseDatabase database;
-    FirebaseUser currentUser;
-    DatabaseReference myRefUsuario, myRefVendedor, myRefProductos;
-    Calendar c;
-    Date getCurrentDateTime;
-    Boolean primeraVez=true;
+    private Activity  activity;
+    private String nombreComprador;
+    private Session session;
+    private HashMap<String, String> producto = new HashMap<>();
+    private FirebaseAuth mAuth;
+    private FirebaseDatabase database;
+    private FirebaseUser currentUser;
+    private DatabaseReference myRefUsuario, myRefVendedor, myRefProductos, myRefCarritoCompras;
+    private Calendar c;
+    private Date getCurrentDateTime;
+    private Boolean primeraVez=true;
+    private int cantidadProductosDisponibles;
 
     public listShoppingCartAdapter(Context context, ArrayList<Productos> listaDeDatos, Activity activity) {
         this.inflater = LayoutInflater.from(context);
@@ -95,6 +103,7 @@ public class listShoppingCartAdapter extends RecyclerView.Adapter<listShoppingCa
         myRefUsuario = database.getReference("usuarios");
         myRefVendedor = database.getReference("vendedores");
         myRefProductos = database.getReference("productos");
+        myRefCarritoCompras = database.getReference("carrito_compras");
 
         c = Calendar.getInstance();
         getCurrentDateTime = null;
@@ -105,7 +114,6 @@ public class listShoppingCartAdapter extends RecyclerView.Adapter<listShoppingCa
             }
         }
 
-        cargando = new ProgressDialog(activity);
     }
 
     @NonNull
@@ -135,7 +143,7 @@ public class listShoppingCartAdapter extends RecyclerView.Adapter<listShoppingCa
         String fechaFin = listaDeDatos.get(position).getFechaFin();
         String horaFin = listaDeDatos.get(position).getHoraFin();
         final int[] cantidad = {listaDeDatos.get(position).getCantidad()};
-        final int cantidadProductosDisponibles = listaDeDatos.get(position).getCantidadDisponible();
+        cantidadProductosDisponibles = listaDeDatos.get(position).getCantidadDisponible();
         String getUrlFoto = listaDeDatos.get(position).getfoto();
         Double precioDomicilio = listaDeDatos.get(position).getPrecioDomicilio();
         String nombreEstablecimiento = listaDeDatos.get(position).getNombreEmpresa();
@@ -200,21 +208,18 @@ public class listShoppingCartAdapter extends RecyclerView.Adapter<listShoppingCa
         holder.btnComprar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String numeroActual = holder.tvCantidad.getText().toString();
-                if (Integer.parseInt(numeroActual) <= cantidadProductosDisponibles){
-                cargando.setTitle("Cargando");
-                cargando.setMessage("Un momento por favor...");
-                cargando.show();
-
-                double total = (precioProducto - descuentoProducto);
-
-                String idCompra = UUID.randomUUID().toString();
-                registrarProductoSolicitadoAlVendedor(idProducto, nombreProducto, idCompra, total, cantidad[0], cantidadProductosDisponibles, precioDomicilio, idVendedor[0]);
-                registrarProductoSolicitadoAlComprador(idProducto, nombreProducto, idCompra, total, cantidad[0], precioDomicilio, idVendedor[0]);
-                consultarDatosVendedor(idVendedor[0], idCompra, idProducto, nombreProducto, total, precioDomicilio, cantidad[0]);
+                if (currentUser.getUid().equals(idVendedor)) {
+                    Toast.makeText(getApplicationContext(), "No puedes comprar tus mismos productos", Toast.LENGTH_SHORT).show();
                 }else{
-                    Toast.makeText(getApplicationContext(), "Solo hay " + cantidadProductosDisponibles
-                            + " producto(s) disponible(s)", Toast.LENGTH_SHORT).show();
+                    String numeroActual = holder.tvCantidad.getText().toString();
+                    if (Integer.parseInt(numeroActual) <= cantidadProductosDisponibles){
+                        double total = (precioProducto - descuentoProducto);
+                        String idCompra = UUID.randomUUID().toString();
+                        consultarDatosVendedor(idVendedor[0], idCompra, idProducto, nombreProducto, total, precioDomicilio, cantidad[0]);
+                    }else{
+                        Toast.makeText(getApplicationContext(), "Solo hay " + cantidadProductosDisponibles
+                                + " producto(s) disponible(s)", Toast.LENGTH_SHORT).show();
+                    }
                 }
             }
         });
@@ -245,7 +250,9 @@ public class listShoppingCartAdapter extends RecyclerView.Adapter<listShoppingCa
         activity.startActivity(intent);
     }
 
-    private void registrarProductoSolicitadoAlVendedor(String idProducto, String nombreProducto, String idCompra, double total, int numeroProductos, int cantidadProductosDisponibles, double precioDomicilio, String idVendedor){
+    private void registrarProductoSolicitadoAlVendedor(String idProducto, String nombreProducto, String idCompra, double total,
+                                                       int numeroProductos, int cantidadProductosDisponibles, double precioDomicilio,
+                                                       String idVendedor, String token, String emailVendedor, String nombreVendedor){
         getCurrentDateTime = c.getTime();
 
         SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm");
@@ -292,11 +299,13 @@ public class listShoppingCartAdapter extends RecyclerView.Adapter<listShoppingCa
         producto.put("diaSemana", diaSemana);
         producto.put("estado", "Solicitado");
 
-        myRefVendedor.child(idVendedor).child("productos_en_tramite").child(currentUser.getUid()).child(idCompra).child(idProducto).setValue(producto)
+        myRefVendedor.child(idVendedor).child("productos_en_tramite").child(currentUser.getUid()).child(idCompra).child(idProducto)
+                .setValue(producto)
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void aVoid) {
-                        //Toast.makeText(lookAtProduct.this, "Producto solicitado", Toast.LENGTH_SHORT).show();
+                        registrarProductoSolicitadoAlComprador(idProducto, nombreProducto, idCompra, total, numeroProductos, precioDomicilio,
+                                idVendedor, token, emailVendedor, nombreVendedor);
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {
@@ -305,23 +314,12 @@ public class listShoppingCartAdapter extends RecyclerView.Adapter<listShoppingCa
                         Toast.makeText(getApplicationContext(), "Error agregando solicitud del producto. Intenta de nuevo mas tarde", Toast.LENGTH_SHORT).show();
                     }
                 });
-
-        myRefProductos.child(idVendedor).child(idProducto).child("cantidadDisponible").setValue(cantidadProductosDisponibles - 1)
-                .addOnSuccessListener(new OnSuccessListener<Void>() {
-                    @Override
-                    public void onSuccess(Void aVoid) {
-
-                    }
-                })
-                .addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        Toast.makeText(getApplicationContext(), "Error descontando del inventario", Toast.LENGTH_SHORT).show();
-                    }
-                });
     }
 
-    private void registrarProductoSolicitadoAlComprador(String idProducto, String nombreProducto, String idCompra, double total, int numeroProductos, double precioDomicilio, String idVendedor){
+    private void registrarProductoSolicitadoAlComprador(String idProducto, String nombreProducto, String idCompra, double total,
+                                                        int numeroProductos, double precioDomicilio, String idVendedor,
+                                                        String token, String emailVendedor, String nombreVendedor){
+        primeraVez = true;
         getCurrentDateTime = c.getTime();
 
         SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm");
@@ -379,7 +377,26 @@ public class listShoppingCartAdapter extends RecyclerView.Adapter<listShoppingCa
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void aVoid) {
-                        //Toast.makeText(lookAtProduct.this, "Producto solicitado", Toast.LENGTH_SHORT).show();
+                        if(primeraVez) {
+                            enviarEmailVendedor(nombreComprador, emailVendedor, nombreVendedor, nombreProducto, numeroProductos);
+                            enviar_notificacion_push2(token, nombreComprador, nombreVendedor, nombreProducto, numeroProductos);
+                        }
+
+                        Intent intent = new Intent(getApplicationContext() , buyProduct.class);
+                        intent.putExtra("idProducto" , idProducto);
+                        intent.putExtra("nombreProducto", nombreProducto);
+                        intent.putExtra("totalProducto", String.valueOf(total));
+                        intent.putExtra("precioDomicilio", String.valueOf(precioDomicilio));
+                        intent.putExtra("nroProductos", String.valueOf(numeroProductos));
+                        intent.putExtra("cantidadProductosDisponibles", String.valueOf(cantidadProductosDisponibles));
+                        intent.putExtra("idVendedor" , idVendedor);
+                        intent.putExtra("nombreVendedor" , nombreVendedor);
+                        intent.putExtra("idCompra" , idCompra);
+                        intent.putExtra("nombreComprador" , nombreComprador);
+                        intent.putExtra("tokenId" , token);
+                        intent.putExtra("origen" , "LookAtProduct");
+                        activity.startActivity(intent);
+                        activity.finish();
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {
@@ -390,8 +407,26 @@ public class listShoppingCartAdapter extends RecyclerView.Adapter<listShoppingCa
                 });
     }
 
-    public void consultarDatosVendedor(String idVendedor, String idCompra, String idProducto, String nombreProducto, double total, double precioDomicilio, int numeroProductos) {
-        primeraVez = true;
+    public void consultarDatosVendedor(String idVendedor, String idCompra, String idProducto, String nombreProducto, double total, double precioDomicilio,
+                                       int numeroProductos) {
+
+        myRefUsuario.child(idVendedor).get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DataSnapshot> task) {
+                if(!task.isSuccessful()){
+                    Log.d("ConsultaVendedor","Error consultando los datos del vendedor");
+                }
+                if(task.getResult().exists()){
+                    String emailVendedor = task.getResult().child("correo").getValue().toString();
+                    String nombreVendedor = task.getResult().child("nombre").getValue().toString();
+                    String token = task.getResult().child("tokenId").getValue().toString();
+                    registrarProductoSolicitadoAlVendedor(idProducto, nombreProducto, idCompra, total, numeroProductos,
+                            cantidadProductosDisponibles, precioDomicilio, idVendedor, token, emailVendedor, nombreVendedor);
+                }
+            }
+        });
+
+        /*
         myRefUsuario.child(idVendedor).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -401,10 +436,9 @@ public class listShoppingCartAdapter extends RecyclerView.Adapter<listShoppingCa
                     String token = snapshot.child("tokenId").getValue().toString();
                     if(primeraVez) {
                         enviarEmailVendedor(nombreComprador, emailVendedor, nombreVendedor, nombreProducto, numeroProductos);
-                        consultarToken(idVendedor, nombreVendedor, nombreProducto, numeroProductos);
+                        //consultarToken(idVendedor, nombreVendedor, nombreProducto, numeroProductos);
+                        enviar_notificacion_push2(token, nombreComprador, nombreVendedor, nombreProducto, numeroProductos);
                     }
-
-                    cargando.dismiss();
 
                     Intent intent = new Intent(getApplicationContext() , buyProduct.class);
                     intent.putExtra("idProducto" , idProducto);
@@ -412,13 +446,15 @@ public class listShoppingCartAdapter extends RecyclerView.Adapter<listShoppingCa
                     intent.putExtra("totalProducto", String.valueOf(total));
                     intent.putExtra("precioDomicilio", String.valueOf(precioDomicilio));
                     intent.putExtra("nroProductos", String.valueOf(numeroProductos));
+                    intent.putExtra("cantidadProductosDisponibles", String.valueOf(cantidadProductosDisponibles));
                     intent.putExtra("idVendedor" , idVendedor);
                     intent.putExtra("nombreVendedor" , nombreVendedor);
                     intent.putExtra("idCompra" , idCompra);
                     intent.putExtra("nombreComprador" , nombreComprador);
                     intent.putExtra("tokenId" , token);
-                    intent.putExtra("origen" , "lookAtProduct");
+                    intent.putExtra("origen" , "LookAtProduct");
                     activity.startActivity(intent);
+
                 }
             }
             @Override
@@ -426,9 +462,12 @@ public class listShoppingCartAdapter extends RecyclerView.Adapter<listShoppingCa
                 Toast.makeText(getApplicationContext(), "Error cargando los datos del vendedor", Toast.LENGTH_SHORT).show();
             }
         });
+
+         */
     }
 
-    public void consultarToken(String idVendedor, String nombreVendedor, String nombreProducto, int numeroProductos) {
+
+    /*public void consultarToken(String idVendedor, String nombreVendedor, String nombreProducto, int numeroProductos) {
         myRefUsuario.child(idVendedor).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -443,6 +482,8 @@ public class listShoppingCartAdapter extends RecyclerView.Adapter<listShoppingCa
             }
         });
     }
+     */
+
 
     public void actualizarCantidadEnCarritoCompras(String idProducto, int cantidad){
         //guarda los datos del carrito de compras
@@ -450,15 +491,16 @@ public class listShoppingCartAdapter extends RecyclerView.Adapter<listShoppingCa
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void aVoid) {
-
+                        Log.d("carritoCompras", "Carrito actualizado");
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {
                     @Override
                     public void onFailure(@NonNull Exception e) {
-
+                        Log.d("carritoCompras", "Error actualizando carrito" + e);
                     }
                 });
+
     }
 
     public void borrarProductodelCarrito(String idProducto){
@@ -497,16 +539,18 @@ public class listShoppingCartAdapter extends RecyclerView.Adapter<listShoppingCa
                 "nuestro usuario <b>" + nombreComprador + "</b> desea comprar lo siguiente: <br><br>" +
                 "<u>Producto:</u> <b>" + nombreProducto + "</b><br>" +
                 "<u>Cantidad:</u> <b>" + numeroProductos + "</b><br><br>" +
-                "Ingresa a Surplapp para hacerle seguimiento al pedido.<br></p>Cordialmente,<br> <b>Equipo de Salvavidas App</b><br>" +
-                "<p style='text-align: justify'><font size=1><i>Este mensaje y sus archivos adjuntos van dirigidos exclusivamente a su destinatario pudiendo contener información confidencial " +
-                "sometida a secreto profesional. No está permitida su reproducción o distribución sin la autorización expresa de SURPLAPP, Si usted no es el destinatario " +
-                "final por favor elimínelo e infórmenos por esta vía. Según la Ley Estatutaria 1581 de 2.012 de Protección de Datos y sus normas reglamentarias, " +
-                "el Titular presta su consentimiento para que sus datos, facilitados voluntariamente, pasen a formar parte de una base de datos, cuyo responsable " +
-                "es SURPLAPP, cuyas finalidades son: Gestión administrativa, Gestión de clientes, Prospección comercial, Fidelización de clientes, Marketing y " +
-                "el envío de comunicaciones comerciales sobre nuestros productos y/o servicios. Puede usted ejercer los derechos de acceso, corrección, supresión, " +
-                "revocación o reclamo por infracción sobre sus datos, mediante escrito dirigido a SALVAVIDAS APP a la dirección de correo electrónico " +
-                "ceo@salvavidas.app indicando en el asunto el derecho que desea ejercer, o mediante correo ordinario remitido a la Carrera XX # XX – XX Medellín, Antioquia." +
-                "</font></i></p>";
+                "Ingresa a SurplApp para hacerle seguimiento al pedido.<br></p>Cordialmente,<br> <b>Equipo de SurplApp</b><br>" +
+                "<p style='text-align: justify'><font size=1><i>Este mensaje y sus archivos adjuntos van dirigidos exclusivamente a su " +
+                "destinatario pudiendo contener información confidencial sometida a secreto profesional. No está permitida su " +
+                "reproducción o distribución sin la autorización expresa de SurplApp, Si usted no es el destinatario final por favor " +
+                "elimínelo e infórmenos por esta vía. Según la Ley Estatutaria 1581 de 2.012 de Protección de Datos y sus normas " +
+                "reglamentarias, el Titular presta su consentimiento para que sus datos, facilitados voluntariamente, pasen a formar " +
+                "parte de una base de datos, cuyo responsable es SurplApp, cuyas finalidades son: Gestión administrativa, Gestión de clientes, " +
+                "Prospección comercial, Fidelización de clientes, Marketing y el envío de comunicaciones comerciales sobre nuestros " +
+                "productos y/o servicios. Puede usted ejercer los derechos de acceso, corrección, supresión, revocación o reclamo por " +
+                "infracción sobre sus datos, mediante escrito dirigido a SurplApp a la dirección de correo electrónico " +
+                "ceo@salvavidas.app indicando en el asunto el derecho que desea ejercer, o mediante correo ordinario remitido a " +
+                "la Carrera XX # XX – XX Medellín, Antioquia. </font></i></p>";
         //String to_ = to.getText().toString();
         String to_ = emailVendedor;
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
@@ -580,59 +624,6 @@ public class listShoppingCartAdapter extends RecyclerView.Adapter<listShoppingCa
 
     }
 
-    public void enviarNotificacionPush(String nombreComprador, String emailVendedor, String nombreVendedor, String token,
-                                         String nombreProducto, int numeroProductos){
-
-        try {
-            Intent intent = new Intent(getApplicationContext(), lookAtProduct.class);
-            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-            PendingIntent pendingIntent = PendingIntent.getActivity(getApplicationContext(), 0 /* Request code */, intent,
-                    PendingIntent.FLAG_ONE_SHOT);
-
-            //String channelId = consultarToken();
-            String channelId = token;
-
-            if (channelId.equals("")){
-                Toast.makeText(getApplicationContext(), "Para enviar notificaciones push el vendedor debera actualizar su perfil", Toast.LENGTH_SHORT).show();
-
-            }
-            else{
-                Uri defaultSoundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
-                NotificationCompat.Builder notificationBuilder =
-                        new NotificationCompat.Builder(getApplicationContext(), channelId)
-                                .setSmallIcon(R.drawable.logoprincipal)
-                                .setContentTitle("Solicitud de compra - Salvavidas App")
-                                .setContentText(" Hola " + nombreVendedor +"," +
-                                        " nuestro usuario " + nombreComprador + " desea comprar lo siguiente:" +
-                                        " Producto: " + nombreProducto  +
-                                        " Cantidad: " + numeroProductos +
-                                        " Ingresa a Salvavidas App para aceptar el pedido.")
-                                .setAutoCancel(true)
-                                .setSound(defaultSoundUri)
-                                .setContentIntent(pendingIntent);
-
-                NotificationManager notificationManager =
-                        (NotificationManager) activity.getSystemService(Context.NOTIFICATION_SERVICE);
-
-                // Since android Oreo notification channel is needed.
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                    NotificationChannel channel = new NotificationChannel(channelId,
-                            "Channel human readable title",
-                            NotificationManager.IMPORTANCE_DEFAULT);
-                    notificationManager.createNotificationChannel(channel);
-                }
-
-                notificationManager.notify(0 /* ID of notification */, notificationBuilder.build());
-
-            }
-        }
-        catch (Exception e){
-            e.printStackTrace();
-            //Toast.makeText(getApplicationContext(), "Error enviando la solicitud. " + e, Toast.LENGTH_SHORT).show();
-        }
-    }
-
-
     @Override
     public int getItemCount() {
 
@@ -645,7 +636,6 @@ public class listShoppingCartAdapter extends RecyclerView.Adapter<listShoppingCa
         }
         return a;
     }
-
 
     @Override
     public void onClick(View view) {

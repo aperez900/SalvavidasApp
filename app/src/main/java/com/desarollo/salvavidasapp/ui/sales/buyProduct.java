@@ -49,23 +49,23 @@ import java.util.Map;
 
 public class buyProduct extends AppCompatActivity {
 
-    FirebaseAuth mAuth;
-    FirebaseUser currentUser;
-    HashMap<String, String> producto = new HashMap<String, String>();
-    FirebaseDatabase database;
-    DatabaseReference myRefVendedores, myRefProductos, myRef;
-    ArrayList<Productos> listaDeDatos = new ArrayList<>();
-    String idProducto ="";
-    String idVendedor ="";
-    String nombreProducto, origen,idCompra, tokenId, nombreVendedor, nombreComprador;
-    Double precioProducto = 0.0, precioDomicilio = 0.0;
-    int nroProductos, cantidadProductosDisponibles;
-    Button btn_pago,tvEstadoProducto;
-    Double valorComision;
-    TextView tvPrecioProducto, tvPrecioDomicilio, tvValorComision, tvTotal, tvNombreProducto,
+    private FirebaseAuth mAuth;
+    private FirebaseUser currentUser;
+    private HashMap<String, String> producto = new HashMap<String, String>();
+    private FirebaseDatabase database;
+    private DatabaseReference myRefVendedores, myRefProductos, myRef;
+    private ArrayList<Productos> listaDeDatos = new ArrayList<>();
+    private String idProducto ="";
+    private String idVendedor ="";
+    private String nombreProducto, origen,idCompra, tokenId, nombreVendedor, nombreComprador;
+    private Double precioProducto = 0.0, precioDomicilio = 0.0;
+    private int nroProductos, cantidadProductosDisponibles;
+    private Button btn_pago,tvEstadoProducto;
+    private Double valorComision;
+    private TextView tvPrecioProducto, tvPrecioDomicilio, tvValorComision, tvTotal, tvNombreProducto,
                 tvCantidadProducto,  tvSubTotalProducto, tvSubTotalProducto1,
                 tvSignoMonedaSubTotal,tvCancelarPedido;
-    LinearLayout linearLayoutBP, linearLayoutBP1, linearLayoutBP2;
+    private LinearLayout linearLayoutBP, linearLayoutBP1, linearLayoutBP2;
 
 
     @Override
@@ -153,7 +153,6 @@ public class buyProduct extends AppCompatActivity {
 
                 cancelarCompraAlComprador();
 
-
             }
         });
     }
@@ -175,7 +174,8 @@ public class buyProduct extends AppCompatActivity {
     }
 
     private void cancelarSolicitudVendedor() {
-        myRefVendedores.child(idVendedor).child("productos_en_tramite").child(currentUser.getUid()).child(idCompra).child(idProducto).child("estado").setValue("Cancelado por el comprador")
+        myRefVendedores.child(idVendedor).child("productos_en_tramite").child(currentUser.getUid()).child(idCompra).child(idProducto).child("estado")
+                .setValue("Cancelado por el comprador")
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void aVoid) {
@@ -250,7 +250,7 @@ public class buyProduct extends AppCompatActivity {
                     }
                 });
 
-        myRefProductos.child(idVendedor).child(idProducto).child("cantidadDisponible").setValue(cantidadProductosDisponibles - 1)
+        myRefProductos.child(idVendedor).child(idProducto).child("cantidadDisponible").setValue(cantidadProductosDisponibles - nroProductos)
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void aVoid) {
@@ -286,7 +286,8 @@ public class buyProduct extends AppCompatActivity {
 
     public void consultarEstadoProductoEnTramite(String idCompra, String idProducto) {
 
-        myRefVendedores.child(idVendedor).child("productos_en_tramite").child(currentUser.getUid()).child(idCompra).child(idProducto).addValueEventListener(new ValueEventListener() {
+        myRefVendedores.child(idVendedor).child("productos_en_tramite").child(currentUser.getUid()).child(idCompra).child(idProducto)
+                .addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 if (snapshot.exists()) {
@@ -361,7 +362,7 @@ public class buyProduct extends AppCompatActivity {
                                         p.getCategoriaProducto(), p.getSubCategoriaProducto(), p.getPrecio(), p.getDescuento(), p.getDomicilio(), p.getEstadoProducto(),
                                         p.getfoto(), p.getFechaInicio(), p.getHoraInicio(), p.getFechaFin(), p.getHoraFin(), p.getNombreEmpresa(), p.getDireccion(), Integer.parseInt(cantidad), p.getCantidadDisponible(), p.getPrecioDomicilio(),
                                         p.getIdVendedor()));
-                                linearLayoutBP1.setVisibility(View.GONE);
+                                //linearLayoutBP1.setVisibility(View.GONE);
 
                                 nro.setText(String.valueOf(cantidad) + "   ");
                                 nro.setGravity(Gravity.CENTER);

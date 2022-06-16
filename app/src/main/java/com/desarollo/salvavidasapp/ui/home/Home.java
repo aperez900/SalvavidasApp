@@ -2,6 +2,7 @@ package com.desarollo.salvavidasapp.ui.home;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.MenuItem;
 import android.view.View;
@@ -60,17 +61,17 @@ public class Home extends AppCompatActivity {
     private AppBarConfiguration mAppBarConfiguration;
 
     private GoogleApiClient googleApiClient;
-    FirebaseAuth mAuth;
-    FirebaseUser currentUser;
-    FirebaseDatabase database;
-    DatabaseReference myRef, myRefVendedores, myRefCarrito;
+    private FirebaseAuth mAuth;
+    private FirebaseUser currentUser;
+    private FirebaseDatabase database;
+    private DatabaseReference myRefUsuarios, myRefVendedores, myRefCarrito;
 
-    MenuItem menuItemCarrito, menuItemProductosSolicitados;
-    TextView badgeCounter, badgeCounterSeller;
-    ImageView imgCarrito, imgProductos;
-    int nroProductosCarrito = 0;
-    int nroProductosSolicitados = 0;
-    Button btnShopping;
+    private MenuItem menuItemCarrito, menuItemProductosSolicitados;
+    private TextView badgeCounter, badgeCounterSeller;
+    private ImageView imgCarrito, imgProductos;
+    private int nroProductosCarrito = 0;
+    private int nroProductosSolicitados = 0;
+    private Button btnShopping;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -82,7 +83,7 @@ public class Home extends AppCompatActivity {
         mAuth = FirebaseAuth.getInstance();
         currentUser = mAuth.getCurrentUser();
         database = FirebaseDatabase.getInstance();
-        myRef = database.getReference("usuarios");
+        myRefUsuarios = database.getReference("usuarios");
         myRefVendedores = database.getReference("vendedores");
 
         //Botón flotante
@@ -126,8 +127,56 @@ public class Home extends AppCompatActivity {
 
     } // fin OnCreate
 
+    /*
+     * @autor: Edison Cardona
+     * @since: 04/03/2021
+     * @Version: 01
+     * Método para actualizar los datos del usuario logeado en el
+     * navheader del menú
+     * */
+    private void actualizarDatosPerfil(){
+        NavigationView navigationView = findViewById(R.id.nav_view);
+        View headerView = navigationView.getHeaderView(0);
+        TextView navUserName = headerView.findViewById(R.id.id_nombre_perfil);
+        TextView navUserMail = headerView.findViewById(R.id.id_correo_perfil);
+        ImageView navUserPhoto = headerView.findViewById(R.id.id_imagen_perfil);
+
+        //navUserMail.setText(currentUser.getEmail());
+        //navUserName.setText(currentUser.getDisplayName());
+        //Glide.with(this).load(currentUser.getPhotoUrl()).into(navUserPhoto);
+        if (currentUser != null) {
+            for (UserInfo profile : currentUser.getProviderData()) {
+                // Name, email address, and profile photo Url
+                String name = profile.getDisplayName();
+                navUserName.setText(name);
+                String email = profile.getEmail();
+                navUserMail.setText(email);
+                Glide.with(this).load(currentUser.getPhotoUrl())
+                        .apply(RequestOptions.circleCropTransform())
+                        .into(navUserPhoto);
+            }
+        }
+    }
+
     private void actualizarTokenNotificacionesPush() {
-        myRef.child(currentUser.getUid()).child("tokenId").addValueEventListener(new ValueEventListener() {
+        myRefUsuarios.child(currentUser.getUid()).child("tokenId").get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DataSnapshot> task) {
+                if (!task.isSuccessful()) {
+                    Log.e("firebase", "Error getting data", task.getException());
+                }
+                else {
+                    if (task.getResult().exists()){
+                        String tokenActual = String.valueOf(task.getResult().getValue());
+                        Log.d("tokenActual", String.valueOf(task.getResult().getValue()));
+                        registrarToken(tokenActual);
+                    }
+                }
+            }
+        });
+
+        /*
+        myRefUsuarios.child(currentUser.getUid()).child("tokenId").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 if(snapshot.exists()){
@@ -140,14 +189,13 @@ public class Home extends AppCompatActivity {
 
             }
         });
-
-
+         */
     }
 
-    private void registrarToken(){
+    private void registrarToken(String tokenActual){
         FirebaseMessaging.getInstance().getToken()
                 .addOnCompleteListener(new OnCompleteListener<String>() {
-                    String token = "";
+                    String nuevoToken = "";
                     @Override
                     public void onComplete(@NonNull Task<String> task) {
                         if (!task.isSuccessful()) {
@@ -155,10 +203,11 @@ public class Home extends AppCompatActivity {
                             return;
                         }
                         // Get new FCM registration token
-                        token = task.getResult();
-
+                        nuevoToken = task.getResult();
+                        Log.d("nuevoToken", nuevoToken);
+                        if (!tokenActual.equals(nuevoToken)){
                         //guarda los datos del usuario
-                        myRef.child(currentUser.getUid()).child("tokenId").setValue(token)
+                        myRefUsuarios.child(currentUser.getUid()).child("tokenId").setValue(nuevoToken)
                                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                                     @Override
                                     public void onSuccess(Void aVoid) {
@@ -169,6 +218,7 @@ public class Home extends AppCompatActivity {
                                     public void onFailure(@NonNull Exception e) {
                                     }
                                 });
+                        }
                     }
                 });
     }
@@ -307,37 +357,6 @@ public class Home extends AppCompatActivity {
         });
     }
 
-    /*
-     * @autor: Edison Cardona
-     * @since: 04/03/2021
-     * @Version: 01
-     * Método para actualizar los datos del usuario logeado en el
-     * navheader del menú
-     * */
-    private void actualizarDatosPerfil(){
-        NavigationView navigationView = findViewById(R.id.nav_view);
-        View headerView = navigationView.getHeaderView(0);
-        TextView navUserName = headerView.findViewById(R.id.id_nombre_perfil);
-        TextView navUserMail = headerView.findViewById(R.id.id_correo_perfil);
-        ImageView navUserPhoto = headerView.findViewById(R.id.id_imagen_perfil);
-
-        //navUserMail.setText(currentUser.getEmail());
-        //navUserName.setText(currentUser.getDisplayName());
-        //Glide.with(this).load(currentUser.getPhotoUrl()).into(navUserPhoto);
-        if (currentUser != null) {
-            for (UserInfo profile : currentUser.getProviderData()) {
-                // Name, email address, and profile photo Url
-                String name = profile.getDisplayName();
-                navUserName.setText(name);
-                String email = profile.getEmail();
-                navUserMail.setText(email);
-                Glide.with(this).load(currentUser.getPhotoUrl())
-                        .apply(RequestOptions.circleCropTransform())
-                        .into(navUserPhoto);
-            }
-        }
-    }
-
     private void irAlCarritoDeCompras(){
         Intent intent = new Intent(this, shoppingCart.class);
         startActivity(intent);
@@ -351,8 +370,9 @@ public class Home extends AppCompatActivity {
     }
 
     private void verNroProductosCarritoCompras(){
+
         //Ver nroProductosCarrito
-        myRef.child(currentUser.getUid()).child("carrito_compras").addValueEventListener(new ValueEventListener() {
+        myRefUsuarios.child(currentUser.getUid()).child("carrito_compras").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 if(snapshot.exists()){

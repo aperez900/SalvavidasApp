@@ -21,6 +21,7 @@ import android.widget.Toast;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.desarollo.salvavidasapp.profile_initial;
+import com.desarollo.salvavidasapp.ui.direction.Maps;
 import com.desarollo.salvavidasapp.ui.home.Home;
 import com.desarollo.salvavidasapp.R;
 import com.desarollo.salvavidasapp.ui.home.productsByType;
@@ -57,8 +58,8 @@ import static com.facebook.FacebookSdk.getApplicationContext;
 @Keep
 public class MainActivity extends AppCompatActivity {
 
-    EditText et_email, et_password;
-    Button fb, google;
+    private EditText et_email, et_password;
+    private Button fb, google;
     private FirebaseAuth mAuth;
     private LoginButton loginButton;
     private CallbackManager callbackManager;
@@ -67,11 +68,11 @@ public class MainActivity extends AppCompatActivity {
     private SignInButton signInButton;
     public static final int RC_SIGN_IN = 0;
 
-    FirebaseUser currentUser;
-    FirebaseDatabase database;
-    DatabaseReference myRef;
+    private FirebaseUser currentUser;
+    private FirebaseDatabase database;
+    private DatabaseReference myRefUsuarios;
 
-    ProgressDialog cargando;
+    private ProgressDialog cargando;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -81,7 +82,7 @@ public class MainActivity extends AppCompatActivity {
         mAuth = FirebaseAuth.getInstance();
         currentUser = mAuth.getCurrentUser();
         database = FirebaseDatabase.getInstance();
-        myRef = database.getReference("usuarios");
+        myRefUsuarios = database.getReference("usuarios");
 
         cargando = new ProgressDialog(this);
         
@@ -105,7 +106,6 @@ public class MainActivity extends AppCompatActivity {
         callbackManager = CallbackManager.Factory.create();
         loginButton = findViewById(R.id.login_button);
         loginButton.setPermissions("email", "public_profile");
-
         loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -164,13 +164,12 @@ public class MainActivity extends AppCompatActivity {
                 .build();
 
         mGoogleSignInClient = GoogleSignIn.getClient(this,gso);
-    }
+    }// fin OnCreate
 
     private void signInWithGoogle() {
         Intent signInIntent = mGoogleSignInClient.getSignInIntent();
         startActivityForResult(signInIntent,RC_SIGN_IN);
     }
-
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -321,9 +320,44 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void ingreso() {
-
         FirebaseUser currentUser = mAuth.getCurrentUser();
-        myRef.child(currentUser.getUid())
+        myRefUsuarios.child(currentUser.getUid()).get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DataSnapshot> task) {
+                if (task.getResult().exists()){
+                    myRefUsuarios.child(currentUser.getUid()).child("mis_direcciones").get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
+                        @Override
+                        public void onComplete(@NonNull Task<DataSnapshot> task) {
+                            if (task.getResult().exists()){
+                                Intent h = new Intent(MainActivity.this, Home.class);
+                                startActivity(h);
+                                finish();
+                            }else{
+                                Intent h = new Intent(MainActivity.this, Maps.class);
+                                startActivity(h);
+                                finish();
+                            }
+                        }
+                    });
+                }else{
+                    if (currentUser != null) {
+                        Intent intent = new Intent(MainActivity.this , profile_initial.class);
+                        for (UserInfo profile : currentUser.getProviderData()) {
+                            //String name = profile.getDisplayName();
+                            String email = profile.getEmail();
+                            intent.putExtra("email", email );
+                            //Uri photoUrl = profile.getPhotoUrl();
+                        }
+                        startActivity(intent);
+                        finish();
+                    }
+                }
+            }
+        });
+
+        /*
+        //FirebaseUser currentUser = mAuth.getCurrentUser();
+        myRefUsuarios.child(currentUser.getUid())
                 .addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -351,6 +385,8 @@ public class MainActivity extends AppCompatActivity {
                         Toast.makeText(getApplicationContext(), "Error consultando los datos del usuario. Intente de nuevo mas tarde.", Toast.LENGTH_SHORT).show();
                     }
                 });
+
+         */
     }
 
     /*

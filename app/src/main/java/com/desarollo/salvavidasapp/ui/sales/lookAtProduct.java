@@ -10,6 +10,7 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.os.Bundle;
 import android.os.StrictMode;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -25,8 +26,10 @@ import com.bumptech.glide.Glide;
 import com.desarollo.salvavidasapp.R;
 import com.desarollo.salvavidasapp.ui.home.Home;
 import com.desarollo.salvavidasapp.ui.seller.seller2;
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 
 import com.google.firebase.auth.UserInfo;
@@ -61,27 +64,27 @@ import org.json.JSONObject;
 
 public class lookAtProduct extends AppCompatActivity {
 
-    FirebaseAuth mAuth;
-    FirebaseUser currentUser;
-    FirebaseDatabase database;
-    DatabaseReference myRef, myRefUsuarios, myRefVendedor;
-    String idProducto ="";
-    String idVendedor ="";
-    String urlFoto="";
-    String fechaFin="";
-    String horaFin="";
-    int numeroProductos = 1;
-    int cantidadProductosDisponibles;
-    Double total, precioDomicilio;
-    HashMap<String, String> producto = new HashMap<String, String>();
-    Session session;
-    String nombreComprador, nombreProducto, token, emailVendedor, nombreVendedor;
-    ProgressDialog cargando;
-    Calendar c;
-    Date getCurrentDateTime;
-    Boolean primeraVez=true;;
-    String patron = "###,###.##";
-    DecimalFormat objDF = new DecimalFormat (patron);
+    private FirebaseAuth mAuth;
+    private FirebaseUser currentUser;
+    private FirebaseDatabase database;
+    private DatabaseReference myRef, myRefUsuarios, myRefVendedor;
+    private String idProducto ="";
+    private String idVendedor ="";
+    private String urlFoto="";
+    private String fechaFin="";
+    private String horaFin="";
+    private int numeroProductos = 1;
+    private int cantidadProductosDisponibles;
+    private Double total, precioDomicilio;
+    private HashMap<String, String> producto = new HashMap<String, String>();
+    private Session session;
+    private String nombreComprador, nombreProducto, token, emailVendedor, nombreVendedor;
+    private ProgressDialog cargando;
+    private Calendar c;
+    private Date getCurrentDateTime;
+    private Boolean primeraVez=true;;
+    private String patron = "###,###.##";
+    private DecimalFormat objDF = new DecimalFormat (patron);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -234,7 +237,20 @@ public class lookAtProduct extends AppCompatActivity {
         }
     }
 
+    /*
     public void consultarToken(String idCompra) {
+        myRefUsuarios.child(idVendedor).child("tokenId").get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DataSnapshot> task) {
+                if(!task.isSuccessful()){
+                    Log.d("Token", "Error consultando Token del vendedor");
+                }
+                if(task.getResult().exists()){
+                    token = task.getResult().getValue().toString();
+                }
+            }
+        });
+
         myRefUsuarios.child(idVendedor).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -247,9 +263,8 @@ public class lookAtProduct extends AppCompatActivity {
                 Toast.makeText(lookAtProduct.this, "Error cargando los datos del vendedor", Toast.LENGTH_SHORT).show();
             }
         });
-        registrarProductoSolicitadoAlVendedor(idCompra);
     }
-
+*/
 
     public void consultarImagen(ImageView imgProducto){
 
@@ -281,7 +296,7 @@ public class lookAtProduct extends AppCompatActivity {
         producto.put("idProducto", idProducto);
         producto.put("valorProducto",String.valueOf(total));
         producto.put("cantidadProductosSolicitados",String.valueOf(numeroProductos));
-        producto.put("cantidadProductosDisponibles",String.valueOf(cantidadProductosDisponibles));
+        //producto.put("cantidadProductosDisponibles",String.valueOf(cantidadProductosDisponibles));
         producto.put("precioDomicilio",String.valueOf(precioDomicilio));
         producto.put("fechaFin",String.valueOf(fechaFin));
         producto.put("horaFin",String.valueOf(horaFin));
@@ -305,6 +320,21 @@ public class lookAtProduct extends AppCompatActivity {
     }
 
     public void consultarDatosVendedor(String idVendedor,String idCompra) {
+        myRefUsuarios.child(idVendedor).get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DataSnapshot> task) {
+                if(!task.isSuccessful()){
+                    Log.d("ConsultaDatos", "Error consultando los datos del vendedor");
+                }
+                if(task.getResult().exists()){
+                    emailVendedor = task.getResult().child("correo").getValue().toString();
+                    nombreVendedor = task.getResult().child("nombre").getValue().toString();
+                    token = task.getResult().child("tokenId").getValue().toString();
+                }
+            }
+        });
+        registrarProductoSolicitadoAlVendedor(idCompra);
+        /*
         myRefUsuarios.child(idVendedor).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -319,6 +349,7 @@ public class lookAtProduct extends AppCompatActivity {
             }
         });
         consultarToken(idCompra);
+         */
     }
 
     public void enviar_email_vendedor(String nombreComprador, String emailVendedor, String nombreVendedor){
@@ -332,15 +363,18 @@ public class lookAtProduct extends AppCompatActivity {
                 "nuestro usuario: <b>" + nombreComprador + "</b> desea comprar lo siguiente: <br><br>" +
                 "<u>Producto:</u> <b>" + nombreProducto + "</b><br>" +
                 "<u>Cantidad:</u> <b>" + numeroProductos + "</b><br><br>" +
-                "Ingresa a Surplapp App para hacerle seguimiento al pedido.<br></p>Cordialmente,<br> <b>Equipo de Surplapp App</b><br>" +
-                "<p style='text-align: justify'><font size=1><i>Este mensaje y sus archivos adjuntos van dirigidos exclusivamente a su destinatario pudiendo contener información confidencial " +
-                "sometida a secreto profesional. No está permitida su reproducción o distribución sin la autorización expresa de SURPLAPP, Si usted no es el destinatario " +
-                "final por favor elimínelo e infórmenos por esta vía. Según la Ley Estatutaria 1581 de 2.012 de Protección de Datos y sus normas reglamentarias, " +
-                "el Titular presta su consentimiento para que sus datos, facilitados voluntariamente, pasen a formar parte de una base de datos, cuyo responsable " +
-                "es SURPLAPP, cuyas finalidades son: Gestión administrativa, Gestión de clientes, Prospección comercial, Fidelización de clientes, Marketing y " +
-                "el envío de comunicaciones comerciales sobre nuestros productos y/o servicios. Puede usted ejercer los derechos de acceso, corrección, supresión, " +
-                "revocación o reclamo por infracción sobre sus datos, mediante escrito dirigido a SALVAVIDAS APP a la dirección de correo electrónico " +
-                "ceo@salvavidas.app indicando en el asunto el derecho que desea ejercer, o mediante correo ordinario remitido a la Carrera XX # XX – XX Medellín, Antioquia." +
+                "Ingresa a SurplApp para hacerle seguimiento al pedido.<br></p>Cordialmente,<br> <b>Equipo de SurplApp</b><br>" +
+                "<p style='text-align: justify'><font size=1><i>Este mensaje y sus archivos adjuntos van dirigidos exclusivamente a " +
+                "su destinatario pudiendo contener información confidencial sometida a secreto profesional. No está permitida su " +
+                "reproducción o distribución sin la autorización expresa de SurplApp, Si usted no es el destinatario " +
+                "final por favor elimínelo e infórmenos por esta vía. Según la Ley Estatutaria 1581 de 2.012 de Protección de Datos y " +
+                "sus normas reglamentarias, el Titular presta su consentimiento para que sus datos, facilitados voluntariamente, " +
+                "pasen a formar parte de una base de datos, cuyo responsable es SurplApp, cuyas finalidades son: Gestión administrativa, " +
+                "Gestión de clientes, Prospección comercial, Fidelización de clientes, Marketing y el envío de comunicaciones comerciales " +
+                "sobre nuestros productos y/o servicios. Puede usted ejercer los derechos de acceso, corrección, supresión, " +
+                "revocación o reclamo por infracción sobre sus datos, mediante escrito dirigido a SurplApp a la dirección de correo electrónico " +
+                "ceo@salvavidas.app indicando en el asunto el derecho que desea ejercer, o mediante correo ordinario remitido a " +
+                "la Carrera XX # XX – XX Medellín, Antioquia." +
                 "</font></i></p>";
         //String to_ = to.getText().toString();
         String to_ = emailVendedor;

@@ -60,20 +60,20 @@ public class Maps extends FragmentActivity implements GoogleMap.OnMarkerDragList
 
     private GoogleMap mMap;
 
-    EditText etDireccion;
-    EditText etMunicipio;
-    EditText etAlias;
-    TextView tvLat;
-    TextView tvLng;
-    Button btnReg;
+    private EditText etDireccion;
+    private EditText etMunicipio;
+    private EditText etAlias;
+    private TextView tvLat;
+    private TextView tvLng;
+    private Button btnReg;
 
-    FirebaseAuth mAuth;
-    FirebaseUser currentUser;
-    FirebaseDatabase database;
-    DatabaseReference myRef;
-    ListDirecciones d;
-    Marker makerActual = null;
-    String tipo = "usuarios";
+    private FirebaseAuth mAuth;
+    private FirebaseUser currentUser;
+    private FirebaseDatabase database;
+    private DatabaseReference myRef;
+    private ListDirecciones d;
+    private Marker makerActual = null;
+    private String tipo = "usuarios";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -240,6 +240,7 @@ public class Maps extends FragmentActivity implements GoogleMap.OnMarkerDragList
                 if (grantResults.length > 0 &&
                         grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                     //miUbicacion();
+
                 } else {
                     Toast.makeText(getApplicationContext(), "Permiso denegado", Toast.LENGTH_SHORT).show();
                     Intent h = new Intent(getApplicationContext(), Home.class);
@@ -296,6 +297,7 @@ public class Maps extends FragmentActivity implements GoogleMap.OnMarkerDragList
         };
         locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0, locationListener);
     }
+
     private void actualizarUbicacion(Location location) {
         if (location != null) {
             //6.258329, -75.594995;
@@ -307,6 +309,8 @@ public class Maps extends FragmentActivity implements GoogleMap.OnMarkerDragList
     }
 
     private void agregarMarcador(double lat, double lng) {
+        LatLng colombia = new LatLng(3.7111934028645472, 73.49961812330395);
+        mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(colombia, 16));
         LatLng miUbicacion = new LatLng(lat, lng);
         if(makerActual!= null){
             makerActual.remove();
@@ -355,7 +359,7 @@ public class Maps extends FragmentActivity implements GoogleMap.OnMarkerDragList
         d.seleccion = "true";
 
         //guarda los datos del usuario
-        myRef.child(currentUser.getUid()).child("mis direcciones").child(d.nombreDireccion).setValue(d)
+        myRef.child(currentUser.getUid()).child("mis_direcciones").child(d.nombreDireccion).setValue(d)
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void aVoid) {

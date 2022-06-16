@@ -20,6 +20,8 @@ import com.desarollo.salvavidasapp.Models.ListDirecciones;
 import com.desarollo.salvavidasapp.Models.Productos;
 import com.desarollo.salvavidasapp.Models.TipoProductos;
 import com.desarollo.salvavidasapp.R;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -38,19 +40,19 @@ import static com.facebook.FacebookSdk.getApplicationContext;
 
 public class HomeFragment extends Fragment {
 
-    ArrayList<Productos> listaDeDatos = new ArrayList<>();
-    ArrayList<TipoProductos> listaDeDatosTipo = new ArrayList<>();
-    RecyclerView listadoProducto, listadoTipoProducto;
-    ListSellAdapter listSellAdapter;
-    ListTypeFood listTypeFood;
-    ProgressDialog cargando;
-    FirebaseAuth mAuth;
-    FirebaseUser currentUser;
-    FirebaseDatabase database;
-    DatabaseReference myRefTypeFood,myRef,myRefVendedores,myRefUsuarios;
-    ListDirecciones d;
-    TextView tvPrincipalAddress;
-    Button btnShopping;
+    private ArrayList<Productos> listaDeDatos = new ArrayList<>();
+    private ArrayList<TipoProductos> listaDeDatosTipo = new ArrayList<>();
+    private RecyclerView listadoProducto, listadoTipoProducto;
+    private ListSellAdapter listSellAdapter;
+    private ListTypeFood listTypeFood;
+    private ProgressDialog cargando;
+    private FirebaseAuth mAuth;
+    private FirebaseUser currentUser;
+    private FirebaseDatabase database;
+    private DatabaseReference myRefTypeFood,myRefProductos,myRefVendedores,myRefUsuarios;
+    private ListDirecciones d;
+    private TextView tvPrincipalAddress;
+    private Button btnShopping;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -60,7 +62,7 @@ public class HomeFragment extends Fragment {
         currentUser = mAuth.getCurrentUser();
         database = FirebaseDatabase.getInstance();
         myRefTypeFood = database.getReference("tipo_comidas");
-        myRef = database.getReference("productos");
+        myRefProductos = database.getReference("productos");
         myRefUsuarios = database.getReference("usuarios");
         myRefVendedores = database.getReference("vendedores");
         TextView tv_saludo = view.findViewById(R.id.tv_saludo_home);
@@ -83,14 +85,14 @@ public class HomeFragment extends Fragment {
         actualizarNombreUsuario(tv_saludo);
         crearListadoTiposDeProductos();
         crearListadoProductos();
-        crearListado();
+        mostrarBotonCarritoCompras();
 
         tvPrincipalAddress.setOnClickListener(Navigation.createNavigateOnClickListener(R.id.action_nav_home_to_nav_address));
 
         btnShopping.setOnClickListener(v -> irAlCarritoDeCompras());
 
         return view;
-    }
+    }//fin OnCreateView
 
     private void irAlCarritoDeCompras(){
         Intent intent = new Intent(getApplicationContext(), shoppingCart.class);
@@ -140,7 +142,7 @@ public class HomeFragment extends Fragment {
         cargando.setMessage("Un momento por favor...");
         cargando.show();
 
-        myRef.addValueEventListener(new ValueEventListener() {
+        myRefProductos.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 if(snapshot.exists()){
@@ -186,7 +188,7 @@ public class HomeFragment extends Fragment {
         });
     }
 
-    public void consultarDireccionUsuario(){
+    private void consultarDireccionUsuario(){
         myRefUsuarios.child(currentUser.getUid()).child("mis direcciones").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -208,8 +210,19 @@ public class HomeFragment extends Fragment {
         });
     }
 
-    public void crearListado() {
+    private void mostrarBotonCarritoCompras() {
+        myRefUsuarios.child(currentUser.getUid()).child("carrito_compras").get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DataSnapshot> task) {
+                if(task.isComplete()){
+                    btnShopping.setVisibility(View.VISIBLE);
+                }else{
+                    btnShopping.setVisibility(View.INVISIBLE);
+                }
+            }
+        });
 
+        /*
         myRefUsuarios.child(currentUser.getUid()).child("carrito_compras").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -224,5 +237,7 @@ public class HomeFragment extends Fragment {
             public void onCancelled(@NonNull DatabaseError error) {
             }
         });
+
+         */
     }
 }
