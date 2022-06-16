@@ -76,6 +76,7 @@ public class SubMenuProfile extends Fragment {
             public void onClick(View v) {
                 Intent intent = new Intent(getContext(), seller2.class);
                 startActivity(intent);
+                getActivity().finish();
             }
         });
 

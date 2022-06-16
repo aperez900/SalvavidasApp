@@ -137,17 +137,13 @@ public class Profile extends Fragment {
             @Override
             public void onClick(View view) {
                 if(validarCamposVacios(UserMail, nombres, apellidos, identificacion, celular)) {
-
                     registrar(UserMail, nombres, apellidos, identificacion, celular);
-
                 }
             }
         });
 
         //Llena los campos del formulario con los datos de la bd
         consultarDatosPerfil(nombres, apellidos, identificacion, celular,btnReg, btnDesactivarUsuario);
-
-
 
         //Acciones del botón desactivar usuario
         btnDesactivarUsuario.setOnClickListener(new View.OnClickListener() {
@@ -159,7 +155,6 @@ public class Profile extends Fragment {
                 if (btnDesactivarUsuario.getText().toString().equals("Activar Usuario")){
                     if(validarCamposVacios(UserMail, nombres, apellidos, identificacion, celular)) {
                         registrar(UserMail, nombres, apellidos, identificacion, celular);
-
                     }
                 }
             }
@@ -247,7 +242,7 @@ public class Profile extends Fragment {
          */
 
         //Consultando datos de las direcciones
-        myRef.child(currentUser.getUid()).child("mis direcciones").addValueEventListener(new ValueEventListener() {
+        myRef.child(currentUser.getUid()).child("mis_direcciones").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 if(snapshot.exists()){
@@ -386,7 +381,7 @@ public class Profile extends Fragment {
         for (int i=0; i<listaDirecciones.size();i++){
             d = listaDirecciones.get(i);
             String nombreDir = d.getNombreDireccion();
-            myRef.child(currentUser.getUid()).child("mis direcciones").child(nombreDir).setValue(d)
+            myRef.child(currentUser.getUid()).child("mis_direcciones").child(nombreDir).setValue(d)
                     .addOnSuccessListener(new OnSuccessListener<Void>() {
                         @Override
                         public void onSuccess(Void aVoid) {
@@ -395,7 +390,11 @@ public class Profile extends Fragment {
                     });
         }
         registrar_token();
+        abrirVentanaConfirmacion();
 
+    }
+
+    private void abrirVentanaConfirmacion(){
         FancyAlertDialog.Builder
                 .with(getActivity())
                 .setTitle("Felicitaciones !")
@@ -409,18 +408,16 @@ public class Profile extends Fragment {
                 .isCancellable(true)
                 .setIcon(R.drawable.icono_ok, View.VISIBLE)
                 .onPositiveClicked(new FancyAlertDialogListener() {
-                            @Override
-                            public void onClick(Dialog dialog) {
-                                Intent intent = new Intent(getContext(), Home.class);
-                                startActivity(intent);
+                    @Override
+                    public void onClick(Dialog dialog) {
+                        Intent intent = new Intent(getContext(), Home.class);
+                        startActivity(intent);
 
-
-                            }})
+                    }})
                 .onNegativeClicked(dialog -> Toast.makeText(getActivity(), "Cancel", Toast.LENGTH_SHORT).show())
                 .build()
                 .show();
     }
-
 
     private void registrar_token() {
 

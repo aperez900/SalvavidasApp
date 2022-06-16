@@ -484,7 +484,7 @@ public class addProduct extends AppCompatActivity {
         };
 
         //consulta las direcciones del usuario
-        myRefUsuarios.child(currentUser.getUid()).child("mis direcciones")
+        myRefUsuarios.child(currentUser.getUid()).child("mis_direcciones")
                 .addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {

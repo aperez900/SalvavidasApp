@@ -147,7 +147,7 @@ public class ListSellAdapter extends RecyclerView.Adapter<ListSellAdapter.viewHo
 
     private void consultarDireccionUsuario(String direccionProducto, viewHolder holder){
         final String[] Distancia = {""};
-        myRefUsuarios.child(currentUser.getUid()).child("mis direcciones").addValueEventListener(new ValueEventListener() {
+        myRefUsuarios.child(currentUser.getUid()).child("mis_direcciones").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 if(snapshot.exists()){

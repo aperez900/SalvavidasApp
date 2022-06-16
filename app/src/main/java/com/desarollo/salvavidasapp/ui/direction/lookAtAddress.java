@@ -74,7 +74,7 @@ public class lookAtAddress extends AppCompatActivity {
         d.seleccion = "false";
 
         //guarda los datos del usuario
-        myRef.child(currentUser.getUid()).child("mis direcciones").child(d.nombreDireccion).setValue(d)
+        myRef.child(currentUser.getUid()).child("mis_direcciones").child(d.nombreDireccion).setValue(d)
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void aVoid) {

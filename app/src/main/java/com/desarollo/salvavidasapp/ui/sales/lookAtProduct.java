@@ -407,6 +407,7 @@ public class lookAtProduct extends AppCompatActivity {
             }
         }catch (Exception e){
             e.printStackTrace();
+            Log.d("EnvíoCorreoVend","Error enviando correo al vendedor "+ e);
             //Toast.makeText(getApplicationContext(), "Error enviando la solicitud. " + e, Toast.LENGTH_SHORT).show();
         }
     }

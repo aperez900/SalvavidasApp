@@ -15,6 +15,7 @@ import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.StrictMode;
+import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -172,15 +173,12 @@ public class seller2 extends AppCompatActivity {
                         urlFoto,direccionVendedor)) {
                     registrar(nombres, apellidos, identificacion, celular, nombreEstablecimiento, nit, sp_actividad_econimica, estado,direccionVendedor);
 
-                    abrirVentanaConfirmacion();
-
+                    //Toast.makeText(seller2.this, "Perfil actualizado correctamente", Toast.LENGTH_SHORT).show();
                     if(!esVendedor){
                         enviar_email(correo,contrasena, nombres, celular);
                         enviar_email_usuario(correo,contrasena, nombres, celular);
 
-                        Intent intent = new Intent(seller2.this, Home.class);
-                        startActivity(intent);
-                        finish();
+
 
                     }
                 }
@@ -272,7 +270,7 @@ public class seller2 extends AppCompatActivity {
         }
     }
 
-    public void abrirVentanaConfirmacion(){
+    private void abrirVentanaConfirmacion(){
         FancyAlertDialog.Builder
                 .with(seller2.this)
                 .setTitle("Felicitaciones !")
@@ -288,7 +286,7 @@ public class seller2 extends AppCompatActivity {
                 .onPositiveClicked(new FancyAlertDialogListener() {
                     @Override
                     public void onClick(Dialog dialog) {
-                        Intent intent = new Intent(seller2.this, Home.class);
+                        Intent intent = new Intent(getApplicationContext(), Home.class);
                         startActivity(intent);
                         finish();
                     }})
@@ -577,7 +575,7 @@ public class seller2 extends AppCompatActivity {
                     public void onFailure(@NonNull Exception e) {
                     }
                 });
-
+        abrirVentanaConfirmacion();
         //registrar_token();
     }
 
@@ -588,17 +586,20 @@ public class seller2 extends AppCompatActivity {
         //String contraseñaCorreoEnvia = contraseña.getText().toString();
         String contrasenaCorreoEnvia = "Great_Simplicity01945#";
 
-        String cuerpoCorreo = "<p style='text-align: justify'> Hola Administrador de Surplapp, <b>" + nombres.getText().toString() + "</b> desea ser vendedor en nuestra APP y"
-                + " lo puedes contactar en el número móvil: <u>" + celular.getText().toString() + "</u></p><br>Cordialmente,<br> <b>Equipo de Surplapp</b><br>" +
-                "<p style='text-align: justify'><font size=1><i>Este mensaje y sus archivos adjuntos van dirigidos exclusivamente a su destinatario pudiendo contener información confidencial " +
-                "sometida a secreto profesional. No está permitida su reproducción o distribución sin la autorización expresa de SURPLAPP, Si usted no es el destinatario " +
-                "final por favor elimínelo e infórmenos por esta vía. Según la Ley Estatutaria 1581 de 2.012 de Protección de Datos y sus normas reglamentarias, " +
-                "el Titular presta su consentimiento para que sus datos, facilitados voluntariamente, pasen a formar parte de una base de datos, cuyo responsable " +
-                "es SURPLAPP, cuyas finalidades son: Gestión administrativa, Gestión de clientes, Prospección comercial, Fidelización de clientes, Marketing y " +
-                "el envío de comunicaciones comerciales sobre nuestros productos y/o servicios. Puede usted ejercer los derechos de acceso, corrección, supresión, " +
-                "revocación o reclamo por infracción sobre sus datos, mediante escrito dirigido a SURPLAPP a la dirección de correo electrónico " +
-                "ceo@salvavidas.app indicando en el asunto el derecho que desea ejercer, o mediante correo ordinario remitido a la Carrera XX # XX – XX Medellín, Antioquia." +
-                "</font></i></p>";
+        String cuerpoCorreo = "<p style='text-align: justify'> Hola Administrador de SurplApp, <b>" + nombres.getText().toString()
+                + "</b> desea ser vendedor en nuestra APP y lo puedes contactar en el número móvil: <u>" + celular.getText().toString()
+                + "</u></p><br>Cordialmente,<br> <b>Equipo de SurplApp</b><br><p style='text-align: justify'><font size=1><i>" +
+                "Este mensaje y sus archivos adjuntos van dirigidos exclusivamente a su destinatario pudiendo contener información " +
+                "confidencial sometida a secreto profesional. No está permitida su reproducción o distribución sin la autorización " +
+                "expresa de SurplApp, Si usted no es el destinatario final por favor elimínelo e infórmenos por esta vía. Según " +
+                "la Ley Estatutaria 1581 de 2.012 de Protección de Datos y sus normas reglamentarias, el Titular presta su " +
+                "consentimiento para que sus datos, facilitados voluntariamente, pasen a formar parte de una base de datos, " +
+                "cuyo responsable es SurplApp, cuyas finalidades son: Gestión administrativa, Gestión de clientes, Prospección " +
+                "comercial, Fidelización de clientes, Marketing y el envío de comunicaciones comerciales sobre nuestros productos " +
+                "y/o servicios. Puede usted ejercer los derechos de acceso, corrección, supresión, revocación o reclamo por " +
+                "infracción sobre sus datos, mediante escrito dirigido a SURPLAPP a la dirección de correo electrónico " +
+                "ceo@salvavidas.app indicando en el asunto el derecho que desea ejercer, o mediante correo ordinario remitido a " +
+                "la Carrera XX # XX – XX Medellín, Antioquia.</font></i></p>";
         //String to_ = to.getText().toString();
         String to_ = "ceo@salvavidas.app";
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
@@ -620,7 +621,7 @@ public class seller2 extends AppCompatActivity {
             if(session!=null){
                 MimeMessage message = new MimeMessage(session);
                 message.setFrom(new InternetAddress(correoEnvia));
-                message.setSubject("Solicitud de nuevo vendedor Surplapp");
+                message.setSubject("Solicitud de nuevo vendedor SurplApp");
                 message.setText(cuerpoCorreo, "ISO-8859-1","html");
                 message.setRecipients(MimeMessage.RecipientType.TO,InternetAddress.parse(to_));
                 //message.setContent("Hola mundo","txt/html; charset= utf-8");
@@ -630,7 +631,8 @@ public class seller2 extends AppCompatActivity {
             }
         }catch (Exception e){
             e.printStackTrace();
-            Toast.makeText(getApplicationContext(), "Error enviando la solicitud. " + e, Toast.LENGTH_LONG).show();
+            //Toast.makeText(getApplicationContext(), "Error enviando la solicitud. " + e, Toast.LENGTH_LONG).show();
+            Log.d("EnvíoCorreoVendedor","Error enviando el correo " + e);
         }
     }
 
@@ -641,16 +643,20 @@ public class seller2 extends AppCompatActivity {
         //String contraseñaCorreoEnvia = contraseña.getText().toString();
         String contrasenaCorreoEnvia = "Great_Simplicity01945#";
 
-        String cuerpoCorreo = "<p style='text-align: justify'> Hola <b>" + nombres.getText().toString() + "</b> recibimos con agrado tu solicitud "
-                + "y te estaremos respondiendo en el menor tiempo posible.<br></p><br>Cordialmente,<br> <b>Equipo de Surplapp</b><br>" +
-                "<p style='text-align: justify'><font size=1><i>Este mensaje y sus archivos adjuntos van dirigidos exclusivamente a su destinatario pudiendo contener información confidencial " +
-                "sometida a secreto profesional. No está permitida su reproducción o distribución sin la autorización expresa de SURPLAPP, Si usted no es el destinatario " +
-                "final por favor elimínelo e infórmenos por esta vía. Según la Ley Estatutaria 1581 de 2.012 de Protección de Datos y sus normas reglamentarias, " +
-                "el Titular presta su consentimiento para que sus datos, facilitados voluntariamente, pasen a formar parte de una base de datos, cuyo responsable " +
-                "es SURPLAPP, cuyas finalidades son: Gestión administrativa, Gestión de clientes, Prospección comercial, Fidelización de clientes, Marketing y " +
-                "el envío de comunicaciones comerciales sobre nuestros productos y/o servicios. Puede usted ejercer los derechos de acceso, corrección, supresión, " +
-                "revocación o reclamo por infracción sobre sus datos, mediante escrito dirigido a SURPLAPP a la dirección de correo electrónico " +
-                "ceo@salvavidas.app indicando en el asunto el derecho que desea ejercer, o mediante correo ordinario remitido a la Carrera XX # XX – XX Medellín, Antioquia." +
+        String cuerpoCorreo = "<p style='text-align: justify'> Hola <b>" + nombres.getText().toString() + "</b> recibimos con " +
+                "agrado tu solicitud y te estaremos respondiendo en el menor tiempo posible.<br></p><br>Cordialmente,<br> " +
+                "<b>Equipo de SurplApp</b><br><p style='text-align: justify'><font size=1><i>Este mensaje y sus archivos adjuntos " +
+                "van dirigidos exclusivamente a su destinatario pudiendo contener información confidencial sometida a secreto " +
+                "profesional. No está permitida su reproducción o distribución sin la autorización expresa de SurplApp, Si usted " +
+                "no es el destinatario final por favor elimínelo e infórmenos por esta vía. Según la Ley Estatutaria 1581 de 2.012 " +
+                "de Protección de Datos y sus normas reglamentarias, el Titular presta su consentimiento para que sus datos, " +
+                "facilitados voluntariamente, pasen a formar parte de una base de datos, cuyo responsable " +
+                "es SurplApp, cuyas finalidades son: Gestión administrativa, Gestión de clientes, Prospección comercial, Fidelización" +
+                " de clientes, Marketing y el envío de comunicaciones comerciales sobre nuestros productos y/o servicios. " +
+                "Puede usted ejercer los derechos de acceso, corrección, supresión, revocación o reclamo por infracción sobre " +
+                "sus datos, mediante escrito dirigido a SurplApp a la dirección de correo electrónico ceo@salvavidas.app " +
+                "indicando en el asunto el derecho que desea ejercer, o mediante correo ordinario remitido a la Carrera " +
+                "XX # XX – XX Medellín, Antioquia." +
                 "</font></i></p>";
         //String to_ = to.getText().toString();
         String to_ = emailUser;
@@ -673,16 +679,20 @@ public class seller2 extends AppCompatActivity {
             if(session!=null){
                 MimeMessage message = new MimeMessage(session);
                 message.setFrom(new InternetAddress(correoEnvia));
-                message.setSubject("Solicitud de nuevo vendedor Surplapp");
+                message.setSubject("Solicitud de nuevo vendedor SurplApp");
                 message.setText(cuerpoCorreo, "ISO-8859-1","html");
                 message.setRecipients(MimeMessage.RecipientType.TO,InternetAddress.parse(to_));
                 //message.setContent("Hola mundo","txt/html; charset= utf-8");
                 Transport.send(message);
 
+                Intent intent = new Intent(seller2.this, Home.class);
+                startActivity(intent);
+                finish();
                 //Toast.makeText(getApplicationContext(), "Solicitud enviada correctamente", Toast.LENGTH_SHORT).show();
             }
         }catch (Exception e){
             e.printStackTrace();
+            Log.d("EnvíoCorreoUsuario","Error enviando el correo " + e);
             //Toast.makeText(getApplicationContext(), "Error enviando la solicitud. " + e, Toast.LENGTH_SHORT).show();
         }
     }
@@ -730,7 +740,7 @@ public class seller2 extends AppCompatActivity {
             direccionVendedor.setError("Debe diligenciar la direccion");
             campoLleno=false;
         }
-        if(direccion.contains("Dirección")){
+        if(direccion.equals(" ")){
             direccionVendedor.setError("Debe registrar una dirección válida");
             campoLleno=false;
         }
@@ -740,10 +750,11 @@ public class seller2 extends AppCompatActivity {
         }if(actividades_econo.equals("✚ Seleccione una actividad económica")){
             Toast.makeText(getApplicationContext(), "Seleccione una actividad económica", Toast.LENGTH_SHORT).show();
             campoLleno=false;
-        }if(urlFoto.equals("")){
+        }/*if(urlFoto.equals("")){
             Toast.makeText(getApplicationContext(), "Por favor cargue el logo de su empresa", Toast.LENGTH_SHORT).show();
             campoLleno=false;
         }
+        */
         return campoLleno;
     }
 
@@ -764,7 +775,7 @@ public class seller2 extends AppCompatActivity {
         };
 
         //consulta las direcciones del vendedor
-        myRefPerfilUsuario.child(currentUser.getUid()).child("mis direcciones")
+        myRefPerfilUsuario.child(currentUser.getUid()).child("mis_direcciones")
                 .addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
