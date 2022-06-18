@@ -22,7 +22,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.SalvavidasApp">
-        <activity android:name=".profile_initial"></activity>
+        <activity android:name=".Login.profile_initial"></activity>
         <activity android:name=".ui.sales.anulledSales" />
         <activity android:name=".ui.sales.salesMade" />
         <activity android:name=".ui.purchases.anulledPurchases" />

@@ -1,23 +1,18 @@
-package com.desarollo.salvavidasapp;
+package com.desarollo.salvavidasapp.Login;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.app.Dialog;
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageView;
-import android.widget.TextView;
 import android.widget.Toast;
 
-import com.desarollo.salvavidasapp.Login.Registro;
 import com.desarollo.salvavidasapp.Models.Usuarios;
+import com.desarollo.salvavidasapp.R;
 import com.desarollo.salvavidasapp.ui.direction.Maps;
-import com.desarollo.salvavidasapp.ui.home.Home;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -27,11 +22,6 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.messaging.FirebaseMessaging;
-import com.shashank.sony.fancydialoglib.Animation;
-import com.shashank.sony.fancydialoglib.FancyAlertDialog;
-import com.shashank.sony.fancydialoglib.FancyAlertDialogListener;
-
-import static com.facebook.FacebookSdk.getApplicationContext;
 
 public class profile_initial extends AppCompatActivity {
 

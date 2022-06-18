@@ -50,29 +50,29 @@
                     android:layout_height="42dp"
                     android:layout_marginStart="16dp"
                     android:layout_marginTop="20dp"
-                    android:background="#FFFFFF"
+                    android:autofillHints=""
+                    android:background="@color/backgroundColor"
                     android:fontFamily="@font/poppins_light"
                     android:gravity="start"
                     android:hint="@string/direccion"
+                    android:inputType="textPostalAddress"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/et_alias"
-                    android:autofillHints=""
-                    android:inputType="textPostalAddress" />
+                    app:layout_constraintTop_toBottomOf="@+id/et_alias" />
 
                 <EditText
                     android:id="@+id/sp_municipio"
                     android:layout_width="328dp"
                     android:layout_height="45dp"
                     android:layout_marginTop="80dp"
-                    android:background="#FFFFFF"
+                    android:autofillHints=""
+                    android:background="@color/backgroundColor"
                     android:fontFamily="@font/poppins_light"
                     android:hint="@string/municipio"
+                    android:inputType="text"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.485"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/et_alias"
-                    android:autofillHints=""
-                    android:inputType="text" />
+                    app:layout_constraintTop_toBottomOf="@+id/et_alias" />
 
                 <EditText
                     android:id="@+id/et_barrio"
@@ -81,15 +81,15 @@
                     android:layout_marginStart="35dp"
                     android:layout_marginTop="16dp"
                     android:layout_marginEnd="35dp"
-                    android:background="#FFFFFF"
+                    android:autofillHints=""
+                    android:background="@color/backgroundColor"
                     android:ems="10"
                     android:fontFamily="@font/poppins_light"
                     android:hint="@string/barrio"
                     android:inputType="text"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/sp_municipio"
-                    android:autofillHints="" />
+                    app:layout_constraintTop_toBottomOf="@+id/sp_municipio" />
 
 
                 <EditText
@@ -97,7 +97,8 @@
                     android:layout_width="331dp"
                     android:layout_height="45dp"
                     android:layout_marginTop="48dp"
-                    android:background="#FFFFFF"
+                    android:autofillHints=""
+                    android:background="@color/backgroundColor"
                     android:ems="10"
                     android:fontFamily="@font/poppins_light"
                     android:hint="@string/miCasa"
@@ -105,23 +106,22 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.531"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    android:autofillHints="" />
+                    app:layout_constraintTop_toTopOf="parent" />
 
                 <EditText
                     android:id="@+id/et_adicional"
                     android:layout_width="331dp"
                     android:layout_height="45dp"
                     android:layout_marginTop="16dp"
-                    android:background="#FFFFFF"
+                    android:autofillHints=""
+                    android:background="@color/backgroundColor"
                     android:ems="10"
                     android:fontFamily="@font/poppins_light"
                     android:hint="@string/datosAdicionales"
                     android:inputType="text"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/et_barrio"
-                    android:autofillHints="" />
+                    app:layout_constraintTop_toBottomOf="@+id/et_barrio" />
 
 
             </androidx.constraintlayout.widget.ConstraintLayout>

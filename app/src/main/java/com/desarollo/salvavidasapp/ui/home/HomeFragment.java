@@ -151,6 +151,7 @@ public class HomeFragment extends Fragment {
                         for(DataSnapshot objsnapshot2 : objsnapshot.getChildren()){ //recorre los productos
                             Productos p = objsnapshot2.getValue(Productos.class);
                             String estado;
+                            Integer cantidad;
                             Date fechaInicio = null;
                             Date fechaFin = null;
                             Date getCurrentDateTime = null;
@@ -163,9 +164,11 @@ public class HomeFragment extends Fragment {
                                 e.printStackTrace();
                             }
                             estado = p.getEstadoProducto();
+                            cantidad =p.getCantidadDisponible();
+
                             assert getCurrentDateTime != null;
                             if (getCurrentDateTime.compareTo(fechaInicio) > 0 && getCurrentDateTime.compareTo(fechaFin) < 0
-                                    && !estado.equals("Cancelado por el vendedor")){
+                                    && !estado.equals("Cancelado por el vendedor") && !cantidad.equals(0)){
 
                                 listaDeDatos.add(new Productos(p.getIdProducto(), p.getNombreProducto(), p.getDescripcionProducto(),
                                         p.getCategoriaProducto(), p.getSubCategoriaProducto(), p.getPrecio(), p.getDescuento(), p.getDomicilio(), p.getEstadoProducto(),

@@ -139,7 +139,10 @@ public class buyProduct extends AppCompatActivity {
                 double valorTotal_ = precioProducto*nroProductos + precioDomicilio + valorComision ;
                 int vt = (int) valorTotal_*100;
                 String vt_ = Integer.toString(vt);
-                String Reference = currentUser.getUid() + "/" + idCompra + "/" + idProducto +"/" + idVendedor;
+                int cantDispo = (int) cantidadProductosDisponibles-nroProductos;
+                String cantDispo_ = Integer.toString(cantDispo);
+
+                String Reference = currentUser.getUid() + "/" + idCompra + "/" + idProducto +"/" + idVendedor + "/" + cantDispo_;
 
                 registrarsolicitudVendedor(vt_,idCompra, idProducto,idVendedor,Reference,nroProductos);
                 registrarCompraAlComprador(vt_,idCompra, idProducto);
@@ -236,7 +239,7 @@ public class buyProduct extends AppCompatActivity {
                     @Override
                     public void onSuccess(Void aVoid) {
 
-                        Uri uri = Uri.parse("https://checkout.wompi.co/p/?public-key=pub_test_KY4VrC344hkv91RHAfu9XRajobfm0ROe&currency=COP&amount-in-cents="+vt_+"&reference="+Reference+"&redirect-url=https://www.salvavidas.app/");
+                        Uri uri = Uri.parse("https://checkout.wompi.co/p/?public-key=pub_test_KY4VrC344hkv91RHAfu9XRajobfm0ROe&currency=COP&amount-in-cents="+vt_+"&reference="+Reference+"&redirect-url=https://www.surplusapp.co/");
                         Intent intent = new Intent(Intent.ACTION_VIEW, uri);
                         startActivity(intent);
                         finish();
@@ -249,6 +252,14 @@ public class buyProduct extends AppCompatActivity {
                         Toast.makeText(buyProduct.this, "Error agregando la compra en la base de datos. Intenta de nuevo mas tarde", Toast.LENGTH_SHORT).show();
                     }
                 });
+
+    /* ---------------------------------------------------------------------------------------
+    Modificacion: Andres Felipe Perez
+    Version: 18/06/2022 - ap1
+    Observacion: Se disminuye la cantidad disponible desde la api de pagos, cuando realmente pague la persona
+    ---------------------------------------------------------------------------------------*/
+
+    /*
 
         myRefProductos.child(idVendedor).child(idProducto).child("cantidadDisponible").setValue(cantidadProductosDisponibles - nnroProductos)
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
@@ -263,6 +274,9 @@ public class buyProduct extends AppCompatActivity {
                         Toast.makeText(buyProduct.this, "Error descontando del inventario", Toast.LENGTH_SHORT).show();
                     }
                 });
+
+     */
+
     }
 
     private void registrarCompraAlComprador(String vt_, String idCompra, String idProducto){
