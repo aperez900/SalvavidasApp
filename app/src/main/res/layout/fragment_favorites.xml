@@ -31,7 +31,8 @@
             android:layout_width="30dp"
             android:layout_height="30dp"
             android:layout_marginTop="10dp"
-            app:srcCompat="@drawable/corazon" />
+            app:srcCompat="@drawable/corazon"
+            app:tint="@color/newRed"/>
     </LinearLayout>
 
     <TextView

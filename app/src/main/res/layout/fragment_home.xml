@@ -23,7 +23,8 @@
         android:paddingTop="10dp"
         android:paddingBottom="10dp"
         android:textSize="14sp"
-        app:drawableStartCompat="@drawable/marker_24" />
+        app:drawableStartCompat="@drawable/marker_24"
+        android:drawableTint="@color/newRed"/>
 
     <TextView
         android:id="@+id/tv_saludo_home"
@@ -32,14 +33,14 @@
         android:layout_below="@+id/principal_address"
         android:layout_alignParentStart="true"
         android:layout_alignParentEnd="true"
-        android:layout_marginTop="5dp"
         android:layout_marginStart="10dp"
+        android:layout_marginTop="5dp"
         android:layout_marginEnd="10dp"
         android:fontFamily="@font/poppins_light"
         android:gravity="start"
         android:text="@string/queVasAPedirHoy"
         android:textAlignment="textStart"
-        android:textColor="@color/red"
+        android:textColor="@color/newRed"
         android:textSize="20sp"
         android:textStyle="bold" />
 
@@ -64,7 +65,7 @@
         android:fontFamily="@font/poppins_light"
         android:text="@string/tenemosEstoParaTi"
         android:textAlignment="textStart"
-        android:textColor="@color/red"
+        android:textColor="@color/newRed"
         android:textSize="20sp"
         android:textStyle="bold" />
 

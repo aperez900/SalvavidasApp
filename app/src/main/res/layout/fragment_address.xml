@@ -38,7 +38,8 @@
             app:layout_constraintHorizontal_bias="0.516"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tv_titulo_carrito"
-            app:srcCompat="@drawable/corazon" />
+            app:srcCompat="@drawable/corazon"
+            app:tint="@color/newRed" />
 
         <TextView
             android:id="@+id/tv_subtitulo_carrito"
@@ -83,7 +84,6 @@
             android:layout_width="364dp"
             android:layout_height="60dp"
             android:layout_alignParentBottom="true"
-            android:backgroundTint="#FF8A80"
             android:fontFamily="@font/poppins_semibold"
             android:text="@string/agregarDirecciones"
             android:textSize="16sp"

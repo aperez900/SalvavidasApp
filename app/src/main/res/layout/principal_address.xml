@@ -12,6 +12,7 @@
         android:layout_height="@dimen/notification_icon_size"
         android:layout_gravity="center"
         android:text="Carrera 77b 48 09"
-        android:drawableRight="@android:drawable/arrow_down_float" />
+        android:drawableRight="@android:drawable/arrow_down_float"
+        android:textColor="@color/gray"/>
 
 </FrameLayout>

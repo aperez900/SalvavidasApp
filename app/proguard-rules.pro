@@ -19,7 +19,22 @@
 # If you keep the line number information, uncomment this to
 # hide the original source file name.
 #-renamesourcefileattribute SourceFile
--keep class com.desarollo.salvavidasapp.**{
-*;
-}
+
+#-keep class com.desarollo.salvavidasapp.**{*;}
+
+-keepattributes Signature
+-keepclassmembers class com.desarollo.salvavidasapp.models.** {*;}
+-keep class com.google.** { *; }
+-keep class com.google.firebase.** { *; }
+-keep class com.google.firestore.** { *; }
+-keep class com.google.firebase.annotations.PreviewApi.** { *; }
+-keep class com.google.firebase.messaging.TopicOperation.** { *; }
+-keep class com.firebase.** { *; }
+-keep class org.apache.** { *; }
+-keepnames class com.shaded.fasterxml.** { *; }
+-keepnames class com.fasterxml.jackson.** { *; }
+-keepnames class javax.servlet.** { *; }
+-keepnames class org.ietf.jgss.** { *; }
+-dontwarn org.apache.**
+-dontwarn org.w3c.dom.**
 

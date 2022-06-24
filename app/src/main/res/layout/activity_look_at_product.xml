@@ -89,7 +89,7 @@
                     android:text="@string/nombreProducto2"
                     android:textSize="22sp"
                     android:textStyle="bold"
-                    android:textColor="@color/red"/>
+                    android:textColor="@color/newRed"/>
 
                 <Button
                     android:id="@+id/btn_menos"
@@ -340,7 +340,6 @@
         android:layout_gravity="center"
         android:layout_marginStart="30dp"
         android:layout_marginEnd="30dp"
-        android:backgroundTint="#E57373"
         android:text="@string/añadirCarrito"
         android:textSize="16sp"
         app:cornerRadius="15dp"

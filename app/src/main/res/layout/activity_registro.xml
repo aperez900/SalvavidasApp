@@ -17,7 +17,7 @@
         android:layout_marginTop="30dp"
         android:layout_marginEnd="10dp"
         android:contentDescription="@string/logoSalvavidas"
-        app:srcCompat="@drawable/logo_surplapp_fondo_blanco" />
+        app:srcCompat="@drawable/logo_surplapp_gris_sin_fondo2" />
 
     <LinearLayout
         android:layout_width="347dp"
@@ -37,14 +37,11 @@
             android:drawableStart="@android:drawable/sym_action_email"
             android:drawablePadding="10dp"
             android:ems="10"
+            android:layout_marginTop="10dp"
             android:fontFamily="@font/poppins_light"
             android:hint="@string/correo"
             android:inputType="textEmailAddress"
             android:autofillHints="emailAddress" />
-
-        <Space
-            android:layout_width="match_parent"
-            android:layout_height="30dp" />
 
         <EditText
             android:id="@+id/et_passwordR"
@@ -52,15 +49,13 @@
             android:layout_height="wrap_content"
             android:drawableStart="@android:drawable/ic_lock_idle_lock"
             android:drawablePadding="10dp"
+            android:layout_marginTop="30dp"
             android:ems="10"
             android:fontFamily="@font/poppins_light"
             android:hint="@string/contraseña"
             android:inputType="textPassword"
             android:autofillHints="password" />
 
-        <Space
-            android:layout_width="match_parent"
-            android:layout_height="55dp" />
 
         <Button
             android:id="@+id/btn_registro"

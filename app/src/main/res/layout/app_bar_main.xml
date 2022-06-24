@@ -15,7 +15,7 @@
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-            android:background="@color/red"
+            android:background="@color/newRed"
             app:popupTheme="@style/Theme.SalvavidasApp.PopupOverlay" />
 
     </com.google.android.material.appbar.AppBarLayout>

@@ -50,7 +50,8 @@
                     android:layout_width="@dimen/image_size_option_width"
                     android:layout_height="@dimen/image_size_option_height"
                     android:layout_gravity="center_horizontal"
-                    android:src="@drawable/perfil" />
+                    android:src="@drawable/perfil"
+                    app:tint="@color/newRed"/>
 
                 <TextView
                     android:layout_width="@dimen/text_option_width"
@@ -92,7 +93,8 @@
                     android:layout_width="@dimen/image_size_option_width"
                     android:layout_height="@dimen/image_size_option_height"
                     android:layout_gravity="center_horizontal"
-                    android:src="@drawable/shopping2" />
+                    android:src="@drawable/shopping2"
+                    app:tint="@color/newRed"/>
 
                 <TextView
                     android:layout_width="@dimen/text_option_width"

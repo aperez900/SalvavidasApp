@@ -1,17 +1,8 @@
 package com.desarollo.salvavidasapp.ui.home;
 
 import android.app.Activity;
-import android.app.Dialog;
-import android.app.NotificationChannel;
-import android.app.NotificationManager;
-import android.app.PendingIntent;
-import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Color;
-import android.media.RingtoneManager;
-import android.net.Uri;
-import android.os.Build;
 import android.os.StrictMode;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -23,7 +14,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.core.app.NotificationCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.android.volley.AuthFailureError;
@@ -44,13 +34,8 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.UserInfo;
 import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
-import com.shashank.sony.fancydialoglib.Animation;
-import com.shashank.sony.fancydialoglib.FancyAlertDialog;
-import com.shashank.sony.fancydialoglib.FancyAlertDialogListener;
 
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
@@ -147,7 +132,7 @@ public class listShoppingCartAdapter extends RecyclerView.Adapter<listShoppingCa
         String getUrlFoto = listaDeDatos.get(position).getfoto();
         Double precioDomicilio = listaDeDatos.get(position).getPrecioDomicilio();
         String nombreEstablecimiento = listaDeDatos.get(position).getNombreEmpresa();
-        final String[] idVendedor = {listaDeDatos.get(position).getIdVendedor()};
+        String idVendedor = listaDeDatos.get(position).getIdVendedor();
 
         final String[] patron = {"###,###.##"};
         DecimalFormat objDF = new DecimalFormat (patron[0]);
@@ -166,7 +151,7 @@ public class listShoppingCartAdapter extends RecyclerView.Adapter<listShoppingCa
             public void onClick(View v) {
                 irADetalleDeProducto(nombreProducto, idProducto, tipoProducto, domicilioProducto, descripcionProducto,
                         cantidad[0], cantidadProductosDisponibles, precioProducto, descuentoProducto, precioDomicilio, fechaInicio, horaInicio,
-                        fechaFin, horaFin, getUrlFoto, idVendedor[0]);
+                        fechaFin, horaFin, getUrlFoto, idVendedor);
             }
         });
 
@@ -215,7 +200,7 @@ public class listShoppingCartAdapter extends RecyclerView.Adapter<listShoppingCa
                     if (Integer.parseInt(numeroActual) <= cantidadProductosDisponibles){
                         double total = (precioProducto - descuentoProducto);
                         String idCompra = UUID.randomUUID().toString();
-                        consultarDatosVendedor(idVendedor[0], idCompra, idProducto, nombreProducto, total, precioDomicilio, cantidad[0]);
+                        consultarDatosVendedor(idVendedor, idCompra, idProducto, nombreProducto, total, precioDomicilio, cantidad[0]);
                     }else{
                         Toast.makeText(getApplicationContext(), "Solo hay " + cantidadProductosDisponibles
                                 + " producto(s) disponible(s)", Toast.LENGTH_SHORT).show();

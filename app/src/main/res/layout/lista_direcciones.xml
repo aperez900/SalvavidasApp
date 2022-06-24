@@ -23,7 +23,9 @@
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:layout_marginTop="20dp"
-            android:src="@drawable/marker"></ImageView>
+            android:src="@drawable/marker"
+            android:contentDescription="@string/descripcionImagen"
+            app:tint="@color/newRed"/>
 
         <TextView
             android:id="@+id/NombreDireccion"
@@ -36,7 +38,7 @@
             android:fontFamily="@font/poppins_semibold"
             android:text="Mi casa"
             android:textSize="20sp"
-            android:textStyle="bold"></TextView>
+            android:textStyle="bold" />
 
         <TextView
             android:id="@+id/Direccion"
@@ -69,7 +71,7 @@
             android:layout_height="35dp"
             android:layout_marginStart="330dp"
             android:layout_marginTop="25dp"
-            android:buttonTint="#FF0000"
+            android:buttonTint="@color/newRed"
             android:text="" />
 
 

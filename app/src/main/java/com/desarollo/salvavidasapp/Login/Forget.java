@@ -49,9 +49,8 @@ public class Forget extends AppCompatActivity {
 
     private void sendEmail(String email) {
         FirebaseAuth auth = FirebaseAuth.getInstance();
-        String emailAdress = email;
 
-        auth.sendPasswordResetEmail(emailAdress)
+        auth.sendPasswordResetEmail(email)
                 .addOnCompleteListener(new OnCompleteListener<Void>() {
                     @Override
                     public void onComplete(@NonNull Task<Void> task) {

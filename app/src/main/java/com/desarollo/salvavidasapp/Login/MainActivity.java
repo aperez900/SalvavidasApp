@@ -343,71 +343,7 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         });
-
-        /*
-        //FirebaseUser currentUser = mAuth.getCurrentUser();
-        myRefUsuarios.child(currentUser.getUid())
-                .addValueEventListener(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(@NonNull DataSnapshot snapshot) {
-                        if(snapshot.exists()){
-                            Intent h = new Intent(MainActivity.this, Home.class);
-                            startActivity(h);
-                            finish();
-                        }
-                        else{
-                            if (currentUser != null) {
-                                Intent intent = new Intent(MainActivity.this , profile_initial.class);
-                                for (UserInfo profile : currentUser.getProviderData()) {
-                                    //String name = profile.getDisplayName();
-                                    String email = profile.getEmail();
-                                    intent.putExtra("email", email );
-                                    //Uri photoUrl = profile.getPhotoUrl();
-                                }
-                                startActivity(intent);
-                                finish();
-                            }
-                        }
-                    }
-                    @Override
-                    public void onCancelled(@NonNull DatabaseError error) {
-                        Toast.makeText(getApplicationContext(), "Error consultando los datos del usuario. Intente de nuevo mas tarde.", Toast.LENGTH_SHORT).show();
-                    }
-                });
-
-         */
     }
-
-    /*
-    private void datosIniciales() {
-
-        Intent h = new Intent(getApplicationContext(), Home.class);
-        startActivity(h);
-        finish();
-
-
-        FirebaseUser currentUser = mAuth.getCurrentUser();
-        myRef.child(currentUser.getUid())
-                .addValueEventListener(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(@NonNull DataSnapshot snapshot) {
-                        if(snapshot.exists()){
-
-                            Intent h = new Intent(getApplicationContext(), Home.class);
-                            startActivity(h);
-                            finish();
-
-                        }
-
-                    }
-                    @Override
-                    public void onCancelled(@NonNull DatabaseError error) {
-                        Toast.makeText(getApplicationContext(), "Error consultando los datos del usuario. Intente de nuevo mas tarde.", Toast.LENGTH_SHORT).show();
-                    }
-                });
-
-    }
-*/
 
     public boolean validarCamposVacios(){
         boolean campoLleno = true;

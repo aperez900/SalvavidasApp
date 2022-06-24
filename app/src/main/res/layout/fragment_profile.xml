@@ -11,10 +11,6 @@
         android:layout_height="200dp"
         android:orientation="vertical">
 
-        <Space
-            android:layout_width="match_parent"
-            android:layout_height="20dp" />
-
         <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="110dp">
@@ -23,18 +19,18 @@
                 android:id="@+id/foto_perfil"
                 android:layout_width="match_parent"
                 android:layout_height="100dp"
+                android:layout_marginTop="20dp"
                 android:layout_marginBottom="10dp"
+                app:tint="@color/newRed"
                 app:srcCompat="@drawable/perfil" />
         </FrameLayout>
-        <Space
-            android:layout_width="match_parent"
-            android:layout_height="10dp" />
 
         <TextView
             android:id="@+id/nombre_perfil"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:fontFamily="@font/poppins_light"
+            android:layout_marginTop="10dp"
             android:text="@string/nombrePerfil"
             android:textAlignment="center"
             android:textSize="24sp" />
@@ -65,9 +61,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
-                <Space
-                    android:layout_width="match_parent"
-                    android:layout_height="5dp" />
 
                 <EditText
                     android:id="@+id/tv_nombre"

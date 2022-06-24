@@ -439,12 +439,9 @@ public class addProduct extends AppCompatActivity {
             direccionProducto.setError("");
             Toast.makeText(this, "Debe agregar una dirección", Toast.LENGTH_SHORT).show();
             campoLleno = false;
-        }else if(direccion.equals("Dirección 1") || direccion.equals("Dirección 2")
-                || direccion.equals("Dirección 3" ) || direccion.equals("Dirección 4" )
-                || direccion.equals("Dirección 5" )){
-            direccionProducto.setError("");
-            Toast.makeText(this, "Debe agregar una dirección válida", Toast.LENGTH_SHORT).show();
-            campoLleno = false;
+        }else if(direccion.equals("")){
+            direccionProducto.setError("Debe registrar una dirección válida");
+            campoLleno=false;
         }
         return campoLleno;
     }
@@ -470,12 +467,12 @@ public class addProduct extends AppCompatActivity {
 
     private void crearModalDirecciones(EditText et_direccion_producto) {
         AlertDialog.Builder builder = new AlertDialog.Builder(addProduct.this );
-        builder.setTitle("Elige una dirección");
+        builder.setTitle("Elige una dirección de las previamente registradas");
         builder.setCancelable(false);
 
         String[] direcciones = new String[]
         {
-                "Dirección 1", "Dirección 2", "Dirección 3", "Dirección 4", "Dirección 5"
+                "", "", "", "", ""
         };
 
         //array booleano para marcar casillas por defecto

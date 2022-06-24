@@ -4,8 +4,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/side_nav_bar"
-    tools:context=".Login.MainActivity">
+    tools:context=".Login.MainActivity"
+    android:background="@color/newRed">
+
 
     <TextView
         android:id="@+id/bienvenido"
@@ -66,10 +67,6 @@
             android:textColor="@color/black"
             android:textColorHint="@color/red"
             android:textSize="18sp" />
-
-        <Space
-            android:layout_width="match_parent"
-            android:layout_height="5dp" />
 
         <EditText
             android:id="@+id/et_password"

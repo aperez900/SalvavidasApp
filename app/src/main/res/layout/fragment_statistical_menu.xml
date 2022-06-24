@@ -48,7 +48,8 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
                     android:src="@drawable/perfil"
-                    android:contentDescription="@string/descripcionImagen" />
+                    android:contentDescription="@string/descripcionImagen"
+                    app:tint="@color/newRed" />
 
                 <TextView
                     android:layout_width="match_parent"
@@ -90,7 +91,8 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
                     android:src="@drawable/shopping2"
-                    android:contentDescription="@string/descripcionImagen" />
+                    android:contentDescription="@string/descripcionImagen"
+                    app:tint="@color/newRed"/>
 
                 <TextView
                     android:layout_width="match_parent"

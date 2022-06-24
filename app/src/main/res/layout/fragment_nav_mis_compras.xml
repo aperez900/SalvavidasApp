@@ -50,7 +50,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
                     android:src="@drawable/shopping"
-                    app:tint="@color/red"
+                    app:tint="@color/newRed"
                     android:contentDescription="@string/descripcionImagen" />
 
                 <TextView
@@ -93,7 +93,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
                     android:src="@drawable/shoppingpay"
-                    app:tint="@color/red"
+                    app:tint="@color/newRed"
                     android:contentDescription="@string/descripcionImagen" />
 
                 <TextView
@@ -136,8 +136,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
                     android:src="@drawable/shoppingcancel"
-
-                    app:tint="@color/red"
+                    app:tint="@color/newRed"
                     android:contentDescription="@string/descripcionImagen" />
 
                 <TextView
@@ -180,7 +179,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
                     android:src="@drawable/shoppingremove"
-                    app:tint="@color/red"
+                    app:tint="@color/newRed"
                     android:contentDescription="@string/descripcionImagen" />
 
                 <TextView

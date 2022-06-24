@@ -56,7 +56,7 @@
             android:layout_height="35dp"
             android:layout_alignParentTop="true"
             android:layout_marginTop="175dp"
-            android:background="@color/red"
+            android:background="@color/newRed"
             android:fontFamily="@font/poppins_bold"
             android:padding="5dp"
             android:text="@string/nombreProducto2"
@@ -70,13 +70,14 @@
             android:layout_width="18dp"
             android:layout_height="18dp"
             android:layout_below="@id/tv_nombre_producto"
-            android:layout_marginTop="30dp"
             android:layout_marginStart="4dp"
+            android:layout_marginTop="30dp"
             android:contentDescription="@string/descripcionImagen"
             android:scaleType="fitCenter"
             android:src="@drawable/clockt"
             android:visibility="visible"
-            tools:visibility="visible" />
+            tools:visibility="visible"
+            app:tint="@color/newRed"/>
 
         <TextView
             android:id="@+id/tv_fecha_inicio_producto"
@@ -117,7 +118,8 @@
             android:padding="5dp"
             android:src="@drawable/shopping"
             android:textSize="14sp"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+            app:tint="@color/newRed"/>
 
         <TextView
             android:id="@+id/tv_nombre_empresa"
@@ -142,7 +144,8 @@
             android:scaleType="fitCenter"
             android:src="@drawable/corazon"
             android:textSize="14sp"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+            app:tint="@color/newRed"/>
 
         <TextView
             android:id="@+id/tv_signo_moneda3"
@@ -243,7 +246,8 @@
             android:padding="5dp"
             android:src="@drawable/icono_near_me"
             android:textSize="14sp"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+            app:tint="@color/newRed"/>
 
         <TextView
             android:id="@+id/tv_distancia"

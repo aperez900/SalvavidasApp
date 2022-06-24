@@ -171,16 +171,9 @@ public class seller2 extends AppCompatActivity {
             public void onClick(View view) {
                 if(validarCamposVacios( nombres, apellidos, identificacion, celular, nombreEstablecimiento, nit, sp_actividad_econimica,
                         urlFoto,direccionVendedor)) {
-                    registrar(nombres, apellidos, identificacion, celular, nombreEstablecimiento, nit, sp_actividad_econimica, estado,direccionVendedor);
-
+                    abrirVentanaConfirmacion(nombres, apellidos, identificacion, celular, nombreEstablecimiento, nit, sp_actividad_econimica, estado,direccionVendedor);
                     //Toast.makeText(seller2.this, "Perfil actualizado correctamente", Toast.LENGTH_SHORT).show();
-                    if(!esVendedor){
-                        enviar_email(correo,contrasena, nombres, celular);
-                        enviar_email_usuario(correo,contrasena, nombres, celular);
 
-
-
-                    }
                 }
             }
         });
@@ -270,7 +263,8 @@ public class seller2 extends AppCompatActivity {
         }
     }
 
-    private void abrirVentanaConfirmacion(){
+    private void abrirVentanaConfirmacion(TextView nombres, TextView apellidos, TextView identificacion, TextView celular, EditText nombreEstablecimiento, EditText nit, Spinner sp_actividad_econimica,
+                                          TextView estado, EditText direccionVendedor){
         FancyAlertDialog.Builder
                 .with(seller2.this)
                 .setTitle("Felicitaciones !")
@@ -286,11 +280,13 @@ public class seller2 extends AppCompatActivity {
                 .onPositiveClicked(new FancyAlertDialogListener() {
                     @Override
                     public void onClick(Dialog dialog) {
+
+                        registrar(nombres, apellidos, identificacion, celular, nombreEstablecimiento, nit, sp_actividad_econimica, estado,direccionVendedor);
                         Intent intent = new Intent(getApplicationContext(), Home.class);
                         startActivity(intent);
                         finish();
                     }})
-                .onNegativeClicked(dialog -> Toast.makeText(seller2.this, "Cancel", Toast.LENGTH_SHORT).show())
+                //.onNegativeClicked(dialog -> Toast.makeText(seller2.this, "Volviendo", Toast.LENGTH_SHORT).show())
                 .build()
                 .show();
     }
@@ -439,23 +435,6 @@ public class seller2 extends AppCompatActivity {
         v.setUrl_logo(urlFoto);
         v.setDireccion(direccionVendedor.getText().toString());
 
-        //guarda los datos del vendedor
-        /*
-        myRefVendedores.child(currentUser.getUid()).setValue(v)
-                .addOnSuccessListener(new OnSuccessListener<Void>() {
-                    @Override
-                    public void onSuccess(Void aVoid) {
-                        //Toast.makeText(getApplicationContext(), "Solicitud registrada correctamente", Toast.LENGTH_SHORT).show();
-                    }
-                })
-                .addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        //Toast.makeText(getApplicationContext(), "Error registrando la solicitud. Intenta de nuevo mas tarde", Toast.LENGTH_SHORT).show();
-                    }
-                });
-         */
-
         myRefVendedores.child(currentUser.getUid()).child("actividad_economica").setValue(v.getActividad_economica())
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
@@ -480,7 +459,31 @@ public class seller2 extends AppCompatActivity {
                     }
                 });
 
+        myRefPerfilUsuario.child(currentUser.getUid()).child("apellido").setValue(v.getApellido())
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                    }
+                });
+
         myRefVendedores.child(currentUser.getUid()).child("celular").setValue(v.getCelular())
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                    }
+                });
+
+        myRefPerfilUsuario.child(currentUser.getUid()).child("celular").setValue(v.getCelular())
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void aVoid) {
@@ -528,6 +531,18 @@ public class seller2 extends AppCompatActivity {
                     }
                 });
 
+        myRefPerfilUsuario.child(currentUser.getUid()).child("identificacion").setValue(v.getIdentificacion())
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                    }
+                });
+
         myRefVendedores.child(currentUser.getUid()).child("nit").setValue(v.getNit())
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
@@ -544,6 +559,20 @@ public class seller2 extends AppCompatActivity {
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void aVoid) {
+
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                    }
+                });
+
+        myRefPerfilUsuario.child(currentUser.getUid()).child("nombre").setValue(v.getNombre())
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {
@@ -575,8 +604,10 @@ public class seller2 extends AppCompatActivity {
                     public void onFailure(@NonNull Exception e) {
                     }
                 });
-        abrirVentanaConfirmacion();
-        //registrar_token();
+        if(!esVendedor){
+            enviar_email(correo,contrasena, nombres, celular);
+            enviar_email_usuario(correo,contrasena, nombres, celular);
+        }
     }
 
     public void enviar_email( String correo, String contrasena, TextView nombres, TextView celular){
@@ -627,12 +658,12 @@ public class seller2 extends AppCompatActivity {
                 //message.setContent("Hola mundo","txt/html; charset= utf-8");
                 Transport.send(message);
 
-                Toast.makeText(getApplicationContext(), "Solicitud enviada correctamente", Toast.LENGTH_LONG).show();
+                //Toast.makeText(getApplicationContext(), "Solicitud enviada correctamente", Toast.LENGTH_LONG).show();
             }
         }catch (Exception e){
             e.printStackTrace();
             //Toast.makeText(getApplicationContext(), "Error enviando la solicitud. " + e, Toast.LENGTH_LONG).show();
-            Log.d("EnvíoCorreoVendedor","Error enviando el correo " + e);
+            Log.e("EnvíoCorreoVendedor","Error enviando el correo " + e);
         }
     }
 
@@ -692,7 +723,7 @@ public class seller2 extends AppCompatActivity {
             }
         }catch (Exception e){
             e.printStackTrace();
-            Log.d("EnvíoCorreoUsuario","Error enviando el correo " + e);
+            Log.e("EnvíoCorreoUsuario","Error enviando el correo " + e);
             //Toast.makeText(getApplicationContext(), "Error enviando la solicitud. " + e, Toast.LENGTH_SHORT).show();
         }
     }
@@ -740,7 +771,7 @@ public class seller2 extends AppCompatActivity {
             direccionVendedor.setError("Debe diligenciar la direccion");
             campoLleno=false;
         }
-        if(direccion.equals(" ")){
+        if(direccion.equals("")){
             direccionVendedor.setError("Debe registrar una dirección válida");
             campoLleno=false;
         }
@@ -766,7 +797,7 @@ public class seller2 extends AppCompatActivity {
 
         String[] direcciones = new String[]
                 {
-                        " ", " ", " ", " ", " "
+                        "", "", "", "", ""
                 };
 
         //array booleano para marcar casillas por defecto
