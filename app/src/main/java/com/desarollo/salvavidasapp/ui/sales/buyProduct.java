@@ -1,5 +1,7 @@
 package com.desarollo.salvavidasapp.ui.sales;
 
+import static com.facebook.FacebookSdk.getApplicationContext;
+
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -22,6 +24,7 @@ import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
+import com.desarollo.salvavidasapp.Models.ListDirecciones;
 import com.desarollo.salvavidasapp.Models.Productos;
 import com.desarollo.salvavidasapp.R;
 import com.desarollo.salvavidasapp.ui.purchases.cancelledPurchases;
@@ -65,7 +68,9 @@ public class buyProduct extends AppCompatActivity {
     private TextView tvPrecioProducto, tvPrecioDomicilio, tvValorComision, tvTotal, tvNombreProducto,
                 tvCantidadProducto,  tvSubTotalProducto, tvSubTotalProducto1,
                 tvSignoMonedaSubTotal,tvCancelarPedido;
+    private TextView tvPrincipalAddress,tvNombreDireccion;
     private LinearLayout linearLayoutBP, linearLayoutBP1, linearLayoutBP2;
+    private ListDirecciones d;
 
 
     @Override
@@ -79,7 +84,8 @@ public class buyProduct extends AppCompatActivity {
         myRefVendedores = database.getReference("vendedores");
         myRefProductos = database.getReference("productos");
         myRef = database.getReference("usuarios");
-
+        tvPrincipalAddress = findViewById(R.id.Direccion);
+        tvNombreDireccion = findViewById(R.id.NombreDireccion);
         tvPrecioProducto = findViewById(R.id.tv_precio_producto);
         tvPrecioDomicilio = findViewById(R.id.tv_precio_domicilio);
         tvValorComision = findViewById(R.id.tv_valor_comision);
@@ -132,6 +138,7 @@ public class buyProduct extends AppCompatActivity {
             tvSignoMonedaSubTotal.setPaintFlags(tvSignoMonedaSubTotal.getPaintFlags());
         }
         consultarEstadoProductoEnTramite(idCompra, idProducto);
+        consultarDireccionUsuario();
 
         btn_pago.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -280,6 +287,23 @@ public class buyProduct extends AppCompatActivity {
     }
 
     private void registrarCompraAlComprador(String vt_, String idCompra, String idProducto){
+        myRef.child(currentUser.getUid()).child("mis_compras").child(idCompra).child(idProducto).child("direccion").setValue(tvPrincipalAddress.getText())
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+
+                        // Intent intent = new Intent(buyProduct.this , purchasesInProcess.class);
+                        // startActivity(intent);
+                        // finish();
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Toast.makeText(buyProduct.this, "Error agregando la compra en la base de datos. Intenta de nuevo mas tarde", Toast.LENGTH_SHORT).show();
+                    }
+                });
+
         myRef.child(currentUser.getUid()).child("mis_compras").child(idCompra).child(idProducto).child("estado").setValue("Procesando pago")
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
@@ -353,6 +377,30 @@ public class buyProduct extends AppCompatActivity {
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
                 Toast.makeText(buyProduct.this, "Error cargando los productos del carrito", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+
+    private void consultarDireccionUsuario(){
+        myRef.child(currentUser.getUid()).child("mis_direcciones").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if(snapshot.exists()){
+                    for(DataSnapshot objsnapshot : snapshot.getChildren()){
+                        d = new ListDirecciones();
+                        d = objsnapshot.getValue(ListDirecciones.class);
+                        if(d.getSeleccion().equals("true")){
+                            tvPrincipalAddress.setText(d.direccionUsuario);
+                            tvNombreDireccion.setText(d.nombreDireccion);
+                        }
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                Toast.makeText(getApplicationContext(), "Error consultando las direcciones. Intente de nuevo mas tarde.", Toast.LENGTH_SHORT).show();
             }
         });
     }

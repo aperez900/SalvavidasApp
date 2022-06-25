@@ -125,7 +125,7 @@
     <string name="subtituloCarrito">No hay productos en el carrito</string>
     <string name="totalCarrito">Total</string>
     <string name="subTotalCarrito">Sub Total</string>
-    <string name="cantidad">Cant.</string>
+    <string name="cantidad">Cantidad</string>
     <string name="cantidad2">Cantidad</string>
     <string name="comprar">Comprar</string>
     <string name="valor">Precio:</string>
@@ -181,6 +181,8 @@
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="dirAdicional">Datos adicionales</string>
+    <string name="direcion_compra">Direccion</string>
+    <string name="TuPedido">Tu Pedido</string>
 
 
 </resources>

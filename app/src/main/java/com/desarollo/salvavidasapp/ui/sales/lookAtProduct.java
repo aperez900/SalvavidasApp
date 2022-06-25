@@ -197,6 +197,7 @@ public class lookAtProduct extends AppCompatActivity {
                         cargando.setMessage("Un momento por favor...");
                         cargando.show();
                          */
+
                         FancyAlertDialog.Builder
                                 .with(lookAtProduct.this)
                                 .setTitle("Confirmación de compra")
@@ -208,7 +209,7 @@ public class lookAtProduct extends AppCompatActivity {
                                 .setNegativeBtnText("Volver")
                                 .setAnimation(Animation.POP)
                                 .isCancellable(true)
-                                .setIcon(R.drawable.icono_ok, View.VISIBLE)
+                                .setIcon(R.drawable.ok, View.VISIBLE)
                                 .onPositiveClicked(new FancyAlertDialogListener() {
                                     @Override
                                     public void onClick(Dialog dialog) {
@@ -355,7 +356,7 @@ public class lookAtProduct extends AppCompatActivity {
     public void enviar_email_vendedor(String nombreComprador, String emailVendedor, String nombreVendedor){
         primeraVez=false;
         //String correoEnvia = correo.getText().toString();
-        String correoEnvia = "ceo@salvavidas.app";
+        String correoEnvia = "ceo@surplusapp.co";
         //String contraseñaCorreoEnvia = contraseña.getText().toString();
         String contrasenaCorreoEnvia = "Great_Simplicity01945#";
 
