@@ -390,26 +390,25 @@
     <Button
         android:id="@+id/btn_pago"
 
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
         android:layout_alignParentBottom="true"
+        android:layout_gravity="center"
         android:layout_marginStart="30dp"
+        android:layout_marginTop="0dp"
         android:layout_marginEnd="30dp"
         android:layout_marginBottom="40dp"
         android:fontFamily="@font/poppins_light"
+
         android:text="@string/pagar"
         android:textAlignment="center"
-        android:textSize="18sp"
-        android:textStyle="bold"
-
-        android:layout_width="match_parent"
-        android:layout_height="60dp"
-        android:layout_gravity="center"
-        android:layout_marginTop="0dp"
-
-
         android:textColor="@color/white"
+        android:textSize="18sp"
+
+
+        android:textStyle="bold"
         app:cornerRadius="10dp"
-        app:iconPadding="5dp"
-        />
+        app:iconPadding="5dp" />
 
     <TextView
         android:id="@+id/tv_cancelar_Pedido"

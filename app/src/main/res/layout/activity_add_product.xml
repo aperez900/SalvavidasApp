@@ -4,37 +4,58 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/backgroundColor"
     tools:context=".ui.sales.addProduct">
 
 
-        <ScrollView
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="10dp"
+        android:fontFamily="@font/poppins_bold"
+        android:text="@string/agregarProducto"
+        android:textAlignment="center"
+        android:textSize="22sp"
+        android:textStyle="bold" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:layout_editor_absoluteX="0dp"
+        tools:layout_editor_absoluteY="157dp">
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/cardView"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            tools:layout_editor_absoluteX="0dp"
-            tools:layout_editor_absoluteY="157dp">
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tv_estado_producto"
+            android:layout_marginTop="50dp"
+            android:background="@color/white"
+            app:cardCornerRadius="15dp"
+            app:cardElevation="6dp"
+            app:cardUseCompatPadding="true"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.428"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
 
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="0dp"
-                    android:fontFamily="@font/poppins_bold"
-                    android:text="@string/agregarProducto"
-                    android:textAlignment="center"
-                    android:textSize="24sp"
-                    android:textStyle="bold" />
 
                 <EditText
                     android:id="@+id/et_nombre_producto"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="10dp"
+                    android:layout_height="50dp"
+                    android:layout_marginStart="15dp"
                     android:layout_marginTop="10dp"
-                    android:layout_marginEnd="10dp"
+                    android:layout_marginEnd="15dp"
+                    android:background="@color/backgroundColor"
                     android:fontFamily="@font/poppins_light"
                     android:hint="@string/nombreProducto"
                     android:importantForAutofill="no"
@@ -46,10 +67,11 @@
                 <EditText
                     android:id="@+id/et_descripcion_producto"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="10dp"
-                    android:layout_marginTop="10dp"
-                    android:layout_marginEnd="10dp"
+                    android:layout_height="50dp"
+                    android:layout_marginStart="15dp"
+                    android:layout_marginTop="15dp"
+                    android:layout_marginEnd="15dp"
+                    android:background="@color/backgroundColor"
                     android:fontFamily="@font/poppins_light"
                     android:hint="@string/descripcionProducto"
                     android:importantForAutofill="no"
@@ -60,90 +82,98 @@
                 <Spinner
                     android:id="@+id/sp_categoria_producto"
                     android:layout_width="match_parent"
-                    android:layout_height="40dp"
-                    android:layout_marginStart="10dp"
-                    android:layout_marginTop="10dp"
-                    android:layout_marginEnd="10dp"
-                    android:background="#FFFFFF"
+                    android:layout_height="50dp"
+                    android:layout_marginStart="15dp"
+                    android:layout_marginTop="15dp"
+                    android:layout_marginEnd="15dp"
+                    android:background="@color/backgroundColor"
+                    android:backgroundTint="@color/backgroundColor"
                     android:fontFamily="@font/poppins_light"
                     android:gravity="start"
-                    android:textSize="18sp"
                     android:hint="@string/categoriaProducto"
+                    android:textSize="18sp"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/et_descripcion_producto" />
 
                 <Spinner
                     android:id="@+id/sp_sub_categoria_producto"
                     android:layout_width="match_parent"
-                    android:layout_height="40dp"
-                    android:layout_marginStart="10dp"
-                    android:layout_marginEnd="10dp"
-                    android:layout_marginTop="10dp"
-                    android:background="#FFFFFF"
+                    android:layout_height="50dp"
+                    android:layout_marginStart="15dp"
+                    android:layout_marginTop="15dp"
+                    android:layout_marginEnd="15dp"
+                    android:background="@color/backgroundColor"
                     android:fontFamily="@font/poppins_light"
                     android:gravity="start"
-                    android:textSize="18sp"
                     android:hint="@string/categoriaProducto"
+                    android:textSize="18sp"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/sp_categoria_producto" />
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
-
-                <EditText
-                    android:id="@+id/et_cantidad"
-                    android:layout_width="105dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="10dp"
-                    android:layout_marginTop="10dp"
-                    android:fontFamily="@font/poppins_light"
-                    android:hint="@string/cantidad2"
-                    android:textSize="18sp"
-                    android:importantForAutofill="no"
-                    app:layout_constraintTop_toBottomOf="@id/sp_sub_categoria_producto"
-                    android:inputType="number" />
-
-                <EditText
-                    android:id="@+id/et_precio"
-                    android:layout_width="105dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
-                    android:fontFamily="@font/poppins_light"
-                    android:hint="@string/precioProducto"
-                    android:textSize="18sp"
-                    android:importantForAutofill="no"
-                    app:layout_constraintTop_toBottomOf="@id/sp_sub_categoria_producto"
-                    android:inputType="number" />
-
-                <EditText
-                    android:id="@+id/et_descuento"
-                    android:layout_width="105dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
-                    android:layout_marginEnd="10dp"
-                    android:fontFamily="@font/poppins_light"
-                    android:hint="@string/descuentoProducto"
-                    android:textSize="18sp"
-                    android:importantForAutofill="no"
-                    app:layout_constraintTop_toBottomOf="@id/et_precio"
-                    android:inputType="number" />
-
-            </LinearLayout>
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:layout_marginStart="10dp"
-                    android:layout_marginEnd="10dp">
+                    android:orientation="horizontal">
+
+                    <EditText
+                        android:id="@+id/et_cantidad"
+                        android:layout_width="120dp"
+                        android:layout_height="50dp"
+                        android:layout_marginStart="15dp"
+                        android:layout_marginTop="10dp"
+                        android:background="@color/backgroundColor"
+                        android:fontFamily="@font/poppins_light"
+                        android:hint="@string/cantidad2"
+                        android:importantForAutofill="no"
+                        android:inputType="number"
+                        android:textSize="18sp"
+                        app:layout_constraintTop_toBottomOf="@id/sp_sub_categoria_producto" />
+
+                    <EditText
+                        android:id="@+id/et_precio"
+                        android:layout_width="120dp"
+                        android:layout_height="50dp"
+                        android:layout_marginStart="10dp"
+                        android:layout_marginTop="10dp"
+                        android:background="@color/backgroundColor"
+                        android:fontFamily="@font/poppins_light"
+                        android:hint="@string/precioProducto"
+                        android:importantForAutofill="no"
+                        android:inputType="number"
+                        android:textSize="18sp"
+                        app:layout_constraintTop_toBottomOf="@id/sp_sub_categoria_producto" />
+
+                    <EditText
+                        android:id="@+id/et_descuento"
+                        android:layout_width="120dp"
+                        android:layout_height="50dp"
+                        android:layout_marginStart="10dp"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginEnd="15dp"
+                        android:background="@color/backgroundColor"
+                        android:fontFamily="@font/poppins_light"
+                        android:hint="@string/descuentoProducto"
+                        android:importantForAutofill="no"
+                        android:inputType="number"
+                        android:textSize="18sp"
+                        app:layout_constraintTop_toBottomOf="@id/et_precio" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="0dp"
+                    android:layout_marginEnd="0dp"
+                    android:orientation="horizontal">
 
                     <EditText
                         android:id="@+id/et_direccion"
-                        android:layout_width="250dp"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="10dp"
+                        android:layout_width="310dp"
+                        android:layout_height="50dp"
+                        android:layout_marginStart="15dp"
+                        android:layout_marginTop="15dp"
+                        android:background="@color/backgroundColor"
                         android:enabled="false"
                         android:fontFamily="@font/poppins_light"
                         android:hint="@string/direccionVenta"
@@ -154,60 +184,64 @@
 
                     <Button
                         android:id="@+id/bt_direccion"
-                        android:layout_width="50dp"
-                        android:layout_height="54dp"
-                        android:layout_marginTop="10dp"
+                        android:layout_width="60dp"
+                        android:layout_height="50dp"
+                        android:layout_marginTop="15dp"
                         android:fontFamily="@font/poppins_light"
-                        app:icon="@drawable/icono_near_me" />
+                        app:icon="@drawable/marcador25" />
 
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
-
-                <Spinner
-                    android:id="@+id/sp_domicilio"
-                    android:layout_width="200dp"
-                    android:layout_height="44dp"
-                    android:layout_gravity="center"
-                    android:layout_marginStart="10dp"
-                    android:layout_marginTop="10dp"
-                    android:background="#FFFFFF"
-                    android:fontFamily="@font/poppins_light"
-                    android:hint="@string/domicilioProducto"
-                    android:textSize="18sp"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/et_descuento" />
-
-                <EditText
-                    android:id="@+id/et_precio_domicilio"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
-                    android:layout_marginEnd="10dp"
-                    android:fontFamily="@font/poppins_light"
-                    android:hint="@string/precioDomicilio"
-                    android:importantForAutofill="no"
-                    android:inputType="number"
-                    android:textSize="18sp"
-                    app:layout_constraintTop_toBottomOf="@id/et_descuento"
-                    tools:visibility="invisible" />
-
-            </LinearLayout>
+                </LinearLayout>
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:layout_marginTop="10dp">
+                    android:orientation="horizontal">
+
+                    <Spinner
+                        android:id="@+id/sp_domicilio"
+                        android:layout_width="200dp"
+                        android:layout_height="50dp"
+                        android:layout_gravity="center"
+                        android:layout_marginStart="15dp"
+                        android:layout_marginTop="10dp"
+                        android:background="@color/backgroundColor"
+                        android:fontFamily="@font/poppins_light"
+                        android:gravity="center"
+                        android:hint="@string/domicilioProducto"
+                        android:textSize="18sp"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/et_descuento" />
+
+                    <EditText
+                        android:id="@+id/et_precio_domicilio"
+                        android:layout_width="match_parent"
+                        android:layout_height="50dp"
+                        android:layout_marginTop="17dp"
+                        android:layout_marginEnd="15dp"
+                        android:background="@color/backgroundColor"
+                        android:fontFamily="@font/poppins_light"
+                        android:hint="@string/precioDomicilio"
+                        android:importantForAutofill="no"
+                        android:inputType="number"
+                        android:textSize="18sp"
+                        app:layout_constraintTop_toBottomOf="@id/et_descuento"
+                        tools:visibility="invisible" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:orientation="horizontal">
 
                     <TextView
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="10dp"
-                        android:layout_marginEnd="10dp"
+                        android:layout_height="40dp"
+                        android:layout_marginStart="5dp"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginEnd="5dp"
+                        android:background="@color/pink"
                         android:fontFamily="@font/poppins_light"
                         android:gravity="center"
                         android:text="@string/disponibilidadProducto"
@@ -220,25 +254,26 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:layout_marginTop="10dp">
+                    android:layout_marginTop="10dp"
+                    android:orientation="horizontal">
 
                     <TextView
                         android:layout_width="65dp"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="10dp"
+                        android:layout_height="50dp"
+                        android:layout_marginStart="15dp"
                         android:fontFamily="@font/poppins_light"
+                        android:gravity="center"
                         android:text="@string/desdeProducto"
-                        android:textStyle="bold"
-                        android:textSize="18sp" />
+                        android:textSize="18sp"
+                        android:textStyle="bold" />
 
                     <TextView
                         android:id="@+id/btn_fecha_inicio"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        android:layout_height="50dp"
                         android:layout_marginStart="5dp"
                         android:fontFamily="@font/poppins_light"
-                        android:textAlignment="textEnd"
+                        android:gravity="center"
                         android:textSize="18sp"
                         app:drawableStartCompat="@android:drawable/ic_menu_my_calendar"
                         app:drawableTint="@color/black" />
@@ -246,55 +281,56 @@
                     <TextView
                         android:id="@+id/tv_fecha_inicio"
                         android:layout_width="130dp"
-                        android:layout_height="wrap_content"
+                        android:layout_height="50dp"
                         android:layout_marginEnd="10dp"
                         android:fontFamily="@font/poppins_light"
+                        android:gravity="center"
                         android:text="@string/estructuraFecha"
-                        android:textAlignment="textStart"
                         android:textSize="18sp" />
 
                     <TextView
                         android:id="@+id/btn_hora_inicio"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        android:layout_height="50dp"
                         android:fontFamily="@font/poppins_light"
+                        android:gravity="center"
                         android:textSize="18sp"
                         app:drawableStartCompat="@drawable/icono_reloj" />
 
                     <TextView
                         android:id="@+id/tv_hora_inicio"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        android:layout_height="50dp"
                         android:layout_marginStart="5dp"
                         android:layout_marginEnd="10dp"
                         android:fontFamily="@font/poppins_light"
+                        android:gravity="center"
                         android:text="@string/estructuraHora"
-                        android:textAlignment="textStart"
                         android:textSize="18sp" />
                 </LinearLayout>
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:layout_marginTop="10dp" >
+                    android:layout_marginTop="10dp"
+                    android:orientation="horizontal">
 
                     <TextView
                         android:layout_width="65dp"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="10dp"
+                        android:layout_height="50dp"
+                        android:layout_marginStart="15dp"
                         android:fontFamily="@font/poppins_light"
                         android:text="@string/hastaProducto"
-                        android:textStyle="bold"
-                        android:textSize="18sp" />
+                        android:textSize="18sp"
+                        android:textStyle="bold" />
 
                     <TextView
                         android:id="@+id/btn_fecha_fin"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        android:layout_height="50dp"
                         android:layout_marginStart="5dp"
                         android:fontFamily="@font/poppins_light"
-                        android:textAlignment="textEnd"
+                        android:gravity="center"
                         android:textSize="18sp"
                         app:drawableStartCompat="@android:drawable/ic_menu_my_calendar"
                         app:drawableTint="@color/black" />
@@ -302,46 +338,52 @@
                     <TextView
                         android:id="@+id/tv_fecha_fin"
                         android:layout_width="130dp"
-                        android:layout_height="wrap_content"
+                        android:layout_height="50dp"
                         android:layout_marginEnd="10dp"
                         android:fontFamily="@font/poppins_light"
                         android:text="@string/estructuraFecha"
-                        android:textAlignment="textStart"
                         android:textSize="18sp" />
 
                     <TextView
                         android:id="@+id/btn_hora_fin"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        android:layout_height="50dp"
                         android:fontFamily="@font/poppins_light"
+                        android:gravity="center"
                         android:textSize="18sp"
                         app:drawableStartCompat="@drawable/icono_reloj" />
 
                     <TextView
                         android:id="@+id/tv_hora_fin"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        android:layout_height="50dp"
                         android:layout_marginStart="5dp"
                         android:layout_marginEnd="10dp"
                         android:fontFamily="@font/poppins_light"
+                        android:gravity="center"
                         android:text="@string/estructuraHora"
-                        android:textAlignment="textStart"
                         android:textSize="18sp" />
                 </LinearLayout>
-
+                <Button
+                    android:id="@+id/btn_registrar_producto"
+                    android:layout_width="match_parent"
+                    android:layout_height="60dp"
+                    android:layout_alignParentBottom="true"
+                    android:layout_marginStart="30dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginEnd="30dp"
+                    android:layout_marginBottom="10dp"
+                    android:fontFamily="@font/poppins_semibold"
+                    android:text="@string/registrarProducto"
+                    app:cornerRadius="20dp" />
             </LinearLayout>
-        </ScrollView>
 
-    <Button
-        android:id="@+id/btn_registrar_producto"
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:layout_alignParentBottom="true"
-        android:layout_marginStart="30dp"
-        android:layout_marginTop="10dp"
-        android:layout_marginEnd="30dp"
-        android:layout_marginBottom="10dp"
-        android:fontFamily="@font/poppins_semibold"
-        android:text="@string/registrarProducto" />
+        </androidx.cardview.widget.CardView>
+
+
+    </ScrollView>
+
+
+
 
 </RelativeLayout>

@@ -18,13 +18,13 @@
         android:layout_centerHorizontal="true"
         android:background="#FAFFEAEA"
         android:drawablePadding="2dp"
+        android:drawableTint="@color/newRed"
         android:fontFamily="@font/poppins_light"
         android:gravity="center"
         android:paddingTop="10dp"
         android:paddingBottom="10dp"
         android:textSize="14sp"
-        app:drawableStartCompat="@drawable/marker_24"
-        android:drawableTint="@color/newRed"/>
+        app:drawableStartCompat="@drawable/marcador25" />
 
     <TextView
         android:id="@+id/tv_saludo_home"
