@@ -51,6 +51,20 @@
             android:textStyle="bold" />
 
         <TextView
+            android:id="@+id/tv_cant_disponibles"
+            android:layout_width="150dp"
+            android:layout_height="25dp"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentEnd="true"
+            android:background="@color/red"
+            android:fontFamily="@font/poppins_bold"
+            android:padding="5dp"
+            android:textAlignment="center"
+            android:textColor="@color/white"
+            android:textSize="12sp"
+            android:textStyle="bold" />
+
+        <TextView
             android:id="@+id/tv_nombre_producto"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

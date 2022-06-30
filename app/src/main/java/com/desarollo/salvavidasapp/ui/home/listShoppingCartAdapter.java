@@ -567,7 +567,7 @@ public class listShoppingCartAdapter extends RecyclerView.Adapter<listShoppingCa
             }
         }catch (Exception e){
             e.printStackTrace();
-            //Toast.makeText(getApplicationContext(), "Error enviando la solicitud. " + e, Toast.LENGTH_SHORT).show();
+            Toast.makeText(getApplicationContext(), "Error enviando la solicitud. " + e, Toast.LENGTH_SHORT).show();
         }
     }
 

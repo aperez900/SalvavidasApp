@@ -3,6 +3,7 @@ package com.desarollo.salvavidasapp.ui.home;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -104,10 +105,11 @@ public class HomeFragment extends Fragment {
             if(currentUser.getDisplayName() != null){
                 String nombreCompleto = currentUser.getDisplayName();
                 String  [] primerNombre = nombreCompleto.split(" ");
-                tv_saludo.setText("Hola "+ primerNombre[0] +" ¿Qué vas a pedir hoy?");
+                //tv_saludo.setText("Hola "+ primerNombre[0] +" ¿Qué vas a pedir hoy?");
+                tv_saludo.setText(Html.fromHtml("Hola <b>" + primerNombre[0] + "</b> ¿Qué vas a pedir hoy?"));
+            }else {
+                tv_saludo.setText("Hola ¿Qué vas a pedir hoy?");
             }
-            tv_saludo.setText("Hola ¿Qué vas a pedir hoy?");
-
         }
     }
 
@@ -151,6 +153,7 @@ public class HomeFragment extends Fragment {
                         for(DataSnapshot objsnapshot2 : objsnapshot.getChildren()){ //recorre los productos
                             Productos p = objsnapshot2.getValue(Productos.class);
                             String estado;
+                            int cantidadDisponible;
                             Date fechaInicio = null;
                             Date fechaFin = null;
                             Date getCurrentDateTime = null;
@@ -163,9 +166,10 @@ public class HomeFragment extends Fragment {
                                 e.printStackTrace();
                             }
                             estado = p.getEstadoProducto();
+                            cantidadDisponible = p.getCantidadDisponible();
                             assert getCurrentDateTime != null;
                             if (getCurrentDateTime.compareTo(fechaInicio) > 0 && getCurrentDateTime.compareTo(fechaFin) < 0
-                                    && !estado.equals("Cancelado por el vendedor")){
+                                    && !estado.equals("Cancelado por el vendedor") && cantidadDisponible > 0){
 
                                 listaDeDatos.add(new Productos(p.getIdProducto(), p.getNombreProducto(), p.getDescripcionProducto(),
                                         p.getCategoriaProducto(), p.getSubCategoriaProducto(), p.getPrecio(), p.getDescuento(), p.getDomicilio(), p.getEstadoProducto(),

@@ -40,15 +40,15 @@ import static com.facebook.FacebookSdk.getApplicationContext;
 
 public class ListSellAdapter extends RecyclerView.Adapter<ListSellAdapter.viewHolder> implements View.OnClickListener {
 
-    ArrayList<Productos> listaDeDatos;
-    LayoutInflater inflater;
+    private ArrayList<Productos> listaDeDatos;
+    private LayoutInflater inflater;
     private View.OnClickListener listener;
-    Activity  activity;
-    FirebaseAuth mAuth;
-    FirebaseUser currentUser;
-    FirebaseDatabase database;
-    DatabaseReference myRefUsuarios;
-    ListDirecciones d;
+    private Activity  activity;
+    private FirebaseAuth mAuth;
+    private FirebaseUser currentUser;
+    private FirebaseDatabase database;
+    private DatabaseReference myRefUsuarios;
+    private ListDirecciones d;
 
     public ListSellAdapter(Context context, ArrayList<Productos> listaDeDatos, Activity activity) {
         this.inflater = LayoutInflater.from(context);
@@ -105,6 +105,7 @@ public class ListSellAdapter extends RecyclerView.Adapter<ListSellAdapter.viewHo
         holder.fechaInicio.setText(fechaInicio);
         holder.fechaFin.setText(fechaFin);
         holder.nombre_empresa.setText(nombreEstablecimiento);
+        holder.cantDisponible.setText("Últimas " + String.valueOf(cantidadProductosDisponinles) + " unidades");
 
         Glide.with(activity)
                 .load(getUrlFoto)
@@ -222,10 +223,12 @@ public class ListSellAdapter extends RecyclerView.Adapter<ListSellAdapter.viewHo
     public class viewHolder extends RecyclerView.ViewHolder {
         TextView nombre_producto, precio, fechaInicio, fechaFin,
                 porcentajeDescuento, nombre_empresa, distancia;
+        TextView cantDisponible;
         ImageView imagenProducto,imgDisponibilidad;
 
         public viewHolder(@NonNull View itemView) {
             super(itemView);
+            cantDisponible = itemView.findViewById(R.id.tv_cant_disponibles);
             nombre_producto = itemView.findViewById(R.id.tv_nombre_producto);
             imagenProducto = itemView.findViewById(R.id.img_imagen_producto);
             precio = itemView.findViewById(R.id.tv_total_producto);
