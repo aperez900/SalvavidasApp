@@ -4,7 +4,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/backgroundColor"
     android:orientation="vertical"
     tools:context=".ui.home.HomeFragment">
 
@@ -16,7 +15,6 @@
         android:layout_alignParentTop="true"
         android:layout_alignParentEnd="true"
         android:layout_centerHorizontal="true"
-        android:background="#FAFFEAEA"
         android:drawablePadding="2dp"
         android:drawableTint="@color/newRed"
         android:fontFamily="@font/poppins_light"

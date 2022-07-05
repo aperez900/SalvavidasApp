@@ -9,6 +9,7 @@
         <item name="colorSecondary">#EF5350</item>
         <item name="colorSecondaryVariant">#FFFFFF</item>
         <item name="colorOnSecondary">@color/black</item>
+        <item name="android:textColor">@color/black</item>
         <item name="fontFamily">@font/poppins_light</item>
 
         <!-- Status bar color. -->

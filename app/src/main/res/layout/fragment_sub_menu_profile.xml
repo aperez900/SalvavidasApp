@@ -4,7 +4,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/backgroundColor"
     tools:context=".ui.profile.SubMenuProfile">
 
     <androidx.gridlayout.widget.GridLayout
@@ -19,7 +18,6 @@
         android:layout_marginTop="1dp"
         android:layout_marginEnd="1dp"
         android:layout_marginBottom="1dp"
-        android:background="@color/backgroundColor"
         android:padding="10dp"
         app:columnCount="2"
         app:rowCount="1">
@@ -32,7 +30,6 @@
             android:layout_marginLeft="1dp"
             android:layout_marginRight="1dp"
             android:layout_marginBottom="@dimen/layout_marginBottom_option"
-            android:background="@color/white"
             android:foreground="?selectableItemBackground"
             app:cardCornerRadius="8dp"
             app:cardElevation="6dp"
@@ -61,7 +58,6 @@
                     android:fontFamily="@font/poppins_semibold"
                     android:text="@string/perfilComprador"
                     android:textAlignment="center"
-                    android:textColor="@color/black"
                     android:textSize="@dimen/text_size_option"
                     android:textStyle="bold" />
             </LinearLayout>
@@ -75,7 +71,6 @@
             android:layout_marginLeft="1dp"
             android:layout_marginRight="1dp"
             android:layout_marginBottom="@dimen/layout_marginBottom_option"
-            android:background="@color/white"
             android:foreground="?selectableItemBackground"
             app:cardCornerRadius="8dp"
             app:cardElevation="6dp"
@@ -104,7 +99,6 @@
                     android:fontFamily="@font/poppins_semibold"
                     android:text="@string/perfilVendedor"
                     android:textAlignment="center"
-                    android:textColor="@color/black"
                     android:textSize="@dimen/text_size_option"
                     android:textStyle="bold" />
             </LinearLayout>
