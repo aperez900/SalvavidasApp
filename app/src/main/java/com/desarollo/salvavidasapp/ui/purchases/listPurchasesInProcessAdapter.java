@@ -114,6 +114,7 @@ public class listPurchasesInProcessAdapter extends RecyclerView.Adapter<listPurc
                 intent.putExtra("nroProductos", String.valueOf(cantidad));
                 intent.putExtra("idVendedor" , idVendedor);
                 intent.putExtra("origen" , "LookAtProduct");
+                intent.putExtra("cantidadProductosDisponibles" , "0");
                 intent.putExtra("idCompra",idCompra);
 
                 activity.startActivity(intent);

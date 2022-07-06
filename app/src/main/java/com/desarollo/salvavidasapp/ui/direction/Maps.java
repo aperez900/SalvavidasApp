@@ -126,6 +126,15 @@ public class Maps extends FragmentActivity implements GoogleMap.OnMarkerDragList
             }
         });
 
+        btnReg.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (validarCamposVacios(etAlias, etDireccion, etMunicipio, tvLat, tvLng)) {
+                    registrar(etAlias, etDireccion, etMunicipio, tvLat, tvLng);
+                }
+            }
+        });
+
     }// Fin OnCreate
 
     //Dirección autocompletada por Google
@@ -165,7 +174,8 @@ public class Maps extends FragmentActivity implements GoogleMap.OnMarkerDragList
         int permiso = ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION);
         if (permiso == PackageManager.PERMISSION_DENIED) {
             if (ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.ACCESS_FINE_LOCATION)) {
-
+                miUbicacion();
+                Log.d("permisosGeoLocalizacion", "miUbicacion: ");
             } else {
                 ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 1);
             }
@@ -175,7 +185,7 @@ public class Maps extends FragmentActivity implements GoogleMap.OnMarkerDragList
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
-        //miUbicacion();
+        miUbicacion();
 
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             // TODO: Consider calling
@@ -187,6 +197,7 @@ public class Maps extends FragmentActivity implements GoogleMap.OnMarkerDragList
             // for ActivityCompat#requestPermissions for more details.
             return;
         }
+        /*
         mMap.setMyLocationEnabled(true);
 
         mMap.getUiSettings().setMyLocationButtonEnabled(false);
@@ -198,6 +209,7 @@ public class Maps extends FragmentActivity implements GoogleMap.OnMarkerDragList
                 if(makerActual == null){
                     actualizarUbicacion(location);
                 }
+                Log.d("onLocationChanged1", "location: " + location);
             }
 
             @Override
@@ -216,17 +228,10 @@ public class Maps extends FragmentActivity implements GoogleMap.OnMarkerDragList
             }
         };
         locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0, locationListener);
+        */
 
-        btnReg.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (validarCamposVacios(etAlias, etDireccion, etMunicipio, tvLat, tvLng)) {
-                    registrar(etAlias, etDireccion, etMunicipio, tvLat, tvLng);
-                }
-            }
-        });
         //arrastrar el marcador
-        googleMap.setOnMarkerDragListener(this);
+        mMap.setOnMarkerDragListener(this);
     }// fin onMapReady
 
     @Override
@@ -239,7 +244,8 @@ public class Maps extends FragmentActivity implements GoogleMap.OnMarkerDragList
                 // If request is cancelled, the result arrays are empty.
                 if (grantResults.length > 0 &&
                         grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    //miUbicacion();
+                    miUbicacion();
+                    Log.d("onRequestPermisResul", "miUbicacion: ");
 
                 } else {
                     Toast.makeText(getApplicationContext(), "Permiso denegado", Toast.LENGTH_SHORT).show();
@@ -277,22 +283,23 @@ public class Maps extends FragmentActivity implements GoogleMap.OnMarkerDragList
                 if(makerActual == null){
                     actualizarUbicacion(location);
                 }
+                Log.d("onLocationChanged", "location: " + location);
             }
 
             @Override
             public void onStatusChanged(String provider, int status, Bundle extras) {
-                Log.e("StatusChanged", "provider: " + provider + ", status: "
+                Log.d("StatusChanged", "provider: " + provider + ", status: "
                 + status + ", extras" + extras);
             }
 
             @Override
             public void onProviderEnabled(String provider) {
-                Log.e("ProviderEnabled", "provider Enabled: " + provider);
+                Log.d("ProviderEnabled", "provider Enabled: " + provider);
             }
 
             @Override
             public void onProviderDisabled(String provider) {
-                Log.e("ProviderDisabled", "provider Disabled: " + provider);
+                Log.d("ProviderDisabled", "provider Disabled: " + provider);
             }
         };
         locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0, locationListener);

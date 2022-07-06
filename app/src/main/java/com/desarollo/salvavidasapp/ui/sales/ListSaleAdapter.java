@@ -106,6 +106,7 @@ public class ListSaleAdapter extends RecyclerView.Adapter<ListSaleAdapter.viewHo
                 intent.putExtra("domicilioProducto" , domicilioProducto);
                 intent.putExtra("descripcionProducto" , descripcionProducto);
                 intent.putExtra("cantidadProducto" , String.valueOf(cantidadProducto));
+                intent.putExtra("cantidadProductosDisponibles" , "0");
                 intent.putExtra("precioDomicilio" , String.valueOf(precioDomicilio));
                 intent.putExtra("precio" , String.valueOf(precio));
                 intent.putExtra("descuento" , String.valueOf(descuento));

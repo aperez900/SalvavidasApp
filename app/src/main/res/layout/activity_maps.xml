@@ -29,7 +29,6 @@
         android:layout_alignParentBottom="true"
         android:layout_alignParentStart="true"
         android:layout_alignParentEnd="true"
-        app:cardBackgroundColor="#F6F5F5"
         app:cardCornerRadius="20dp"
         app:cardUseCompatPadding="true"
         app:layout_constraintEnd_toEndOf="parent"
@@ -39,8 +38,7 @@
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@color/white">
+            android:layout_height="match_parent">
 
             <EditText
                 android:id="@+id/et_direccion"
@@ -48,8 +46,8 @@
                 android:layout_height="45dp"
                 android:layout_marginTop="10dp"
                 android:autofillHints=""
-                android:background="#FFFFFF"
                 android:ems="10"
+                android:background="@color/white"
                 android:fontFamily="@font/poppins_light"
                 android:hint="@string/direccion"
                 android:drawableLeft="@drawable/ic_baseline_location_on_24"
@@ -65,7 +63,7 @@
                 android:layout_height="45dp"
                 android:layout_marginTop="10dp"
                 android:autofillHints=""
-                android:background="#FFFFFF"
+                android:background="@color/white"
                 android:ems="10"
                 android:fontFamily="@font/poppins_light"
                 android:hint="@string/municipio"
@@ -82,8 +80,8 @@
                 android:layout_height="45dp"
                 android:layout_marginTop="10dp"
                 android:autofillHints=""
-                android:background="#FFFFFF"
                 android:ems="10"
+                android:background="@color/white"
                 android:fontFamily="@font/poppins_light"
                 android:hint="@string/alias"
                 android:drawableLeft="@drawable/ic_baseline_person_pin_circle_24"
@@ -99,8 +97,8 @@
                 android:layout_height="45dp"
                 android:layout_marginTop="10dp"
                 android:autofillHints=""
-                android:background="#FFFFFF"
                 android:ems="10"
+                android:background="@color/white"
                 android:fontFamily="@font/poppins_light"
                 android:hint="@string/datosAdicionales"
                 android:inputType="textEmailAddress"
@@ -143,7 +141,6 @@
                 android:layout_height="62dp"
                 android:fontFamily="@font/poppins_semibold"
                 android:text="@string/agregar"
-                android:textColor="#FFFFFFFF"
                 android:textSize="16sp"
                 app:cornerRadius="20dp"
                 app:icon="@drawable/heart"

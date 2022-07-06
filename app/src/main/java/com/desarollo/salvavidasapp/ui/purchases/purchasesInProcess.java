@@ -65,9 +65,6 @@ public class purchasesInProcess extends AppCompatActivity {
 
         crearListado();
 
-
-
-
     }
 
     public void crearListado() {

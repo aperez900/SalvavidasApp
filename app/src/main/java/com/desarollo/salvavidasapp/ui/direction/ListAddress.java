@@ -87,22 +87,18 @@ public class ListAddress extends Fragment {
         //cargar la lista
         cargarLista();
 
-
         btnUbicacionActual.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                 LocationManager lm = (LocationManager) getApplicationContext().getSystemService(Context.LOCATION_SERVICE);
                 boolean gpsActivo = lm.isProviderEnabled(LocationManager.GPS_PROVIDER);
-
-                //if (gpsActivo != false){
+                if (gpsActivo != false){
                         Intent h = new Intent(getContext(), Maps.class);
                         startActivity(h);
-                //}
-                /*else{
+                }
+                else{
                     Toast.makeText(getContext(),"activa el GPS para poder continuar...",Toast.LENGTH_SHORT).show();
                 }
-                 */
             }
         });
 
