@@ -42,8 +42,9 @@
 
         <item
             android:id="@+id/nav_settings"
+            android:fontFamily="@font/poppins_bold"
             android:icon="@drawable/settings"
             android:title="@string/configuraciones"
-            android:fontFamily="@font/poppins_bold" />
+            android:visible="false" />
     </group>
 </menu>

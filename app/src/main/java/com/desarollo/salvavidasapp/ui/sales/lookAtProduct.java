@@ -305,19 +305,24 @@ public class lookAtProduct extends AppCompatActivity {
        // producto.put("nombreProducto",nombreProducto);
 
         //guarda los datos del carrito de compras
-        myRefUsuarios.child(currentUser.getUid()).child("carrito_compras").child(idProducto).setValue(producto)
-                .addOnSuccessListener(new OnSuccessListener<Void>() {
-                    @Override
-                    public void onSuccess(Void aVoid) {
-                        Toast.makeText(lookAtProduct.this, "Producto agregado al carrito", Toast.LENGTH_SHORT).show();
-                    }
-                })
-                .addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        Toast.makeText(lookAtProduct.this, "Error agregando producto al carrito. Intenta de nuevo mas tarde", Toast.LENGTH_SHORT).show();
-                    }
-                });
+
+        if (currentUser.getUid().equals(idVendedor)) {
+            Toast.makeText(lookAtProduct.this, "No puedes comprar tus mismos productos", Toast.LENGTH_SHORT).show();
+        }else {
+            myRefUsuarios.child(currentUser.getUid()).child("carrito_compras").child(idProducto).setValue(producto)
+                    .addOnSuccessListener(new OnSuccessListener<Void>() {
+                        @Override
+                        public void onSuccess(Void aVoid) {
+                            Toast.makeText(lookAtProduct.this, "Producto agregado al carrito", Toast.LENGTH_SHORT).show();
+                        }
+                    })
+                    .addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            Toast.makeText(lookAtProduct.this, "Error agregando producto al carrito. Intenta de nuevo mas tarde", Toast.LENGTH_SHORT).show();
+                        }
+                    });
+        }
     }
 
     public void consultarDatosVendedor(String idVendedor,String idCompra) {

@@ -71,20 +71,27 @@
         <entry key="..\:/Users/ecardona/Documents/AndroidStudioProjects/SalvavidasApp/app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml" value="0.1135" />
         <entry key="..\:/Users/ecardona/Documents/AndroidStudioProjects/SalvavidasApp/app/src/main/res/mipmap-anydpi-v26/ic_launcher_round.xml" value="0.1135" />
         <entry key="..\:/Users/usuario/AndroidStudioProjects/SalvavidasApp/app/src/main/res/layout/activity_add_photo.xml" value="0.21614583333333334" />
+        <entry key="..\:/Users/usuario/AndroidStudioProjects/SalvavidasApp/app/src/main/res/layout/activity_buy_product.xml" value="0.25" />
         <entry key="..\:/Users/usuario/AndroidStudioProjects/SalvavidasApp/app/src/main/res/layout/activity_frm_address.xml" value="0.33" />
+        <entry key="..\:/Users/usuario/AndroidStudioProjects/SalvavidasApp/app/src/main/res/layout/activity_home.xml" value="0.21614583333333334" />
         <entry key="..\:/Users/usuario/AndroidStudioProjects/SalvavidasApp/app/src/main/res/layout/activity_look_at_address.xml" value="0.25" />
+        <entry key="..\:/Users/usuario/AndroidStudioProjects/SalvavidasApp/app/src/main/res/layout/activity_look_at_product.xml" value="0.21614583333333334" />
         <entry key="..\:/Users/usuario/AndroidStudioProjects/SalvavidasApp/app/src/main/res/layout/activity_maps.xml" value="0.21614583333333334" />
         <entry key="..\:/Users/usuario/AndroidStudioProjects/SalvavidasApp/app/src/main/res/layout/activity_products_maps.xml" value="0.21614583333333334" />
         <entry key="..\:/Users/usuario/AndroidStudioProjects/SalvavidasApp/app/src/main/res/layout/activity_profile_initial.xml" value="0.21614583333333334" />
         <entry key="..\:/Users/usuario/AndroidStudioProjects/SalvavidasApp/app/src/main/res/layout/fragment_address.xml" value="0.21614583333333334" />
-        <entry key="..\:/Users/usuario/AndroidStudioProjects/SalvavidasApp/app/src/main/res/layout/fragment_home.xml" value="0.159375" />
+        <entry key="..\:/Users/usuario/AndroidStudioProjects/SalvavidasApp/app/src/main/res/layout/fragment_favorites.xml" value="0.21614583333333334" />
+        <entry key="..\:/Users/usuario/AndroidStudioProjects/SalvavidasApp/app/src/main/res/layout/fragment_home.xml" value="0.2" />
         <entry key="..\:/Users/usuario/AndroidStudioProjects/SalvavidasApp/app/src/main/res/layout/item_de_lista.xml" value="0.4407766990291262" />
         <entry key="..\:/Users/usuario/AndroidStudioProjects/SalvavidasApp/app/src/main/res/layout/item_de_lista_crud.xml" value="0.33" />
+        <entry key="..\:/Users/usuario/AndroidStudioProjects/SalvavidasApp/app/src/main/res/layout/item_favoritos.xml" value="0.21614583333333334" />
+        <entry key="..\:/Users/usuario/AndroidStudioProjects/SalvavidasApp/app/src/main/res/menu/activity_main_drawer.xml" value="0.21614583333333334" />
+        <entry key="..\:/Users/usuario/AndroidStudioProjects/SalvavidasApp/app/src/main/res/menu/home.xml" value="0.21614583333333334" />
       </map>
     </option>
   </component>
   <component name="ExternalStorageConfigurationManager" enabled="true" />
-  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" project-jdk-name="1.8" project-jdk-type="JavaSDK">
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="1.8" project-jdk-type="JavaSDK">
     <output url="file://$PROJECT_DIR$/build/classes" />
   </component>
   <component name="ProjectType">

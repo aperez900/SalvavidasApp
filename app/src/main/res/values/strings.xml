@@ -183,6 +183,7 @@
     <string name="dirAdicional">Datos adicionales</string>
     <string name="direcion_compra">Direccion</string>
     <string name="TuPedido">Tu Pedido</string>
+    <string name="MisProductosFavoritos">Mis Productos Favoritos</string>
 
 
 </resources>

@@ -36,7 +36,7 @@
             android:layout_marginStart="10dp"
             android:layout_toEndOf="@id/img_imagen_fav_producto"
             android:fontFamily="@font/poppins"
-            android:text="Tipo de comida"
+            android:text="Tipo de producto"
             android:textAlignment="viewStart"
             android:textSize="18sp"
             android:textStyle="bold"></TextView>
