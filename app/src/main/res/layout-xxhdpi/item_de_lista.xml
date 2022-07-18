@@ -4,8 +4,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@color/white"
-    app:cardBackgroundColor="@color/white"
     app:cardCornerRadius="20dp"
     app:cardElevation="4dp"
     app:cardUseCompatPadding="true"
@@ -15,7 +13,8 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="296dp">
+        android:layout_height="296dp"
+        tools:context=".ui.home.Home">
 
         <ImageView
             android:id="@+id/img_imagen_producto"
@@ -248,6 +247,7 @@
             android:textSize="@dimen/text_size_sub_item_lista"
             android:textStyle="bold" />
 
+        <!--
         <ImageView
             android:id="@+id/img_distancia"
             android:layout_width="wrap_content"
@@ -275,6 +275,22 @@
             android:padding="5dp"
             android:textSize="@dimen/text_size_sub_item_lista"
             android:textStyle="bold" />
+        -->
+
+        <Button
+            android:id="@+id/btn_comprar_product"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/img_restaurant"
+            android:layout_marginStart="1dp"
+            android:layout_marginEnd="1dp"
+            android:layout_toEndOf="@id/tv_total_producto"
+            android:fontFamily="@font/poppins_bold"
+            android:text="@string/comprar"
+            android:textSize="10sp"
+            android:textStyle="bold"
+            app:cornerRadius="15dp"
+            tools:ignore="SmallSp" />
 
     </RelativeLayout>
 

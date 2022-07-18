@@ -9,6 +9,7 @@ import android.location.Location;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -112,6 +113,15 @@ public class ListSellAdapter extends RecyclerView.Adapter<ListSellAdapter.viewHo
                 .into(holder.imagenProducto);
 
         holder.imagenProducto.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                irADetalleDeProducto(nombreProducto, idProducto, tipoProducto, domicilioProducto, descripcionProducto,
+                        cantidadProducto, cantidadProductosDisponinles, precioProducto, descuentoProducto, precioDomicilio, fechaInicio, horaInicio,
+                        fechaFin, horaFin, getUrlFoto, idVendedor);
+            }
+        });
+
+        holder.btnComprar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 irADetalleDeProducto(nombreProducto, idProducto, tipoProducto, domicilioProducto, descripcionProducto,
@@ -225,6 +235,7 @@ public class ListSellAdapter extends RecyclerView.Adapter<ListSellAdapter.viewHo
                 porcentajeDescuento, nombre_empresa, distancia;
         TextView cantDisponible;
         ImageView imagenProducto,imgDisponibilidad;
+        Button btnComprar;
 
         public viewHolder(@NonNull View itemView) {
             super(itemView);
@@ -236,8 +247,9 @@ public class ListSellAdapter extends RecyclerView.Adapter<ListSellAdapter.viewHo
             fechaFin = itemView.findViewById(R.id.tv_fecha_fin_producto);
             porcentajeDescuento = itemView.findViewById(R.id.tv_porc_descuento);
             nombre_empresa = itemView.findViewById(R.id.tv_nombre_empresa);
-            distancia = itemView.findViewById(R.id.tv_distancia);
+            //distancia = itemView.findViewById(R.id.tv_distancia);
             imgDisponibilidad = itemView.findViewById(R.id.img_disponibilidad);
+            btnComprar = itemView.findViewById(R.id.btn_comprar_product);
         }
     }
 }
