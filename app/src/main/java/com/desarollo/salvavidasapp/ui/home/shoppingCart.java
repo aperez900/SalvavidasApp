@@ -18,6 +18,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.StrictMode;
 import android.util.Log;
+import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -96,6 +97,15 @@ public class shoppingCart extends AppCompatActivity {
         listado.setAdapter(ListShoppingCartAdapter);
 
         crearListado();
+
+        tituloCarrito.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(shoppingCart.this , Home.class);
+                startActivity(intent);
+                finish();
+            }
+        });
 
         /*
         if (currentUser != null) {

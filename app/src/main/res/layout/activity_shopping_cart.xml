@@ -17,7 +17,9 @@
         android:text="@string/tituloCarrito"
         android:textAlignment="center"
         android:textSize="22sp"
-        android:textStyle="bold" />
+        android:textStyle="bold"
+        app:drawableStartCompat="?attr/homeAsUpIndicator"
+        app:drawableTint="@color/black" />
 
     <TextView
         android:id="@+id/tv_subtitulo_carrito"
