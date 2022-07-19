@@ -12,6 +12,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.widget.SearchView;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -54,6 +55,7 @@ public class HomeFragment extends Fragment {
     private ListDirecciones d;
     private TextView tvPrincipalAddress;
     private Button btnShopping;
+    private SearchView searchView;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -75,6 +77,7 @@ public class HomeFragment extends Fragment {
         listadoTipoProducto.setLayoutManager(new LinearLayoutManager(getContext(),LinearLayoutManager.HORIZONTAL,false));
         listTypeFood = new ListTypeFood(getContext(),listaDeDatosTipo,getActivity());
         listadoTipoProducto.setAdapter(listTypeFood);
+        searchView = view.findViewById(R.id.btn_busqueda);
 
         LinearLayoutManager manager = new LinearLayoutManager(getContext());
         listadoProducto.setLayoutManager(manager);
@@ -178,6 +181,7 @@ public class HomeFragment extends Fragment {
                             }
                         }
                     }
+                    //listSellAdapter.notifyDataSetChanged();
                     listSellAdapter = new ListSellAdapter(getApplicationContext(),listaDeDatos, getActivity());
                     listadoProducto.setAdapter(listSellAdapter);
                     cargando.dismiss();
@@ -190,6 +194,30 @@ public class HomeFragment extends Fragment {
                 Toast.makeText(getApplicationContext(), "Error cargando los productos", Toast.LENGTH_SHORT).show();
             }
         });
+
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                buscar(newText);
+                return true;
+            }
+        });
+    }
+
+    private void buscar(String textoABuscar){
+        ArrayList<Productos> miLista = new ArrayList<>();
+        for(Productos obj: listaDeDatos){
+            if(obj.getNombreProducto().toLowerCase().contains(textoABuscar.toLowerCase())) {
+                miLista.add(obj);
+            }
+        }
+        ListSellAdapter adapterProductos = new ListSellAdapter(getApplicationContext(),miLista, getActivity());
+        listadoProducto.setAdapter(adapterProductos);
     }
 
     private void consultarDireccionUsuario(){

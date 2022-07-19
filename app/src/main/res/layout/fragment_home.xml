@@ -16,13 +16,13 @@
         android:layout_alignParentEnd="true"
         android:layout_centerHorizontal="true"
         android:drawablePadding="2dp"
-        android:drawableTint="@color/newRed"
         android:fontFamily="@font/poppins_light"
         android:gravity="center"
         android:paddingTop="10dp"
         android:paddingBottom="10dp"
         android:textSize="14sp"
-        app:drawableStartCompat="@drawable/marcador25" />
+        app:drawableStartCompat="@drawable/marcador25"
+        app:drawableTint="@color/newRed" />
 
     <TextView
         android:id="@+id/tv_saludo_home"
@@ -44,17 +44,24 @@
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/tipo_comidas"
         android:layout_width="match_parent"
-        android:layout_height="120dp"
+        android:layout_height="wrap_content"
         android:layout_below="@+id/tv_saludo_home"
         android:layout_alignParentStart="true"
         android:layout_alignParentEnd="true"
         android:layout_marginTop="5dp" />
 
+    <androidx.appcompat.widget.SearchView
+        android:id="@+id/btn_busqueda"
+        android:layout_margin="5dp"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:layout_below="@+id/tipo_comidas"/>
+    
     <TextView
         android:id="@+id/tv_recomendaciones"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/tipo_comidas"
+        android:layout_below="@+id/btn_busqueda"
         android:layout_alignParentStart="true"
         android:layout_alignParentEnd="true"
         android:layout_marginStart="10dp"
@@ -79,6 +86,7 @@
         android:layout_height="50dp"
         android:layout_alignParentBottom="true"
         android:layout_gravity="bottom"
+        android:layout_marginBottom="1dp"
         android:fontFamily="@font/poppins_semibold"
         android:text="@string/verCarrito"
         android:textColor="@color/white"
