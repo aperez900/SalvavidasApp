@@ -37,7 +37,6 @@ public class anulledSales extends AppCompatActivity {
     DatabaseReference myRef;
     TextView tituloAnulados, subtituloAnulados;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

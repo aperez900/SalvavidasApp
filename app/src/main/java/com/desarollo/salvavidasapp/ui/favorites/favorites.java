@@ -58,7 +58,7 @@ public class favorites extends Fragment {
                              ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_favorites, container, false);
 
-        recyclerViewFavorites = (RecyclerView) view.findViewById(R.id.recycle_favoritos);
+        recyclerViewFavorites = view.findViewById(R.id.recycle_favoritos);
         LinearLayoutManager manager = new LinearLayoutManager(getApplicationContext());
         recyclerViewFavorites.setLayoutManager(manager);
 //        recyclerViewFavorites.setHasFixedSize(true);
@@ -85,8 +85,6 @@ public class favorites extends Fragment {
 
         return view;
     }
-
-
 
     public void cargarLista() {
         myRefTipoC.addValueEventListener(new ValueEventListener() {

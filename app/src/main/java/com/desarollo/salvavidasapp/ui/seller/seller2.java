@@ -182,20 +182,6 @@ public class seller2 extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                /*
-                LocationManager lm = (LocationManager) getApplicationContext().getSystemService(Context.LOCATION_SERVICE);
-                boolean gpsActivo = lm.isProviderEnabled(LocationManager.GPS_PROVIDER);
-
-                if (gpsActivo != false){
-                    Intent h = new Intent(seller2.this, Maps.class);
-                    h.putExtra("tipo", "vendedores");
-                    startActivity(h);
-
-                }
-                else{
-                    Toast.makeText(seller2.this,"activa el GPS para poder continuar...",Toast.LENGTH_SHORT).show();
-                }*/
-
                 crearModalDirecciones(direccionVendedor);
             }
         });
@@ -268,11 +254,11 @@ public class seller2 extends AppCompatActivity {
         FancyAlertDialog.Builder
                 .with(seller2.this)
                 .setTitle("Felicitaciones !")
-                .setBackgroundColor(Color.parseColor("#EC7063"))  // for @ColorRes use setBackgroundColorRes(R.color.colorvalue)
+                .setBackgroundColorRes(R.color.newRed)  // for @ColorRes use setBackgroundColorRes(R.color.colorvalue)
                 .setMessage("Se realizo el proceso de forma exitosa !")
-                .setPositiveBtnBackground(Color.parseColor("#EC7063"))  // for @ColorRes use setPositiveBtnBackgroundRes(R.color.colorvalue)
+                .setPositiveBtnBackgroundRes(R.color.newRed)  // for @ColorRes use setPositiveBtnBackgroundRes(R.color.colorvalue)
                 .setPositiveBtnText("Ok")
-                .setNegativeBtnBackground(Color.parseColor("#EC7063"))  // for @ColorRes use setNegativeBtnBackgroundRes(R.color.colorvalue)
+                .setNegativeBtnBackgroundRes(R.color.newRed)  // for @ColorRes use setNegativeBtnBackgroundRes(R.color.colorvalue)
                 .setNegativeBtnText("Volver")
                 .setAnimation(Animation.POP)
                 .isCancellable(true)

@@ -174,22 +174,6 @@ public class Home extends AppCompatActivity {
                 }
             }
         });
-
-        /*
-        myRefUsuarios.child(currentUser.getUid()).child("tokenId").addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                if(snapshot.exists()){
-                    registrarToken();
-                }
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
-        });
-         */
     }
 
     private void registrarToken(String tokenActual){
@@ -316,26 +300,6 @@ public class Home extends AppCompatActivity {
                 finish();
             }
         }
-
-        /*
-        if (FirebaseAuth.getInstance().getCurrentUser() != null) {
-            FirebaseAuth.getInstance().signOut();
-            Toast.makeText(Home.this, "Cerrando sesión.",
-                    Toast.LENGTH_SHORT).show();
-            Intent a = new Intent(this, MainActivity.class);
-            startActivity(a);
-        }
-
-        if (LoginManager.getInstance() != null) {
-            LoginManager.getInstance().logOut();
-            Intent a = new Intent(this, MainActivity.class);
-            startActivity(a);
-        }
-        GoogleSignInAccount account = GoogleSignIn.getLastSignedInAccount(Home.this);
-        if (account != null) {
-            logOut();
-        }
-        */
     }
 
    private void logOut() {

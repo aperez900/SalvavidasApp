@@ -21,7 +21,6 @@ public class Splash extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
 
-
         TimerTask inicio = new TimerTask() {
             @Override
             public void run() {
@@ -44,12 +43,7 @@ public class Splash extends AppCompatActivity {
 
         };
 
-
-
-
-
         Timer tiempo = new Timer();
-
 
         ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();

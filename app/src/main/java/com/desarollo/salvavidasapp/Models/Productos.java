@@ -1,11 +1,5 @@
 package com.desarollo.salvavidasapp.Models;
 
-
-import android.net.Uri;
-import android.text.format.Time;
-
-import java.util.Date;
-
 public class Productos {
 
     private String idProducto;

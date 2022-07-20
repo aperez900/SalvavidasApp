@@ -109,8 +109,6 @@ public class productsBySubType extends AppCompatActivity {
                                             p.getIdVendedor()));
                                     //Toast.makeText(getApplicationContext(), p.getfoto(), Toast.LENGTH_SHORT).show();
 
-
-
                                 }
                             }
                         }

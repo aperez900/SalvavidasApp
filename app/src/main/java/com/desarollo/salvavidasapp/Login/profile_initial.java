@@ -41,7 +41,6 @@ public class profile_initial extends AppCompatActivity {
         database = FirebaseDatabase.getInstance();
         myRef = database.getReference("usuarios");
 
-
         EditText nombres = findViewById(R.id.tv_nombre);
         EditText apellidos = findViewById(R.id.tv_apellido);
         EditText identificacion = findViewById(R.id.tv_identidad);
@@ -56,7 +55,6 @@ public class profile_initial extends AppCompatActivity {
             email = extras.getString("email");
         }
 
-
         //Acciones del botón registrar
         String finalEmail = email;
         btnReg.setOnClickListener(new View.OnClickListener() {
@@ -67,13 +65,9 @@ public class profile_initial extends AppCompatActivity {
                 }
             }
         });
-
-
-
     }
 
-
-    public boolean validarCamposVacios( EditText nombres, EditText apellidos, EditText identificacion, EditText celular){
+    private boolean validarCamposVacios( EditText nombres, EditText apellidos, EditText identificacion, EditText celular){
         boolean campoLleno = true;
 
         String nombreV = nombres.getText().toString();

@@ -1,12 +1,9 @@
 package com.desarollo.salvavidasapp.ui.sales;
 
-import static com.facebook.FacebookSdk.getApplicationContext;
-
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.ActionBar;
-import android.app.Dialog;
 import android.content.Intent;
 import android.graphics.Color;
 import android.net.Uri;
@@ -28,7 +25,6 @@ import com.desarollo.salvavidasapp.Models.ListDirecciones;
 import com.desarollo.salvavidasapp.Models.Productos;
 import com.desarollo.salvavidasapp.R;
 import com.desarollo.salvavidasapp.ui.purchases.cancelledPurchases;
-import com.desarollo.salvavidasapp.ui.purchases.purchasesInProcess;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
@@ -38,9 +34,6 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-import com.shashank.sony.fancydialoglib.Animation;
-import com.shashank.sony.fancydialoglib.FancyAlertDialog;
-import com.shashank.sony.fancydialoglib.FancyAlertDialogListener;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -160,9 +153,7 @@ public class buyProduct extends AppCompatActivity {
         tvCancelarPedido.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
                 cancelarCompraAlComprador();
-
             }
         });
     }

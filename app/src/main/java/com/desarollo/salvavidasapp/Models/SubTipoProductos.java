@@ -6,7 +6,6 @@ public class SubTipoProductos {
     public String foto;
     public String tipo;
 
-
     public SubTipoProductos(){ }
 
     public SubTipoProductos(String descripcion, String foto, String tipo) {
@@ -34,7 +33,6 @@ public class SubTipoProductos {
     public String getTipo() {return tipo; }
 
     public void setTipo(String tipo) {this.tipo = tipo;}
-
 
 }
 

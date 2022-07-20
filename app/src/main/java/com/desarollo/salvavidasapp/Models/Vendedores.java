@@ -1,7 +1,5 @@
 package com.desarollo.salvavidasapp.Models;
 
-import android.widget.Spinner;
-
 public class Vendedores {
 
     private String nombre;

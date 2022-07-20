@@ -5,6 +5,7 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.StrictMode;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,7 +17,6 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
-import com.desarollo.salvavidasapp.Models.Productos;
 import com.desarollo.salvavidasapp.Models.ProductosEnTramite;
 import com.desarollo.salvavidasapp.R;
 import com.desarollo.salvavidasapp.ui.sales.lookAtProduct;
@@ -184,7 +184,7 @@ public class listRequestedProductsAdapter extends RecyclerView.Adapter<listReque
     public void enviar_email_aceptacion_comprador(String nombreComprador, String emailComprador, String nombreProducto, int numeroProductos){
 
         //String correoEnvia = correo.getText().toString();
-        String correoEnvia = "ceo@salvavidas.app";
+        String correoEnvia = "ceo@surplusapp.co";
         //String contraseñaCorreoEnvia = contraseña.getText().toString();
         String contrasenaCorreoEnvia = "Great_Simplicity01945#";
 
@@ -223,7 +223,7 @@ public class listRequestedProductsAdapter extends RecyclerView.Adapter<listReque
             if(session!=null){
                 MimeMessage message = new MimeMessage(session);
                 message.setFrom(new InternetAddress(correoEnvia));
-                message.setSubject("Aceptación de compra - Salvavidas App");
+                message.setSubject("Aceptación de compra - SurplApp");
                 message.setText(cuerpoCorreo, "ISO-8859-1","html");
                 message.setRecipients(MimeMessage.RecipientType.TO,InternetAddress.parse(to_));
                 //message.setContent("Hola mundo","txt/html; charset= utf-8");
@@ -234,6 +234,7 @@ public class listRequestedProductsAdapter extends RecyclerView.Adapter<listReque
             }
         }catch (Exception e){
             e.printStackTrace();
+            Log.e("EmailAceptComprador","Error" + e);
             //Toast.makeText(getApplicationContext(), "Error enviando la solicitud. " + e, Toast.LENGTH_SHORT).show();
         }
     }
@@ -287,7 +288,7 @@ public class listRequestedProductsAdapter extends RecyclerView.Adapter<listReque
 
     public void enviar_email_rechazo_comprador(String nombreComprador, String emailComprador, String nombreProducto, int numeroProductos){
         //String correoEnvia = correo.getText().toString();
-        String correoEnvia = "ceo@salvavidas.app";
+        String correoEnvia = "ceo@surplusapp.co";
         //String contraseñaCorreoEnvia = contraseña.getText().toString();
         String contrasenaCorreoEnvia = "Great_Simplicity01945#";
 
@@ -326,7 +327,7 @@ public class listRequestedProductsAdapter extends RecyclerView.Adapter<listReque
             if(session!=null){
                 MimeMessage message = new MimeMessage(session);
                 message.setFrom(new InternetAddress(correoEnvia));
-                message.setSubject("Rechazo de compra - Salvavidas App");
+                message.setSubject("Rechazo de compra - SurplApp");
                 message.setText(cuerpoCorreo, "ISO-8859-1","html");
                 message.setRecipients(MimeMessage.RecipientType.TO,InternetAddress.parse(to_));
                 //message.setContent("Hola mundo","txt/html; charset= utf-8");
@@ -337,6 +338,7 @@ public class listRequestedProductsAdapter extends RecyclerView.Adapter<listReque
             }
         }catch (Exception e){
             e.printStackTrace();
+            Log.e("emailRechazoCompr","Error " + e);
             //Toast.makeText(getApplicationContext(), "Error enviando la solicitud. " + e, Toast.LENGTH_SHORT).show();
         }
     }

@@ -10,8 +10,6 @@ import android.os.Bundle;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.desarollo.salvavidasapp.Login.MainActivity;
-import com.desarollo.salvavidasapp.Login.Splash;
 import com.desarollo.salvavidasapp.Models.ProductosEnTramite;
 import com.desarollo.salvavidasapp.R;
 import com.desarollo.salvavidasapp.ui.home.Home;

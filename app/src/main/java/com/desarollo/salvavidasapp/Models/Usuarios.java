@@ -1,8 +1,5 @@
 package com.desarollo.salvavidasapp.Models;
 
-import java.util.HashMap;
-import java.util.Map;
-
 public class Usuarios  {
 
     public String nombre;

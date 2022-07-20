@@ -108,7 +108,6 @@ public class HomeFragment extends Fragment {
             if(currentUser.getDisplayName() != null){
                 String nombreCompleto = currentUser.getDisplayName();
                 String  [] primerNombre = nombreCompleto.split(" ");
-                //tv_saludo.setText("Hola "+ primerNombre[0] +" ¿Qué vas a pedir hoy?");
                 tv_saludo.setText(Html.fromHtml("Hola <b>" + primerNombre[0] + "</b> ¿Qué vas a pedir hoy?"));
             }else {
                 tv_saludo.setText("Hola ¿Qué vas a pedir hoy?");
@@ -253,23 +252,5 @@ public class HomeFragment extends Fragment {
                 }
             }
         });
-
-        /*
-        myRefUsuarios.child(currentUser.getUid()).child("carrito_compras").addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                if(snapshot.exists()){
-                    btnShopping.setVisibility(View.VISIBLE);
-                }else{
-                    btnShopping.setVisibility(View.INVISIBLE);
-                }
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-            }
-        });
-
-         */
     }
 }

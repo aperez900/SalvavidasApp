@@ -115,9 +115,6 @@ public class ListAddress extends Fragment {
         return view;
     }
 
-
-
-
     public void cargarLista(){
         myRef.child(currentUser.getUid()).child("mis_direcciones").addValueEventListener(new ValueEventListener() {
             @Override
@@ -166,12 +163,10 @@ public class ListAddress extends Fragment {
         startActivity(h);
     }
 
-
     String check = "";
     Map<String,String> selectedItems = new HashMap<>();
 
     public void direccionPrincipal(String nombre_seleccion){
-
 
         myRef.child(currentUser.getUid()).child("mis_direcciones").addValueEventListener(new ValueEventListener() {
             @Override
@@ -193,7 +188,6 @@ public class ListAddress extends Fragment {
                         }
 
                     }
-
 
                 }
             }

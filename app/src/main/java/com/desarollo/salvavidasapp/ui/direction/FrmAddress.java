@@ -25,9 +25,7 @@ import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-/*
-    Formulario para registrar y actualizar las direcciones
- */
+
 public class FrmAddress extends AppCompatActivity {
 
     FirebaseAuth mAuth;
@@ -41,7 +39,7 @@ public class FrmAddress extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_frm_address);
 
-        Button btn_reg = (Button)findViewById(R.id.btn_reg);
+        Button btn_reg = findViewById(R.id.btn_reg);
 
         mAuth = FirebaseAuth.getInstance();
         currentUser = mAuth.getCurrentUser();

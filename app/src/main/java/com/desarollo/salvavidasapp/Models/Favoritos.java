@@ -38,7 +38,6 @@ public class Favoritos {
         this.foto = foto;
     }
 
-
 }
 
 

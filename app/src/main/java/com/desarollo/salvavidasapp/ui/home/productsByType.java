@@ -59,12 +59,10 @@ productsByType extends AppCompatActivity {
         myRefTypeFood = database.getReference("tipo_comidas");
         tituloSubTipo = findViewById(R.id.tv_titulo_subtipo);
 
-
         listadoSubtipoProductos = findViewById(R.id.sub_tipo_comidas);
         listadoSubtipoProductos.setLayoutManager(new LinearLayoutManager(getApplicationContext(),LinearLayoutManager.HORIZONTAL,false));
         listSubTypeFood = new ListSubTypeFood(getApplicationContext(),listaDeDatosSubTipo, productsByType.this);
         listadoSubtipoProductos.setAdapter(listSubTypeFood);
-
 
         listado = findViewById(R.id.listado);
         LinearLayoutManager manager = new LinearLayoutManager(getApplicationContext());
@@ -98,14 +96,11 @@ productsByType extends AppCompatActivity {
                         SubTipoProductos st = objsnapshot.getValue(SubTipoProductos.class);
 
                         listaDeDatosSubTipo.add(new SubTipoProductos(st.getSubTipoComida(),st.getFoto(), tipoProducto));
-                        // Toast.makeText(getApplicationContext(), st.getSubTipoComida(), Toast.LENGTH_SHORT).show();
+
                     }
 
                     listSubTypeFood = new ListSubTypeFood(getApplicationContext(),listaDeDatosSubTipo, productsByType.this);
                     listadoSubtipoProductos.setAdapter(listSubTypeFood);
-                }else{
-
-
                 }
             }
 
@@ -120,7 +115,6 @@ productsByType extends AppCompatActivity {
     private void crearListado() {
         Calendar c = Calendar.getInstance();
         SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm");
-
 
         myRef.addValueEventListener(new ValueEventListener() {
             @Override
@@ -155,8 +149,6 @@ productsByType extends AppCompatActivity {
                                             p.getCategoriaProducto(), p.getSubCategoriaProducto(), p.getPrecio(), p.getDescuento(), p.getDomicilio(), p.getEstadoProducto(),
                                             p.getfoto(), p.getFechaInicio(), p.getHoraInicio(), p.getFechaFin(), p.getHoraFin(),p.getNombreEmpresa(),p.getDireccion(), 1, p.getCantidadDisponible(),p.getPrecioDomicilio(),
                                             p.getIdVendedor()));
-                                    //Toast.makeText(getApplicationContext(), p.getfoto(), Toast.LENGTH_SHORT).show();
-
 
                                 }
                             }

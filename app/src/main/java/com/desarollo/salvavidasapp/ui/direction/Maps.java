@@ -54,8 +54,8 @@ import java.util.Locale;
 
 public class Maps extends FragmentActivity implements GoogleMap.OnMarkerDragListener, OnMapReadyCallback {
 
-    private static final int LOCATION_REQUEST_CODE = 1;
-    private static final int REQUEST_LOCATION = 1;
+    //private static final int LOCATION_REQUEST_CODE = 1;
+    //private static final int REQUEST_LOCATION = 1;
     private static final int PERMISSION_REQUEST_CODE = 1;
 
     private GoogleMap mMap;
@@ -197,38 +197,6 @@ public class Maps extends FragmentActivity implements GoogleMap.OnMarkerDragList
             // for ActivityCompat#requestPermissions for more details.
             return;
         }
-        /*
-        mMap.setMyLocationEnabled(true);
-
-        mMap.getUiSettings().setMyLocationButtonEnabled(false);
-
-        LocationManager locationManager = (LocationManager) Maps.this.getSystemService(Context.LOCATION_SERVICE);
-        LocationListener locationListener = new LocationListener() {
-            @Override
-            public void onLocationChanged(Location location) {
-                if(makerActual == null){
-                    actualizarUbicacion(location);
-                }
-                Log.d("onLocationChanged1", "location: " + location);
-            }
-
-            @Override
-            public void onStatusChanged(String provider, int status, Bundle extras) {
-
-            }
-
-            @Override
-            public void onProviderEnabled(String provider) {
-
-            }
-
-            @Override
-            public void onProviderDisabled(String provider) {
-
-            }
-        };
-        locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0, locationListener);
-        */
 
         //arrastrar el marcador
         mMap.setOnMarkerDragListener(this);
@@ -272,11 +240,6 @@ public class Maps extends FragmentActivity implements GoogleMap.OnMarkerDragList
         mMap.setMyLocationEnabled(true);
         //mMap.getUiSettings().setMyLocationButtonEnabled(false);
         LocationManager locationManager = (LocationManager) Maps.this.getSystemService(Context.LOCATION_SERVICE);
-        /*if(makerActual == null) {
-            Location location = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
-            actualizarUbicacion(location);
-        }
-         */
         LocationListener locationListener = new LocationListener() {
             @Override
             public void onLocationChanged(Location location) {

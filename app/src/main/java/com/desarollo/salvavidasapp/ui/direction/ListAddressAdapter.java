@@ -55,7 +55,6 @@ public class ListAddressAdapter extends RecyclerView.Adapter<ListAddressAdapter.
         String municipio = model.get(position).getMunicipioDireccion();
         seleccion = model.get(position).getSeleccion();
 
-
         holder.nombre.setText(nombre);
         holder.direccion.setText(direccion);
         holder.municipio.setText(municipio);
@@ -73,9 +72,6 @@ public class ListAddressAdapter extends RecyclerView.Adapter<ListAddressAdapter.
         holder.direccion_principal.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-
-
 
             }
         });
@@ -96,7 +92,6 @@ public class ListAddressAdapter extends RecyclerView.Adapter<ListAddressAdapter.
             }
         });
     }
-
 
 
     @Override
@@ -130,7 +125,6 @@ public class ListAddressAdapter extends RecyclerView.Adapter<ListAddressAdapter.
             municipio = itemView.findViewById(R.id.municipioDireccion);
             imagenDireccion = itemView.findViewById(R.id.Imagen_direccion);
             direccion_principal = itemView.findViewById(R.id.direccion_principal);
-
         }
     }
 }

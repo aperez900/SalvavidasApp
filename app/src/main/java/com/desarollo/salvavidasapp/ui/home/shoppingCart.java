@@ -2,37 +2,20 @@ package com.desarollo.salvavidasapp.ui.home;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.NotificationCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.app.NotificationChannel;
-import android.app.NotificationManager;
-import android.app.PendingIntent;
 import android.app.ProgressDialog;
-import android.content.Context;
 import android.content.Intent;
-import android.media.RingtoneManager;
-import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
-import android.os.StrictMode;
-import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.desarollo.salvavidasapp.Models.Productos;
 import com.desarollo.salvavidasapp.R;
-import com.desarollo.salvavidasapp.ui.sales.buyProduct;
-import com.desarollo.salvavidasapp.ui.sales.lookAtProduct;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.auth.UserInfo;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -46,14 +29,6 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.Properties;
-
-import javax.mail.Authenticator;
-import javax.mail.PasswordAuthentication;
-import javax.mail.Session;
-import javax.mail.Transport;
-import javax.mail.internet.InternetAddress;
-import javax.mail.internet.MimeMessage;
 
 public class shoppingCart extends AppCompatActivity {
 
@@ -68,8 +43,6 @@ public class shoppingCart extends AppCompatActivity {
     private Double subTotalCarrito=0.0;
     private ProgressDialog cargando;
     private HashMap<String, String> producto = new HashMap<String, String>();
-    //private Session session;
-    //private String nombreComprador;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -120,32 +93,6 @@ public class shoppingCart extends AppCompatActivity {
 
 
     public void crearListado() {
-        /*
-        myRef.child(currentUser.getUid()).child("carrito_compras").get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
-            @Override
-            public void onComplete(@NonNull Task<DataSnapshot> task) {
-                if(!task.isSuccessful()){
-                    Log.d("CrearListadoCarrito","Error creando el listado del carrito de compras");
-                }
-                if(task.getResult().exists()){
-                    subtituloCarrito.setText("Los siguientes productos estan disponibles en el carrito hasta que se cumpla su fecha y hora de fin");
-                    listaDeDatos.clear();
-                    for(DataSnapshot objsnapshot : task.getResult().getChildren()){
-                        String idProd = objsnapshot.child("idProducto").getValue().toString();
-                        String cantidadsolicitados = objsnapshot.child("cantidadProductosSolicitados").getValue().toString();
-
-                        consultarDetalleProducto(idProd,cantidadsolicitados);
-                    }
-                }else{
-                    Intent intent = new Intent(shoppingCart.this , Home.class);
-                    startActivity(intent);
-                    finish();
-                    Toast.makeText(shoppingCart.this, "Carrito de compras vacío", Toast.LENGTH_SHORT).show();
-                }
-            }
-        });
-         */
-
         myRef.child(currentUser.getUid()).child("carrito_compras").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -178,57 +125,6 @@ public class shoppingCart extends AppCompatActivity {
         Calendar c = Calendar.getInstance();
         SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm");
         subTotalCarrito=0.0;
-
-        /*
-        myRefProductos.get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
-            @Override
-            public void onComplete(@NonNull Task<DataSnapshot> task) {
-                if(!task.isSuccessful()){
-                    Log.d("ConsultaDetalleProducto","Error consultando el detalle del producto");
-                }
-                if(task.getResult().exists()){
-                    producto.clear();
-                    for(DataSnapshot objsnapshot : task.getResult().getChildren()){ //Recorre los usuarios
-                        for(DataSnapshot objsnapshot2 : objsnapshot.getChildren()){ //recorre los productos
-                            Productos p = objsnapshot2.getValue(Productos.class);
-                            assert p != null;
-                            String id = p.getIdProducto();
-
-                            Date fechaInicio = null;
-                            Date fechaFin = null;
-                            Date getCurrentDateTime = null;
-
-                            if(idProduct.equals(id)) {
-                                String estado = p.getEstadoProducto();
-                                try {
-                                    fechaInicio = sdf.parse(p.getFechaInicio() + " " + p.getHoraInicio());
-                                    fechaFin = sdf.parse(p.getFechaFin() + " " + p.getHoraFin());
-                                    getCurrentDateTime = c.getTime();
-                                } catch (ParseException e) {
-                                    e.printStackTrace();
-                                }
-                                if (getCurrentDateTime.compareTo(fechaInicio) > 0 && getCurrentDateTime.compareTo(fechaFin) < 0
-                                        && !estado.equals("Cancelado por el vendedor")) {
-                                    listaDeDatos.add(new Productos(p.getIdProducto(), p.getNombreProducto(), p.getDescripcionProducto(),
-                                            p.getCategoriaProducto(), p.getSubCategoriaProducto(), p.getPrecio(), p.getDescuento(), p.getDomicilio(), p.getEstadoProducto(),
-                                            p.getfoto(), p.getFechaInicio(), p.getHoraInicio(), p.getFechaFin(), p.getHoraFin(), p.getNombreEmpresa(), p.getDireccion(),
-                                            Integer.parseInt(cantidadSolicitados), p.getCantidadDisponible(), p.getPrecioDomicilio(),
-                                            p.getIdVendedor()));
-                                    subTotalCarrito = subTotalCarrito + (p.getPrecio() - p.getDescuento()) * Integer.parseInt(cantidadSolicitados);
-                                }
-                            }
-                        }
-                    }
-                }
-                ListShoppingCartAdapter = new listShoppingCartAdapter(shoppingCart.this, listaDeDatos, shoppingCart.this);
-                listado.setAdapter(ListShoppingCartAdapter);
-                String patron = "###,###.##";
-                DecimalFormat objDF = new DecimalFormat (patron);
-                totalCarrito.setText("Sub Total: $" + objDF.format(subTotalCarrito));
-            }
-        });
-         */
-
 
         myRefProductos.addValueEventListener(new ValueEventListener() {
             @Override

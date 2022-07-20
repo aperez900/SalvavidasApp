@@ -24,8 +24,6 @@ import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.bumptech.glide.Glide;
 import com.desarollo.salvavidasapp.R;
-import com.desarollo.salvavidasapp.ui.home.Home;
-import com.desarollo.salvavidasapp.ui.seller.seller2;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -188,7 +186,7 @@ public class lookAtProduct extends AppCompatActivity {
         btn_comprar_producto.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (currentUser.getUid().equals(idVendedor)) {
+                if (!currentUser.getUid().equals(idVendedor)) {
                     Toast.makeText(lookAtProduct.this, "No puedes comprar tus mismos productos", Toast.LENGTH_SHORT).show();
                 }else{
                     if (numeroProductos <= cantidadProductosDisponibles) {
@@ -201,11 +199,11 @@ public class lookAtProduct extends AppCompatActivity {
                         FancyAlertDialog.Builder
                                 .with(lookAtProduct.this)
                                 .setTitle("Confirmación de compra")
-                                .setBackgroundColor(Color.parseColor(String.valueOf(R.color.newRed)))  // for @ColorRes use setBackgroundColorRes(R.color.colorvalue)
+                                .setBackgroundColorRes(R.color.newRed) // for @ColorRes use setBackgroundColorRes(R.color.colorvalue)
                                 .setMessage("¿estas seguro que deseas realizar la compra?... Notificaremos al vendedor")
-                                .setPositiveBtnBackground(Color.parseColor(String.valueOf(R.color.newRed)))  // for @ColorRes use setPositiveBtnBackgroundRes(R.color.colorvalue)
+                                .setPositiveBtnBackgroundRes(R.color.newRed) // for @ColorRes use setPositiveBtnBackgroundRes(R.color.colorvalue)
                                 .setPositiveBtnText("Comprar")
-                                .setNegativeBtnBackground(Color.parseColor(String.valueOf(R.color.newRed)))  // for @ColorRes use setNegativeBtnBackgroundRes(R.color.colorvalue)
+                                .setNegativeBtnBackgroundRes(R.color.newRed) // for @ColorRes use setNegativeBtnBackgroundRes(R.color.colorvalue)
                                 .setNegativeBtnText("Volver")
                                 .setAnimation(Animation.POP)
                                 .isCancellable(true)
@@ -237,35 +235,6 @@ public class lookAtProduct extends AppCompatActivity {
             }
         }
     }
-
-    /*
-    public void consultarToken(String idCompra) {
-        myRefUsuarios.child(idVendedor).child("tokenId").get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
-            @Override
-            public void onComplete(@NonNull Task<DataSnapshot> task) {
-                if(!task.isSuccessful()){
-                    Log.d("Token", "Error consultando Token del vendedor");
-                }
-                if(task.getResult().exists()){
-                    token = task.getResult().getValue().toString();
-                }
-            }
-        });
-
-        myRefUsuarios.child(idVendedor).addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                if(snapshot.exists()){
-                    token = snapshot.child("tokenId").getValue().toString();
-                }
-            }
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-                Toast.makeText(lookAtProduct.this, "Error cargando los datos del vendedor", Toast.LENGTH_SHORT).show();
-            }
-        });
-    }
-*/
 
     public void consultarImagen(ImageView imgProducto){
 
@@ -330,7 +299,7 @@ public class lookAtProduct extends AppCompatActivity {
             @Override
             public void onComplete(@NonNull Task<DataSnapshot> task) {
                 if(!task.isSuccessful()){
-                    Log.d("ConsultaDatos", "Error consultando los datos del vendedor");
+                    Log.w("consultarDatosVendedor", "Error consultando los datos del vendedor");
                 }
                 if(task.getResult().exists()){
                     emailVendedor = task.getResult().child("correo").getValue().toString();
@@ -340,22 +309,6 @@ public class lookAtProduct extends AppCompatActivity {
             }
         });
         registrarProductoSolicitadoAlVendedor(idCompra);
-        /*
-        myRefUsuarios.child(idVendedor).addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                if(snapshot.exists()){
-                    emailVendedor = snapshot.child("correo").getValue().toString();
-                    nombreVendedor = snapshot.child("nombre").getValue().toString();
-                }
-            }
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-                Toast.makeText(lookAtProduct.this, "Error cargando los datos del vendedor", Toast.LENGTH_SHORT).show();
-            }
-        });
-        consultarToken(idCompra);
-         */
     }
 
     public void enviar_email_vendedor(String nombreComprador, String emailVendedor, String nombreVendedor){
@@ -387,11 +340,12 @@ public class lookAtProduct extends AppCompatActivity {
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);
         Properties properties = new Properties();
-        properties.put("mail.smtp.host","smtp.googlemail.com");
+        properties.put("mail.smtp.host", "smtp.gmail.com");
         properties.put("mail.smtp.socketFactory.port","465");
         properties.put("mail.smtp.socketFactory.class","javax.net.ssl.SSLSocketFactory");
         properties.put("mail.smtp.auth","true");
         properties.put("mail.smtp.port","587");
+        //properties.put("mail.smtp.port", "465");
 
         try {
             session = Session.getDefaultInstance(properties, new Authenticator() {
@@ -413,7 +367,7 @@ public class lookAtProduct extends AppCompatActivity {
             }
         }catch (Exception e){
             e.printStackTrace();
-            Log.d("EnvíoCorreoVend","Error enviando correo al vendedor "+ e);
+            Log.e("EnvíoCorreoVend","Error enviando correo al vendedor "+ e);
             //Toast.makeText(getApplicationContext(), "Error enviando la solicitud. " + e, Toast.LENGTH_SHORT).show();
         }
     }

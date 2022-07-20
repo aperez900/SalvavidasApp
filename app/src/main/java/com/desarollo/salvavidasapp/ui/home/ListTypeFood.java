@@ -1,5 +1,6 @@
 package com.desarollo.salvavidasapp.ui.home;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -41,7 +42,7 @@ public class ListTypeFood  extends RecyclerView.Adapter<ListTypeFood.viewHolder>
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ListTypeFood.viewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull ListTypeFood.viewHolder holder, @SuppressLint("RecyclerView") int position) {
 
         String TipoComida = listaDeDatos.get(position).getTipoComida();
         String getUrlFoto = listaDeDatos.get(position).getFoto();
@@ -100,15 +101,6 @@ public class ListTypeFood  extends RecyclerView.Adapter<ListTypeFood.viewHolder>
             super(itemView);
             TipoComida = itemView.findViewById(R.id.tipo_comidas);
             imagenTipoComida = itemView.findViewById(R.id.img_imagen_tipo);
-
-
-
-
         }
-
-
     }
-
-
-
 }

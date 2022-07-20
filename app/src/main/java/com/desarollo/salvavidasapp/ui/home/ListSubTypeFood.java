@@ -1,5 +1,6 @@
 package com.desarollo.salvavidasapp.ui.home;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -40,7 +41,7 @@ public class ListSubTypeFood extends RecyclerView.Adapter<ListSubTypeFood.viewHo
     }
 
     @Override
-    public void onBindViewHolder(@NonNull viewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull viewHolder holder, @SuppressLint("RecyclerView") int position) {
 
         String getUrlFoto = listaDeDatos.get(position).getFoto();
         Glide.with(activity)
@@ -98,12 +99,6 @@ public class ListSubTypeFood extends RecyclerView.Adapter<ListSubTypeFood.viewHo
             super(itemView);
             TipoComida = itemView.findViewById(R.id.tipo_comidas);
             imagenTipoComida = itemView.findViewById(R.id.img_imagen_tipo);
-
         }
-
-
     }
-
-
-
 }

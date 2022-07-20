@@ -83,36 +83,6 @@ public class cancelledSales extends AppCompatActivity {
                             }
                             listSellAdapter = new ListSellAdapter(cancelledSales.this,listaDeDatos, cancelledSales.this);
                             listado.setAdapter(listSellAdapter);
-                            /*
-                            //Acciones al dar clic en un item de la lista
-                            listSellAdapter.setOnClickListener(view -> {
-                                String idProducto = listaDeDatos.get(listado.getChildAdapterPosition(view)).getIdProducto();
-                                String nombreProducto = listaDeDatos.get(listado.getChildAdapterPosition(view)).getNombreProducto();
-                                String descripcionProducto = listaDeDatos.get(listado.getChildAdapterPosition(view)).getDescripcionProducto();
-                                String categoriaProducto = listaDeDatos.get(listado.getChildAdapterPosition(view)).getCategoriaProducto();
-                                double precioProducto = listaDeDatos.get(listado.getChildAdapterPosition(view)).getPrecio();
-                                double descuentoProducto = listaDeDatos.get(listado.getChildAdapterPosition(view)).getDescuento();
-                                String domicilioProducto = listaDeDatos.get(listado.getChildAdapterPosition(view)).getDomicilio();
-                                String fechaInicio = listaDeDatos.get(listado.getChildAdapterPosition(view)).getFechaInicio();
-                                String fechaFin = listaDeDatos.get(listado.getChildAdapterPosition(view)).getFechaFin();
-                                String horaInicio = listaDeDatos.get(listado.getChildAdapterPosition(view)).getHoraInicio();
-                                String horaFin = listaDeDatos.get(listado.getChildAdapterPosition(view)).getHoraFin();
-
-                                Intent intent = new Intent(cancelledSales.this, addProduct.class);
-                                intent.putExtra("idProducto", idProducto);
-                                intent.putExtra("nombreProducto", nombreProducto);
-                                intent.putExtra("descripcionProducto", descripcionProducto);
-                                intent.putExtra("categoriaProducto", categoriaProducto);
-                                intent.putExtra("precioProducto", String.valueOf(precioProducto));
-                                intent.putExtra("descuentoProducto", String.valueOf(descuentoProducto));
-                                intent.putExtra("domicilioProducto", domicilioProducto);
-                                intent.putExtra("fechaInicio", fechaInicio);
-                                intent.putExtra("fechaFin", fechaFin);
-                                intent.putExtra("horaInicio", horaInicio);
-                                intent.putExtra("horaFin", horaFin);
-                                startActivity(intent);
-                            });
-                             */
                         }
                     }
 

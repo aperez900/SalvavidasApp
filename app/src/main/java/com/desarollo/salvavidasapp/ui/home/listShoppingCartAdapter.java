@@ -410,65 +410,7 @@ public class listShoppingCartAdapter extends RecyclerView.Adapter<listShoppingCa
                 }
             }
         });
-
-        /*
-        myRefUsuario.child(idVendedor).addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                if(snapshot.exists()){
-                    String emailVendedor = snapshot.child("correo").getValue().toString();
-                    String nombreVendedor = snapshot.child("nombre").getValue().toString();
-                    String token = snapshot.child("tokenId").getValue().toString();
-                    if(primeraVez) {
-                        enviarEmailVendedor(nombreComprador, emailVendedor, nombreVendedor, nombreProducto, numeroProductos);
-                        //consultarToken(idVendedor, nombreVendedor, nombreProducto, numeroProductos);
-                        enviar_notificacion_push2(token, nombreComprador, nombreVendedor, nombreProducto, numeroProductos);
-                    }
-
-                    Intent intent = new Intent(getApplicationContext() , buyProduct.class);
-                    intent.putExtra("idProducto" , idProducto);
-                    intent.putExtra("nombreProducto", nombreProducto);
-                    intent.putExtra("totalProducto", String.valueOf(total));
-                    intent.putExtra("precioDomicilio", String.valueOf(precioDomicilio));
-                    intent.putExtra("nroProductos", String.valueOf(numeroProductos));
-                    intent.putExtra("cantidadProductosDisponibles", String.valueOf(cantidadProductosDisponibles));
-                    intent.putExtra("idVendedor" , idVendedor);
-                    intent.putExtra("nombreVendedor" , nombreVendedor);
-                    intent.putExtra("idCompra" , idCompra);
-                    intent.putExtra("nombreComprador" , nombreComprador);
-                    intent.putExtra("tokenId" , token);
-                    intent.putExtra("origen" , "LookAtProduct");
-                    activity.startActivity(intent);
-
-                }
-            }
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-                Toast.makeText(getApplicationContext(), "Error cargando los datos del vendedor", Toast.LENGTH_SHORT).show();
-            }
-        });
-
-         */
     }
-
-
-    /*public void consultarToken(String idVendedor, String nombreVendedor, String nombreProducto, int numeroProductos) {
-        myRefUsuario.child(idVendedor).addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                if(snapshot.exists()){
-                    String token = snapshot.child("tokenId").getValue().toString();
-                    enviar_notificacion_push2(token, nombreComprador, nombreVendedor, nombreProducto, numeroProductos);
-                }
-            }
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-                Toast.makeText(getApplicationContext(), "Error cargando los datos del vendedor", Toast.LENGTH_SHORT).show();
-            }
-        });
-    }
-     */
-
 
     public void actualizarCantidadEnCarritoCompras(String idProducto, int cantidad){
         //guarda los datos del carrito de compras
@@ -516,7 +458,7 @@ public class listShoppingCartAdapter extends RecyclerView.Adapter<listShoppingCa
                                       int numeroProductos){
         primeraVez=false;
         //String correoEnvia = correo.getText().toString();
-        String correoEnvia = "ceo@salvavidas.app";
+        String correoEnvia = "ceo@surplusapp.co";
         //String contraseñaCorreoEnvia = contraseña.getText().toString();
         String contrasenaCorreoEnvia = "Great_Simplicity01945#";
 
@@ -557,7 +499,7 @@ public class listShoppingCartAdapter extends RecyclerView.Adapter<listShoppingCa
             if(session!=null){
                 MimeMessage message = new MimeMessage(session);
                 message.setFrom(new InternetAddress(correoEnvia));
-                message.setSubject("Solicitud de compra - SURPLApp");
+                message.setSubject("Solicitud de compra - SurplApp");
                 message.setText(cuerpoCorreo, "ISO-8859-1","html");
                 message.setRecipients(MimeMessage.RecipientType.TO,InternetAddress.parse(to_));
                 //message.setContent("Hola mundo","txt/html; charset= utf-8");
@@ -567,6 +509,7 @@ public class listShoppingCartAdapter extends RecyclerView.Adapter<listShoppingCa
             }
         }catch (Exception e){
             e.printStackTrace();
+            Log.w("enviarEmailVendedor","Error enviando la solicitud" + e);
             Toast.makeText(getApplicationContext(), "Error enviando la solicitud. " + e, Toast.LENGTH_SHORT).show();
         }
     }

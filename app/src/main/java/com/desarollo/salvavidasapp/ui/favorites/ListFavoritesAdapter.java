@@ -75,8 +75,6 @@ public class ListFavoritesAdapter extends RecyclerView.Adapter<ListFavoritesAdap
                 .load(imagen)
                 .into(holder.imagen_fav);
 
-
-
        holder.ch_fav.setOnClickListener(new View.OnClickListener() {
            @Override
            public void onClick(View v) {
@@ -94,9 +92,7 @@ public class ListFavoritesAdapter extends RecyclerView.Adapter<ListFavoritesAdap
 
         holder.ch_fav.setChecked(model.get(position).getEstado());
 
-
     }
-
 
     public void agregarFavoritos(String idProducto, Boolean estado){
             mAuth = FirebaseAuth.getInstance();
@@ -114,13 +110,7 @@ public class ListFavoritesAdapter extends RecyclerView.Adapter<ListFavoritesAdap
             }
         });
 
-        /*Intent intent = new Intent(activity , shoppingCart.class);
-        activity.startActivity(intent);
-         */
     }
-
-
-
 
     public void eliminarFavoritos(String idProducto){
 
@@ -139,11 +129,7 @@ public class ListFavoritesAdapter extends RecyclerView.Adapter<ListFavoritesAdap
             }
         });
 
-        /*Intent intent = new Intent(activity , shoppingCart.class);
-        activity.startActivity(intent);
-         */
     }
-
 
 
     @Override
@@ -175,7 +161,6 @@ public class ListFavoritesAdapter extends RecyclerView.Adapter<ListFavoritesAdap
             subTipo = itemView.findViewById(R.id.tv_nombre_fav_sub_tipo);
             imagen_fav = itemView.findViewById(R.id.img_imagen_fav_producto);
             ch_fav = itemView.findViewById(R.id.ch_favorito);
-
 
         }
     }

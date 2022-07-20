@@ -100,7 +100,7 @@ public class anulledPurchases extends AppCompatActivity {
                 }
                 else {
 
-                    Toast.makeText(anulledPurchases.this, "Aún no se han anulado compras", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(anulledPurchases.this, "No hay compras anuladas", Toast.LENGTH_SHORT).show();
 
                     Timer tiempo = new Timer();
                     tiempo.schedule(inicio,1500);

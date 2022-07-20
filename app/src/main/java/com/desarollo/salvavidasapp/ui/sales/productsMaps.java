@@ -119,6 +119,7 @@ public class productsMaps extends FragmentActivity implements GoogleMap.OnMarker
     @Override
     public void onRequestPermissionsResult(int requestCode, String[] permissions,
                                            int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         switch (requestCode) {
             case PERMISSION_REQUEST_CODE:
                 // If request is cancelled, the result arrays are empty.
