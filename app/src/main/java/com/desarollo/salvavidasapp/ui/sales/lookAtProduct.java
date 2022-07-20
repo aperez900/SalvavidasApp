@@ -186,7 +186,7 @@ public class lookAtProduct extends AppCompatActivity {
         btn_comprar_producto.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (!currentUser.getUid().equals(idVendedor)) {
+                if (currentUser.getUid().equals(idVendedor)) {
                     Toast.makeText(lookAtProduct.this, "No puedes comprar tus mismos productos", Toast.LENGTH_SHORT).show();
                 }else{
                     if (numeroProductos <= cantidadProductosDisponibles) {
