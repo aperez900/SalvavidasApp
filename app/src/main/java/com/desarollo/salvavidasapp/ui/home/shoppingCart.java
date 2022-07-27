@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.Html;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -97,7 +98,9 @@ public class shoppingCart extends AppCompatActivity {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 if(snapshot.exists()){
-                    subtituloCarrito.setText("Los siguientes productos estan disponibles en el carrito hasta que se cumpla su fecha y hora de fin");
+                    //subtituloCarrito.setText("Los siguientes productos estan disponibles en el carrito hasta que se cumpla su fecha y hora de fin");
+                    subtituloCarrito.setText(Html.fromHtml("Los siguientes productos estan disponibles en el carrito hasta que se cumpla " +
+                            "su fecha y hora de fin. <br><b>Para comprarlos debe hacerlo uno a uno</b> "));
                     listaDeDatos.clear();
                     for(DataSnapshot objsnapshot : snapshot.getChildren()){
                         String idProd = objsnapshot.child("idProducto").getValue().toString();

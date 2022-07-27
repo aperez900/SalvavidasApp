@@ -40,7 +40,7 @@
             android:id="@+id/tv_nombre_producto"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
+            android:layout_marginStart="5dp"
             android:layout_toEndOf="@id/cardImage"
             android:fontFamily="@font/poppins_bold"
             android:text="@string/nombreProducto2"
@@ -49,10 +49,10 @@
 
         <TextView
             android:id="@+id/tv_nombre_empresa"
-            android:layout_width="160dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/tv_nombre_producto"
-            android:layout_marginStart="16dp"
+            android:layout_marginStart="5dp"
             android:layout_marginTop="-1dp"
             android:layout_toEndOf="@id/cardImage"
             android:fontFamily="@font/poppins_light"
@@ -61,16 +61,15 @@
 
         <TextView
             android:id="@+id/tv_total_producto"
-            android:layout_width="81dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/tv_nombre_empresa"
-            android:layout_marginStart="16dp"
+            android:layout_marginStart="5dp"
             android:layout_marginTop="8dp"
             android:layout_toEndOf="@id/cardImage"
             android:fontFamily="@font/poppins_light"
             android:text="@string/valor"
             android:textSize="18sp" />
-
 
         <ImageView
             android:id="@+id/tv_total_producto3"
@@ -80,22 +79,26 @@
             android:layout_marginStart="7dp"
             android:layout_marginTop="9dp"
             android:layout_toEndOf="@id/tv_total_producto"
+            android:contentDescription="@string/descripcionImagen"
             android:src="@drawable/star"
-            app:tint="@color/newRed"/>
+            app:tint="@color/newRed" />
 
         <TextView
             android:id="@+id/tv_total_producto2"
-            android:layout_width="87dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/tv_nombre_empresa"
+            android:layout_alignParentEnd="true"
             android:layout_marginStart="33dp"
             android:layout_marginTop="7dp"
+            android:layout_marginEnd="0dp"
             android:layout_toEndOf="@id/tv_total_producto"
             android:fontFamily="@font/poppins_light"
             android:textAlignment="textStart"
             android:textSize="18sp" />
 
         <LinearLayout
+            android:id="@+id/linearItemCarrito"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/tv_total_producto"
@@ -153,11 +156,11 @@
             android:id="@+id/img_borrar_producto"
             android:layout_width="48dp"
             android:layout_height="49dp"
-            android:layout_below="@id/tv_nombre_producto"
-            android:layout_marginStart="-28dp"
-            android:layout_marginTop="65dp"
+            android:layout_below="@id/tv_total_producto2"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="7dp"
             android:layout_marginEnd="1dp"
-            android:layout_toEndOf="@id/tv_nombre_empresa"
+            android:layout_toEndOf="@id/linearItemCarrito"
             android:contentDescription="@string/descripcionImagen"
             android:padding="5dp"
             android:src="@drawable/icono_delete_black" />
