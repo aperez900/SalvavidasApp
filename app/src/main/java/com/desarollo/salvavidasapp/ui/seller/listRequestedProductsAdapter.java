@@ -271,7 +271,7 @@ public class listRequestedProductsAdapter extends RecyclerView.Adapter<listReque
         currentUser = mAuth.getCurrentUser();
         database = FirebaseDatabase.getInstance();
         myRefusuario = database.getReference("usuarios");
-        myRefusuario.child(currentUser.getUid()).child("mis_compras").child(idCompra).child(idProducto).child("estado").setValue(estado)
+        myRefusuario.child(idUsuarioSolicitud).child("mis_compras").child(idCompra).child(idProducto).child("estado").setValue(estado)
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void aVoid) {

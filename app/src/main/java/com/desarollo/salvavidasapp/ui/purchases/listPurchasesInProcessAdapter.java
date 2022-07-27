@@ -96,8 +96,6 @@ public class listPurchasesInProcessAdapter extends RecyclerView.Adapter<listPurc
                 .load(getUrlFoto)
                 .into(holder.imagenProducto);
 
-
-
         //Acción del botón ver mas
         holder.imgVer.setOnClickListener(new View.OnClickListener() {
             @Override
