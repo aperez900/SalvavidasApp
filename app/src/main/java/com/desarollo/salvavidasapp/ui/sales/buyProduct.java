@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
+import android.text.Html;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
@@ -53,8 +54,10 @@ public class buyProduct extends AppCompatActivity {
     private ArrayList<Productos> listaDeDatos = new ArrayList<>();
     private String idProducto ="";
     private String idVendedor ="";
-    private String nombreProducto, origen,idCompra, tokenId, nombreVendedor, nombreComprador;
+    private String nombreProducto, origen,idCompra, tokenId, nombreVendedor, nombreComprador,
+            nombreEstablecimiento;
     private Double precioProducto = 0.0, precioDomicilio = 0.0;
+    private String tieneDomicilio,direccionProducto;
     private int nroProductos, cantidadProductosDisponibles;
     private Button btn_pago,tvEstadoProducto;
     private Double valorComision;
@@ -103,6 +106,8 @@ public class buyProduct extends AppCompatActivity {
             idProducto = extras.getString("idProducto");
             nombreProducto = extras.getString("nombreProducto");
             precioProducto = Double.parseDouble(extras.getString("totalProducto"));
+            tieneDomicilio = extras.getString("domicilioProducto");
+            direccionProducto = extras.getString("direccionProducto");
             precioDomicilio = Double.parseDouble(extras.getString("precioDomicilio"));
             nroProductos = Integer.parseInt(extras.getString("nroProductos"));
             cantidadProductosDisponibles = Integer.parseInt(extras.getString("cantidadProductosDisponibles"));
@@ -116,6 +121,7 @@ public class buyProduct extends AppCompatActivity {
             tokenId = extras.getString("tokenId");
             nombreVendedor = extras.getString("nombreVendedor");
             nombreComprador = extras.getString("nombreComprador");
+            nombreEstablecimiento = extras.getString("nombreEstablecimiento");
 
             tvTotal.setText(objDF.format(precioProducto*nroProductos + precioDomicilio + valorComision));
 
@@ -131,7 +137,12 @@ public class buyProduct extends AppCompatActivity {
             tvSignoMonedaSubTotal.setPaintFlags(tvSignoMonedaSubTotal.getPaintFlags());
         }
         consultarEstadoProductoEnTramite(idCompra, idProducto);
-        consultarDireccionUsuario();
+        if (tieneDomicilio.equals("Sí")) {
+            consultarDireccionUsuario();
+        }else{
+            tvNombreDireccion.setText(Html.fromHtml("<b>Recoger en: </b>" + nombreEstablecimiento));
+            tvPrincipalAddress.setText(direccionProducto);
+        }
 
         btn_pago.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -382,8 +393,8 @@ public class buyProduct extends AppCompatActivity {
                         d = new ListDirecciones();
                         d = objsnapshot.getValue(ListDirecciones.class);
                         if(d.getSeleccion().equals("true")){
+                            tvNombreDireccion.setText(Html.fromHtml("<b>Enviar a:</b> " + d.nombreDireccion));
                             tvPrincipalAddress.setText(d.direccionUsuario);
-                            tvNombreDireccion.setText(d.nombreDireccion);
                         }
                     }
                 }

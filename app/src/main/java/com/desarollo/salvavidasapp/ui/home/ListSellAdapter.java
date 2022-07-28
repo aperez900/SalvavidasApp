@@ -115,31 +115,32 @@ public class ListSellAdapter extends RecyclerView.Adapter<ListSellAdapter.viewHo
         holder.imagenProducto.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                irADetalleDeProducto(nombreProducto, idProducto, tipoProducto, domicilioProducto, descripcionProducto,
+                irADetalleDeProducto(nombreProducto, idProducto, tipoProducto, domicilioProducto, direccionProducto, descripcionProducto,
                         cantidadProducto, cantidadProductosDisponinles, precioProducto, descuentoProducto, precioDomicilio, fechaInicio, horaInicio,
-                        fechaFin, horaFin, getUrlFoto, idVendedor);
+                        fechaFin, horaFin, getUrlFoto, idVendedor, nombreEstablecimiento);
             }
         });
 
         holder.btnComprar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                irADetalleDeProducto(nombreProducto, idProducto, tipoProducto, domicilioProducto, descripcionProducto,
+                irADetalleDeProducto(nombreProducto, idProducto, tipoProducto, domicilioProducto, direccionProducto, descripcionProducto,
                         cantidadProducto, cantidadProductosDisponinles, precioProducto, descuentoProducto, precioDomicilio, fechaInicio, horaInicio,
-                        fechaFin, horaFin, getUrlFoto, idVendedor);
+                        fechaFin, horaFin, getUrlFoto, idVendedor, nombreEstablecimiento);
             }
         });
     }
 
     private void irADetalleDeProducto(String nombreProducto, String idProducto, String tipoProducto, String domicilioProducto,
-                                      String descripcionProducto, int cantidadProducto, int cantidadProductosDisponibles, Double precioProducto, Double descuentoProducto,
+                                      String direccionProducto, String descripcionProducto, int cantidadProducto, int cantidadProductosDisponibles, Double precioProducto, Double descuentoProducto,
                                       Double precioDomicilio, String fechaInicio, String horaInicio, String fechaFin,
-                                      String horaFin, String getUrlFoto, String idVendedor){
+                                      String horaFin, String getUrlFoto, String idVendedor, String nombreEstablecimiento){
         Intent intent = new Intent(activity , lookAtProduct.class);
         intent.putExtra("nombreProducto", nombreProducto);
         intent.putExtra("idProducto" , idProducto);
         intent.putExtra("tipoProducto" , tipoProducto);
         intent.putExtra("domicilioProducto" , domicilioProducto);
+        intent.putExtra("direccionProducto" , direccionProducto);
         intent.putExtra("descripcionProducto" , descripcionProducto);
         intent.putExtra("cantidadProducto" , String.valueOf(cantidadProducto));
         intent.putExtra("cantidadProductosDisponibles" , String.valueOf(cantidadProductosDisponibles));
@@ -152,6 +153,7 @@ public class ListSellAdapter extends RecyclerView.Adapter<ListSellAdapter.viewHo
         intent.putExtra("horaFin", horaFin);
         intent.putExtra("getUrlFoto" , getUrlFoto);
         intent.putExtra("idVendedor" , idVendedor);
+        intent.putExtra("nombreEstablecimiento" , nombreEstablecimiento);
         intent.putExtra("tipyEntry" , "Consultar");
         activity.startActivity(intent);
     }

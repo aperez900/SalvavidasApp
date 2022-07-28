@@ -88,8 +88,7 @@
                 android:layout_toRightOf="@id/Imagen_direccion"
                 android:fontFamily="@font/poppins_semibold"
                 android:text="Mi casa"
-                android:textSize="20sp"
-                android:textStyle="bold" />
+                android:textSize="20sp" />
 
             <TextView
                 android:id="@+id/Direccion"

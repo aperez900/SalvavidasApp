@@ -74,9 +74,11 @@ public class lookAtProduct extends AppCompatActivity {
     private int numeroProductos = 1;
     private int cantidadProductosDisponibles;
     private Double total, precioDomicilio;
+    private String tieneDomicilio, direccionProducto;
     private HashMap<String, String> producto = new HashMap<String, String>();
     private Session session;
-    private String nombreComprador, nombreProducto, token, emailVendedor, nombreVendedor;
+    private String nombreComprador, nombreProducto, token, emailVendedor, nombreVendedor,
+            nombreEstablecimiento;
     private ProgressDialog cargando;
     private Calendar c;
     private Date getCurrentDateTime;
@@ -130,7 +132,8 @@ public class lookAtProduct extends AppCompatActivity {
             Double precio = Double.parseDouble(extras.getString("precio"));
             tvprecioProducto.setText(String.valueOf(objDF.format(precio)));
             tvprecioProducto.setPaintFlags(tvprecioProducto.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
-
+            tieneDomicilio = extras.getString("domicilioProducto");
+            direccionProducto = extras.getString("direccionProducto");
             Double descuento = Double.parseDouble(extras.getString("descuento"));
             precioDomicilio = Double.parseDouble(extras.getString("precioDomicilio"));
             tvdescuentoProducto.setText(String.valueOf(objDF.format(descuento)));
@@ -143,6 +146,7 @@ public class lookAtProduct extends AppCompatActivity {
             tvinicioProducto.setText(extras.getString("fechaInicio") + " " + extras.getString("horaInicio"));
             tvfinProducto.setText(fechaFin + " " + horaFin);
             idVendedor = extras.getString("idVendedor");
+            nombreEstablecimiento = extras.getString("nombreEstablecimiento");
         }
 
         consultarImagen(imgProducto);
@@ -357,7 +361,7 @@ public class lookAtProduct extends AppCompatActivity {
             if(session!=null){
                 MimeMessage message = new MimeMessage(session);
                 message.setFrom(new InternetAddress(correoEnvia));
-                message.setSubject("Solicitud de compra - Surplapp");
+                message.setSubject("Solicitud de compra - SurplApp");
                 message.setText(cuerpoCorreo, "ISO-8859-1","html");
                 message.setRecipients(MimeMessage.RecipientType.TO,InternetAddress.parse(to_));
                 //message.setContent("Hola mundo","txt/html; charset= utf-8");
@@ -458,6 +462,8 @@ public class lookAtProduct extends AppCompatActivity {
         producto.put("valorProducto",String.valueOf(total));
         producto.put("cantidadProducto",String.valueOf(numeroProductos));
         producto.put("usuarioSolicitud",currentUser.getUid());
+        producto.put("domicilio",tieneDomicilio);
+        producto.put("direccionProducto",direccionProducto);
         producto.put("precioDomicilio",String.valueOf(precioDomicilio));
         producto.put("fechaHora", fechaHora);
         producto.put("fecha", fecha);
@@ -525,6 +531,8 @@ public class lookAtProduct extends AppCompatActivity {
         producto.put("valorProducto",String.valueOf(total));
         producto.put("cantidadProducto",String.valueOf(numeroProductos));
         producto.put("usuarioSolicitud",currentUser.getUid());
+        producto.put("domicilio",tieneDomicilio);
+        producto.put("direccionProducto",direccionProducto);
         producto.put("precioDomicilio",String.valueOf(precioDomicilio));
         producto.put("fechaHora", fechaHora);
         producto.put("fecha", fecha);
@@ -546,6 +554,8 @@ public class lookAtProduct extends AppCompatActivity {
                             intent.putExtra("idProducto" , idProducto);
                             intent.putExtra("nombreProducto", nombreProducto);
                             intent.putExtra("totalProducto", String.valueOf(total));
+                            intent.putExtra("domicilioProducto" , tieneDomicilio);
+                            intent.putExtra("direccionProducto" , direccionProducto);
                             intent.putExtra("precioDomicilio", String.valueOf(precioDomicilio));
                             intent.putExtra("nroProductos", String.valueOf(numeroProductos));
                             intent.putExtra("cantidadProductosDisponibles", String.valueOf(cantidadProductosDisponibles));
@@ -553,6 +563,7 @@ public class lookAtProduct extends AppCompatActivity {
                             intent.putExtra("nombreVendedor" , nombreVendedor);
                             intent.putExtra("idCompra" , idCompra);
                             intent.putExtra("nombreComprador" , nombreComprador);
+                            intent.putExtra("nombreEstablecimiento" , nombreEstablecimiento);
                             intent.putExtra("tokenId" , token);
                             intent.putExtra("origen" , "LookAtProduct");
                             startActivity(intent);

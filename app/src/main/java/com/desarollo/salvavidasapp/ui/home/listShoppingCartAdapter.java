@@ -119,6 +119,7 @@ public class listShoppingCartAdapter extends RecyclerView.Adapter<listShoppingCa
         String idProducto = listaDeDatos.get(position).getIdProducto();
         String nombreProducto = listaDeDatos.get(position).getNombreProducto();
         String descripcionProducto = listaDeDatos.get(position).getDescripcionProducto();
+        String direccionProducto = listaDeDatos.get(position).getDireccion();
         Double precioProducto = listaDeDatos.get(position).getPrecio();
         Double descuentoProducto = listaDeDatos.get(position).getDescuento();
         String domicilioProducto = listaDeDatos.get(position).getDomicilio();
@@ -151,7 +152,7 @@ public class listShoppingCartAdapter extends RecyclerView.Adapter<listShoppingCa
             public void onClick(View v) {
                 irADetalleDeProducto(nombreProducto, idProducto, tipoProducto, domicilioProducto, descripcionProducto,
                         cantidad[0], cantidadProductosDisponibles, precioProducto, descuentoProducto, precioDomicilio, fechaInicio, horaInicio,
-                        fechaFin, horaFin, getUrlFoto, idVendedor);
+                        fechaFin, horaFin, getUrlFoto, idVendedor, nombreEstablecimiento);
             }
         });
 
@@ -200,7 +201,8 @@ public class listShoppingCartAdapter extends RecyclerView.Adapter<listShoppingCa
                     if (Integer.parseInt(numeroActual) <= cantidadProductosDisponibles){
                         double total = (precioProducto - descuentoProducto);
                         String idCompra = UUID.randomUUID().toString();
-                        consultarDatosVendedor(idVendedor, idCompra, idProducto, nombreProducto, total, precioDomicilio, cantidad[0]);
+                        consultarDatosVendedor(idVendedor, idCompra, idProducto, nombreProducto, total, domicilioProducto,
+                                precioDomicilio, direccionProducto, cantidad[0], nombreEstablecimiento);
                     }else{
                         Toast.makeText(getApplicationContext(), "Solo hay " + cantidadProductosDisponibles
                                 + " producto(s) disponible(s)", Toast.LENGTH_SHORT).show();
@@ -213,7 +215,7 @@ public class listShoppingCartAdapter extends RecyclerView.Adapter<listShoppingCa
     private void irADetalleDeProducto(String nombreProducto, String idProducto, String tipoProducto, String domicilioProducto,
                                       String descripcionProducto, int cantidadProducto, int cantidadProductosDisponibles, Double precioProducto, Double descuentoProducto,
                                       Double precioDomicilio, String fechaInicio, String horaInicio, String fechaFin,
-                                      String horaFin, String getUrlFoto, String idVendedor){
+                                      String horaFin, String getUrlFoto, String idVendedor, String nombreEstablecimiento){
         Intent intent = new Intent(activity , lookAtProduct.class);
         intent.putExtra("nombreProducto", nombreProducto);
         intent.putExtra("idProducto" , idProducto);
@@ -231,13 +233,15 @@ public class listShoppingCartAdapter extends RecyclerView.Adapter<listShoppingCa
         intent.putExtra("horaFin", horaFin);
         intent.putExtra("getUrlFoto" , getUrlFoto);
         intent.putExtra("idVendedor" , idVendedor);
+        intent.putExtra("nombreEstablecimiento", nombreEstablecimiento);
         intent.putExtra("tipyEntry" , "Consultar");
         activity.startActivity(intent);
     }
 
     private void registrarProductoSolicitadoAlVendedor(String idProducto, String nombreProducto, String idCompra, double total,
-                                                       int numeroProductos, int cantidadProductosDisponibles, double precioDomicilio,
-                                                       String idVendedor, String token, String emailVendedor, String nombreVendedor){
+                                                       int numeroProductos, int cantidadProductosDisponibles,
+                                                       String domicilioProducto, double precioDomicilio, String direccionProducto, String idVendedor,
+                                                       String token, String emailVendedor, String nombreVendedor, String nombreEstablecimiento){
         getCurrentDateTime = c.getTime();
 
         SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm");
@@ -277,6 +281,8 @@ public class listShoppingCartAdapter extends RecyclerView.Adapter<listShoppingCa
         producto.put("valorProducto",String.valueOf(total));
         producto.put("cantidadProducto",String.valueOf(numeroProductos));
         producto.put("usuarioSolicitud",currentUser.getUid());
+        producto.put("direccionProducto",direccionProducto);
+        producto.put("domicilio",domicilioProducto);
         producto.put("precioDomicilio",String.valueOf(precioDomicilio));
         producto.put("fechaHora", fechaHora);
         producto.put("fecha", fecha);
@@ -289,8 +295,8 @@ public class listShoppingCartAdapter extends RecyclerView.Adapter<listShoppingCa
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void aVoid) {
-                        registrarProductoSolicitadoAlComprador(idProducto, nombreProducto, idCompra, total, numeroProductos, precioDomicilio,
-                                idVendedor, token, emailVendedor, nombreVendedor);
+                        registrarProductoSolicitadoAlComprador(idProducto, nombreProducto, idCompra, total, numeroProductos, domicilioProducto,
+                                precioDomicilio, direccionProducto, idVendedor, token, emailVendedor, nombreVendedor, nombreEstablecimiento);
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {
@@ -302,8 +308,9 @@ public class listShoppingCartAdapter extends RecyclerView.Adapter<listShoppingCa
     }
 
     private void registrarProductoSolicitadoAlComprador(String idProducto, String nombreProducto, String idCompra, double total,
-                                                        int numeroProductos, double precioDomicilio, String idVendedor,
-                                                        String token, String emailVendedor, String nombreVendedor){
+                                                        int numeroProductos, String domicilioProducto, double precioDomicilio, String direccionProducto,
+                                                        String idVendedor, String token, String emailVendedor, String nombreVendedor,
+                                                        String nombreEstablecimiento){
         primeraVez = true;
         getCurrentDateTime = c.getTime();
 
@@ -351,7 +358,9 @@ public class listShoppingCartAdapter extends RecyclerView.Adapter<listShoppingCa
         producto.put("valorProducto",String.valueOf(total));
         producto.put("cantidadProducto",String.valueOf(numeroProductos));
         producto.put("usuarioSolicitud",currentUser.getUid());
+        producto.put("domicilio",domicilioProducto);
         producto.put("precioDomicilio",String.valueOf(precioDomicilio));
+        producto.put("direccionProducto",direccionProducto);
         producto.put("fechaHora", fechaHora);
         producto.put("fecha", fecha);
         producto.put("hora", hora);
@@ -371,6 +380,8 @@ public class listShoppingCartAdapter extends RecyclerView.Adapter<listShoppingCa
                         intent.putExtra("idProducto" , idProducto);
                         intent.putExtra("nombreProducto", nombreProducto);
                         intent.putExtra("totalProducto", String.valueOf(total));
+                        intent.putExtra("domicilioProducto" , domicilioProducto);
+                        intent.putExtra("direccionProducto" , direccionProducto);
                         intent.putExtra("precioDomicilio", String.valueOf(precioDomicilio));
                         intent.putExtra("nroProductos", String.valueOf(numeroProductos));
                         intent.putExtra("cantidadProductosDisponibles", String.valueOf(cantidadProductosDisponibles));
@@ -378,6 +389,7 @@ public class listShoppingCartAdapter extends RecyclerView.Adapter<listShoppingCa
                         intent.putExtra("nombreVendedor" , nombreVendedor);
                         intent.putExtra("idCompra" , idCompra);
                         intent.putExtra("nombreComprador" , nombreComprador);
+                        intent.putExtra("nombreEstablecimiento" , nombreEstablecimiento);
                         intent.putExtra("tokenId" , token);
                         intent.putExtra("origen" , "LookAtProduct");
                         activity.startActivity(intent);
@@ -392,8 +404,9 @@ public class listShoppingCartAdapter extends RecyclerView.Adapter<listShoppingCa
                 });
     }
 
-    public void consultarDatosVendedor(String idVendedor, String idCompra, String idProducto, String nombreProducto, double total, double precioDomicilio,
-                                       int numeroProductos) {
+    public void consultarDatosVendedor(String idVendedor, String idCompra, String idProducto, String nombreProducto,
+                                       double total, String domicilioProducto, double precioDomicilio, String direccionProducto,
+                                       int numeroProductos, String nombreEstablecimiento) {
 
         myRefUsuario.child(idVendedor).get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
             @Override
@@ -406,7 +419,8 @@ public class listShoppingCartAdapter extends RecyclerView.Adapter<listShoppingCa
                     String nombreVendedor = task.getResult().child("nombre").getValue().toString();
                     String token = task.getResult().child("tokenId").getValue().toString();
                     registrarProductoSolicitadoAlVendedor(idProducto, nombreProducto, idCompra, total, numeroProductos,
-                            cantidadProductosDisponibles, precioDomicilio, idVendedor, token, emailVendedor, nombreVendedor);
+                            cantidadProductosDisponibles, domicilioProducto, precioDomicilio, direccionProducto, idVendedor,
+                            token, emailVendedor, nombreVendedor, nombreEstablecimiento);
                 }
             }
         });
